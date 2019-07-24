@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://10.1.30.205:3306/wisdomhydrologic?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+  redis:
+    host: 10.1.30.129
+    password: wh@siti
+    port: 6379
+    pool:
+      max-active: 2000
+      max-wait: 2000
+      min-idle: 1
+      max-idle: 100
+#rabbitmq相关配置
+  rabbitmq:
+     host: 114.80.231.178 #127.0.0.1 #10.1.30.24
+     port: 5671
+     username: shuiwen
+     password: siti@sw
+     virtual-host: shuiwen
+     #publisher-confirms: true
+     #publisher-returns: true
+
+filePath:
+  invalidFileDelete: 0    # 无效文件立即删除
+  head: C:/wisdomhydrologic/head/    # 用户头像
+  feedback: C:/wisdomhydrologic/feedback/    # 用户反馈
+
+logback:
+  logHome: C:/wisdomhydrologic/log/
+  logName: wisdomhydrologicpc
+
+
