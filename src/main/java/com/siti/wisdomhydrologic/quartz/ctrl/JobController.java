@@ -30,7 +30,7 @@ public class JobController {
     //初始化启动所有的Job
     @PostConstruct
     public void initialize() {
-//        jobService.reStartAllJobs();
+        jobService.reStartAllJobs();
     }
 
     //根据ID重启某个Job

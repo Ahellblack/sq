@@ -52,7 +52,7 @@ public class DynamicJobService {
             }
             logger.info("INIT SUCCESS");
         } catch (SchedulerException se) {
-            ExceptionUtil.throwException(SystemError.SENDLIST_NULL);
+            se.printStackTrace();
         }
     }
 
