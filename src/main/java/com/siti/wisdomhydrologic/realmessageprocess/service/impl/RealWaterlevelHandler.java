@@ -1,18 +1,15 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.Entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.Entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.Entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Indecators;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-import com.siti.wisdomhydrologic.util.enumbean.SystemConstant;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by DC on 2019/7/18.
@@ -26,7 +23,7 @@ public class RealWaterlevelHandler<T> implements Indecators<T> {
         List<RealVo> realList = (List<RealVo>) val;
         Map<Integer, RealVo> map = realList.stream()
                 .filter(
-                        e -> (e.getSendId() + "".substring(5)).equals(SystemConstant.WS)
+                        e -> (e.getSendId() + "".substring(5)).equals(ConstantConfig.WS)
                 ).collect(Collectors.toMap(RealVo::getSendId, a -> a));
         doProcess((Map<Integer, T>) map,configMap,cycleQueue);
     }
@@ -34,7 +31,7 @@ public class RealWaterlevelHandler<T> implements Indecators<T> {
     @Override
     public void doProcess(Map<Integer,T> val, Map<String, Map<String, T>> configMap, BlockingQueue<T> cycleQueue) {
         Map<String, WaterLevelEntity> waterFlag = (Map<String, WaterLevelEntity>) configMap
-                .get(SystemConstant.FLAGW);
+                .get(ConstantConfig.FLAGW);
         Map<Integer, RealVo> mapval=(Map<Integer, RealVo>)val;
         final double[] doubles={99999};
         mapval.keySet().stream().forEach(e -> {

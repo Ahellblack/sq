@@ -1,6 +1,6 @@
 server:
   port: 8099
-  context-path: /wisdomhydrologicpc
+  context-path: /sq
 
 quartz:
   enabled: true
@@ -14,9 +14,6 @@ spring:
       max-request-size: 100MB #总数据大小
   profiles:
      active: test
-
-  application:
-    name: wisdomhydrologicpc
 mybatis:
   configuration:
     mapUnderscoreToCamelCase: true

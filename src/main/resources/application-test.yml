@@ -15,13 +15,21 @@ spring:
       max-idle: 100
 #rabbitmq相关配置
   rabbitmq:
-     host: 114.80.231.178 #127.0.0.1 #10.1.30.24
+     host: 114.80.231.178 #10.1.30.24
      port: 5671
      username: shuiwen
      password: siti@sw
+     publisher-confirms: true
+     publisher-returns: true
      virtual-host: shuiwen
-     #publisher-confirms: true
-     #publisher-returns: true
+     listener:
+        simple:
+          acknowledge-mode: manual #采用手动应答
+          concurrency: 2
+          max-concurrency: 2
+          retry:
+            enabled: true #是否支持重试
+          prefetch: 1
 
 filePath:
   invalidFileDelete: 0    # 无效文件立即删除

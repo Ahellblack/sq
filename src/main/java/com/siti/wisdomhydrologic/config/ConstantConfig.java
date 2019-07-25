@@ -10,8 +10,29 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class ConstantConfig extends WebMvcConfigurerAdapter {
+    public static final String FLAGT = "T";
 
-/*
+    public static final String FLAGR = "R";
+
+    public static final String FLAGW = "W";
+
+    public static final String WS="83";
+
+    public static final String TS="81";
+
+    public static final String RS="84";
+
+    public static final String BASEPACKAGE="com";
+
+    public static final String SWAGGER_TITLE="swagger测试接口";
+
+    public static final String DESCRIPTION="智慧水情运维系统";
+
+    public static final String SWAGGER_VERSION="1.0";
+
+    public static final String SWAGGER_URL="http://localhost:8099/sq/swagger-ui.html";
+
+    /*
 
     */
 /**

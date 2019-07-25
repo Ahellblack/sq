@@ -1,10 +1,10 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.Entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.Entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Indecators;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-import com.siti.wisdomhydrologic.util.enumbean.SystemConstant;
 
 import java.util.List;
 import java.util.Map;
@@ -24,14 +24,14 @@ public class RealRainfallHandler<T> implements Indecators<T> {
         List<RealVo> realList = (List<RealVo>) val;
         Map<Integer, RealVo> map = realList.stream()
                 .filter(
-                        e -> (e.getSendId() + "".substring(5)).equals(SystemConstant.WS)
+                        e -> (e.getSendId() + "".substring(5)).equals(ConstantConfig.WS)
                 ).collect(Collectors.toMap(RealVo::getSendId, a -> a));
         doProcess((Map<Integer, T>) map,configMap,cycleQueue);
     }
 
     @Override
     public void doProcess(Map<Integer, T> val, Map<String, Map<String, T>> configMap, BlockingQueue<T> cycleQueue) {
-        Map<String, RainfallEntity> rainonfig = (Map<String, RainfallEntity>) configMap.get(SystemConstant.FLAGR);
+        Map<String, RainfallEntity> rainonfig = (Map<String, RainfallEntity>) configMap.get(ConstantConfig.FLAGR);
         Map<Integer, RealVo> mapval=(Map<Integer, RealVo>)val;
         mapval.entrySet().stream().forEach(e -> {
             RainfallEntity rainfallEntity = rainonfig.get(e.getKey());
