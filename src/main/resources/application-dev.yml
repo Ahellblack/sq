@@ -31,13 +31,7 @@ spring:
           prefetch: 3
      virtual-host: /
 
-filePath:
-  invalidFileDelete: 0    # 无效文件立即删除
-  head: C:/wisdomhydrologic/head/    # 用户头像
-  feedback: C:/wisdomhydrologic/feedback/    # 用户反馈
-
 logback:
-  logHome: C:/wisdomhydrologic/log/
-  logName: wisdomhydrologicpc
-
+  logHome: C:/wh/log/
+  logName: wh
 
