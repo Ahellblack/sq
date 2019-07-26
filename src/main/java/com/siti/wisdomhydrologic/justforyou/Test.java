@@ -24,9 +24,16 @@ public class Test {
     }
     
     public void quartzJob() {
+<<<<<<< Updated upstream
         logger.info("----------------------here comes!-------------------------------");
         logger.error("----------------------here comes!-------------------------------");
         ExceptionUtil.throwException(SystemError.SENDLIST_NULL);
+=======
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         System.out.println("----------------------here comes!-------------------------------");
     }
 }
