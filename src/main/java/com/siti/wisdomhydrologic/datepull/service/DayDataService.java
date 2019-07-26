@@ -12,4 +12,6 @@ import java.util.List;
 public interface DayDataService {
 
     int addDayData(List<DayVo> dayVo);
+
+    int addHourData(List<DayVo> hourVo);
 }

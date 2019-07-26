@@ -33,7 +33,24 @@ public class DayDataServiceImpl implements DayDataService{
                 }
             }
         }
-       // System.out.println(dayVo);
         return dayDataMapper.addDayData(dayVo);
+    }
+
+    @Override
+    public synchronized int addHourData(List<DayVo> HourVo) {
+        List<StationVo> stationList = dayDataMapper.getStation();
+        System.out.println("测站信息获取...");
+        for(DayVo d :HourVo){
+            for(StationVo station : stationList){
+                if(d.getSenId() == station.getSenId()){
+                    d.setSensorTypeName(station.getSensorName());
+                    d.setSensorDataUnit("");
+                    d.setSensorTypeId(station.getSensorTypeId());
+                    d.setStationId(station.getStationId());
+                    d.setStationName(station.getStationName());
+                }
+            }
+        }
+        return dayDataMapper.addHourData(HourVo);
     }
 }
