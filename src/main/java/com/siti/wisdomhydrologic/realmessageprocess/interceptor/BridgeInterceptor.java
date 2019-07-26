@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.realmessageprocess.interceptor;
 
 import com.google.common.collect.Lists;
-import com.siti.wisdomhydrologic.realmessageprocess.Entity.AbnormalDetailEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Indecators;
 import org.springframework.stereotype.Service;

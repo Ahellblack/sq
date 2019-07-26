@@ -1,8 +1,8 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
-import com.siti.wisdomhydrologic.realmessageprocess.Entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.Entity.WaterLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Indecators;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 
