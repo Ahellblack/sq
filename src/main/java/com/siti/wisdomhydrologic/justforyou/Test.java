@@ -15,18 +15,16 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class Test {
-    private static final Logger logger= LoggerFactory.getLogger(Test.class);
+    private static final Logger logger = LoggerFactory.getLogger(Test.class);
+
     @RequestMapping(value = "/rest/article", method = RequestMethod.POST, produces = "application/json")
-    @ApiOperation(value = "接口说明",httpMethod = "post",notes = "接口发布说明")
-    @ApiParam(name = "参数",value = "这是描述参数")
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
     public String testSwagger2(@RequestBody String name) {
         return name;
     }
-    
+
     public void quartzJob() {
-        logger.info("----------------------here comes!-------------------------------");
-        logger.error("----------------------here comes!-------------------------------");
-        ExceptionUtil.throwException(SystemError.SENDLIST_NULL);
         System.out.println("----------------------here comes!-------------------------------");
     }
 }
