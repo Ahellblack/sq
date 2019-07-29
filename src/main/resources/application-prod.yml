@@ -29,7 +29,7 @@ spring:
           max-concurrency: 2
           retry:
             enabled: true #是否支持重试
-          prefetch: 10
+          prefetch: 1
 
 
 logback:

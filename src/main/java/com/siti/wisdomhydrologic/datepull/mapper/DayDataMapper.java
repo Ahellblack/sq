@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.datepull.mapper;
 
+import com.siti.wisdomhydrologic.datepull.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.datepull.vo.StationVo;
 import org.apache.ibatis.annotations.Insert;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface DayDataMapper {
 
     @Insert("<script>" +
-            "INSERT INTO `real_day_sensor_data` " +
+            "INSERT INTO `real_day_sensor_data_2006_2011` " +
             "( `sensor_code`, `sensor_data_value`, `sensor_type_id`, `sensor_type_name`, " +
             "`sensor_data_unit`, `sensor_data_upload_time`, `sensor_avg_data`, " +
             "`sensor_max_data`, `sensor_max_data_time`, `sensor_min_data`, `sensor_min_data_time`," +
@@ -27,8 +28,8 @@ public interface DayDataMapper {
             "</foreach></script>")
     int addDayData(@Param("dayList") List<DayVo> dayList) ;
 
-    @Select("Select * from config_sensor_station_comparison")
-    List<StationVo> getStation();
+    @Select("Select * from config_sensor_section_module")
+    List<ConfigSensorSectionModule> getStation();
 
     @Insert("<script>" +
             "INSERT INTO `real_day_sensor_data` " +
