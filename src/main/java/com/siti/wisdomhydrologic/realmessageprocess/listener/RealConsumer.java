@@ -4,9 +4,9 @@
 //import com.rabbitmq.client.Channel;
 //import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 //import com.siti.wisdomhydrologic.datepull.vo.DayVo;
-//import com.siti.wisdomhydrologic.realmessageprocess.Entity.RainfallEntity;
-//import com.siti.wisdomhydrologic.realmessageprocess.Entity.TideLevelEntity;
-//import com.siti.wisdomhydrologic.realmessageprocess.Entity.WaterLevelEntity;
+//import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
+//import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
+//import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 //import com.siti.wisdomhydrologic.realmessageprocess.interceptor.BridgeInterceptor;
 //import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
 //import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;

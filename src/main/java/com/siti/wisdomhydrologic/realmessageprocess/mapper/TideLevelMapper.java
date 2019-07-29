@@ -1,6 +1,6 @@
 package com.siti.wisdomhydrologic.realmessageprocess.mapper;
 
-import com.siti.wisdomhydrologic.realmessageprocess.Entity.TideLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
