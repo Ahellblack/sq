@@ -3,6 +3,8 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ReportManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ReportManageDataMantainService;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +20,8 @@ public class ReportManageDataMantainServiceImpl implements ReportManageDataManta
     private ReportManageDataMantainMapper reportManageDataMantainMapper;
 
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
-        return reportManageDataMantainMapper.getByCreateDate(createDate);
+        String s = DateOrTimeTrans.Date2TimeString2(createDate);
+        return reportManageDataMantainMapper.getByCreateDate(s);
     }
 
     public int delete(Integer reportId) {

@@ -9,4 +9,8 @@ import java.util.List;
  */
 public interface InspectionMaintenanceService {
     List<ReportInspectionMaintenance> getByStationId(String stationId);
+
+    int insert(ReportInspectionMaintenance reportInspectionMaintenance);
+
+    int delete(Integer reportId);
 }

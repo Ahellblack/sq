@@ -15,5 +15,5 @@ public interface ReportManageDataMantainMapper extends Mapper<ReportManageDataMa
     @Select("<script>Select * from report_manage_data_mantain" +
             "<if test=\"createDate!=null\"> where alter_date = #{createDate} </if>" +
             "</script>")
-    List<ReportManageDataMantain> getByCreateDate(@Param("createDate") Date createDate);
+    List<ReportManageDataMantain> getByCreateDate(@Param("createDate") String createDate);
 }

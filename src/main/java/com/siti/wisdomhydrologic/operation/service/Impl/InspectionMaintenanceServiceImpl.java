@@ -21,4 +21,14 @@ public class InspectionMaintenanceServiceImpl implements InspectionMaintenanceSe
     public List<ReportInspectionMaintenance> getByStationId(String stationId) {
         return inspectionMaintenanceMapper.getByStationId(stationId);
     }
+
+    @Override
+    public int insert(ReportInspectionMaintenance reportInspectionMaintenance) {
+        return inspectionMaintenanceMapper.insert(reportInspectionMaintenance);
+    }
+
+    @Override
+    public int delete(Integer reportId) {
+        return inspectionMaintenanceMapper.deleteByPrimaryKey(reportId);
+    }
 }
