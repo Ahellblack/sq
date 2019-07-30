@@ -4,36 +4,34 @@ import java.util.Date;
 
 public class ReportManageDataMantain {
 
-  private long reportId;
+  private Integer reportId;
   private String stationCode;
   private String alterDate;
   private String stationName;
-  private long alterSensorTypeId;
+  private Integer alterSensorTypeId;
   private String alterSensorTypeName;
   private String errorDataReason;
-  private long errorDataType;
+  private Integer errorDataType;
   private String errorTimeSpace;
   private String errorValue;
   private String confirValue;
   private String errorUnit;
-  private long errorDataReRun;
+  private Integer errorDataReRun;
   private String missDataType;
   private String missTimeSpace;
-  private long missDataReRun;
+  private Integer missDataReRun;
   private Date createTime;
-  private long createBy;
-  private long manageOrgId;
+  private Integer createBy;
+  private Integer manageOrgId;
   private String manageOrgName;
 
-
-  public long getReportId() {
+  public Integer getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(Integer reportId) {
     this.reportId = reportId;
   }
-
 
   public String getStationCode() {
     return stationCode;
@@ -43,7 +41,6 @@ public class ReportManageDataMantain {
     this.stationCode = stationCode;
   }
 
-
   public String getAlterDate() {
     return alterDate;
   }
@@ -51,7 +48,6 @@ public class ReportManageDataMantain {
   public void setAlterDate(String alterDate) {
     this.alterDate = alterDate;
   }
-
 
   public String getStationName() {
     return stationName;
@@ -61,15 +57,13 @@ public class ReportManageDataMantain {
     this.stationName = stationName;
   }
 
-
-  public long getAlterSensorTypeId() {
+  public Integer getAlterSensorTypeId() {
     return alterSensorTypeId;
   }
 
-  public void setAlterSensorTypeId(long alterSensorTypeId) {
+  public void setAlterSensorTypeId(Integer alterSensorTypeId) {
     this.alterSensorTypeId = alterSensorTypeId;
   }
-
 
   public String getAlterSensorTypeName() {
     return alterSensorTypeName;
@@ -79,7 +73,6 @@ public class ReportManageDataMantain {
     this.alterSensorTypeName = alterSensorTypeName;
   }
 
-
   public String getErrorDataReason() {
     return errorDataReason;
   }
@@ -88,15 +81,13 @@ public class ReportManageDataMantain {
     this.errorDataReason = errorDataReason;
   }
 
-
-  public long getErrorDataType() {
+  public Integer getErrorDataType() {
     return errorDataType;
   }
 
-  public void setErrorDataType(long errorDataType) {
+  public void setErrorDataType(Integer errorDataType) {
     this.errorDataType = errorDataType;
   }
-
 
   public String getErrorTimeSpace() {
     return errorTimeSpace;
@@ -106,7 +97,6 @@ public class ReportManageDataMantain {
     this.errorTimeSpace = errorTimeSpace;
   }
 
-
   public String getErrorValue() {
     return errorValue;
   }
@@ -114,7 +104,6 @@ public class ReportManageDataMantain {
   public void setErrorValue(String errorValue) {
     this.errorValue = errorValue;
   }
-
 
   public String getConfirValue() {
     return confirValue;
@@ -124,7 +113,6 @@ public class ReportManageDataMantain {
     this.confirValue = confirValue;
   }
 
-
   public String getErrorUnit() {
     return errorUnit;
   }
@@ -133,15 +121,13 @@ public class ReportManageDataMantain {
     this.errorUnit = errorUnit;
   }
 
-
-  public long getErrorDataReRun() {
+  public Integer getErrorDataReRun() {
     return errorDataReRun;
   }
 
-  public void setErrorDataReRun(long errorDataReRun) {
+  public void setErrorDataReRun(Integer errorDataReRun) {
     this.errorDataReRun = errorDataReRun;
   }
-
 
   public String getMissDataType() {
     return missDataType;
@@ -151,7 +137,6 @@ public class ReportManageDataMantain {
     this.missDataType = missDataType;
   }
 
-
   public String getMissTimeSpace() {
     return missTimeSpace;
   }
@@ -160,12 +145,11 @@ public class ReportManageDataMantain {
     this.missTimeSpace = missTimeSpace;
   }
 
-
-  public long getMissDataReRun() {
+  public Integer getMissDataReRun() {
     return missDataReRun;
   }
 
-  public void setMissDataReRun(long missDataReRun) {
+  public void setMissDataReRun(Integer missDataReRun) {
     this.missDataReRun = missDataReRun;
   }
 
@@ -177,23 +161,21 @@ public class ReportManageDataMantain {
     this.createTime = createTime;
   }
 
-  public long getCreateBy() {
+  public Integer getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(Integer createBy) {
     this.createBy = createBy;
   }
 
-
-  public long getManageOrgId() {
+  public Integer getManageOrgId() {
     return manageOrgId;
   }
 
-  public void setManageOrgId(long manageOrgId) {
+  public void setManageOrgId(Integer manageOrgId) {
     this.manageOrgId = manageOrgId;
   }
-
 
   public String getManageOrgName() {
     return manageOrgName;

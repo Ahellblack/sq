@@ -31,4 +31,8 @@ public class ReportInspectionMaintenanceController {
     public int delete(Integer reportId){
         return inspectionMaintenanceService.delete(reportId);
     }
+    @PostMapping("/update")
+    public int update(ReportInspectionMaintenance reportInspectionMaintenance){
+        return inspectionMaintenanceService.update(reportInspectionMaintenance);
+    }
 }

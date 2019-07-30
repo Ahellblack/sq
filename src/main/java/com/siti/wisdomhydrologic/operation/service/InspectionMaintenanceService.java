@@ -13,4 +13,6 @@ public interface InspectionMaintenanceService {
     int insert(ReportInspectionMaintenance reportInspectionMaintenance);
 
     int delete(Integer reportId);
+
+    int update(ReportInspectionMaintenance reportInspectionMaintenance);
 }
