@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import java.util.Date;
+
 public class ReportManageDataMantain {
 
   private long reportId;
@@ -18,7 +20,7 @@ public class ReportManageDataMantain {
   private String missDataType;
   private String missTimeSpace;
   private long missDataReRun;
-  private java.sql.Timestamp createTime;
+  private Date createTime;
   private long createBy;
   private long manageOrgId;
   private String manageOrgName;
@@ -167,15 +169,13 @@ public class ReportManageDataMantain {
     this.missDataReRun = missDataReRun;
   }
 
-
-  public java.sql.Timestamp getCreateTime() {
+  public Date getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(java.sql.Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
-
 
   public long getCreateBy() {
     return createBy;
@@ -203,4 +203,8 @@ public class ReportManageDataMantain {
     this.manageOrgName = manageOrgName;
   }
 
+  @Override
+  public String toString() {
+    return "ReportManageDataMantain{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime=" + createTime + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + '}';
+  }
 }

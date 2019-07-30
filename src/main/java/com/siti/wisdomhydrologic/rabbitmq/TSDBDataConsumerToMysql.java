@@ -46,16 +46,17 @@ public class TSDBDataConsumerToMysql {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
     @RabbitHandler
     public void TSDBDataProcess(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+
         try {
             if (TSDBVo.size() > 1) {
                 //消费完成后直接添加数据
                 int i = insertTSDB(TSDBVo);
-                logger.info("TSDB数据插入本地库{}条,花费时间{}", i);
+                logger.info("TSDB数据插入本地库{}条", i);
                 calPackage(TSDBVo.get(0), channel, message);
             }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
+            logger.error(e.getMessage());
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
@@ -72,16 +73,18 @@ public class TSDBDataConsumerToMysql {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
     @RabbitHandler   //可以接收到对象
     public void TSDBDataProcessTwo(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+
         try {
             if (TSDBVo.size() > 1) {
                 //消费完成后直接添加数据
                 int i = insertTSDB(TSDBVo);
                 logger.info("TSDB数据插入本地库{}条", i);
                 calPackage(TSDBVo.get(0), channel, message);
-    }
+            }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
+            logger.error(e.getMessage());
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
 
@@ -113,7 +116,7 @@ public class TSDBDataConsumerToMysql {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
         } catch (Exception e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
+            logger.error(e.getMessage());
             try {
                 channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             } catch (IOException e1) {
