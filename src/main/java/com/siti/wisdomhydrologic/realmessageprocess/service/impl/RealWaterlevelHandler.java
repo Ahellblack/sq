@@ -1,8 +1,11 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Indecators;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -27,25 +30,25 @@ public class RealWaterlevelHandler<T> implements Indecators<T> {
 
     @Override
     public void doProcess(Map<Integer,T> val, Map<String, Map<String, T>> configMap, BlockingQueue<T> cycleQueue) {
-        Map<String, com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity> waterFlag = (Map<String, com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity>) configMap
+        Map<String, WaterLevelEntity> waterFlag = (Map<String, WaterLevelEntity>) configMap
                 .get(ConstantConfig.FLAGW);
         Map<Integer, RealVo> mapval=(Map<Integer, RealVo>)val;
         final double[] doubles={99999};
         mapval.keySet().stream().forEach(e -> {
             //        最大值最小值比较
-            com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity rainfallEntity = waterFlag.get(e);
+            WaterLevelEntity rainfallEntity = waterFlag.get(e);
             double max = rainfallEntity.getLevelMax();
             double min = rainfallEntity.getLevelMin();
-            com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity exception = null;
+            AbnormalDetailEntity exception = null;
             if (mapval.get(e).getFactv() < min) {
-                exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
+                exception = new AbnormalDetailEntity() {{
                     setSensorCode(mapval.get(e).getSendId());
                     setDate(mapval.get(e).getTime().toString());
                     setFiveBelow(1);
                 }};
             } else if (mapval.get(e).getFactv() > max) {
                 if (exception == null) {
-                    exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
+                    exception = new AbnormalDetailEntity() {{
                         setSensorCode(mapval.get(e).getSendId());
                         setDate(mapval.get(e).getTime().toString());
                         setFiveAbove(1);
@@ -61,7 +64,7 @@ public class RealWaterlevelHandler<T> implements Indecators<T> {
                 if(mapval.get(e).getFactv()>doubles[0]){
                     if((mapval.get(e).getFactv()-doubles[0])>rainfallEntity.getUpMax()){
                         if (exception == null) {
-                            exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
+                            exception = new AbnormalDetailEntity() {{
                                 setSensorCode(mapval.get(e).getSendId());
                                 setDate(mapval.get(e).getTime().toString());
                                 setFloatingUp(1);
@@ -73,7 +76,7 @@ public class RealWaterlevelHandler<T> implements Indecators<T> {
                 }else if(mapval.get(e).getFactv()<doubles[0]){
                     if((doubles[0]-mapval.get(e).getFactv())>rainfallEntity.getBelowMin()){
                         if (exception == null) {
-                            exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
+                            exception = new AbnormalDetailEntity() {{
                                 setSensorCode(mapval.get(e).getSendId());
                                 setDate(mapval.get(e).getTime().toString());
                                 setFloatingDown(1);
