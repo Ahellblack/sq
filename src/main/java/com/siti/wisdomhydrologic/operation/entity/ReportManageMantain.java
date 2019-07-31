@@ -223,4 +223,8 @@ public class ReportManageMantain {
     this.createTime = createTime;
   }
 
+  @Override
+  public String toString() {
+    return "ReportManageMantain{" + "reportId=" + reportId + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", mantainMonth='" + mantainMonth + '\'' + ", mantainHour='" + mantainHour + '\'' + ", tempHuimidityException=" + tempHuimidityException + ", serverTimeException=" + serverTimeException + ", databaseServerException=" + databaseServerException + ", communicateServerException=" + communicateServerException + ", applicationServerException=" + applicationServerException + ", webServerException=" + webServerException + ", changtongRateException=" + changtongRateException + ", voltageException=" + voltageException + ", voltageProcessLineException=" + voltageProcessLineException + ", dayRainReportException=" + dayRainReportException + ", rainBarException=" + rainBarException + ", daySeaLevelReportException=" + daySeaLevelReportException + ", seaLeveProcessLineException=" + seaLeveProcessLineException + ", otherReportException=" + otherReportException + ", remark='" + remark + '\'' + ", createBy=" + createBy + ", createTime=" + createTime + '}';
+  }
 }

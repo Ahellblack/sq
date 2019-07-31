@@ -33,4 +33,9 @@ public class ReportManageApplicationBrokenServiceImpl  implements ReportManageAp
     public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
         return reportManageApplicationBrokenMapper.updateByPrimaryKey(reportManageApplicationBroken);
     }
+
+    @Override
+    public int delete(Integer reportId) {
+        return reportManageApplicationBrokenMapper.deleteById(reportId);
+    }
 }

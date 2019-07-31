@@ -1,6 +1,8 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -13,4 +15,7 @@ public interface ReportManageApplicationBrokenMapper extends Mapper<ReportManage
 
     @Select("select * from report_manage_application_broken")
     List<ReportManageApplicationBroken> getAll();
+
+    @Delete("DELETE from report_manage_application_broken where report_id = #{reportId}")
+    int deleteById(@Param("reportId") Integer reportId);
 }

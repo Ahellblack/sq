@@ -50,7 +50,7 @@ public class ReportHyetometerController {
     }
 
     @PostMapping("/getExcel")
-    public void getStreetExcel(int page, int pageSize,String day, Integer orgId, HttpServletResponse response) {
+    public void getExcel(HttpServletResponse response) {
         List<ReportHyetometerTest> list = reportHyetometerService.getAll();
         EasyPoiUtil.exportExcel(list, "雨量计滴水实验记录表", "雨量计滴水", ReportHyetometerTest.class, "雨量计滴水实验记录表.xls", response);
     }

@@ -13,4 +13,6 @@ public interface ReportManageApplicationBrokenService {
     int insert(ReportManageApplicationBroken reportManageApplicationBroken);
 
     int update(ReportManageApplicationBroken reportManageApplicationBroken);
+
+    int delete(Integer reportId);
 }

@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 
 /**
@@ -7,23 +9,41 @@ import java.util.Date;
  */
 public class ReportHyetometerTest {
 
-      private Integer reportId;
-      private String stationCode;
-      private String stationName;
-      private Integer manageOrgId;
-      private Integer manageOrgName;
-      private String libraryDate;
-      private String deviceTypeCode;
-      private String deviceCode;
-      private String startTime;
-      private String endTime;
-      private String timeDuration;
-      private double waterPoll;
-      private double waterPollStrength;
-      private double waterDisplay;
-      private double errorValue;
-      private String createBy;
-      private Date createTime;
+    @Excel(name = "reportId", height = 11, width = 20)
+    private Integer reportId;
+    @Excel(name = "stationCode", height = 11, width = 20)
+    private String stationCode;
+    @Excel(name = "stationName", height = 11, width = 20)
+    private String stationName;
+    @Excel(name = "manageOrgId", height = 11, width = 20)
+    private Integer manageOrgId;
+    @Excel(name = "manageOrgName", height = 11, width = 20)
+    private Integer manageOrgName;
+    @Excel(name = "libraryDate", height = 11, width = 20)
+    private String libraryDate;
+    @Excel(name = "deviceTypeCode", height = 11, width = 20)
+    private String deviceTypeCode;
+    @Excel(name = "deviceCode", height = 11, width = 20)
+    private String deviceCode;
+    @Excel(name = "startTime", height = 11, width = 20)
+    private String startTime;
+    @Excel(name = "endTime", height = 11, width = 20)
+    private String endTime;
+    @Excel(name = "timeDuration", height = 11, width = 20)
+    private String timeDuration;
+    @Excel(name = "waterPoll", height = 11, width = 20)
+    private double waterPoll;
+    @Excel(name = "waterPollStrength", height = 11, width = 20)
+    private double waterPollStrength;
+    @Excel(name = "waterDisplay", height = 11, width = 20)
+    private double waterDisplay;
+    @Excel(name = "errorValue", height = 11, width = 20)
+    private double errorValue;
+    @Excel(name = "createBy", height = 11, width = 20)
+    private String createBy;
+    @Excel(name = "createTime", height = 11, width = 20)
+    private Date createTime;
+
 
     public Integer getReportId() {
         return reportId;

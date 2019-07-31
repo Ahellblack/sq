@@ -50,9 +50,7 @@ public class TSDBDataConsumerToMysql {
         try {
             if (TSDBVo.size() > 1) {
                 //消费完成后直接添加数据
-                int i = insertTSDB(TSDBVo);
-                logger.info("TSDB数据插入本地库{}条", i);
-                calPackage(TSDBVo.get(0), channel, message);
+                calPackage(TSDBVo, channel, message);
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
@@ -77,9 +75,7 @@ public class TSDBDataConsumerToMysql {
         try {
             if (TSDBVo.size() > 1) {
                 //消费完成后直接添加数据
-                int i = insertTSDB(TSDBVo);
-                logger.info("TSDB数据插入本地库{}条", i);
-                calPackage(TSDBVo.get(0), channel, message);
+                calPackage(TSDBVo, channel, message);
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
@@ -91,10 +87,13 @@ public class TSDBDataConsumerToMysql {
     /**
      * 判断是否丢包记录日志
      *
-     * @param TSDBVo
+     * @param TSDBList
      */
-    private void calPackage(TSDBVo TSDBVo, Channel channel, Message message) {
+    private void calPackage(List<TSDBVo> TSDBList, Channel channel, Message message) {
         lock.lock();
+        int i = insertTSDB(TSDBList);
+        TSDBVo TSDBVo=TSDBList.get(0);
+        logger.info("TSDB数据插入本地库{}条", i);
         try {
             if (flag.compareAndSet(false, true)) {
                 maxBatch.set(TSDBVo.getMaxBatch());

@@ -32,5 +32,9 @@ public class ReportManageApplicationBrokenController {
     public int update(ReportManageApplicationBroken reportManageApplicationBroken){
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
+    @GetMapping("/delete")
+    public int delete(Integer reportId){
+        return manageApplicationBrokenService.delete(reportId);
+    }
 
 }
