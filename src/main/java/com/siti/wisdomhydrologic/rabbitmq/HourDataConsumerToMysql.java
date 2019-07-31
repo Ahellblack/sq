@@ -7,14 +7,12 @@ import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.enumbean.ReturnError;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
