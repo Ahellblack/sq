@@ -1,8 +1,8 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
-import com.siti.wisdomhydrologic.operation.mapper.ReportManageMantainMapper;
-import com.siti.wisdomhydrologic.operation.service.ReportManageMantainService;
+import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
+import com.siti.wisdomhydrologic.operation.service.ManageMantainService;
 import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.List;
  * Created by dell on 2019/7/31.
  */
 @Service
-public class ReportManageMantainServiceImpl implements ReportManageMantainService {
+public class ManageMantainServiceImpl implements ManageMantainService {
     @Resource
-    private ReportManageMantainMapper reportManageMantainMapper;
+    private ManageMantainMapper reportManageMantainMapper;
 
     public List<ReportManageMantain> getAll(String date) {
         return reportManageMantainMapper.getByDate(date);

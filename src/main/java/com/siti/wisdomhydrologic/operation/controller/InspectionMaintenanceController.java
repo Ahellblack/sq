@@ -15,7 +15,7 @@ import java.util.List;
  */
 @RequestMapping("/inspectionMaintenance")
 @RestController
-public class ReportInspectionMaintenanceController {
+public class InspectionMaintenanceController {
     @Resource
     private InspectionMaintenanceService inspectionMaintenanceService;
 

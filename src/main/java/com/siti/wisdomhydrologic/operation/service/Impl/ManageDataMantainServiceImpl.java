@@ -1,8 +1,8 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.operation.mapper.ReportManageDataMantainMapper;
-import com.siti.wisdomhydrologic.operation.service.ReportManageDataMantainService;
+import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
+import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ import java.util.List;
  * Created by dell on 2019/7/30.
  */
 @Service
-public class ReportManageDataMantainServiceImpl implements ReportManageDataMantainService{
+public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Resource
-    private ReportManageDataMantainMapper reportManageDataMantainMapper;
+    private ManageDataMantainMapper reportManageDataMantainMapper;
 
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
         String s = DateOrTimeTrans.Date2TimeString2(createDate);

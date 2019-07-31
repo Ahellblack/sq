@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
-import com.siti.wisdomhydrologic.operation.service.Impl.ReportManageApplicationBrokenServiceImpl;
+import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +15,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/applicationBroken")
-public class ReportManageApplicationBrokenController {
+public class ManageApplicationBrokenController {
 
     @Resource
-    private ReportManageApplicationBrokenServiceImpl manageApplicationBrokenService;
+    private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
 
     @GetMapping("/getAll")
     public List<ReportManageApplicationBroken> selectAll(){

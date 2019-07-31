@@ -1,11 +1,9 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
-import com.siti.wisdomhydrologic.operation.controller.ReportManageApplicationBrokenController;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.operation.mapper.ReportManageApplicationBrokenMapper;
-import com.siti.wisdomhydrologic.operation.service.ReportManageApplicationBrokenService;
-import com.siti.wisdomhydrologic.operation.service.ReportManageDataMantainService;
+import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,9 +14,9 @@ import java.util.List;
  * Created by dell on 2019/7/31.
  */
 @Service
-public class ReportManageApplicationBrokenServiceImpl  implements ReportManageApplicationBrokenService {
+public class ManageApplicationBrokenServiceImpl  implements ManageApplicationBrokenService {
     @Resource
-    private ReportManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
+    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
     public List<ReportManageApplicationBroken> getAll() {
         return reportManageApplicationBrokenMapper.getAll();

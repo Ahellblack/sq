@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/31.
  */
-public interface ReportManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
+public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
 
     @Select("select * from report_manage_application_broken")
     List<ReportManageApplicationBroken> getAll();

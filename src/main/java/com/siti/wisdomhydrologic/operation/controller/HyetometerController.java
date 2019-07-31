@@ -1,8 +1,8 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
-import com.siti.wisdomhydrologic.operation.mapper.ReportHyetometerMapper;
-import com.siti.wisdomhydrologic.operation.service.Impl.ReportHyetometerServiceImpl;
+import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
+import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
 import com.siti.wisdomhydrologic.util.EasyPoiUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +18,13 @@ import java.util.List;
  */
 @RequestMapping("/hyetometer")
 @RestController
-public class ReportHyetometerController {
+public class HyetometerController {
 
     @Resource
-    private ReportHyetometerServiceImpl reportHyetometerService;
+    private HyetometerServiceImpl reportHyetometerService;
 
     @Resource
-    private ReportHyetometerMapper reportHyetometerMapper;
+    private HyetometerMapper reportHyetometerMapper;
 
     @RequestMapping("/getAll")
     public List<ReportHyetometerTest> getAll(){

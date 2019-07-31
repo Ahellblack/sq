@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.operation.service.Impl.ReportManageDataMantainServiceImpl;
+import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +16,10 @@ import java.util.List;
  */
 @RequestMapping("/manageDataMantain")
 @RestController
-public class ReportManageDataMantainController {
+public class ManageDataMantainController {
 
     @Resource
-    private ReportManageDataMantainServiceImpl reportManageDataMantainService;
+    private ManageDataMantainServiceImpl reportManageDataMantainService;
 
     @GetMapping("/getByCreateDate")
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {

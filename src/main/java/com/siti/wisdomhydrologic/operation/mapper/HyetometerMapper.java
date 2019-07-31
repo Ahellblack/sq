@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/26.
  */
-public interface ReportHyetometerMapper extends Mapper<ReportHyetometerTest>{
+public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
 
     @Select("select * from report_hyetometer_test")
     List<ReportHyetometerTest> getAll();

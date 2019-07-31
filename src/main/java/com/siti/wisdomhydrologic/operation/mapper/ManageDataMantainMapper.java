@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/30.
  */
-public interface ReportManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
+public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
     @Select("<script>Select * from report_manage_data_mantain" + "<if test=\"createDate!=null\"> where alter_date = #{createDate} </if>" + "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("createDate") String createDate);
 

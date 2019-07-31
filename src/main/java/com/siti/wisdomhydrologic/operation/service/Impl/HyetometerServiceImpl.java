@@ -2,8 +2,8 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
-import com.siti.wisdomhydrologic.operation.mapper.ReportHyetometerMapper;
-import com.siti.wisdomhydrologic.operation.service.ReportHyetometerService;
+import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
+import com.siti.wisdomhydrologic.operation.service.HyetometerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,10 +13,10 @@ import java.util.List;
  * Created by dell on 2019/7/26.
  */
 @Service
-public class ReportHyetometerServiceImpl implements ReportHyetometerService {
+public class HyetometerServiceImpl implements HyetometerService {
 
     @Resource
-    private ReportHyetometerMapper reportHyetometerMapper;
+    private HyetometerMapper reportHyetometerMapper;
 
     public List<ReportHyetometerTest> getAll() {
         return reportHyetometerMapper.getAll();

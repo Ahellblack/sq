@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/30.
  */
-public interface ReportManageDataMantainService {
+public interface
+ManageDataMantainService {
 
     List<ReportManageDataMantain> getByCreateDate(Date createDate);
     int delete(Integer reportId);

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/26.
  */
-public interface ReportHyetometerService {
+public interface HyetometerService {
 
     List<ReportHyetometerTest> getAll();
     int delByReportId(Integer reportId);

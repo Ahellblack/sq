@@ -2,7 +2,7 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
-import com.siti.wisdomhydrologic.operation.service.Impl.ReportManageMantainServiceImpl;
+import com.siti.wisdomhydrologic.operation.service.Impl.ManageMantainServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +18,9 @@ import java.util.List;
 
 @RequestMapping("/manageMantain")
 @RestController
-public class ReportManageMantainController {
+public class ManageMantainController {
     @Resource
-    private ReportManageMantainServiceImpl reportManageMantainService;
+    private ManageMantainServiceImpl reportManageMantainService;
 
     /**
      * @Param date xxxx年xx月 格式YYYY-MM
