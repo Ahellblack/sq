@@ -43,7 +43,7 @@ public class TSDBDataConsumerToMysql {
     @Resource
     private TSDBServiceImpl tsdbService;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_TSDB)
     @RabbitHandler
     public void TSDBDataProcess(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
 
@@ -68,7 +68,7 @@ public class TSDBDataConsumerToMysql {
             channel.basicNack(deliveryTag, false, false);
              代表消费者拒绝当前消息，第二个参数表示是否把当前消息重新入队
              channel.basicReject(deliveryTag,false)*/
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_TSDB)
     @RabbitHandler   //可以接收到对象
     public void TSDBDataProcessTwo(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
 

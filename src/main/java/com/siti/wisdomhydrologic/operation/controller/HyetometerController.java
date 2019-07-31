@@ -4,10 +4,9 @@ import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
 import com.siti.wisdomhydrologic.util.EasyPoiUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -27,30 +26,42 @@ public class HyetometerController {
     private HyetometerMapper reportHyetometerMapper;
 
     @RequestMapping("/getAll")
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
     public List<ReportHyetometerTest> getAll(){
         return reportHyetometerService.getAll();
     }
 
     @GetMapping("/deleteBy")
-    public int deleteBy(Integer reportId){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int deleteBy(@RequestBody Integer reportId){
         return reportHyetometerService.delByReportId(reportId);
     }
 
     @GetMapping("/deleteChosen")
-    public int deleteByList(List<Integer> reportIdList){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int deleteByList(@RequestBody List<Integer> reportIdList){
         return reportHyetometerService.delByReportIdList(reportIdList);
     }
     @PostMapping("/insert")
-    public int insert(ReportHyetometerTest reportHyetometer){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int insert(@RequestBody ReportHyetometerTest reportHyetometer){
         return reportHyetometerService.insert(reportHyetometer);
     }
     @PostMapping("/update")
-    public int update(ReportHyetometerTest reportHyetometer){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int update(@RequestBody ReportHyetometerTest reportHyetometer){
         return reportHyetometerService.update(reportHyetometer);
     }
 
     @PostMapping("/getExcel")
-    public void getExcel(HttpServletResponse response) {
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public void getExcel(@RequestBody HttpServletResponse response) {
         List<ReportHyetometerTest> list = reportHyetometerService.getAll();
         EasyPoiUtil.exportExcel(list, "雨量计滴水实验记录表", "雨量计滴水", ReportHyetometerTest.class, "雨量计滴水实验记录表.xls", response);
     }

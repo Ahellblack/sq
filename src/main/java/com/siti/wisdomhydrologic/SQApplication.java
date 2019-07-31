@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("com.siti.wisdomhydrologic.*.mapper")
 @ServletComponentScan
-public class WisdomhydrologicApplication {
+public class SQApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WisdomhydrologicApplication.class, args);
+		SpringApplication.run(SQApplication.class, args);
 	}
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(WisdomhydrologicApplication.class);
+        return builder.sources(SQApplication.class);
     }
 }

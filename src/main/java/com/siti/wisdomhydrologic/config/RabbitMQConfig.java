@@ -52,6 +52,10 @@ public class RabbitMQConfig {
 
     public static final String QUEUE_TSDB= "wh_tsdb";
 
+    /**
+     * 历史数据队列
+     * History_queue
+     * */
     public static final String HISTORY_QUEUE_DAY= "wh_history_day";
 
     public static final String HISTORY_QUEUE_HOUR= "wh_history_hour";

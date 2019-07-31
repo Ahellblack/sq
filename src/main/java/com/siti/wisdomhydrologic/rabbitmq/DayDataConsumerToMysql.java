@@ -36,7 +36,7 @@ public class DayDataConsumerToMysql {
     @Resource
     private DayDataServiceImpl dayDataService;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_DAY)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_DAY)
     @RabbitHandler
     public void dayDataProcess(List<DayVo> DayVo, Channel channel, Message message) throws IOException {
         try {
@@ -65,7 +65,7 @@ public class DayDataConsumerToMysql {
                  代表消费者拒绝当前消息，第二个参数表示是否把当前消息重新入队
                  channel.basicReject(deliveryTag,false)
     */
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_DAY)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_DAY)
     @RabbitHandler   //可以接收到对象
     public void dayDataProcessTwo(List<DayVo> DayVo, Channel channel, Message message) throws IOException {
         try {

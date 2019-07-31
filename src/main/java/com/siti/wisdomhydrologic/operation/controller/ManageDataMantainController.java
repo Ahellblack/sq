@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,19 +24,30 @@ public class ManageDataMantainController {
     private ManageDataMantainServiceImpl reportManageDataMantainService;
 
     @GetMapping("/getByCreateDate")
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
         return reportManageDataMantainService.getByCreateDate(createDate);
     }
+
     @GetMapping("/delete")
-    public int delete(Integer reportId){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int delete(Integer reportId) {
         return reportManageDataMantainService.delete(reportId);
     }
+
     @PostMapping("/update")
-    public int update(ReportManageDataMantain reportManageDataMantain){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int update(ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.update(reportManageDataMantain);
     }
+
     @PostMapping("/insert")
-    public int insert(ReportManageDataMantain reportManageDataMantain){
+    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
+    @ApiParam(name = "参数", value = "这是描述参数")
+    public int insert(ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.insert(reportManageDataMantain);
     }
 

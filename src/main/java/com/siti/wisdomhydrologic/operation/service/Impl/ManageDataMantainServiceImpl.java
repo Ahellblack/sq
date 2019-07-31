@@ -19,7 +19,10 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     private ManageDataMantainMapper reportManageDataMantainMapper;
 
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
-        String s = DateOrTimeTrans.Date2TimeString2(createDate);
+        String s = null;
+        if(createDate != null){
+            s = DateOrTimeTrans.Date2TimeString2(createDate);
+        }
         return reportManageDataMantainMapper.getByCreateDate(s);
     }
 
