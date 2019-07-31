@@ -42,13 +42,27 @@ public class RabbitMQConfig {
 
     public static final String WH_EXCHANGE = "exchange_wh";
 
-    public static final String QUEUE_REAL= "QUEUE_REAL";
+    public static final String WH_HISTORY_EXCHANGE = "exchange_wh_history";
 
-    public static final String QUEUE_DAY= "QUEUE_DAY";
+    public static final String QUEUE_REAL= "wh_real";
 
-    public static final String QUEUE_HOUR= "QUEUE_HOUR";
+    public static final String QUEUE_DAY= "wh_day";
 
-    public static final String QUEUE_TSDB= "QUEUE_TSDB";
+    public static final String QUEUE_HOUR= "wh_hour";
+
+    public static final String QUEUE_TSDB= "wh_tsdb";
+
+    public static final String HISTORY_QUEUE_DAY= "wh_history_day";
+
+    public static final String HISTORY_QUEUE_HOUR= "wh_history_hour";
+
+    public static final String HISTORY_QUEUE_TSDB= "wh_history_tsdb";
+
+    public static final String HISTORY_ROUTINGKEY_HOUR = "history_routingKey_hour";
+
+    public static final String HISTORY_ROUTINGKEY_TSDB = "history_routingKey_tsdb";
+
+    public static final String HISTORY_ROUTINGKEY_DAY = "history_routingKey_day";
 
     public static final String ROUTINGKEY_REAL = "routingKey_real";
 
@@ -71,6 +85,11 @@ public class RabbitMQConfig {
         return new TopicExchange(WH_EXCHANGE,true,false);
     }
 
+    @Bean
+    public TopicExchange hisExchange() {
+        return new TopicExchange(WH_HISTORY_EXCHANGE,true,false);
+    }
+
     /**
      * 获取队列month
      * @return
@@ -89,14 +108,27 @@ public class RabbitMQConfig {
     public Queue queueHour() {
         return new Queue(QUEUE_HOUR, true); //队列持久
     }
-    /**
-     * 获取队列day
-     * @return
-     */
+
     @Bean
     public Queue queueDay()
     {
         return new Queue(QUEUE_DAY, true); //队列持久
+    }
+
+    @Bean
+    public Queue hisqueueDay()
+    {
+        return new Queue(HISTORY_QUEUE_DAY, true); //队列持久
+    }
+
+    @Bean
+    public Queue hisqueueTSDB() {
+        return new Queue(HISTORY_QUEUE_TSDB, true); //队列持久
+    }
+
+    @Bean
+    public Queue hisqueueHour() {
+        return new Queue(HISTORY_QUEUE_HOUR, true); //队列持久
     }
 
     /**
@@ -136,6 +168,21 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queueHour()).to(defaultExchange()).with(RabbitMQConfig.ROUTINGKEY_HOUR);
     }
 
+    //历史数据队列
+    @Bean
+    public Binding bindinghisHour() {
+        return BindingBuilder.bind(hisqueueHour()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_HOUR);
+    }
+
+    @Bean
+    public Binding bindinghisDay() {
+        return BindingBuilder.bind(hisqueueDay()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_DAY);
+    }
+
+    @Bean
+    public Binding bindinghisTSDB() {
+        return BindingBuilder.bind(hisqueueTSDB()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_TSDB);
+    }
 
     @Bean
     public MessageConverter jsonMessageConverter(){
