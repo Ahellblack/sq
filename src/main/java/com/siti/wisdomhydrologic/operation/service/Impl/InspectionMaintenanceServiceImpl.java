@@ -29,7 +29,7 @@ public class InspectionMaintenanceServiceImpl implements InspectionMaintenanceSe
 
     @Override
     public int delete(Integer reportId) {
-        return inspectionMaintenanceMapper.deleteByPrimaryKey(reportId);
+        return inspectionMaintenanceMapper.deleteByReportId(reportId);
     }
 
     @Override

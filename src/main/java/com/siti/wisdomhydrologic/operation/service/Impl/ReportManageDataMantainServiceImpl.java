@@ -4,7 +4,6 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ReportManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ReportManageDataMantainService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +24,7 @@ public class ReportManageDataMantainServiceImpl implements ReportManageDataManta
     }
 
     public int delete(Integer reportId) {
-        return reportManageDataMantainMapper.deleteByPrimaryKey(reportId);
+        return reportManageDataMantainMapper.deleteByReportId(reportId);
     }
 
     public int update(ReportManageDataMantain reportManageDataMantain) {
