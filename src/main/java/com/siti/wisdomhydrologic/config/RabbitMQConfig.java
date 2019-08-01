@@ -1,19 +1,20 @@
 package com.siti.wisdomhydrologic.config;
 
-
+import com.sun.istack.internal.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-
-import java.io.IOException;
 
 /**
  * Created by DC on 2019/6/12.
@@ -52,10 +53,6 @@ public class RabbitMQConfig {
 
     public static final String QUEUE_TSDB= "wh_tsdb";
 
-    /**
-     * 历史数据队列
-     * History_queue
-     * */
     public static final String HISTORY_QUEUE_DAY= "wh_history_day";
 
     public static final String HISTORY_QUEUE_HOUR= "wh_history_hour";
@@ -75,6 +72,39 @@ public class RabbitMQConfig {
     public static final String ROUTINGKEY_TSDB = "routingKey_tsdb";
 
     public static final String ROUTINGKEY_DAY = "routingKey_day";
+
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host,port);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost(virtualHost);
+        connectionFactory.setPublisherConfirms(true);
+        connectionFactory.setPublisherReturns(true);
+
+        return connectionFactory;
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
+
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    //必须是prototype类型
+    public RabbitTemplate rabbitTemplate() {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+        rabbitTemplate.setEncoding("UTF-8");
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setReturnCallback(msgReturnCallback);
+        rabbitTemplate.setConfirmCallback(msgConfirmCallback);
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+
+        return rabbitTemplate;
+    }
+
     /**
      * 针对消费者配置
      * 1. 设置交换机类型
@@ -175,44 +205,43 @@ public class RabbitMQConfig {
     //历史数据队列
     @Bean
     public Binding bindinghisHour() {
-        return BindingBuilder.bind(hisqueueHour()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_HOUR);
+        return BindingBuilder.bind(hisqueueHour()).to(hisExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_HOUR);
     }
 
     @Bean
     public Binding bindinghisDay() {
-        return BindingBuilder.bind(hisqueueDay()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_DAY);
+        return BindingBuilder.bind(hisqueueDay()).to(hisExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_DAY);
     }
 
     @Bean
     public Binding bindinghisTSDB() {
-        return BindingBuilder.bind(hisqueueTSDB()).to(defaultExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_TSDB);
+        return BindingBuilder.bind(hisqueueTSDB()).to(hisExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_TSDB);
     }
+    /**
+     * i->replyCode
+     * s->replyText
+     * s1->exchange
+     * s2->routingKey
+     * **/
+    //消息从交换器发送到队列失败时触发
+    RabbitTemplate.ReturnCallback msgReturnCallback=new RabbitTemplate.ReturnCallback() {
 
-    @Bean
-    public MessageConverter jsonMessageConverter(){
-        return new Jackson2JsonMessageConverter();
-    }
+        @Override
+        public void returnedMessage(Message message, int i, String s, String s1, String s2) {
+            System.out.println("消费者回调");
+            //   logger.info("消息：{}，错误码：{}，失败原因：{}，交换器：{}，路由key：{}",message.getMessageProperties().getCorrelationId(),i,s,s1,s2);
+        }
+    };
 
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host,port);
-        connectionFactory.setUsername(username);
-        connectionFactory.setPassword(password);
-        connectionFactory.setVirtualHost(virtualHost);
-        connectionFactory.setPublisherConfirms(true);
-        connectionFactory.setPublisherReturns(true);
-        return connectionFactory;
-    }
-
-/*    @Bean(name = "manualAckContainerFactory")
-    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> ManualAckContainerFactory(ConnectionFactory
-                                                                                                            connectionFactory) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        //factory.setMessageConverter(jsonMessageConverter());
-        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-        factory.setConcurrentConsumers(3);
-        factory.setMaxConcurrentConsumers(3);
-        return factory;
-    }*/
+    //消息发送到交换器时触发
+    RabbitTemplate.ConfirmCallback msgConfirmCallback=new RabbitTemplate.ConfirmCallback() {
+        @Override
+        public void confirm(@Nullable CorrelationData correlationData, boolean b, @Nullable String s) {
+            if(b){
+                logger.info("消息{}发送exchange成功",correlationData.getId());
+            }else{
+                logger.info("消息发送到exchange失败，原因：{}",s);
+            }
+        }
+    };
 }
