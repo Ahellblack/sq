@@ -1,192 +1,215 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 
 public class ReportManageDataMantain {
 
-  private Integer reportId;
-  private String stationCode;
-  private String alterDate;
-  private String stationName;
-  private Integer alterSensorTypeId;
-  private String alterSensorTypeName;
-  private String errorDataReason;
-  private Integer errorDataType;
-  private String errorTimeSpace;
-  private String errorValue;
-  private String confirValue;
-  private String errorUnit;
-  private Integer errorDataReRun;
-  private String missDataType;
-  private String missTimeSpace;
-  private Integer missDataReRun;
-  private Date createTime;
-  private Integer createBy;
-  private Integer manageOrgId;
-  private String manageOrgName;
+    @Excel(name = "reportId", height = 11, width = 20)
+    private Integer reportId;
+    @Excel(name = "stationCode", height = 11, width = 20)
+    private String stationCode;
+    @Excel(name = "alterDate", height = 11, width = 20)
+    private String alterDate;
+    @Excel(name = "stationName", height = 11, width = 20)
+    private String stationName;
+    @Excel(name = "alterSensorTypeId", height = 11, width = 20)
+    private Integer alterSensorTypeId;
+    @Excel(name = "alterSensorTypeName", height = 11, width = 20)
+    private String alterSensorTypeName;
+    @Excel(name = "errorDataReason", height = 11, width = 20)
+    private String errorDataReason;
+    @Excel(name = "errorDataType", height = 11, width = 20)
+    private Integer errorDataType;
+    @Excel(name = "errorTimeSpace", height = 11, width = 20)
+    private String errorTimeSpace;
+    @Excel(name = "errorValue", height = 11, width = 20)
+    private String errorValue;
+    @Excel(name = "confirValue", height = 11, width = 20)
+    private String confirValue;
+    @Excel(name = "errorUnit", height = 11, width = 20)
+    private String errorUnit;
+    @Excel(name = "errorDataReRun", height = 11, width = 20)
+    private Integer errorDataReRun;
+    @Excel(name = "missDataType", height = 11, width = 20)
+    private String missDataType;
+    @Excel(name = "missTimeSpace", height = 11, width = 20)
+    private String missTimeSpace;
+    @Excel(name = "missDataReRun", height = 11, width = 20)
+    private Integer missDataReRun;
+    @Excel(name = "createTime", height = 11, width = 20)
+    private String createTime;
+    @Excel(name = "createBy", height = 11, width = 20)
+    private Integer createBy;
+    @Excel(name = "manageOrgId", height = 11, width = 20)
+    private Integer manageOrgId;
+    @Excel(name = "manageOrgName", height = 11, width = 20)
+    private String manageOrgName;
 
-  public Integer getReportId() {
-    return reportId;
-  }
 
-  public void setReportId(Integer reportId) {
-    this.reportId = reportId;
-  }
+    public String getAlterDate() {
+        return alterDate;
+    }
 
-  public String getStationCode() {
-    return stationCode;
-  }
+    public void setAlterDate(String alterDate) {
+        this.alterDate = alterDate;
+    }
 
-  public void setStationCode(String stationCode) {
-    this.stationCode = stationCode;
-  }
+    public Integer getReportId() {
+        return reportId;
+    }
 
-  public String getAlterDate() {
-    return alterDate;
-  }
+    public void setReportId(Integer reportId) {
+        this.reportId = reportId;
+    }
 
-  public void setAlterDate(String alterDate) {
-    this.alterDate = alterDate;
-  }
+    public String getStationCode() {
+        return stationCode;
+    }
 
-  public String getStationName() {
-    return stationName;
-  }
+    public void setStationCode(String stationCode) {
+        this.stationCode = stationCode;
+    }
 
-  public void setStationName(String stationName) {
-    this.stationName = stationName;
-  }
+    public String getStationName() {
+        return stationName;
+    }
 
-  public Integer getAlterSensorTypeId() {
-    return alterSensorTypeId;
-  }
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
 
-  public void setAlterSensorTypeId(Integer alterSensorTypeId) {
-    this.alterSensorTypeId = alterSensorTypeId;
-  }
+    public Integer getAlterSensorTypeId() {
+        return alterSensorTypeId;
+    }
 
-  public String getAlterSensorTypeName() {
-    return alterSensorTypeName;
-  }
+    public void setAlterSensorTypeId(Integer alterSensorTypeId) {
+        this.alterSensorTypeId = alterSensorTypeId;
+    }
 
-  public void setAlterSensorTypeName(String alterSensorTypeName) {
-    this.alterSensorTypeName = alterSensorTypeName;
-  }
+    public String getAlterSensorTypeName() {
+        return alterSensorTypeName;
+    }
 
-  public String getErrorDataReason() {
-    return errorDataReason;
-  }
+    public void setAlterSensorTypeName(String alterSensorTypeName) {
+        this.alterSensorTypeName = alterSensorTypeName;
+    }
 
-  public void setErrorDataReason(String errorDataReason) {
-    this.errorDataReason = errorDataReason;
-  }
+    public String getErrorDataReason() {
+        return errorDataReason;
+    }
 
-  public Integer getErrorDataType() {
-    return errorDataType;
-  }
+    public void setErrorDataReason(String errorDataReason) {
+        this.errorDataReason = errorDataReason;
+    }
 
-  public void setErrorDataType(Integer errorDataType) {
-    this.errorDataType = errorDataType;
-  }
+    public Integer getErrorDataType() {
+        return errorDataType;
+    }
 
-  public String getErrorTimeSpace() {
-    return errorTimeSpace;
-  }
+    public void setErrorDataType(Integer errorDataType) {
+        this.errorDataType = errorDataType;
+    }
 
-  public void setErrorTimeSpace(String errorTimeSpace) {
-    this.errorTimeSpace = errorTimeSpace;
-  }
+    public String getErrorTimeSpace() {
+        return errorTimeSpace;
+    }
 
-  public String getErrorValue() {
-    return errorValue;
-  }
+    public void setErrorTimeSpace(String errorTimeSpace) {
+        this.errorTimeSpace = errorTimeSpace;
+    }
 
-  public void setErrorValue(String errorValue) {
-    this.errorValue = errorValue;
-  }
+    public String getErrorValue() {
+        return errorValue;
+    }
 
-  public String getConfirValue() {
-    return confirValue;
-  }
+    public void setErrorValue(String errorValue) {
+        this.errorValue = errorValue;
+    }
 
-  public void setConfirValue(String confirValue) {
-    this.confirValue = confirValue;
-  }
+    public String getConfirValue() {
+        return confirValue;
+    }
 
-  public String getErrorUnit() {
-    return errorUnit;
-  }
+    public void setConfirValue(String confirValue) {
+        this.confirValue = confirValue;
+    }
 
-  public void setErrorUnit(String errorUnit) {
-    this.errorUnit = errorUnit;
-  }
+    public String getErrorUnit() {
+        return errorUnit;
+    }
 
-  public Integer getErrorDataReRun() {
-    return errorDataReRun;
-  }
+    public void setErrorUnit(String errorUnit) {
+        this.errorUnit = errorUnit;
+    }
 
-  public void setErrorDataReRun(Integer errorDataReRun) {
-    this.errorDataReRun = errorDataReRun;
-  }
+    public Integer getErrorDataReRun() {
+        return errorDataReRun;
+    }
 
-  public String getMissDataType() {
-    return missDataType;
-  }
+    public void setErrorDataReRun(Integer errorDataReRun) {
+        this.errorDataReRun = errorDataReRun;
+    }
 
-  public void setMissDataType(String missDataType) {
-    this.missDataType = missDataType;
-  }
+    public String getMissDataType() {
+        return missDataType;
+    }
 
-  public String getMissTimeSpace() {
-    return missTimeSpace;
-  }
+    public void setMissDataType(String missDataType) {
+        this.missDataType = missDataType;
+    }
 
-  public void setMissTimeSpace(String missTimeSpace) {
-    this.missTimeSpace = missTimeSpace;
-  }
+    public String getMissTimeSpace() {
+        return missTimeSpace;
+    }
 
-  public Integer getMissDataReRun() {
-    return missDataReRun;
-  }
+    public void setMissTimeSpace(String missTimeSpace) {
+        this.missTimeSpace = missTimeSpace;
+    }
 
-  public void setMissDataReRun(Integer missDataReRun) {
-    this.missDataReRun = missDataReRun;
-  }
+    public Integer getMissDataReRun() {
+        return missDataReRun;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public void setMissDataReRun(Integer missDataReRun) {
+        this.missDataReRun = missDataReRun;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public String getCreateTime() {
+        return createTime;
+    }
 
-  public Integer getCreateBy() {
-    return createBy;
-  }
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
-  public void setCreateBy(Integer createBy) {
-    this.createBy = createBy;
-  }
+    public Integer getCreateBy() {
+        return createBy;
+    }
 
-  public Integer getManageOrgId() {
-    return manageOrgId;
-  }
+    public void setCreateBy(Integer createBy) {
+        this.createBy = createBy;
+    }
 
-  public void setManageOrgId(Integer manageOrgId) {
-    this.manageOrgId = manageOrgId;
-  }
+    public Integer getManageOrgId() {
+        return manageOrgId;
+    }
 
-  public String getManageOrgName() {
-    return manageOrgName;
-  }
+    public void setManageOrgId(Integer manageOrgId) {
+        this.manageOrgId = manageOrgId;
+    }
 
-  public void setManageOrgName(String manageOrgName) {
-    this.manageOrgName = manageOrgName;
-  }
+    public String getManageOrgName() {
+        return manageOrgName;
+    }
 
-  @Override
-  public String toString() {
-    return "ReportManageDataMantain{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime=" + createTime + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + '}';
-  }
+    public void setManageOrgName(String manageOrgName) {
+        this.manageOrgName = manageOrgName;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportManageDataMantain{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime=" + createTime + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + '}';
+    }
 }

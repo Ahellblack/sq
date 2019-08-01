@@ -4,6 +4,7 @@ import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.enumbean.SystemError;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,14 @@ public class Test {
     @ApiParam(name = "参数", value = "这是描述参数")
     public String testSwagger2(@RequestBody String name) {
         return name;
+    }
+
+    @RequestMapping(value = "/updateS", method = RequestMethod.GET, produces = "application/json")
+    @ApiOperation(value = "station", httpMethod = "GET", notes = "station")
+    @ApiParam(name = "station", value = "station")
+    public int updateS(@Param("station") String station){
+        System.out.print(station);
+        return 1;
     }
 
     public void quartzJob() {

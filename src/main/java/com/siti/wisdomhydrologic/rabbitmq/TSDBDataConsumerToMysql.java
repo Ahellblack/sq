@@ -6,13 +6,13 @@ import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
-import com.siti.wisdomhydrologic.util.enumbean.ReturnError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -27,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @data ${DATA}-15:23
  */
 @Component
+@Transactional
 public class TSDBDataConsumerToMysql {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -54,7 +55,7 @@ public class TSDBDataConsumerToMysql {
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
@@ -79,7 +80,7 @@ public class TSDBDataConsumerToMysql {
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
@@ -113,14 +114,14 @@ public class TSDBDataConsumerToMysql {
 
             logger.info("TSDB_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, TSDBVo.getStatus());
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
-            try {
+            /*try {
                 channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }
+            }*/
         } finally {
             lock.unlock();
         }

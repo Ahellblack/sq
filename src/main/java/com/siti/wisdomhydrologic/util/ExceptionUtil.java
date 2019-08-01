@@ -21,7 +21,8 @@ public class ExceptionUtil {
 		TranFailException ce = new TranFailException(errorCode);
 		throw ce;
 	}
-	
+
+
 	public static void throwException(ErrorCode errorCode, Throwable th){
 		TranFailException ce = new TranFailException(errorCode,th);
 		throw ce;

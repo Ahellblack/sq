@@ -2,10 +2,7 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationBrokenServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,11 +25,11 @@ public class StationBrokenController {
         return stationBrokenService.delete(reportId);
     }
     @PostMapping("/update")
-    public int update(ReportStationBroken reportStationBroken){
+    public int update(@RequestBody ReportStationBroken reportStationBroken){
         return stationBrokenService.update(reportStationBroken);
     }
     @PostMapping("/insert")
-    public int insert(ReportStationBroken reportStationBroken){
+    public int insert(@RequestBody ReportStationBroken reportStationBroken){
         return stationBrokenService.insert(reportStationBroken);
     }
 

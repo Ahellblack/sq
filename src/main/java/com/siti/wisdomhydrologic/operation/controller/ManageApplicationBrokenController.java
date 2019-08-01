@@ -2,10 +2,7 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,11 +22,11 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.getAll();
     }
     @PostMapping("/insert")
-    public int insert(ReportManageApplicationBroken reportManageApplicationBroken){
+    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken){
         return manageApplicationBrokenService.insert(reportManageApplicationBroken);
     }
     @PostMapping("/update")
-    public int update(ReportManageApplicationBroken reportManageApplicationBroken){
+    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken){
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
     @GetMapping("/delete")

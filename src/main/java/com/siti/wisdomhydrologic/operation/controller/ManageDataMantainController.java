@@ -1,15 +1,20 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
+import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import com.siti.wisdomhydrologic.util.EasyPoiUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -19,36 +24,35 @@ import java.util.List;
 @RequestMapping("/manageDataMantain")
 @RestController
 public class ManageDataMantainController {
-
+    @Resource
+    private ManageDataMantainMapper manageDataMantainMapper;
     @Resource
     private ManageDataMantainServiceImpl reportManageDataMantainService;
 
+    /**
+     * 根据修改日期查询 @Param createDate
+     * */
     @GetMapping("/getByCreateDate")
-    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
-    @ApiParam(name = "参数", value = "这是描述参数")
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
         return reportManageDataMantainService.getByCreateDate(createDate);
     }
-
     @GetMapping("/delete")
-    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
-    @ApiParam(name = "参数", value = "这是描述参数")
     public int delete(Integer reportId) {
         return reportManageDataMantainService.delete(reportId);
     }
 
     @PostMapping("/update")
-    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
-    @ApiParam(name = "参数", value = "这是描述参数")
-    public int update(ReportManageDataMantain reportManageDataMantain) {
+    public int update(@RequestBody ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.update(reportManageDataMantain);
     }
-
     @PostMapping("/insert")
-    @ApiOperation(value = "接口说明", httpMethod = "POST", notes = "接口发布说明")
-    @ApiParam(name = "参数", value = "这是描述参数")
-    public int insert(ReportManageDataMantain reportManageDataMantain) {
+    public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.insert(reportManageDataMantain);
+    }
+    @PostMapping("/getExcel")
+    public void getExcel(HttpServletResponse response, Date createDate) {
+        List<ReportManageDataMantain> list = reportManageDataMantainService.getByCreateDate(createDate);
+        EasyPoiUtil.exportExcel(list, "数据修正登记表", "数据修正", ReportManageDataMantain.class, "数据修正登记表.xls", response);
     }
 
 

@@ -19,4 +19,16 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     public List<ReportStationCheckMantain> getAll() {
         return stationCheckMantainMapper.selectAll();
     }
+
+    public int insert(ReportStationCheckMantain reportStationCheckMantain) {
+        return stationCheckMantainMapper.insert(reportStationCheckMantain);
+    }
+
+    public int delete(Integer reportId) {
+        return stationCheckMantainMapper.deleteById(reportId);
+    }
+
+    public int update(ReportStationCheckMantain reportStationCheckMantain) {
+        return stationCheckMantainMapper.updateByPrimaryKey(reportStationCheckMantain);
+    }
 }

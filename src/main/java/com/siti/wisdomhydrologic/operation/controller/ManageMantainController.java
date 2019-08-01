@@ -2,10 +2,7 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageMantainServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,12 +27,12 @@ public class ManageMantainController {
     }
 
     @PostMapping("/insert")
-    public int insert(ReportManageMantain reportManageMantain) {
+    public int insert(@RequestBody ReportManageMantain reportManageMantain) {
         return reportManageMantainService.insert(reportManageMantain);
     }
 
     @PostMapping("/update")
-    public int update(ReportManageMantain reportManageMantain) {
+    public int update(@RequestBody ReportManageMantain reportManageMantain) {
         return reportManageMantainService.update(reportManageMantain);
     }
     @GetMapping("/delete")
