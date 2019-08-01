@@ -31,11 +31,12 @@ public class ManageDataMantainController {
 
     /**
      * 根据修改日期查询 @Param createDate
-     * */
+     */
     @GetMapping("/getByCreateDate")
     public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
         return reportManageDataMantainService.getByCreateDate(createDate);
     }
+
     @GetMapping("/delete")
     public int delete(Integer reportId) {
         return reportManageDataMantainService.delete(reportId);
@@ -45,10 +46,12 @@ public class ManageDataMantainController {
     public int update(@RequestBody ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.update(reportManageDataMantain);
     }
+
     @PostMapping("/insert")
     public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain) {
         return reportManageDataMantainService.insert(reportManageDataMantain);
     }
+
     @PostMapping("/getExcel")
     public void getExcel(HttpServletResponse response, Date createDate) {
         List<ReportManageDataMantain> list = reportManageDataMantainService.getByCreateDate(createDate);

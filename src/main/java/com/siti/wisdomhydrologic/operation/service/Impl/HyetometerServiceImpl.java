@@ -36,9 +36,9 @@ public class HyetometerServiceImpl implements HyetometerService {
 
     public int delByReportIdList(List<Integer> reportIdList) {
         int sum = 0;
-        for (Integer id:reportIdList){
+        for (Integer id : reportIdList) {
             int i = delByReportId(id);
-            sum=sum+i;
+            sum = sum + i;
         }
         return sum;
     }
