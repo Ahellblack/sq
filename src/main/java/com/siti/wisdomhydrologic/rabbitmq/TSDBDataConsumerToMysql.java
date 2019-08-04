@@ -55,8 +55,7 @@ public class TSDBDataConsumerToMysql {
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            e.printStackTrace();
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+            logger.error(e.getMessage());
         }
     }
 
@@ -80,8 +79,7 @@ public class TSDBDataConsumerToMysql {
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-            e.printStackTrace();
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+            logger.error(e.getMessage());
         }
     }
 
@@ -112,7 +110,7 @@ public class TSDBDataConsumerToMysql {
                 }
             }
 
-            logger.info("TSDB_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, TSDBVo.getStatus());
+            logger.info("history_tsdb_queue消费者获取tsdb数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, TSDBVo.getStatus());
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             e.printStackTrace();

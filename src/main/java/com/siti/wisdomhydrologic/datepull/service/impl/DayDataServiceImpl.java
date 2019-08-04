@@ -55,18 +55,27 @@ public class DayDataServiceImpl implements DayDataService {
 
     @Override
     public int addHourData(List<DayVo> HourVo) {
-        List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
-        for (DayVo d : HourVo) {
-            for (ConfigSensorSectionModule station : stationList) {
-                if (d.getSenId() == station.getSectionCode()) {
-                    d.setSensorTypeName(station.getSensorName());
-                    d.setSensorDataUnit(station.getSectionDataUnit());
-                    d.setSensorTypeId(station.getSensorCode());
-                    d.setStationId(station.getStationCode());
-                    d.setStationName(station.getStationName());
+        lock.lock();
+        int backInt = 0;
+        try {
+            List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
+            for (DayVo hour : HourVo) {
+                for (ConfigSensorSectionModule station : stationList) {
+                    if (hour.getSenId() == station.getSectionCode()) {
+                        hour.setSensorTypeName(station.getSensorName());
+                        hour.setSensorDataUnit(station.getSectionDataUnit());
+                        hour.setSensorTypeId(station.getSensorCode());
+                        hour.setStationId(station.getStationCode());
+                        hour.setStationName(station.getStationName());
+                    }
                 }
             }
+            backInt = dayDataMapper.addHourData(HourVo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        } finally {
+            lock.unlock();
         }
-        return dayDataMapper.addHourData(HourVo);
+        return backInt;
     }
 }

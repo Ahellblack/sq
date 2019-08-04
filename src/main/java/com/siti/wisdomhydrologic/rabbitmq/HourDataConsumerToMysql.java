@@ -41,20 +41,16 @@ public class HourDataConsumerToMysql {
     @Resource
     private DayDataServiceImpl dayDataService;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_HOUR)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler
     public void HourDataProcess(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         try {
             if (HourVo.size() > 1) {
-                //消费完成后直接添加数据
-                int i = insertHour(HourVo);
-                logger.info("Hour数据插入本地库{}条,花费时间{}", i);
-                calPackage(HourVo.get(0), channel, message);
+                calPackage(HourVo, channel, message);
             }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+            logger.error(e.getMessage());
         }
     }
 
@@ -67,29 +63,31 @@ public class HourDataConsumerToMysql {
             channel.basicNack(deliveryTag, false, false);
              代表消费者拒绝当前消息，第二个参数表示是否把当前消息重新入队
              channel.basicReject(deliveryTag,false)*/
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_HOUR)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler   //可以接收到对象
     public void HourDataProcessTwo(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         try {
             if (HourVo.size() > 1) {
-                //消费完成后直接添加数据
-                int i = insertHour(HourVo);
-                logger.info("Hour数据插入本地库{}条", i);
-                calPackage(HourVo.get(0), channel, message);
-    }
+
+                calPackage(HourVo, channel, message);
+            }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
+            logger.error(e.getMessage());
         }
     }
 
     /**
      * 判断是否丢包记录日志
      *
-     * @param HourVo
+     * @param HourVoList
      */
-    private void calPackage(DayVo HourVo, Channel channel, Message message) throws IOException {
+    private void calPackage(List<DayVo> HourVoList, Channel channel, Message message) throws IOException {
         lock.lock();
+        //消费完成后直接添加数据
+        int i = insertHour(HourVoList);
+        DayVo HourVo = HourVoList.get(0);
+        logger.info("Hour数据插入本地库{}条,花费时间{}", i);
         try {
             if (flag.compareAndSet(false, true)) {
                 maxBatch.set(HourVo.getMaxBatch());
