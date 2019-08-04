@@ -30,10 +30,12 @@ public class ManageDataMantainController {
     private ManageDataMantainServiceImpl reportManageDataMantainService;
 
     /**
-     * 根据修改日期查询 @Param createDate
+     * 根据修改日期查询
+     * @Param createDate
      */
     @GetMapping("/getByCreateDate")
-    public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
+    public List<ReportManageDataMantain> getByCreateDate(String createDate) {
+        System.out.println(createDate);
         return reportManageDataMantainService.getByCreateDate(createDate);
     }
 
@@ -52,8 +54,8 @@ public class ManageDataMantainController {
         return reportManageDataMantainService.insert(reportManageDataMantain);
     }
 
-    @PostMapping("/getExcel")
-    public void getExcel(HttpServletResponse response, Date createDate) {
+    @GetMapping("/getExcel")
+    public void getExcel(HttpServletResponse response, String createDate) {
         List<ReportManageDataMantain> list = reportManageDataMantainService.getByCreateDate(createDate);
         EasyPoiUtil.exportExcel(list, "数据修正登记表", "数据修正", ReportManageDataMantain.class, "数据修正登记表.xls", response);
     }

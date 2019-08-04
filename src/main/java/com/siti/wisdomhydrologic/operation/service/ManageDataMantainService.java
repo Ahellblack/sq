@@ -11,7 +11,7 @@ import java.util.List;
 public interface
 ManageDataMantainService {
 
-    List<ReportManageDataMantain> getByCreateDate(Date createDate);
+    List<ReportManageDataMantain> getByCreateDate(String createDate);
     int delete(Integer reportId);
     int update(ReportManageDataMantain reportManageDataMantain);
 }

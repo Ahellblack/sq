@@ -23,13 +23,12 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Resource
     private ManageDataMantainMapper reportManageDataMantainMapper;
 
-    public List<ReportManageDataMantain> getByCreateDate(Date createDate) {
-        String s = null;
+    public List<ReportManageDataMantain> getByCreateDate(String createDate) {
+        /*String s = null;
         if (createDate != null) {
             s = DateOrTimeTrans.Date2TimeString2(createDate);
-        }
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(s);
-        return reportManageDataMantainMapper.getByCreateDate(s);
+        }*/
+        return reportManageDataMantainMapper.getByCreateDate(createDate);
     }
 
     public int delete(Integer reportId) {

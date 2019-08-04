@@ -111,6 +111,11 @@ public class DateOrTimeTrans {
         return sdf.format(date);
     }
 
+    public static String Date2TimeString3(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        return sdf.format(date);
+    }
+
     public static String Year2String(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         return sdf.format(date);

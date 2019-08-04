@@ -1,11 +1,13 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import java.util.Date;
+
 public class ReportStationRainConstrast {
 
-  private long reportId;
+  private int reportId;
   private String stationCode;
   private String stationName;
-  private long manageOrgId;
+  private int manageOrgId;
   private String manageOrgName;
   private String dataYearMonth;
   private String day1;
@@ -41,27 +43,17 @@ public class ReportStationRainConstrast {
   private String day31;
   private String total;
   private String remark;
-  private java.sql.Timestamp createTime;
-  private long createBy;
-  private java.sql.Timestamp updateTime;
-  private long updateBy;
-  private java.sql.Date replaceDate;
-  private String originDeviceTypeCode;
-  private String originDeviceCode;
-  private long originOrgId;
-  private String originOrgName;
-  private String newDeviceTypeCode;
-  private String newDeviceCode;
-  private long newOrgId;
-  private String newOrgName;
-  private String replaceReason;
+  private Date createTime;
+  private int createBy;
+  private Date updateTime;
+  private int updateBy;
 
 
-  public long getReportId() {
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
@@ -84,11 +76,11 @@ public class ReportStationRainConstrast {
   }
 
 
-  public long getManageOrgId() {
+  public int getManageOrgId() {
     return manageOrgId;
   }
 
-  public void setManageOrgId(long manageOrgId) {
+  public void setManageOrgId(int manageOrgId) {
     this.manageOrgId = manageOrgId;
   }
 
@@ -407,130 +399,37 @@ public class ReportStationRainConstrast {
     this.remark = remark;
   }
 
-
-  public java.sql.Timestamp getCreateTime() {
+  public Date getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(java.sql.Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 
-
-  public long getCreateBy() {
+  public int getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
 
-
-  public java.sql.Timestamp getUpdateTime() {
+  public Date getUpdateTime() {
     return updateTime;
   }
 
-  public void setUpdateTime(java.sql.Timestamp updateTime) {
+  public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
 
-
-  public long getUpdateBy() {
+  public int getUpdateBy() {
     return updateBy;
   }
 
-  public void setUpdateBy(long updateBy) {
+  public void setUpdateBy(int updateBy) {
     this.updateBy = updateBy;
   }
 
-
-  public java.sql.Date getReplaceDate() {
-    return replaceDate;
-  }
-
-  public void setReplaceDate(java.sql.Date replaceDate) {
-    this.replaceDate = replaceDate;
-  }
-
-
-  public String getOriginDeviceTypeCode() {
-    return originDeviceTypeCode;
-  }
-
-  public void setOriginDeviceTypeCode(String originDeviceTypeCode) {
-    this.originDeviceTypeCode = originDeviceTypeCode;
-  }
-
-
-  public String getOriginDeviceCode() {
-    return originDeviceCode;
-  }
-
-  public void setOriginDeviceCode(String originDeviceCode) {
-    this.originDeviceCode = originDeviceCode;
-  }
-
-
-  public long getOriginOrgId() {
-    return originOrgId;
-  }
-
-  public void setOriginOrgId(long originOrgId) {
-    this.originOrgId = originOrgId;
-  }
-
-
-  public String getOriginOrgName() {
-    return originOrgName;
-  }
-
-  public void setOriginOrgName(String originOrgName) {
-    this.originOrgName = originOrgName;
-  }
-
-
-  public String getNewDeviceTypeCode() {
-    return newDeviceTypeCode;
-  }
-
-  public void setNewDeviceTypeCode(String newDeviceTypeCode) {
-    this.newDeviceTypeCode = newDeviceTypeCode;
-  }
-
-
-  public String getNewDeviceCode() {
-    return newDeviceCode;
-  }
-
-  public void setNewDeviceCode(String newDeviceCode) {
-    this.newDeviceCode = newDeviceCode;
-  }
-
-
-  public long getNewOrgId() {
-    return newOrgId;
-  }
-
-  public void setNewOrgId(long newOrgId) {
-    this.newOrgId = newOrgId;
-  }
-
-
-  public String getNewOrgName() {
-    return newOrgName;
-  }
-
-  public void setNewOrgName(String newOrgName) {
-    this.newOrgName = newOrgName;
-  }
-
-
-  public String getReplaceReason() {
-    return replaceReason;
-  }
-
-  public void setReplaceReason(String replaceReason) {
-    this.replaceReason = replaceReason;
-  }
 
 }
