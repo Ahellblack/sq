@@ -6,42 +6,42 @@ import java.util.Date;
 
 public class ReportManageDataMantain {
 
-    @Excel(name = "reportId", height = 11, width = 20)
+    @Excel(name = "reportId", height = 11, width = 10)
     private Integer reportId;
-    @Excel(name = "stationCode", height = 11, width = 20)
+    @Excel(name = "stationCode", height = 11, width = 10)
     private String stationCode;
     @Excel(name = "alterDate", height = 11, width = 20)
     private String alterDate;
     @Excel(name = "stationName", height = 11, width = 20)
     private String stationName;
-    @Excel(name = "alterSensorTypeId", height = 11, width = 20)
+    @Excel(name = "alterSensorTypeId", height = 11, width = 10)
     private Integer alterSensorTypeId;
     @Excel(name = "alterSensorTypeName", height = 11, width = 20)
     private String alterSensorTypeName;
     @Excel(name = "errorDataReason", height = 11, width = 20)
     private String errorDataReason;
-    @Excel(name = "errorDataType", height = 11, width = 20)
+    @Excel(name = "errorDataType", height = 11, width = 10)
     private Integer errorDataType;
-    @Excel(name = "errorTimeSpace", height = 11, width = 20)
+    @Excel(name = "errorTimeSpace", height = 11, width = 10)
     private String errorTimeSpace;
-    @Excel(name = "errorValue", height = 11, width = 20)
+    @Excel(name = "errorValue", height = 11, width = 10)
     private String errorValue;
-    @Excel(name = "confirValue", height = 11, width = 20)
+    @Excel(name = "confirValue", height = 11, width = 10)
     private String confirValue;
-    @Excel(name = "errorUnit", height = 11, width = 20)
+    @Excel(name = "errorUnit", height = 11, width = 5)
     private String errorUnit;
-    @Excel(name = "errorDataReRun", height = 11, width = 20)
+    @Excel(name = "errorDataReRun", height = 11, width = 10)
     private Integer errorDataReRun;
-    @Excel(name = "missDataType", height = 11, width = 20)
+    @Excel(name = "missDataType", height = 11, width = 10)
     private String missDataType;
-    @Excel(name = "missTimeSpace", height = 11, width = 20)
+    @Excel(name = "missTimeSpace", height = 11, width = 10)
     private String missTimeSpace;
-    @Excel(name = "missDataReRun", height = 11, width = 20)
+    @Excel(name = "missDataReRun", height = 11, width = 10)
     private Integer missDataReRun;
     @Excel(name = "createTime", height = 11, width = 20)
     private String createTime;
     @Excel(name = "createBy", height = 11, width = 20)
-    private Integer createBy;
+    private String createBy;
     @Excel(name = "manageOrgId", height = 11, width = 20)
     private Integer manageOrgId;
     @Excel(name = "manageOrgName", height = 11, width = 20)
@@ -184,11 +184,11 @@ public class ReportManageDataMantain {
         this.createTime = createTime;
     }
 
-    public Integer getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Integer createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 

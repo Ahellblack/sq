@@ -5,6 +5,7 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.service.DayDataService;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.datepull.vo.StationVo;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -70,12 +71,27 @@ public class DayDataServiceImpl implements DayDataService {
                     }
                 }
             }
-            backInt = dayDataMapper.addHourData(HourVo);
         } catch (Exception e) {
             logger.error(e.getMessage());
         } finally {
             lock.unlock();
         }
-        return backInt;
+        /**
+         * 分年份入库（只包括2014—2019数据）
+         * */
+        String time = HourVo.get(0).getTime().substring(0,4);
+        if(time.equals("2014")){
+            return dayDataMapper.add2014HourData(HourVo);
+        }else if(time.equals("2015")){
+            return dayDataMapper.add2015HourData(HourVo);
+        }else if(time.equals("2016")){
+            return dayDataMapper.add2015HourData(HourVo);
+        }else if(time.equals("2017")){
+            return dayDataMapper.add2017HourData(HourVo);
+        }else if(time.equals("2019")){
+            return dayDataMapper.add2019HourData(HourVo);
+        }else {
+            return 0;
+        }
     }
 }

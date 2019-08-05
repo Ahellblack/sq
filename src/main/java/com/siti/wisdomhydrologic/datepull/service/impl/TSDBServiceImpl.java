@@ -38,6 +38,15 @@ public class TSDBServiceImpl implements TSDBService {
                 }
             }
         }
-        return tsdbMapper.insertTSDB(list);
+        String time = DateOrTimeTrans.Year2String(list.get(0).getTime());
+        if(time.equals("2014")){
+            return tsdbMapper.insert2014TSDB(list);
+        }else if(time.equals("2015")){
+            return tsdbMapper.insert2015TSDB(list);
+        }else if(time.equals("2016")){
+            return tsdbMapper.insert2016TSDB(list);
+        }else{
+            return tsdbMapper.insert2017TSDB(list);
+        }
     }
 }
