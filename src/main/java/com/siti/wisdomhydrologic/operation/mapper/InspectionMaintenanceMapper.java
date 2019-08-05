@@ -14,8 +14,8 @@ import java.util.List;
 public interface InspectionMaintenanceMapper extends Mapper<ReportInspectionMaintenance>{
 
     @Select("<script> select * from report_inspection_maintenance " +
-            "<if test=\"stationId!=null\"> where station_code = #{stationId}</if></script>")
-    List<ReportInspectionMaintenance> getByStationId(@Param("stationId") String stationId);
+            "<if test=\"stationId!=null\"> where station_code = #{stationId} and year_month_time = #{date}</if></script>")
+    List<ReportInspectionMaintenance> getByStationId(@Param("stationId") String stationId,@Param("date") String monthDate);
 
     @Delete("delete from report_inspection_maintenance where report_id = #{ReportId}")
     int deleteByReportId(@Param("ReportId") Integer ReportId);

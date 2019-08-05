@@ -12,7 +12,7 @@ import java.util.Map;
 public interface
 ManageDataMantainService {
 
-    Map<String,Object> getByCreateDate(String createDate);
+    List<ReportManageDataMantain> getByCreateDate(String createDate);
     int delete(Integer reportId);
     int update(ReportManageDataMantain reportManageDataMantain);
 }

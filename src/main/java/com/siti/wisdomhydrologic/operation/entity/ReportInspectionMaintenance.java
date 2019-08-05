@@ -1,52 +1,62 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import java.util.Date;
+
 public class ReportInspectionMaintenance {
 
-  private long reportId;
+  private int reportId;
   private String stationCode;
   private String stationName;
   private String rtuType;
   private String monitoringProgram;
-  private long dataCollectionClock;
-  private long dataCollectionParamCheck;
-  private long dataCollectionNormal;
-  private long dataCommunicationParam;
-  private long dataCommunicationChannel;
-  private long powerSolarCheck;
+  private int dataCollectionClock;
+  private int dataCollectionParamCheck;
+  private int dataCollectionNormal;
+  private int dataCommunicationParam;
+  private int dataCommunicationChannel;
+  private int powerSolarCheck;
   private double powerSolarVolt;
   private double powerStorageVolt;
-  private long powerStorageCheck;
-  private long rainInstrumentCheck;
-  private long rainInstrumentCleanCheck;
-  private long rainEnviromentCheck;
-  private long waterLevelInstrumentCheck;
-  private long waterLevelShaftCheck;
-  private long waterLevelStaffCheck;
-  private long waterLevelStaffIsAdjust;
+  private int powerStorageCheck;
+  private int rainInstrumentCheck;
+  private int rainInstrumentCleanCheck;
+  private int rainEnviromentCheck;
+  private int waterLevelInstrumentCheck;
+  private int waterLevelShaftCheck;
+  private int waterLevelStaffCheck;
+  private int waterLevelStaffIsAdjust;
   private double waterLevelZeroHeight;
   private double waterLevelStaffValue;
-  private java.sql.Date waterLevelTime;
+  private Date waterLevelTime;
   private double waterLevelIndicatorValue;
   private double waterLevelValue;
-  private long windInstrumentCheck;
-  private long windLightningProtect;
-  private long flowIsCompletion;
+  private int windInstrumentCheck;
+  private int windLightningProtect;
+  private int flowIsCompletion;
   private double flowPitch;
   private double flowRoll;
-  private long flowEcho;
-  private long flowTestTime;
-  private long pipeline;
-  private long stationEnviromentInstrument;
-  private long stationIsClean;
+  private int flowEcho;
+  private int flowTestTime;
+  private int pipeline;
+  private int stationEnviromentInstrument;
+  private int stationIsClean;
   private String remark;
   private String maintainer;
+  private String yearMonthTime;
 
+  public String getYearMonthTime() {
+    return yearMonthTime;
+  }
 
-  public long getReportId() {
+  public void setYearMonthTime(String yearMonthTime) {
+    this.yearMonthTime = yearMonthTime;
+  }
+
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
@@ -87,56 +97,56 @@ public class ReportInspectionMaintenance {
   }
 
 
-  public long getDataCollectionClock() {
+  public int getDataCollectionClock() {
     return dataCollectionClock;
   }
 
-  public void setDataCollectionClock(long dataCollectionClock) {
+  public void setDataCollectionClock(int dataCollectionClock) {
     this.dataCollectionClock = dataCollectionClock;
   }
 
 
-  public long getDataCollectionParamCheck() {
+  public int getDataCollectionParamCheck() {
     return dataCollectionParamCheck;
   }
 
-  public void setDataCollectionParamCheck(long dataCollectionParamCheck) {
+  public void setDataCollectionParamCheck(int dataCollectionParamCheck) {
     this.dataCollectionParamCheck = dataCollectionParamCheck;
   }
 
 
-  public long getDataCollectionNormal() {
+  public int getDataCollectionNormal() {
     return dataCollectionNormal;
   }
 
-  public void setDataCollectionNormal(long dataCollectionNormal) {
+  public void setDataCollectionNormal(int dataCollectionNormal) {
     this.dataCollectionNormal = dataCollectionNormal;
   }
 
 
-  public long getDataCommunicationParam() {
+  public int getDataCommunicationParam() {
     return dataCommunicationParam;
   }
 
-  public void setDataCommunicationParam(long dataCommunicationParam) {
+  public void setDataCommunicationParam(int dataCommunicationParam) {
     this.dataCommunicationParam = dataCommunicationParam;
   }
 
 
-  public long getDataCommunicationChannel() {
+  public int getDataCommunicationChannel() {
     return dataCommunicationChannel;
   }
 
-  public void setDataCommunicationChannel(long dataCommunicationChannel) {
+  public void setDataCommunicationChannel(int dataCommunicationChannel) {
     this.dataCommunicationChannel = dataCommunicationChannel;
   }
 
 
-  public long getPowerSolarCheck() {
+  public int getPowerSolarCheck() {
     return powerSolarCheck;
   }
 
-  public void setPowerSolarCheck(long powerSolarCheck) {
+  public void setPowerSolarCheck(int powerSolarCheck) {
     this.powerSolarCheck = powerSolarCheck;
   }
 
@@ -159,74 +169,74 @@ public class ReportInspectionMaintenance {
   }
 
 
-  public long getPowerStorageCheck() {
+  public int getPowerStorageCheck() {
     return powerStorageCheck;
   }
 
-  public void setPowerStorageCheck(long powerStorageCheck) {
+  public void setPowerStorageCheck(int powerStorageCheck) {
     this.powerStorageCheck = powerStorageCheck;
   }
 
 
-  public long getRainInstrumentCheck() {
+  public int getRainInstrumentCheck() {
     return rainInstrumentCheck;
   }
 
-  public void setRainInstrumentCheck(long rainInstrumentCheck) {
+  public void setRainInstrumentCheck(int rainInstrumentCheck) {
     this.rainInstrumentCheck = rainInstrumentCheck;
   }
 
 
-  public long getRainInstrumentCleanCheck() {
+  public int getRainInstrumentCleanCheck() {
     return rainInstrumentCleanCheck;
   }
 
-  public void setRainInstrumentCleanCheck(long rainInstrumentCleanCheck) {
+  public void setRainInstrumentCleanCheck(int rainInstrumentCleanCheck) {
     this.rainInstrumentCleanCheck = rainInstrumentCleanCheck;
   }
 
 
-  public long getRainEnviromentCheck() {
+  public int getRainEnviromentCheck() {
     return rainEnviromentCheck;
   }
 
-  public void setRainEnviromentCheck(long rainEnviromentCheck) {
+  public void setRainEnviromentCheck(int rainEnviromentCheck) {
     this.rainEnviromentCheck = rainEnviromentCheck;
   }
 
 
-  public long getWaterLevelInstrumentCheck() {
+  public int getWaterLevelInstrumentCheck() {
     return waterLevelInstrumentCheck;
   }
 
-  public void setWaterLevelInstrumentCheck(long waterLevelInstrumentCheck) {
+  public void setWaterLevelInstrumentCheck(int waterLevelInstrumentCheck) {
     this.waterLevelInstrumentCheck = waterLevelInstrumentCheck;
   }
 
 
-  public long getWaterLevelShaftCheck() {
+  public int getWaterLevelShaftCheck() {
     return waterLevelShaftCheck;
   }
 
-  public void setWaterLevelShaftCheck(long waterLevelShaftCheck) {
+  public void setWaterLevelShaftCheck(int waterLevelShaftCheck) {
     this.waterLevelShaftCheck = waterLevelShaftCheck;
   }
 
 
-  public long getWaterLevelStaffCheck() {
+  public int getWaterLevelStaffCheck() {
     return waterLevelStaffCheck;
   }
 
-  public void setWaterLevelStaffCheck(long waterLevelStaffCheck) {
+  public void setWaterLevelStaffCheck(int waterLevelStaffCheck) {
     this.waterLevelStaffCheck = waterLevelStaffCheck;
   }
 
 
-  public long getWaterLevelStaffIsAdjust() {
+  public int getWaterLevelStaffIsAdjust() {
     return waterLevelStaffIsAdjust;
   }
 
-  public void setWaterLevelStaffIsAdjust(long waterLevelStaffIsAdjust) {
+  public void setWaterLevelStaffIsAdjust(int waterLevelStaffIsAdjust) {
     this.waterLevelStaffIsAdjust = waterLevelStaffIsAdjust;
   }
 
@@ -248,15 +258,13 @@ public class ReportInspectionMaintenance {
     this.waterLevelStaffValue = waterLevelStaffValue;
   }
 
-
-  public java.sql.Date getWaterLevelTime() {
+  public Date getWaterLevelTime() {
     return waterLevelTime;
   }
 
-  public void setWaterLevelTime(java.sql.Date waterLevelTime) {
+  public void setWaterLevelTime(Date waterLevelTime) {
     this.waterLevelTime = waterLevelTime;
   }
-
 
   public double getWaterLevelIndicatorValue() {
     return waterLevelIndicatorValue;
@@ -276,29 +284,29 @@ public class ReportInspectionMaintenance {
   }
 
 
-  public long getWindInstrumentCheck() {
+  public int getWindInstrumentCheck() {
     return windInstrumentCheck;
   }
 
-  public void setWindInstrumentCheck(long windInstrumentCheck) {
+  public void setWindInstrumentCheck(int windInstrumentCheck) {
     this.windInstrumentCheck = windInstrumentCheck;
   }
 
 
-  public long getWindLightningProtect() {
+  public int getWindLightningProtect() {
     return windLightningProtect;
   }
 
-  public void setWindLightningProtect(long windLightningProtect) {
+  public void setWindLightningProtect(int windLightningProtect) {
     this.windLightningProtect = windLightningProtect;
   }
 
 
-  public long getFlowIsCompletion() {
+  public int getFlowIsCompletion() {
     return flowIsCompletion;
   }
 
-  public void setFlowIsCompletion(long flowIsCompletion) {
+  public void setFlowIsCompletion(int flowIsCompletion) {
     this.flowIsCompletion = flowIsCompletion;
   }
 
@@ -321,47 +329,47 @@ public class ReportInspectionMaintenance {
   }
 
 
-  public long getFlowEcho() {
+  public int getFlowEcho() {
     return flowEcho;
   }
 
-  public void setFlowEcho(long flowEcho) {
+  public void setFlowEcho(int flowEcho) {
     this.flowEcho = flowEcho;
   }
 
 
-  public long getFlowTestTime() {
+  public int getFlowTestTime() {
     return flowTestTime;
   }
 
-  public void setFlowTestTime(long flowTestTime) {
+  public void setFlowTestTime(int flowTestTime) {
     this.flowTestTime = flowTestTime;
   }
 
 
-  public long getPipeline() {
+  public int getPipeline() {
     return pipeline;
   }
 
-  public void setPipeline(long pipeline) {
+  public void setPipeline(int pipeline) {
     this.pipeline = pipeline;
   }
 
 
-  public long getStationEnviromentInstrument() {
+  public int getStationEnviromentInstrument() {
     return stationEnviromentInstrument;
   }
 
-  public void setStationEnviromentInstrument(long stationEnviromentInstrument) {
+  public void setStationEnviromentInstrument(int stationEnviromentInstrument) {
     this.stationEnviromentInstrument = stationEnviromentInstrument;
   }
 
 
-  public long getStationIsClean() {
+  public int getStationIsClean() {
     return stationIsClean;
   }
 
-  public void setStationIsClean(long stationIsClean) {
+  public void setStationIsClean(int stationIsClean) {
     this.stationIsClean = stationIsClean;
   }
 
@@ -385,6 +393,6 @@ public class ReportInspectionMaintenance {
 
   @Override
   public String toString() {
-    return "ReportInspectionMaintenance{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", rtuType='" + rtuType + '\'' + ", monitoringProgram='" + monitoringProgram + '\'' + ", dataCollectionClock=" + dataCollectionClock + ", dataCollectionParamCheck=" + dataCollectionParamCheck + ", dataCollectionNormal=" + dataCollectionNormal + ", dataCommunicationParam=" + dataCommunicationParam + ", dataCommunicationChannel=" + dataCommunicationChannel + ", powerSolarCheck=" + powerSolarCheck + ", powerSolarVolt=" + powerSolarVolt + ", powerStorageVolt=" + powerStorageVolt + ", powerStorageCheck=" + powerStorageCheck + ", rainInstrumentCheck=" + rainInstrumentCheck + ", rainInstrumentCleanCheck=" + rainInstrumentCleanCheck + ", rainEnviromentCheck=" + rainEnviromentCheck + ", waterLevelInstrumentCheck=" + waterLevelInstrumentCheck + ", waterLevelShaftCheck=" + waterLevelShaftCheck + ", waterLevelStaffCheck=" + waterLevelStaffCheck + ", waterLevelStaffIsAdjust=" + waterLevelStaffIsAdjust + ", waterLevelZeroHeight=" + waterLevelZeroHeight + ", waterLevelStaffValue=" + waterLevelStaffValue + ", waterLevelTime=" + waterLevelTime + ", waterLevelIndicatorValue=" + waterLevelIndicatorValue + ", waterLevelValue=" + waterLevelValue + ", windInstrumentCheck=" + windInstrumentCheck + ", windLightningProtect=" + windLightningProtect + ", flowIsCompletion=" + flowIsCompletion + ", flowPitch=" + flowPitch + ", flowRoll=" + flowRoll + ", flowEcho=" + flowEcho + ", flowTestTime=" + flowTestTime + ", pipeline=" + pipeline + ", stationEnviromentInstrument=" + stationEnviromentInstrument + ", stationIsClean=" + stationIsClean + ", remark='" + remark + '\'' + ", maintainer='" + maintainer + '\'' + '}';
+    return "ReportInspectionMaintenance{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", rtuType='" + rtuType + '\'' + ", monitoringProgram='" + monitoringProgram + '\'' + ", dataCollectionClock=" + dataCollectionClock + ", dataCollectionParamCheck=" + dataCollectionParamCheck + ", dataCollectionNormal=" + dataCollectionNormal + ", dataCommunicationParam=" + dataCommunicationParam + ", dataCommunicationChannel=" + dataCommunicationChannel + ", powerSolarCheck=" + powerSolarCheck + ", powerSolarVolt=" + powerSolarVolt + ", powerStorageVolt=" + powerStorageVolt + ", powerStorageCheck=" + powerStorageCheck + ", rainInstrumentCheck=" + rainInstrumentCheck + ", rainInstrumentCleanCheck=" + rainInstrumentCleanCheck + ", rainEnviromentCheck=" + rainEnviromentCheck + ", waterLevelInstrumentCheck=" + waterLevelInstrumentCheck + ", waterLevelShaftCheck=" + waterLevelShaftCheck + ", waterLevelStaffCheck=" + waterLevelStaffCheck + ", waterLevelStaffIsAdjust=" + waterLevelStaffIsAdjust + ", waterLevelZeroHeight=" + waterLevelZeroHeight + ", waterLevelStaffValue=" + waterLevelStaffValue + ", waterLevelTime=" + waterLevelTime + ", waterLevelIndicatorValue=" + waterLevelIndicatorValue + ", waterLevelValue=" + waterLevelValue + ", windInstrumentCheck=" + windInstrumentCheck + ", windLightningProtect=" + windLightningProtect + ", flowIsCompletion=" + flowIsCompletion + ", flowPitch=" + flowPitch + ", flowRoll=" + flowRoll + ", flowEcho=" + flowEcho + ", flowTestTime=" + flowTestTime + ", pipeline=" + pipeline + ", stationEnviromentInstrument=" + stationEnviromentInstrument + ", stationIsClean=" + stationIsClean + ", remark='" + remark + '\'' + ", maintainer='" + maintainer + '\'' + ", yearMonthTime='" + yearMonthTime + '\'' + '}';
   }
 }

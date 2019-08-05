@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
     @Select("<script>Select * from report_manage_data_mantain" +
-            "<if test=\"createDate!=null\"> where TO_DAYS(create_time) = TO_DAYS(#{createDate}) </if>" +
+            "<if test=\"createDate!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
             "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("createDate") String createDate);
 
