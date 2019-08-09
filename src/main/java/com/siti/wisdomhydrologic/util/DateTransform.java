@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateTransform {
 
@@ -56,7 +57,6 @@ public class DateTransform {
         aCalendar.setTime(oDate);
         Integer day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
         return day2 - day1;
-
     }
 
     /**
@@ -90,7 +90,20 @@ public class DateTransform {
         str = str + "-" + lastDay;
         return String2Date(str, "yyyy-MM-dd");
     }
+    //        String str2=format(now, "YYYY-MM-dd HH:mm:ss", Locale.CHINA);
 
+    public static String format(Date date) {
+        if(date == null ) {
+            return null;
+        }
+        return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss", Locale.CHINA).format(date);
+    }
+    public static String format(String date) {
+        if(date == null ) {
+            return null;
+        }
+        return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss", Locale.CHINA).format(date);
+    }
     /**
      * 根据传入的日期返回指定天数的前后日期
      *

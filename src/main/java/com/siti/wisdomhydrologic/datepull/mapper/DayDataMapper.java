@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.datepull.mapper;
 import com.siti.wisdomhydrologic.datepull.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.datepull.vo.StationVo;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

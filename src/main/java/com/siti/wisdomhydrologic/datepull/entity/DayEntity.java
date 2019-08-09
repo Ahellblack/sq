@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @data ${DATA}-15:57
  */
-@Table(name = "daydb04_10")
+@Table(name = "daydb")
 public class DayEntity implements Serializable {
 
     public DayEntity(){
