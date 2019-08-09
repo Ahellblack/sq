@@ -18,19 +18,22 @@ public class ManageApplicationBrokenController {
     private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
 
     @GetMapping("/getAll")
-    public List<ReportManageApplicationBroken> selectAll(){
+    public List<ReportManageApplicationBroken> selectAll() {
         return manageApplicationBrokenService.getAll();
     }
+
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken){
+    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
         return manageApplicationBrokenService.insert(reportManageApplicationBroken);
     }
+
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken){
+    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
+
     @GetMapping("/delete")
-    public int delete(Integer reportId){
+    public int delete(Integer reportId) {
         return manageApplicationBrokenService.delete(reportId);
     }
 

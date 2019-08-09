@@ -2,54 +2,54 @@ package com.siti.wisdomhydrologic.operation.entity;
 
 public class ReportStationCheckMantain {
 
-  private long reportId;
+  private int reportId;
   private String mantainDate;
   private String stationCode;
   private String stationName;
-  private long stationManangeOrgId;
+  private int stationManangeOrgId;
   private String stationManageOrgName;
   private String rtuType;
-  private long checkRainSensor;
-  private long checkWaterLevelSensor;
-  private long checkSpeedDirectionSensor;
-  private long checkFlowSensor;
+  private int checkRainSensor;
+  private int checkWaterLevelSensor;
+  private int checkSpeedDirectionSensor;
+  private int checkFlowSensor;
   private String checkOtherSensor;
-  private long dataCollectionCorrect;
-  private long dataCollectionParameterCheck;
-  private long dataCollectionNormal;
-  private long dataCommunicateParameterCheck;
-  private long dataCommunicateChannel;
-  private long solarEnergyVoltageCheck;
+  private int dataCollectionCorrect;
+  private int dataCollectionParameterCheck;
+  private int dataCollectionNormal;
+  private int dataCommunicateParameterCheck;
+  private int dataCommunicateChannel;
+  private int solarEnergyVoltageCheck;
   private double solarEnergyVoltageValue;
-  private long storageBatteryVoltageCheck;
+  private int storageBatteryVoltageCheck;
   private double storageBatteryValue;
-  private long rainfallSensorNormal;
-  private long rainfallSensorCleanCheck;
-  private long rainfallSensorRangeCheck;
-  private long waterLevelCheckNormal;
-  private long waterLeverCheckShaft;
-  private long waterLeverCleanCheck;
-  private long waterLeverAdjust;
-  private long speedDirectionCheckNormal;
-  private long speedDirectionCheckLightingProtection;
-  private long flowmeterDataCheckNormal;
+  private int rainfallSensorNormal;
+  private int rainfallSensorCleanCheck;
+  private int rainfallSensorRangeCheck;
+  private int waterLevelCheckNormal;
+  private int waterLeverCheckShaft;
+  private int waterLeverCleanCheck;
+  private int waterLeverAdjust;
+  private int speedDirectionCheckNormal;
+  private int speedDirectionCheckLightingProtection;
+  private int flowmeterDataCheckNormal;
   private double flowmeterPitchGesture;
   private double flowmeterRollingGesture;
-  private long flowmeterSignalStrength;
-  private long flowmeterRecordTimeWarp;
-  private long linePipeCheckNormal;
-  private long stationEnviroment;
-  private long stationCleanCheck;
+  private int flowmeterSignalStrength;
+  private int flowmeterRecordTimeWarp;
+  private int linePipeCheckNormal;
+  private int stationEnviroment;
+  private int stationCleanCheck;
   private String remark;
-  private long createBy;
+  private int createBy;
   private java.sql.Timestamp createTime;
 
 
-  public long getReportId() {
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
@@ -81,11 +81,11 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getStationManangeOrgId() {
+  public int getStationManangeOrgId() {
     return stationManangeOrgId;
   }
 
-  public void setStationManangeOrgId(long stationManangeOrgId) {
+  public void setStationManangeOrgId(int stationManangeOrgId) {
     this.stationManangeOrgId = stationManangeOrgId;
   }
 
@@ -108,38 +108,38 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getCheckRainSensor() {
+  public int getCheckRainSensor() {
     return checkRainSensor;
   }
 
-  public void setCheckRainSensor(long checkRainSensor) {
+  public void setCheckRainSensor(int checkRainSensor) {
     this.checkRainSensor = checkRainSensor;
   }
 
 
-  public long getCheckWaterLevelSensor() {
+  public int getCheckWaterLevelSensor() {
     return checkWaterLevelSensor;
   }
 
-  public void setCheckWaterLevelSensor(long checkWaterLevelSensor) {
+  public void setCheckWaterLevelSensor(int checkWaterLevelSensor) {
     this.checkWaterLevelSensor = checkWaterLevelSensor;
   }
 
 
-  public long getCheckSpeedDirectionSensor() {
+  public int getCheckSpeedDirectionSensor() {
     return checkSpeedDirectionSensor;
   }
 
-  public void setCheckSpeedDirectionSensor(long checkSpeedDirectionSensor) {
+  public void setCheckSpeedDirectionSensor(int checkSpeedDirectionSensor) {
     this.checkSpeedDirectionSensor = checkSpeedDirectionSensor;
   }
 
 
-  public long getCheckFlowSensor() {
+  public int getCheckFlowSensor() {
     return checkFlowSensor;
   }
 
-  public void setCheckFlowSensor(long checkFlowSensor) {
+  public void setCheckFlowSensor(int checkFlowSensor) {
     this.checkFlowSensor = checkFlowSensor;
   }
 
@@ -153,56 +153,56 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getDataCollectionCorrect() {
+  public int getDataCollectionCorrect() {
     return dataCollectionCorrect;
   }
 
-  public void setDataCollectionCorrect(long dataCollectionCorrect) {
+  public void setDataCollectionCorrect(int dataCollectionCorrect) {
     this.dataCollectionCorrect = dataCollectionCorrect;
   }
 
 
-  public long getDataCollectionParameterCheck() {
+  public int getDataCollectionParameterCheck() {
     return dataCollectionParameterCheck;
   }
 
-  public void setDataCollectionParameterCheck(long dataCollectionParameterCheck) {
+  public void setDataCollectionParameterCheck(int dataCollectionParameterCheck) {
     this.dataCollectionParameterCheck = dataCollectionParameterCheck;
   }
 
 
-  public long getDataCollectionNormal() {
+  public int getDataCollectionNormal() {
     return dataCollectionNormal;
   }
 
-  public void setDataCollectionNormal(long dataCollectionNormal) {
+  public void setDataCollectionNormal(int dataCollectionNormal) {
     this.dataCollectionNormal = dataCollectionNormal;
   }
 
 
-  public long getDataCommunicateParameterCheck() {
+  public int getDataCommunicateParameterCheck() {
     return dataCommunicateParameterCheck;
   }
 
-  public void setDataCommunicateParameterCheck(long dataCommunicateParameterCheck) {
+  public void setDataCommunicateParameterCheck(int dataCommunicateParameterCheck) {
     this.dataCommunicateParameterCheck = dataCommunicateParameterCheck;
   }
 
 
-  public long getDataCommunicateChannel() {
+  public int getDataCommunicateChannel() {
     return dataCommunicateChannel;
   }
 
-  public void setDataCommunicateChannel(long dataCommunicateChannel) {
+  public void setDataCommunicateChannel(int dataCommunicateChannel) {
     this.dataCommunicateChannel = dataCommunicateChannel;
   }
 
 
-  public long getSolarEnergyVoltageCheck() {
+  public int getSolarEnergyVoltageCheck() {
     return solarEnergyVoltageCheck;
   }
 
-  public void setSolarEnergyVoltageCheck(long solarEnergyVoltageCheck) {
+  public void setSolarEnergyVoltageCheck(int solarEnergyVoltageCheck) {
     this.solarEnergyVoltageCheck = solarEnergyVoltageCheck;
   }
 
@@ -216,11 +216,11 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getStorageBatteryVoltageCheck() {
+  public int getStorageBatteryVoltageCheck() {
     return storageBatteryVoltageCheck;
   }
 
-  public void setStorageBatteryVoltageCheck(long storageBatteryVoltageCheck) {
+  public void setStorageBatteryVoltageCheck(int storageBatteryVoltageCheck) {
     this.storageBatteryVoltageCheck = storageBatteryVoltageCheck;
   }
 
@@ -234,92 +234,92 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getRainfallSensorNormal() {
+  public int getRainfallSensorNormal() {
     return rainfallSensorNormal;
   }
 
-  public void setRainfallSensorNormal(long rainfallSensorNormal) {
+  public void setRainfallSensorNormal(int rainfallSensorNormal) {
     this.rainfallSensorNormal = rainfallSensorNormal;
   }
 
 
-  public long getRainfallSensorCleanCheck() {
+  public int getRainfallSensorCleanCheck() {
     return rainfallSensorCleanCheck;
   }
 
-  public void setRainfallSensorCleanCheck(long rainfallSensorCleanCheck) {
+  public void setRainfallSensorCleanCheck(int rainfallSensorCleanCheck) {
     this.rainfallSensorCleanCheck = rainfallSensorCleanCheck;
   }
 
 
-  public long getRainfallSensorRangeCheck() {
+  public int getRainfallSensorRangeCheck() {
     return rainfallSensorRangeCheck;
   }
 
-  public void setRainfallSensorRangeCheck(long rainfallSensorRangeCheck) {
+  public void setRainfallSensorRangeCheck(int rainfallSensorRangeCheck) {
     this.rainfallSensorRangeCheck = rainfallSensorRangeCheck;
   }
 
 
-  public long getWaterLevelCheckNormal() {
+  public int getWaterLevelCheckNormal() {
     return waterLevelCheckNormal;
   }
 
-  public void setWaterLevelCheckNormal(long waterLevelCheckNormal) {
+  public void setWaterLevelCheckNormal(int waterLevelCheckNormal) {
     this.waterLevelCheckNormal = waterLevelCheckNormal;
   }
 
 
-  public long getWaterLeverCheckShaft() {
+  public int getWaterLeverCheckShaft() {
     return waterLeverCheckShaft;
   }
 
-  public void setWaterLeverCheckShaft(long waterLeverCheckShaft) {
+  public void setWaterLeverCheckShaft(int waterLeverCheckShaft) {
     this.waterLeverCheckShaft = waterLeverCheckShaft;
   }
 
 
-  public long getWaterLeverCleanCheck() {
+  public int getWaterLeverCleanCheck() {
     return waterLeverCleanCheck;
   }
 
-  public void setWaterLeverCleanCheck(long waterLeverCleanCheck) {
+  public void setWaterLeverCleanCheck(int waterLeverCleanCheck) {
     this.waterLeverCleanCheck = waterLeverCleanCheck;
   }
 
 
-  public long getWaterLeverAdjust() {
+  public int getWaterLeverAdjust() {
     return waterLeverAdjust;
   }
 
-  public void setWaterLeverAdjust(long waterLeverAdjust) {
+  public void setWaterLeverAdjust(int waterLeverAdjust) {
     this.waterLeverAdjust = waterLeverAdjust;
   }
 
 
-  public long getSpeedDirectionCheckNormal() {
+  public int getSpeedDirectionCheckNormal() {
     return speedDirectionCheckNormal;
   }
 
-  public void setSpeedDirectionCheckNormal(long speedDirectionCheckNormal) {
+  public void setSpeedDirectionCheckNormal(int speedDirectionCheckNormal) {
     this.speedDirectionCheckNormal = speedDirectionCheckNormal;
   }
 
 
-  public long getSpeedDirectionCheckLightingProtection() {
+  public int getSpeedDirectionCheckLightingProtection() {
     return speedDirectionCheckLightingProtection;
   }
 
-  public void setSpeedDirectionCheckLightingProtection(long speedDirectionCheckLightingProtection) {
+  public void setSpeedDirectionCheckLightingProtection(int speedDirectionCheckLightingProtection) {
     this.speedDirectionCheckLightingProtection = speedDirectionCheckLightingProtection;
   }
 
 
-  public long getFlowmeterDataCheckNormal() {
+  public int getFlowmeterDataCheckNormal() {
     return flowmeterDataCheckNormal;
   }
 
-  public void setFlowmeterDataCheckNormal(long flowmeterDataCheckNormal) {
+  public void setFlowmeterDataCheckNormal(int flowmeterDataCheckNormal) {
     this.flowmeterDataCheckNormal = flowmeterDataCheckNormal;
   }
 
@@ -342,47 +342,47 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getFlowmeterSignalStrength() {
+  public int getFlowmeterSignalStrength() {
     return flowmeterSignalStrength;
   }
 
-  public void setFlowmeterSignalStrength(long flowmeterSignalStrength) {
+  public void setFlowmeterSignalStrength(int flowmeterSignalStrength) {
     this.flowmeterSignalStrength = flowmeterSignalStrength;
   }
 
 
-  public long getFlowmeterRecordTimeWarp() {
+  public int getFlowmeterRecordTimeWarp() {
     return flowmeterRecordTimeWarp;
   }
 
-  public void setFlowmeterRecordTimeWarp(long flowmeterRecordTimeWarp) {
+  public void setFlowmeterRecordTimeWarp(int flowmeterRecordTimeWarp) {
     this.flowmeterRecordTimeWarp = flowmeterRecordTimeWarp;
   }
 
 
-  public long getLinePipeCheckNormal() {
+  public int getLinePipeCheckNormal() {
     return linePipeCheckNormal;
   }
 
-  public void setLinePipeCheckNormal(long linePipeCheckNormal) {
+  public void setLinePipeCheckNormal(int linePipeCheckNormal) {
     this.linePipeCheckNormal = linePipeCheckNormal;
   }
 
 
-  public long getStationEnviroment() {
+  public int getStationEnviroment() {
     return stationEnviroment;
   }
 
-  public void setStationEnviroment(long stationEnviroment) {
+  public void setStationEnviroment(int stationEnviroment) {
     this.stationEnviroment = stationEnviroment;
   }
 
 
-  public long getStationCleanCheck() {
+  public int getStationCleanCheck() {
     return stationCleanCheck;
   }
 
-  public void setStationCleanCheck(long stationCleanCheck) {
+  public void setStationCleanCheck(int stationCleanCheck) {
     this.stationCleanCheck = stationCleanCheck;
   }
 
@@ -396,11 +396,11 @@ public class ReportStationCheckMantain {
   }
 
 
-  public long getCreateBy() {
+  public int getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
 

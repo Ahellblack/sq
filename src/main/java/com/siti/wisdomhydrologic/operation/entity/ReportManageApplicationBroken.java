@@ -4,52 +4,52 @@ import java.util.Date;
 
 public class ReportManageApplicationBroken {
 
-  private long reportId;
-  private long manageOrgId;
-  private long manageOrgName;
-  private long brokenType;
+  private int reportId;
+  private int manageOrgId;
+  private int manageOrgName;
+  private int brokenType;
   private String brokenName;
   private String brokenSituation;
   private Date brokenResponseTime;
   private Date brokenResolveTime;
   private Date createTime;
   private String resovleMethod;
-  private long resovleUserId;
+  private int resovleUserId;
   private String remark;
 
 
-  public long getReportId() {
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
 
-  public long getManageOrgId() {
+  public int getManageOrgId() {
     return manageOrgId;
   }
 
-  public void setManageOrgId(long manageOrgId) {
+  public void setManageOrgId(int manageOrgId) {
     this.manageOrgId = manageOrgId;
   }
 
 
-  public long getManageOrgName() {
+  public int getManageOrgName() {
     return manageOrgName;
   }
 
-  public void setManageOrgName(long manageOrgName) {
+  public void setManageOrgName(int manageOrgName) {
     this.manageOrgName = manageOrgName;
   }
 
 
-  public long getBrokenType() {
+  public int getBrokenType() {
     return brokenType;
   }
 
-  public void setBrokenType(long brokenType) {
+  public void setBrokenType(int brokenType) {
     this.brokenType = brokenType;
   }
 
@@ -108,11 +108,11 @@ public class ReportManageApplicationBroken {
   }
 
 
-  public long getResovleUserId() {
+  public int getResovleUserId() {
     return resovleUserId;
   }
 
-  public void setResovleUserId(long resovleUserId) {
+  public void setResovleUserId(int resovleUserId) {
     this.resovleUserId = resovleUserId;
   }
 

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReportStationBroken {
 
-  private long reportId;
+  private int reportId;
   private String stationCode;
   private String stationName;
   private Date brokenHappenTime;
@@ -13,19 +13,19 @@ public class ReportStationBroken {
   private String resolveMethod;
   private String resolveUserIds;
   private String remark;
-  private long createBy;
-  private long manageOrgId;
+  private int createBy;
+  private int manageOrgId;
   private String manageOrgName;
   private Date brokenResolveTime;
   private Date brokenResponseTime;
   private Date createTime;
 
 
-  public long getReportId() {
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
@@ -102,20 +102,20 @@ public class ReportStationBroken {
   }
 
 
-  public long getCreateBy() {
+  public int getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
 
 
-  public long getManageOrgId() {
+  public int getManageOrgId() {
     return manageOrgId;
   }
 
-  public void setManageOrgId(long manageOrgId) {
+  public void setManageOrgId(int manageOrgId) {
     this.manageOrgId = manageOrgId;
   }
 

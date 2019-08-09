@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.rabbitmq;
 
 import com.rabbitmq.client.Channel;
@@ -20,11 +21,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
+*/
 /**
  * Created by DC on 2019/6/12.
  *
  * @data ${DATA}-15:23
- */
+ *//*
+
 @Component
 @Transactional
 public class TSDBDataConsumerRealToMysql {
@@ -58,7 +61,9 @@ public class TSDBDataConsumerRealToMysql {
         }
     }
 
-    /*//channel.basicQos(1);
+    */
+/*//*
+/channel.basicQos(1);
     //   告诉服务器收到这条消息 已经被我消费了 可以在队列删掉 这样以后就不会再发了 否则消息服务器以为这条消息没处理掉 后续还会在发
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     代表投递的标识符，唯一标识了当前信道上的投递，通过 deliveryTag ，消费者就可以告诉 RabbitMQ 确认收到了当前消息，见下面的方法
@@ -66,7 +71,8 @@ public class TSDBDataConsumerRealToMysql {
             代表消费者拒绝一条或者多条消息，第二个参数表示一次是否拒绝多条消息，第三个参数表示是否把当前消息重新入队
             channel.basicNack(deliveryTag, false, false);
              代表消费者拒绝当前消息，第二个参数表示是否把当前消息重新入队
-             channel.basicReject(deliveryTag,false)*/
+             channel.basicReject(deliveryTag,false)*//*
+
     @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
     @RabbitHandler   //可以接收到对象
     public void TSDBDataProcessTwo(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
@@ -82,11 +88,13 @@ public class TSDBDataConsumerRealToMysql {
         }
     }
 
-    /**
+    */
+/**
      * 判断是否丢包记录日志
      *
      * @param TSDBList
-     */
+     *//*
+
     private void calPackage(List<TSDBVo> TSDBList, Channel channel, Message message) {
         lock.lock();
         int i = insertTSDB(TSDBList);
@@ -114,11 +122,13 @@ public class TSDBDataConsumerRealToMysql {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
-            /*try {
+            */
+/*try {
                 channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }*/
+            }*//*
+
         } finally {
             lock.unlock();
         }
@@ -130,3 +140,4 @@ public class TSDBDataConsumerRealToMysql {
 
 
 }
+*/

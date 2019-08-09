@@ -1,45 +1,47 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import java.util.Date;
+
 public class ReportManageMantain {
 
-  private long reportId;
-  private long manageOrgId;
+  private int reportId;
+  private int manageOrgId;
   private String manageOrgName;
   private String mantainMonth;
   private String mantainHour;
-  private long tempHuimidityException;
-  private long serverTimeException;
-  private long databaseServerException;
-  private long communicateServerException;
-  private long applicationServerException;
-  private long webServerException;
-  private long changtongRateException;
-  private long voltageException;
-  private long voltageProcessLineException;
-  private long dayRainReportException;
-  private long rainBarException;
-  private long daySeaLevelReportException;
-  private long seaLeveProcessLineException;
-  private long otherReportException;
+  private int tempHuimidityException;
+  private int serverTimeException;
+  private int databaseServerException;
+  private int communicateServerException;
+  private int applicationServerException;
+  private int webServerException;
+  private int changtongRateException;
+  private int voltageException;
+  private int voltageProcessLineException;
+  private int dayRainReportException;
+  private int rainBarException;
+  private int daySeaLevelReportException;
+  private int seaLeveProcessLineException;
+  private int otherReportException;
   private String remark;
-  private long createBy;
-  private java.sql.Timestamp createTime;
+  private int createBy;
+  private Date createTime;
 
 
-  public long getReportId() {
+  public int getReportId() {
     return reportId;
   }
 
-  public void setReportId(long reportId) {
+  public void setReportId(int reportId) {
     this.reportId = reportId;
   }
 
 
-  public long getManageOrgId() {
+  public int getManageOrgId() {
     return manageOrgId;
   }
 
-  public void setManageOrgId(long manageOrgId) {
+  public void setManageOrgId(int manageOrgId) {
     this.manageOrgId = manageOrgId;
   }
 
@@ -71,128 +73,128 @@ public class ReportManageMantain {
   }
 
 
-  public long getTempHuimidityException() {
+  public int getTempHuimidityException() {
     return tempHuimidityException;
   }
 
-  public void setTempHuimidityException(long tempHuimidityException) {
+  public void setTempHuimidityException(int tempHuimidityException) {
     this.tempHuimidityException = tempHuimidityException;
   }
 
 
-  public long getServerTimeException() {
+  public int getServerTimeException() {
     return serverTimeException;
   }
 
-  public void setServerTimeException(long serverTimeException) {
+  public void setServerTimeException(int serverTimeException) {
     this.serverTimeException = serverTimeException;
   }
 
 
-  public long getDatabaseServerException() {
+  public int getDatabaseServerException() {
     return databaseServerException;
   }
 
-  public void setDatabaseServerException(long databaseServerException) {
+  public void setDatabaseServerException(int databaseServerException) {
     this.databaseServerException = databaseServerException;
   }
 
 
-  public long getCommunicateServerException() {
+  public int getCommunicateServerException() {
     return communicateServerException;
   }
 
-  public void setCommunicateServerException(long communicateServerException) {
+  public void setCommunicateServerException(int communicateServerException) {
     this.communicateServerException = communicateServerException;
   }
 
 
-  public long getApplicationServerException() {
+  public int getApplicationServerException() {
     return applicationServerException;
   }
 
-  public void setApplicationServerException(long applicationServerException) {
+  public void setApplicationServerException(int applicationServerException) {
     this.applicationServerException = applicationServerException;
   }
 
 
-  public long getWebServerException() {
+  public int getWebServerException() {
     return webServerException;
   }
 
-  public void setWebServerException(long webServerException) {
+  public void setWebServerException(int webServerException) {
     this.webServerException = webServerException;
   }
 
 
-  public long getChangtongRateException() {
+  public int getChangtongRateException() {
     return changtongRateException;
   }
 
-  public void setChangtongRateException(long changtongRateException) {
+  public void setChangtongRateException(int changtongRateException) {
     this.changtongRateException = changtongRateException;
   }
 
 
-  public long getVoltageException() {
+  public int getVoltageException() {
     return voltageException;
   }
 
-  public void setVoltageException(long voltageException) {
+  public void setVoltageException(int voltageException) {
     this.voltageException = voltageException;
   }
 
 
-  public long getVoltageProcessLineException() {
+  public int getVoltageProcessLineException() {
     return voltageProcessLineException;
   }
 
-  public void setVoltageProcessLineException(long voltageProcessLineException) {
+  public void setVoltageProcessLineException(int voltageProcessLineException) {
     this.voltageProcessLineException = voltageProcessLineException;
   }
 
 
-  public long getDayRainReportException() {
+  public int getDayRainReportException() {
     return dayRainReportException;
   }
 
-  public void setDayRainReportException(long dayRainReportException) {
+  public void setDayRainReportException(int dayRainReportException) {
     this.dayRainReportException = dayRainReportException;
   }
 
 
-  public long getRainBarException() {
+  public int getRainBarException() {
     return rainBarException;
   }
 
-  public void setRainBarException(long rainBarException) {
+  public void setRainBarException(int rainBarException) {
     this.rainBarException = rainBarException;
   }
 
 
-  public long getDaySeaLevelReportException() {
+  public int getDaySeaLevelReportException() {
     return daySeaLevelReportException;
   }
 
-  public void setDaySeaLevelReportException(long daySeaLevelReportException) {
+  public void setDaySeaLevelReportException(int daySeaLevelReportException) {
     this.daySeaLevelReportException = daySeaLevelReportException;
   }
 
 
-  public long getSeaLeveProcessLineException() {
+  public int getSeaLeveProcessLineException() {
     return seaLeveProcessLineException;
   }
 
-  public void setSeaLeveProcessLineException(long seaLeveProcessLineException) {
+  public void setSeaLeveProcessLineException(int seaLeveProcessLineException) {
     this.seaLeveProcessLineException = seaLeveProcessLineException;
   }
 
 
-  public long getOtherReportException() {
+  public int getOtherReportException() {
     return otherReportException;
   }
 
-  public void setOtherReportException(long otherReportException) {
+  public void setOtherReportException(int otherReportException) {
     this.otherReportException = otherReportException;
   }
 
@@ -206,21 +208,21 @@ public class ReportManageMantain {
   }
 
 
-  public long getCreateBy() {
+  public int getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
 
 
-  public java.sql.Timestamp getCreateTime() {
-    return createTime;
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
-  public void setCreateTime(java.sql.Timestamp createTime) {
-    this.createTime = createTime;
+  public Date getCreateTime() {
+    return createTime;
   }
 
   @Override
