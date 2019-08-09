@@ -3,16 +3,17 @@ package com.siti.wisdomhydrologic.rabbitmq;
 import com.rabbitmq.client.Channel;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
-import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
-import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
+import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.enumbean.ReturnError;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
@@ -39,23 +40,17 @@ public class HourDataConsumerToMysql {
     private AtomicInteger sumSize = new AtomicInteger(0);
     @Resource
     private DayDataServiceImpl dayDataService;
-    @Resource
-    private TSDBServiceImpl tsdbService;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler
-    public void TSDBDataProcess(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    public void HourDataProcess(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
         try {
-            if (TSDBVo.size() > 1) {
-                //消费完成后直接添加数据
-                int i = insertTSDB(TSDBVo);
-                logger.info("TSDB数据插入本地库{}条,花费时间{}", i);
-                calPackage(TSDBVo.get(0), channel, message);
+            if (HourVo.size() > 1) {
+                calPackage(HourVo, channel, message);
             }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+            logger.error(e.getMessage());
         }
     }
 
@@ -68,47 +63,49 @@ public class HourDataConsumerToMysql {
             channel.basicNack(deliveryTag, false, false);
              代表消费者拒绝当前消息，第二个参数表示是否把当前消息重新入队
              channel.basicReject(deliveryTag,false)*/
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
+    @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler   //可以接收到对象
-    public void TSDBDataProcessTwo(List<TSDBVo> TSDBVo, Channel channel, Message message) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    public void HourDataProcessTwo(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
         try {
-            if (TSDBVo.size() > 1) {
-                //消费完成后直接添加数据
-                int i = insertTSDB(TSDBVo);
-                logger.info("TSDB数据插入本地库{}条", i);
-                calPackage(TSDBVo.get(0), channel, message);
-    }
+            if (HourVo.size() > 1) {
+
+                calPackage(HourVo, channel, message);
+            }
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            ExceptionUtil.throwException(ReturnError.SYSTEM_ERROR);
+            logger.error(e.getMessage());
         }
     }
 
     /**
      * 判断是否丢包记录日志
      *
-     * @param TSDBVo
+     * @param HourVoList
      */
-    private void calPackage(TSDBVo TSDBVo, Channel channel, Message message) throws IOException {
+    private void calPackage(List<DayVo> HourVoList, Channel channel, Message message) throws IOException {
         lock.lock();
+        //消费完成后直接添加数据
+        int i = insertHour(HourVoList);
+        DayVo HourVo = HourVoList.get(0);
+        logger.info("Hour数据插入本地库{}条,花费时间{}", i);
         try {
             if (flag.compareAndSet(false, true)) {
-                maxBatch.set(TSDBVo.getMaxBatch());
-                sumSize.set(TSDBVo.getSumSize());
-                logger.info("TSDB_queue first packages...");
+                maxBatch.set(HourVo.getMaxBatch());
+                sumSize.set(HourVo.getSumSize());
+                logger.info("Hour_queue first packages...");
             }
-            int currentsize = TSDBVo.getCurrentSize();
-            int currentbatch = TSDBVo.getCurrentBatch();
-            int stastus = TSDBVo.getStatus();
+            int currentsize = HourVo.getCurrentSize();
+            int currentbatch = HourVo.getCurrentBatch();
+            int stastus = HourVo.getStatus();
             if (stastus == 1) {
                 if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
-                    logger.info("TSDB_queue last package...");
+                    logger.info("Hour_queue last package...");
                     flag.compareAndSet(true, false);
-                    logger.info("TSDB消息成功消费完成无丢包！");
+                    logger.info("Hour消息成功消费完成无丢包！");
                 }
             }
 
-            logger.info("TSDB_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, TSDBVo.getStatus());
+            logger.info("Hour_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, HourVo.getStatus());
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
         } catch (IOException e) {
@@ -123,8 +120,8 @@ public class HourDataConsumerToMysql {
         }
     }
 
-    public int insertTSDB(List<TSDBVo> tsdblist) {
-        return tsdbService.insertTSDB(tsdblist);
+    public int insertHour(List<DayVo> hourlist) {
+        return dayDataService.addHourData(hourlist);
     }
 
 
