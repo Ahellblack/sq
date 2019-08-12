@@ -6,6 +6,8 @@ import com.siti.wisdomhydrologic.config.ColorsExecutor;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
+import com.siti.wisdomhydrologic.datepull.service.DayDataService;
+import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
@@ -54,7 +56,7 @@ public class DayListener {
     @Resource
     WaterLevelMapper waterLevelMapper;
     @Resource
-    private DayDataMapper dayDataMapper;
+    private DayDataServiceImpl DayDataService;
     @Resource
     PipelineValve valvo;
 
@@ -68,18 +70,17 @@ public class DayListener {
     @RabbitHandler
     public void dayprocess(List<DayVo> vo, Channel channel, Message message) {
         try {
-            System.out.println("-------------"+vo.size());
             if (vo.size() > 0) {
                 calPackage(vo, channel, message);
             } else {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             }
         } catch (Exception e) {
-          /*  try {
+            try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }*/
+            }
             logger.error(e.getMessage());
         }
     }
@@ -89,7 +90,6 @@ public class DayListener {
      */
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
-
         if (flag.compareAndSet(false, true)) {
             new Thread(() -> {
                 multiProcess();
@@ -105,7 +105,6 @@ public class DayListener {
         int stastus = vo.getStatus();
         if (stastus == 1) {
             if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
-                logger.info("day消息成功消费完成无丢包！");
                 logger.info("**********Day*********success end********");
             }
         }
@@ -148,7 +147,7 @@ public class DayListener {
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {
@@ -163,7 +162,7 @@ public class DayListener {
         int all = arrayList.size();
         int cycle = all % size == 0 ? all / size : (all / size + 1);
         IntStream.range(0, cycle).forEach(e -> {
-            dayDataMapper.addTestDayData(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
+            DayDataService.addDayData(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
         });
     }
 }

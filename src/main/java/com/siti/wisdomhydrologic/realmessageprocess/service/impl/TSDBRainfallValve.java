@@ -81,16 +81,12 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                 final AbnormalDetailEntity[] entity = new AbnormalDetailEntity[1];
                 if (min.getAsDouble() < hourmin) {
                     entity[0] = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(mapval.get(e).getTime()));
-                        setSensorCode(vo.getSENID());
                         setHourAbove(0);
                         setHourBelow(1);
                     }};
                 } else if (max.getAsDouble() > hourmax) {
                     if (entity[0] == null) {
                         entity[0] = new AbnormalDetailEntity() {{
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
-                            setSensorCode(vo.getSENID());
                             setHourAbove(1);
                             setHourBelow(0);
                         }};
@@ -109,8 +105,6 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                     if (flag[0] == limit) {
                         if (entity[0] == null) {
                             entity[0] = new AbnormalDetailEntity() {{
-                                setDate(DateTransform.format(mapval.get(e).getTime()));
-                                setSensorCode(vo.getSENID());
                                 setContinueInterrupt(1);
                             }};
                         } else {
@@ -120,6 +114,8 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                     }
                 });
                 if (entity[0] != null) {
+                    entity[0].setDate(mapval.get(e).getTime());
+                    entity[0].setSensorCode(vo.getSENID());
                     container[0].add(entity[0]);
                 }
             }

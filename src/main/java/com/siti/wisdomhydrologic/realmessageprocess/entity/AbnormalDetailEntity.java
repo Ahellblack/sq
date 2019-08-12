@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.realmessageprocess.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -27,7 +28,16 @@ public class AbnormalDetailEntity {
     int floatingDown;
     int keepTime;
     int continueInterrupt;
+    double errorValue;
     Date createTime;
+
+    public double getErrorValue() {
+        return errorValue;
+    }
+
+    public void setErrorValue(double errorValue) {
+        this.errorValue = errorValue;
+    }
 
     public String getDate() {
         return date;

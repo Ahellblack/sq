@@ -8,7 +8,7 @@ import java.util.Date;
 public class TSDBVo {
 
     Integer SENID;
-    Date Time;
+    String Time;
     double V0;
     double V1;
     double V2;
@@ -63,11 +63,11 @@ public class TSDBVo {
         this.SENID = SENID;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return Time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         Time = time;
     }
 

@@ -55,7 +55,6 @@ public class TSDBServiceImpl implements TSDBService {
             dateBaseName = "history_5min_sensor_data_2001_2013";
             return tsdbMapper.insertTSDB(dateBaseName, list);
         }
-        Calendar cal = Calendar.getInstance();
         tsdbMapper.buildDatabase(dateBaseName);
         return tsdbMapper.insertTSDB(dateBaseName, list);
 

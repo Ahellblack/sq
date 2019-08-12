@@ -56,7 +56,7 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
     public void doProcess(Map<Integer, DayVo> mapval, Map<String, Map<Integer, RainfallEntity>> configMap) {
         Map<Integer, RainfallEntity> rainonfig = configMap.get(ConstantConfig.FLAGR);
         final List[] container = {new ArrayList<AbnormalDetailEntity>()};
-        mapval.entrySet().stream().forEach(e -> {
+        mapval.keySet().stream().forEach(e -> {
             RainfallEntity config = rainonfig.get(e);
             if(config!=null){
             DayVo vo = mapval.get(e);
@@ -65,12 +65,10 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
             //一个小时最大最小值
             double daymax = config.getMaxDayLevel();
             double daymin = config.getMinDayLevel();
-            AbnormalDetailEntity entity = new AbnormalDetailEntity();
+            AbnormalDetailEntity entity =null;
             if(daymax>vo.getMaxV()){
                 if(entity==null){
                     entity = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(e.getValue().getTime()));
-                        setSensorCode(vo.getSenId());
                         setDayAbove(1);
                         setDayBelow(0);
                     }};
@@ -82,22 +80,22 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
             if(daymin<vo.getMinV()){
                 if(entity==null){
                     entity = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(e.getValue().getTime()));
-                        setSensorCode(vo.getSenId());
                         setDayAbove(0);
                         setDayBelow(1);
                     }};
                 }else{
-                    entity.setDayBelow(1);
                     entity.setDayAbove(0);
+                    entity.setDayBelow(1);
                 }
             }
             if (entity != null) {
+                entity.setDate(mapval.get(e).getTime());
+                entity.setSensorCode(vo.getSenId());
                 container[0].add(entity);
             }
         }});
         if(container[0].size()>0){
-            abnormalDetailMapper.insertTSDVBWater(container[0]);
+            abnormalDetailMapper.insertDayRain(container[0]);
             container[0]=null;
         }
     }

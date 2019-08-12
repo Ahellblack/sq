@@ -11,10 +11,10 @@ import java.util.Date;
  */
 public class RealVo {
     private Integer senId;
-    private Date Time;//
-    private Integer FACTV;
+    private String Time;//
+    private double FACTV;
     private Integer IFCH;
-    private Integer CYCLE;
+    private double CYCLE;
     private Integer STATE;
     private Integer TS;
 
@@ -36,19 +36,19 @@ public class RealVo {
         this.senId = senId;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return Time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         Time = time;
     }
 
-    public Integer getFACTV() {
+    public double getFACTV() {
         return FACTV;
     }
 
-    public void setFACTV(Integer FACTV) {
+    public void setFACTV(double FACTV) {
         this.FACTV = FACTV;
     }
 
@@ -60,11 +60,11 @@ public class RealVo {
         this.IFCH = IFCH;
     }
 
-    public Integer getCYCLE() {
+    public double getCYCLE() {
         return CYCLE;
     }
 
-    public void setCYCLE(Integer CYCLE) {
+    public void setCYCLE(double CYCLE) {
         this.CYCLE = CYCLE;
     }
 

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,7 +59,6 @@ public class HourListener {
     @Resource
     private DayDataServiceImpl dayDataService;
 
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
@@ -69,18 +69,17 @@ public class HourListener {
     @RabbitHandler
     public void dayprocess(List<DayVo> vo, Channel channel, Message message) {
         try {
-            System.out.println("-------------"+vo.size());
             if (vo.size() > 0) {
                 calPackage(vo, channel, message);
             } else {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             }
         } catch (Exception e) {
-          /*  try {
+            try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }*/
+            }
             logger.error(e.getMessage());
         }
     }
@@ -90,9 +89,6 @@ public class HourListener {
      */
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
-        /*Thread putThread = new Thread(() -> {
-            multiProcess();
-        });*/
         if (flag.compareAndSet(false, true)) {
             new Thread(() -> {
                 multiProcess();
@@ -100,8 +96,7 @@ public class HourListener {
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
-            valvo.setHandler(new DayRainfallValve());
-            logger.info("**********Day*********receive start********");
+            logger.info("hour开始处理...");
         }
         int currentsize = vo.getCurrentSize();
         int currentbatch = vo.getCurrentBatch();
@@ -109,7 +104,6 @@ public class HourListener {
         if (stastus == 1) {
             if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
                 logger.info("hour消息成功消费完成无丢包！");
-                logger.info("**********hour*********success end********");
             }
         }
         receiver.put(List);
@@ -132,14 +126,14 @@ public class HourListener {
                 .get()
                 .stream()
                 .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));*/
-        //获取雨量配置表
+        /*//获取雨量配置表
         Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
                 .get()
                 .stream()
                 .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
         Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
         configMap.put(ConstantConfig.FLAGR, rainfallMap);
-
+*/
         ColorsExecutor colors = new ColorsExecutor();
         colors.init();
         ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
@@ -147,11 +141,11 @@ public class HourListener {
             List<DayVo> voList = receiver.poll();
             if (voList != null) {
                 splitList(voList, 100);
-                valvo.doInterceptor(voList, configMap);
+                //valvo.doInterceptor(voList, configMap);
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {

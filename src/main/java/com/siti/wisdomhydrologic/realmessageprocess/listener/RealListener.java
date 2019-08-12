@@ -147,7 +147,7 @@ public class RealListener {
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {

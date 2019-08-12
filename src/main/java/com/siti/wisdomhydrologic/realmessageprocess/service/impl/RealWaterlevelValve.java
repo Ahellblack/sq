@@ -71,19 +71,16 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
             if (rainfallEntity != null) {
                 double max = rainfallEntity.getLevelMax();
                 double min = rainfallEntity.getLevelMin();
-                com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity exception = null;
-                if (mapval.get(e).getFACTV() < min) {
-                    exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
-                        setSensorCode(mapval.get(e).getSenId());
-                        setDate(DateTransform.format(mapval.get(e).getTime()));
+                double realvalue= mapval.get(e).getFACTV();
+                AbnormalDetailEntity exception = null;
+                if (realvalue < min) {
+                    exception = new AbnormalDetailEntity() {{
                         setFiveAbove(0);
                         setFiveBelow(1);
                     }};
-                } else if (mapval.get(e).getFACTV() > max) {
+                } else if (realvalue > max) {
                     if (exception == null) {
                         exception = new AbnormalDetailEntity() {{
-                            setSensorCode(mapval.get(e).getSenId());
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
                             setFiveAbove(1);
                             setFiveBelow(0);
                         }};
@@ -94,6 +91,9 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
                 }
                 //保持时长
                 if (exception != null) {
+                    exception.setDate(mapval.get(e).getTime());
+                    exception.setSensorCode(mapval.get(e).getSenId());
+                    exception.setErrorValue(realvalue);
                     container[0].add(exception);
                 }
             }

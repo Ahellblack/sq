@@ -89,8 +89,6 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                     if (flag[0] == limit) {
                         if (entity[0] == null) {
                             entity[0] = new AbnormalDetailEntity() {{
-                                setDate(DateTransform.format(mapval.get(e).getTime()));
-                                setSensorCode(vo.getSENID());
                                 setContinueInterrupt(1);
                             }};
                         } else {
@@ -107,8 +105,6 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                         if (timelimit[0] > config.getDuration() / 5) {
                             if (entity[0] == null) {
                                 entity[0] = new AbnormalDetailEntity() {{
-                                    setSensorCode(mapval.get(e).getSENID());
-                                    setDate(DateTransform.format(mapval.get(e).getTime()));
                                     setKeepTime(1);
                                 }};
                             } else {
@@ -126,8 +122,6 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                             if ((arrayV[k] - doubles[0]) > config.getUpMax()) {
                                 if (entity[0] == null) {
                                     entity[0] = new AbnormalDetailEntity() {{
-                                        setSensorCode(mapval.get(e).getSENID());
-                                        setDate(DateTransform.format(mapval.get(e).getTime()));
                                         setFloatingUp(1);
                                     }};
                                 } else {
@@ -138,8 +132,6 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                             if ((doubles[0] - arrayV[k]) > config.getBelowMin()) {
                                 if (entity[0] == null) {
                                     entity[0] = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
-                                        setSensorCode(mapval.get(e).getSENID());
-                                        setDate(DateTransform.format(mapval.get(e).getTime()));
                                         setFloatingDown(1);
                                     }};
                                 } else {
@@ -150,6 +142,8 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                     }
                 });
                 if (entity[0] != null) {
+                    entity[0].setSensorCode(mapval.get(e).getSENID());
+                    entity[0].setDate(mapval.get(e).getTime());
                     container[0].add(entity[0]);
                 }
             }});

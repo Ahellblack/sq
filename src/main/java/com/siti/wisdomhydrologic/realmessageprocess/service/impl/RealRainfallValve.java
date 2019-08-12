@@ -59,23 +59,20 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
     public void doProcess(Map<Integer, RealVo> mapval, Map<String, Map<Integer, RainfallEntity>> configMap) {
         Map<Integer, RainfallEntity> rainonfig = configMap.get(ConstantConfig.FLAGR);
         final List[] container = {new ArrayList<AbnormalDetailEntity>()};
-        mapval.entrySet().stream().forEach(e -> {
-            RainfallEntity rainfallEntity = rainonfig.get(e.getKey());
+        mapval.keySet().stream().forEach(e -> {
+            RainfallEntity rainfallEntity = rainonfig.get(e);
             if (rainfallEntity != null) {
+               double realvalue= mapval.get(e).getFACTV();
                 double max = rainfallEntity.getMaxFiveLevel();
                 double min = rainfallEntity.getMinFiveLevel();
                 AbnormalDetailEntity exception =null;
-                if (e.getValue().getFACTV() < min) {
+                if (realvalue < min) {
                     exception = new AbnormalDetailEntity() {{
-                        setSensorCode(e.getKey());
-                        setDate(DateTransform.format(e.getValue().getTime()));
                         setFiveBelow(1);
                     }};
-                } else if (e.getValue().getFACTV() > max) {
+                } else if (realvalue > max) {
                     if (exception == null) {
                         exception = new AbnormalDetailEntity() {{
-                            setSensorCode(e.getKey());
-                            setDate(DateTransform.format(e.getValue().getTime()));
                             setFiveAbove(1);
                         }};
                     } else {
@@ -88,15 +85,13 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                     final double[] calval = {0};
                     IntStream.range(0, sendorcodeArr.length).forEach(i -> {
                         if (mapval.containsKey(sendorcodeArr[i])) {
-                            calval[0] = calval[0] + mapval.get(sendorcodeArr[i]).getFACTV().doubleValue();
+                            calval[0] = calval[0] + mapval.get(sendorcodeArr[i]).getFACTV();
                         }
                     });
                     double avgRate = (calval[0] / sendorcodeArr.length);
-                    if ((e.getValue().getFACTV() - avgRate) / avgRate > rainfallEntity.getNearbyRate()) {
+                    if ((realvalue - avgRate) / avgRate > rainfallEntity.getNearbyRate()) {
                         if (exception == null) {
                             exception = new AbnormalDetailEntity() {{
-                                setSensorCode(e.getKey());
-                                setDate(DateTransform.format(e.getValue().getTime()));
                                 setMoreNear(1);
                             }};
                         } else {
@@ -105,6 +100,9 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                     }
                 }
                 if (exception != null) {
+                    exception.setSensorCode(e);
+                    exception.setDate(mapval.get(e).getTime());
+                    exception.setErrorValue(mapval.get(e).getFACTV());
                     container[0].add(exception);
                 }
             }

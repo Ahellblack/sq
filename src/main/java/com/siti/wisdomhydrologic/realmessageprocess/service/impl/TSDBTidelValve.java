@@ -69,7 +69,6 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
         Map<Integer, TSDBVo> mapval=val;
         final List[] container={new ArrayList<AbnormalDetailEntity>()};
         mapval.keySet().stream().forEach(e -> {
-
             TideLevelEntity config = waterFlag.get(e);
             if(config!=null){
             final double[] doubles={99999};
@@ -91,14 +90,11 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                 if (flag[0] == limit) {
                     if (entity[0] == null) {
                         entity[0] = new AbnormalDetailEntity() {{
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
-                            setSensorCode(vo.getSENID());
                             setContinueInterrupt(1);
                         }};
                     }else{
                         entity[0].setContinueInterrupt(1);
                     }
-
                 }
             });
             //数据不变的时长
@@ -109,8 +105,6 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                     if(timelimit[0]>config.getDuration()/5){
                         if( entity[0]==null) {
                             entity[0] = new AbnormalDetailEntity() {{
-                                setSensorCode(mapval.get(e).getSENID());
-                                setDate(DateTransform.format(mapval.get(e).getTime()));
                                 setKeepTime(1);
                             }};
                         }else{
@@ -128,8 +122,6 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                         if ((arrayV[k] - doubles[0]) > config.getUpMax()) {
                             if (entity[0] == null) {
                                 entity[0] = new AbnormalDetailEntity() {{
-                                    setSensorCode(mapval.get(e).getSENID());
-                                    setDate(DateTransform.format(mapval.get(e).getTime()));
                                     setFloatingUp(1);
                                 }};
                             } else {
@@ -140,8 +132,6 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                         if ((doubles[0] - arrayV[k]) > config.getBelowMin()) {
                             if (entity[0] == null) {
                                 entity[0] = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
-                                    setSensorCode(mapval.get(e).getSENID());
-                                    setDate(DateTransform.format(mapval.get(e).getTime()));
                                     setFloatingDown(1);
                                 }};
                             } else {
@@ -152,6 +142,8 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                 }
             });
             if (entity[0] != null) {
+                entity[0].setSensorCode(mapval.get(e).getSENID());
+                entity[0].setDate(mapval.get(e).getTime());
                 container[0].add(entity[0]);
             }
         }});

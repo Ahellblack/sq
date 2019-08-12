@@ -69,21 +69,18 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
             //        最大值最小值比较
             TideLevelEntity rainfallEntity = waterFlag.get(e);
             if(rainfallEntity!=null) {
+                double realvalue= mapval.get(e).getFACTV();
                 double max = rainfallEntity.getLevelMax();
                 double min = rainfallEntity.getLevelMin();
                 AbnormalDetailEntity exception = null;
-                if (mapval.get(e).getFACTV() < min) {
+                if (realvalue < min) {
                     exception = new AbnormalDetailEntity() {{
-                        setSensorCode(mapval.get(e).getSenId());
-                        setDate(DateTransform.format(mapval.get(e).getTime()));
                         setFiveBelow(1);
                         setFiveAbove(0);
                     }};
-                } else if (mapval.get(e).getFACTV() > max) {
+                } else if (realvalue > max) {
                     if (exception == null) {
                         exception = new AbnormalDetailEntity() {{
-                            setSensorCode(mapval.get(e).getSenId());
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
                             setFiveBelow(0);
                             setFiveAbove(1);
                         }};
@@ -94,14 +91,12 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                 }
                 //最大上升 最大下降
                 if (doubles[0] == 9999) {
-                    doubles[0] = mapval.get(e).getFACTV();
+                    doubles[0] = realvalue;
                 } else {
-                    if (mapval.get(e).getFACTV() > doubles[0]) {
-                        if ((mapval.get(e).getFACTV() - doubles[0]) > rainfallEntity.getUpMax()) {
+                    if (realvalue> doubles[0]) {
+                        if ((realvalue - doubles[0]) > rainfallEntity.getUpMax()) {
                             if (exception == null) {
                                 exception = new AbnormalDetailEntity() {{
-                                    setSensorCode(mapval.get(e).getSenId());
-                                    setDate(DateTransform.format(mapval.get(e).getTime()));
                                     setFloatingUp(1);
                                     setFloatingDown(0);
                                 }};
@@ -110,12 +105,10 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                                 exception.setFloatingUp(1);
                             }
                         }
-                    } else if (mapval.get(e).getFACTV() < doubles[0]) {
-                        if ((doubles[0] - mapval.get(e).getFACTV()) > rainfallEntity.getBelowMin()) {
+                    } else if (realvalue < doubles[0]) {
+                        if ((doubles[0] - realvalue) > rainfallEntity.getBelowMin()) {
                             if (exception == null) {
                                 exception = new AbnormalDetailEntity() {{
-                                    setSensorCode(mapval.get(e).getSenId());
-                                    setDate(DateTransform.format(mapval.get(e).getTime()));
                                     setFloatingDown(1);
                                     setFloatingUp(0);
                                 }};
@@ -128,6 +121,9 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                 }
                 //保持时长
                 if (exception != null) {
+                    exception.setDate(mapval.get(e).getTime());
+                    exception.setSensorCode(mapval.get(e).getSenId());
+                    exception.setErrorValue(realvalue);
                     container[0].add(exception);
                 }
             }

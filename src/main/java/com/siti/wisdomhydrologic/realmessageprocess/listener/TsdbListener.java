@@ -7,6 +7,7 @@ import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
+import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
@@ -15,7 +16,6 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.pipeline.PipelineValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.*;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.TSDBVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -147,7 +147,7 @@ public class TsdbListener {
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {

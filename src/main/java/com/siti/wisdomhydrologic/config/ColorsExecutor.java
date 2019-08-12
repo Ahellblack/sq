@@ -32,7 +32,7 @@ public class ColorsExecutor {
                 2,
                 30,
                 TimeUnit.MINUTES,
-                new ArrayBlockingQueue<Runnable>(2),
+                new ArrayBlockingQueue<Runnable>(3),
                 new ColorThreadFactory(),
                 new ColorExecutionHandler());
         return pool;
