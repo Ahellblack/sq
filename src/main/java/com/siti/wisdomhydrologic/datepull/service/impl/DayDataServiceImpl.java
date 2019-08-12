@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -31,7 +32,6 @@ public class DayDataServiceImpl implements DayDataService {
     @Override
     public int addDayData(List<DayVo> dayVo) {
         lock.lock();
-        int backInt = 0;
         try {
             List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
             for (DayVo d : dayVo) {
@@ -45,35 +45,40 @@ public class DayDataServiceImpl implements DayDataService {
                     }
                 }
             }
-            backInt = dayDataMapper.addDayData(dayVo);
         } catch (Exception e) {
             logger.error(e.getMessage());
         } finally {
             lock.unlock();
         }
         /**
-         * 分年份入库（只包括2014—2019数据）
+         * 分年份入库
          * */
-        String time = dayVo.get(0).getTime().substring(0,4);
-        if(time.equals("2014")){
-            return dayDataMapper.add2014HourData(dayVo);
-        }else if(time.equals("2015")){
-            return dayDataMapper.add2015HourData(dayVo);
-        }else if(time.equals("2016")){
-            return dayDataMapper.add2015HourData(dayVo);
-        }else if(time.equals("2017")){
-            return dayDataMapper.add2017HourData(dayVo);
-        }else if(time.equals("2019")){
-            return dayDataMapper.add2019HourData(dayVo);
-        }else {
+        String time = dayVo.get(0).getTime().substring(0, 4);
+        Integer inttime = Integer.valueOf(time);
+        if (inttime < 2001) {
+            logger.info("不存在{}的数据表", inttime);
             return 0;
         }
+        String dateBaseName = null;
+        if (inttime >= 2001 && inttime <= 2005) {
+            dateBaseName = "history_day_sensor_data_2001_2005";
+        } else if (inttime >= 2006 && inttime <= 2010) {
+            dateBaseName = "history_day_sensor_data_2006_2010";
+        } else if (inttime >= 2011 && inttime <= 2015) {
+            dateBaseName = "history_day_sensor_data_2011_2015";
+        } else if (inttime >= 2016 && inttime <= 2020) {
+            dateBaseName = "history_day_sensor_data_2016_2020";
+        } else {
+            dateBaseName = "history_day_sensor_data_" + time;
+            dayDataMapper.buildDayBase(dateBaseName);
+        }
+        return dayDataMapper.addDayData(dateBaseName, dayVo);
+
     }
 
     @Override
     public int addHourData(List<DayVo> HourVo) {
         lock.lock();
-        int backInt = 0;
         try {
             List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
             for (DayVo hour : HourVo) {
@@ -93,21 +98,20 @@ public class DayDataServiceImpl implements DayDataService {
             lock.unlock();
         }
         /**
-         * 分年份入库（只包括2014—2019数据）
+         * 分年份入库
          * */
-        String time = HourVo.get(0).getTime().substring(0,4);
-        if(time.equals("2014")){
-            return dayDataMapper.add2014HourData(HourVo);
-        }else if(time.equals("2015")){
-            return dayDataMapper.add2015HourData(HourVo);
-        }else if(time.equals("2016")){
-            return dayDataMapper.add2015HourData(HourVo);
-        }else if(time.equals("2017")){
-            return dayDataMapper.add2017HourData(HourVo);
-        }else if(time.equals("2019")){
-            return dayDataMapper.add2019HourData(HourVo);
-        }else {
+        String time = HourVo.get(0).getTime().substring(0, 4);
+        Integer inttime = Integer.valueOf(time);
+        String dateBaseName = "history_hour_sensor_data_" + time;
+        if (inttime < 2001) {
+            logger.info("不存在{}的数据表", inttime);
             return 0;
+        } else if (inttime >= 2001 && inttime <= 2013) {
+            dateBaseName = "history_5min_sensor_data_2001_2013";
+            return dayDataMapper.addHourData(dateBaseName, HourVo);
         }
+        Calendar cal = Calendar.getInstance();
+        dayDataMapper.buildHourBase(dateBaseName);
+        return dayDataMapper.addHourData(dateBaseName, HourVo);
     }
 }

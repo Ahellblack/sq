@@ -5,11 +5,13 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.TSDBService;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
-import com.siti.wisdomhydrologic.datepull.vo.StationVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
  */
 @Component
 public class TSDBServiceImpl implements TSDBService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DayDataServiceImpl.class);
 
     @Resource
     private DayDataMapper dayDataMapper;
@@ -38,19 +42,22 @@ public class TSDBServiceImpl implements TSDBService {
                 }
             }
         }
-        String time = DateOrTimeTrans.Year2String(list.get(0).getTime());
-        if (time.equals("2014")) {
-            return tsdbMapper.insert2014TSDB(list);
-        } else if (time.equals("2015")) {
-            return tsdbMapper.insert2015TSDB(list);
-        } else if (time.equals("2016")) {
-            return tsdbMapper.insert2016TSDB(list);
-        } else if (time.equals("2017")) {
-            return tsdbMapper.insert2017TSDB(list);
-        } else if (time.equals("2019")) {
-            return tsdbMapper.insert2019TSDB(list);
-        } else {
+        /**
+         * 分年份入库
+         * */
+        String time = list.get(0).getTime().substring(0, 4);
+        Integer inttime = Integer.valueOf(time);
+        String dateBaseName = "history_5min_sensor_data_" + time;
+        if (inttime < 2001) {
+            logger.info("不存在{}的数据表", inttime);
             return 0;
+        } else if (inttime >= 2001 && inttime <= 2013) {
+            dateBaseName = "history_5min_sensor_data_2001_2013";
+            return tsdbMapper.insertTSDB(dateBaseName, list);
         }
+        Calendar cal = Calendar.getInstance();
+        tsdbMapper.buildDatabase(dateBaseName);
+        return tsdbMapper.insertTSDB(dateBaseName, list);
+
     }
 }

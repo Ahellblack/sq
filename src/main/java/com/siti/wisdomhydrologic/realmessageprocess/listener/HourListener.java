@@ -7,6 +7,7 @@ import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
+import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
@@ -54,6 +55,9 @@ public class HourListener {
     private DayDataMapper dayDataMapper;
     @Resource
     PipelineValve valvo;
+    @Resource
+    private DayDataServiceImpl dayDataService;
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
@@ -101,15 +105,15 @@ public class HourListener {
         int stastus = vo.getStatus();
         if (stastus == 1) {
             if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
-                logger.info("day消息成功消费完成无丢包！");
-                logger.info("**********Day*********success end********");
+                logger.info("hour消息成功消费完成无丢包！");
+                logger.info("**********hour*********success end********");
             }
         }
         //receiver.put(List);
        // putThread.start();
         splitList(List, 100);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        logger.info("Day消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
+        logger.info("Hour消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
 
@@ -145,7 +149,7 @@ public class HourListener {
             }
         };
         while (true) {
-            if (es.getQueue().size() < 5) {
+            if (es.getQueue().size() < 2) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {
@@ -160,8 +164,7 @@ public class HourListener {
         int all = arrayList.size();
         int cycle = all % size == 0 ? all / size : (all / size + 1);
         IntStream.range(0, cycle).forEach(e -> {
-           List ss= arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1));
-            tsdbMapper.insertTSDB(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
+            dayDataService.addHourData(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
         });
     }
 }

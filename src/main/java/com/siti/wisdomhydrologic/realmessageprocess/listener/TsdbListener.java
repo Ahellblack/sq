@@ -6,6 +6,7 @@ import com.siti.wisdomhydrologic.config.ColorsExecutor;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
+import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
@@ -54,6 +55,9 @@ public class TsdbListener {
     private TSDBMapper tsdbMapper;
     @Resource
     PipelineValve valvo;
+    @Resource
+    private TSDBServiceImpl tsdbService;
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
@@ -61,8 +65,8 @@ public class TsdbListener {
     private AtomicInteger sumSize = new AtomicInteger(0);
     private BlockingQueue<List<TSDBVo>> receiver;
 
-/*    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
-    @RabbitHandler*/
+    @RabbitListener(queues = RabbitMQConfig.QUEUE_TSDB)
+    @RabbitHandler
     public void tsdbProcess(List<TSDBVo> vo, Channel channel, Message message) {
         try {
             if (vo.size() > 0) {
@@ -102,7 +106,7 @@ public class TsdbListener {
         int stastus = vo.getStatus();
         if (stastus == 1) {
             if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
-                logger.info("day消息成功消费完成无丢包！");
+                logger.info("tsdb消息成功消费完成无丢包！");
             }
         }
         receiver.put(List);
@@ -146,7 +150,7 @@ public class TsdbListener {
             }
         };
         while (true) {
-            if (es.getQueue().size() < 5) {
+            if (es.getQueue().size() < 2) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {
@@ -162,8 +166,7 @@ public class TsdbListener {
         int all = arrayList.size();
         int cycle = all % size == 0 ? all / size : (all / size + 1);
         IntStream.range(0, cycle).forEach(e -> {
-           List ss= arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1));
-            tsdbMapper.insertTSDB(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
+            tsdbService.insertTSDB(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
         });
     }
 }

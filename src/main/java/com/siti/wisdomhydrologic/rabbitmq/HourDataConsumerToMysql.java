@@ -104,7 +104,6 @@ public class HourDataConsumerToMysql {
                     logger.info("Hour消息成功消费完成无丢包！");
                 }
             }
-
             logger.info("Hour_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(), currentbatch, sumSize.get(), currentsize, HourVo.getStatus());
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
@@ -119,7 +118,6 @@ public class HourDataConsumerToMysql {
             lock.unlock();
         }
     }
-
     public int insertHour(List<DayVo> hourlist) {
         return dayDataService.addHourData(hourlist);
     }
