@@ -57,8 +57,6 @@ public class TsdbListener {
     PipelineValve valvo;
     @Resource
     private TSDBServiceImpl tsdbService;
-
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
@@ -89,17 +87,17 @@ public class TsdbListener {
      */
     private void calPackage(List<TSDBVo> List, Channel channel, Message message) throws Exception {
         TSDBVo vo = List.get(0);
-        Thread putThread = new Thread(() -> {
-            multiProcess();
-        });
         if (flag.compareAndSet(false, true)) {
+             new Thread(() -> {
+                multiProcess();
+            }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
             valvo.setHandler(new TSDBRainfallValve());
             valvo.setHandler(new TSDBTidelValve());
             valvo.setHandler(new TSDBWaterlevelValve());
-            logger.info("receive first packages from day_queue and start put message into queue!");
+            logger.info("ColorsExecurots Initial...");
         }
         int currentsize = vo.getCurrentSize();
         int currentbatch = vo.getCurrentBatch();
@@ -110,9 +108,7 @@ public class TsdbListener {
             }
         }
         receiver.put(List);
-        putThread.start();
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        splitList(List, 100);
         logger.info("tsdb_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
@@ -146,6 +142,7 @@ public class TsdbListener {
         Runnable fetchTask = () -> {
             List<TSDBVo> voList = receiver.poll();
             if (voList != null) {
+                splitList(voList, 100);
                 valvo.doInterceptor(voList, configMap);
             }
         };

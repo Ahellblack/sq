@@ -94,6 +94,9 @@ public class HourListener {
             multiProcess();
         });*/
         if (flag.compareAndSet(false, true)) {
+            new Thread(() -> {
+                multiProcess();
+            }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
@@ -109,9 +112,7 @@ public class HourListener {
                 logger.info("**********hour*********success end********");
             }
         }
-        //receiver.put(List);
-       // putThread.start();
-        splitList(List, 100);
+        receiver.put(List);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         logger.info("Hour消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
@@ -145,6 +146,7 @@ public class HourListener {
         Runnable fetchTask = () -> {
             List<DayVo> voList = receiver.poll();
             if (voList != null) {
+                splitList(voList, 100);
                 valvo.doInterceptor(voList, configMap);
             }
         };

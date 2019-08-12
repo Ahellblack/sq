@@ -89,10 +89,11 @@ public class DayListener {
      */
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
-        Thread putThread = new Thread(() -> {
-            multiProcess();
-        });
+
         if (flag.compareAndSet(false, true)) {
+            new Thread(() -> {
+                multiProcess();
+            }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
@@ -109,7 +110,6 @@ public class DayListener {
             }
         }
         receiver.put(List);
-        putThread.start();
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         logger.info("Day消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());

@@ -85,17 +85,18 @@ public class RealListener {
      */
     private void calPackage(List<RealVo> RealVoList, Channel channel, Message message) throws Exception {
         RealVo vo = RealVoList.get(0);
-        Thread putThread = new Thread(() -> {
-            multiProcess();
-        });
+
         if (flag.compareAndSet(false, true)) {
+             new Thread(() -> {
+                multiProcess();
+            }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
             valvo.setHandler(new RealRainfallValve());
             valvo.setHandler(new RealTidelValve());
             valvo.setHandler(new RealWaterlevelValve());
-            logger.info("receive first packages from day_queue and start put message into queue!");
+            logger.info("ColorsExecurots Initial...");
         }
         int currentsize = vo.getCurrentSize();
         int currentbatch = vo.getCurrentBatch();
@@ -106,7 +107,6 @@ public class RealListener {
             }
         }
         receiver.put(RealVoList);
-        putThread.start();
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
         logger.info("real_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
