@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by dell on 2019/7/23.
@@ -26,21 +27,29 @@ public class TSDBServiceImpl implements TSDBService {
     private DayDataMapper dayDataMapper;
     @Resource
     private TSDBMapper tsdbMapper;
+    ReentrantLock lock = new ReentrantLock();
 
     @Override
-    public synchronized int insertTSDB(List<TSDBVo> list) {
-        List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
-        System.out.println("测站信息获取...");
-        for (TSDBVo tsdb : list) {
-            for (ConfigSensorSectionModule station : stationList) {
-                if (tsdb.getSENID() == station.getSectionCode()) {
-                    tsdb.setSensorTypeName(station.getSensorName());
-                    tsdb.setSensorDataUnit(station.getSectionDataUnit());
-                    tsdb.setSensorTypeId(station.getSensorCode());
-                    tsdb.setStationId(station.getStationCode());
-                    tsdb.setStationName(station.getStationName());
+    public int insertTSDB(List<TSDBVo> list) {
+        lock.lock();
+        try {
+            List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
+            System.out.println("测站信息获取...");
+            for (TSDBVo tsdb : list) {
+                for (ConfigSensorSectionModule station : stationList) {
+                    if (tsdb.getSENID() == station.getSectionCode()) {
+                        tsdb.setSensorTypeName(station.getSensorName());
+                        tsdb.setSensorDataUnit(station.getSectionDataUnit());
+                        tsdb.setSensorTypeId(station.getSensorCode());
+                        tsdb.setStationId(station.getStationCode());
+                        tsdb.setStationName(station.getStationName());
+                    }
                 }
             }
+        }catch (Exception e) {
+            logger.error(e.getMessage());
+        } finally {
+            lock.unlock();
         }
         /**
          * 分年份入库
