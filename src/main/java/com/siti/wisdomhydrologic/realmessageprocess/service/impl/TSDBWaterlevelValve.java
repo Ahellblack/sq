@@ -52,7 +52,6 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
     @Override
     public void beforeProcess(List<TSDBVo> realList, Map<String, Map<Integer, WaterLevelEntity>> configMap) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
-
         Map<Integer, TSDBVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSENID() + "").substring(5)).equals(ConstantConfig.WS)

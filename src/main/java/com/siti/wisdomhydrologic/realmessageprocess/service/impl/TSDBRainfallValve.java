@@ -40,7 +40,6 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
 
     @Override
     public void beforeProcess(List<TSDBVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-
     }
 
     @Override
@@ -50,7 +49,6 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
     @Override
     public void beforeProcess(List<TSDBVo> realList, Map<String, Map<Integer, RainfallEntity>> configMap) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
-
         Map<Integer, TSDBVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSENID() + "").substring(5)).equals(ConstantConfig.RS)
@@ -110,11 +108,10 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                         } else {
                             entity[0].setContinueInterrupt(1);
                         }
-
                     }
                 });
                 if (entity[0] != null) {
-                    entity[0].setDate(mapval.get(e).getTime());
+                    entity[0].setDate(vo.getTime());
                     entity[0].setSensorCode(vo.getSENID());
                     container[0].add(entity[0]);
                 }
