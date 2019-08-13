@@ -6,8 +6,8 @@
     <property name="logName" value="bike"/>-->
 
     <!--通过 application.yml 传递参数过来-->
-    <springProperty scope="context" name="logHome" source="logback.logHome" defaultValue="wh"/>
-    <springProperty scope="context" name="logName" source="logback.logName" defaultValue="wh"/>
+    <springProperty scope="context" name="logHome" source="logback.logHome" defaultValue="sq"/>
+    <springProperty scope="context" name="logName" source="logback.logName" defaultValue="sq"/>
 
     <!--输出到控制台 ConsoleAppender-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

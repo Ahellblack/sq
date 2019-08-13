@@ -90,9 +90,9 @@ public class HourListener {
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
         if (flag.compareAndSet(false, true)) {
-            new Thread(() -> {
+           /* new Thread(() -> {
                 multiProcess();
-            }).start();
+            }).start();*/
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
@@ -106,7 +106,7 @@ public class HourListener {
                 logger.info("hour消息成功消费完成无丢包！");
             }
         }
-        receiver.put(List);
+        //receiver.put(List);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         logger.info("Hour消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
