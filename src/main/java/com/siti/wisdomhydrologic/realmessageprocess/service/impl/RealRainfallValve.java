@@ -37,7 +37,6 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
 
     @Override
     public void doProcess(Map<Integer, RealVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-
     }
 
     public static <T> T getBean(Class<T> requiredType) {
@@ -101,7 +100,7 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                 }
                 if (exception != null) {
                     exception.setSensorCode(e);
-                    exception.setDate(mapval.get(e).getTime());
+                    exception.setDate(DateTransform.format(mapval.get(e).getTime()));
                     exception.setErrorValue(mapval.get(e).getFACTV());
                     container[0].add(exception);
                 }

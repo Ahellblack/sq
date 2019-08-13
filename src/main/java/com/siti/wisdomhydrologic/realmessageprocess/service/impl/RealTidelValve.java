@@ -121,7 +121,7 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                 }
                 //保持时长
                 if (exception != null) {
-                    exception.setDate(mapval.get(e).getTime());
+                    exception.setDate(DateTransform.format(mapval.get(e).getTime()));
                     exception.setSensorCode(mapval.get(e).getSenId());
                     exception.setErrorValue(realvalue);
                     container[0].add(exception);

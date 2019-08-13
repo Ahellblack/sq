@@ -54,8 +54,7 @@ public class HourListener {
     WaterLevelMapper waterLevelMapper;
     @Resource
     private DayDataMapper dayDataMapper;
-    @Resource
-    PipelineValve valvo;
+
     @Resource
     private DayDataServiceImpl dayDataService;
 
@@ -75,12 +74,13 @@ public class HourListener {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
+        }finally {
             try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            logger.error(e.getMessage());
         }
     }
 
@@ -89,10 +89,12 @@ public class HourListener {
      */
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
+        splitList(List, 100);
         if (flag.compareAndSet(false, true)) {
-           /* new Thread(() -> {
-                multiProcess();
-            }).start();*/
+            PipelineValve finalValvo=new PipelineValve();
+            new Thread(() -> {
+                multiProcess(finalValvo);
+            }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
@@ -106,8 +108,7 @@ public class HourListener {
                 logger.info("hour消息成功消费完成无丢包！");
             }
         }
-        //receiver.put(List);
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        receiver.put(List);
         logger.info("Hour消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
@@ -115,7 +116,7 @@ public class HourListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
+    private void multiProcess(PipelineValve finalValvo) {
       /*  //获取水位配置表
         Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
                 .get()
@@ -137,10 +138,9 @@ public class HourListener {
         ColorsExecutor colors = new ColorsExecutor();
         colors.init();
         ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
-        Runnable fetchTask = () -> {
+        /*Runnable fetchTask = () -> {
             List<DayVo> voList = receiver.poll();
             if (voList != null) {
-                splitList(voList, 100);
                 //valvo.doInterceptor(voList, configMap);
             }
         };
@@ -153,7 +153,7 @@ public class HourListener {
                 flag.compareAndSet(true, false);
                 break;
             }
-        }
+        }*/
     }
 
     public void splitList(List arrayList, int size) {

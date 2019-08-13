@@ -14,11 +14,8 @@ import java.util.stream.IntStream;
  *
  * @data ${DATA}-14:56
  */
-@Service
-public class PipelineValve extends MessageProcessPipeline {
 
-    @Resource
-    AbnormalDetailMapper abnormalDetailMapper;
+public class PipelineValve extends MessageProcessPipeline {
 
     @Override
     public void setHandler(Valve indecator) {

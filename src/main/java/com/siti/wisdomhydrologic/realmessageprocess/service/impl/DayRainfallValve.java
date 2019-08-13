@@ -89,7 +89,7 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
                 }
             }
             if (entity != null) {
-                entity.setDate(mapval.get(e).getTime());
+                entity.setDate(DateTransform.format(mapval.get(e).getTime()));
                 entity.setSensorCode(vo.getSenId());
                 container[0].add(entity);
             }

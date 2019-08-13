@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class RealVo {
     private Integer senId;
-    private String Time;//
+    private Date Time;//
     private double FACTV;
     private Integer IFCH;
     private double CYCLE;
@@ -36,11 +36,11 @@ public class RealVo {
         this.senId = senId;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return Time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         Time = time;
     }
 

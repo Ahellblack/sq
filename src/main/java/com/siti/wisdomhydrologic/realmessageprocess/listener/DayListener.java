@@ -5,21 +5,12 @@ import com.rabbitmq.client.Channel;
 import com.siti.wisdomhydrologic.config.ColorsExecutor;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
-import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
-import com.siti.wisdomhydrologic.datepull.service.DayDataService;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.pipeline.PipelineValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.DayRainfallValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBRainfallValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBTidelValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBWaterlevelValve;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -52,14 +43,7 @@ public class DayListener {
     @Resource
     RainFallMapper rainFallMapper;
     @Resource
-    TideLevelMapper tideLevelMapper;
-    @Resource
-    WaterLevelMapper waterLevelMapper;
-    @Resource
     private DayDataServiceImpl DayDataService;
-    @Resource
-    PipelineValve valvo;
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
@@ -91,8 +75,9 @@ public class DayListener {
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
         if (flag.compareAndSet(false, true)) {
+            PipelineValve valvo=new PipelineValve();
             new Thread(() -> {
-                multiProcess();
+                multiProcess(valvo);
             }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
@@ -117,7 +102,7 @@ public class DayListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
+    private void multiProcess(PipelineValve valvo) {
       /*  //获取水位配置表
         Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
                 .get()

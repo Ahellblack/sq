@@ -52,8 +52,6 @@ public class RealListener {
     WaterLevelMapper waterLevelMapper;
     @Resource
     RealMapper realMapper;
-    @Resource
-    PipelineValve valvo;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
@@ -87,15 +85,18 @@ public class RealListener {
         RealVo vo = RealVoList.get(0);
 
         if (flag.compareAndSet(false, true)) {
+            PipelineValve finalValvo=new PipelineValve();
              new Thread(() -> {
-                multiProcess();
+                multiProcess(finalValvo);
             }).start();
+
+
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
-            valvo.setHandler(new RealRainfallValve());
-            valvo.setHandler(new RealTidelValve());
-            valvo.setHandler(new RealWaterlevelValve());
+            finalValvo.setHandler(new RealRainfallValve());
+            finalValvo.setHandler(new RealTidelValve());
+            finalValvo.setHandler(new RealWaterlevelValve());
             logger.info("ColorsExecurots Initial...");
         }
         int currentsize = vo.getCurrentSize();
@@ -116,7 +117,7 @@ public class RealListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
+    private void multiProcess(PipelineValve finalValvo) {
         //获取水位配置表
         Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
                 .get()
@@ -143,7 +144,7 @@ public class RealListener {
             List<RealVo> voList = receiver.poll();
             if (voList != null) {
                 splitList(voList, 100);
-                valvo.doInterceptor(voList, configMap);
+                finalValvo.doInterceptor(voList, configMap);
             }
         };
         while (true) {

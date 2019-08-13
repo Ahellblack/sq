@@ -6,6 +6,7 @@ import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.TSDBService;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,7 @@ public class TSDBServiceImpl implements TSDBService {
         /**
          * 分年份入库
          * */
-        String time = list.get(0).getTime().substring(0, 4);
+        String time = DateTransform.format(list.get(0).getTime()).substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         String dateBaseName = "history_5min_sensor_data_" + time;
         if (inttime < 2001) {

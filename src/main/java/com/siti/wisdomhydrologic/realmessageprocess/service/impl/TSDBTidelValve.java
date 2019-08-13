@@ -1,11 +1,11 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
+import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.TSDBVo;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -142,8 +142,9 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                 }
             });
             if (entity[0] != null) {
+                entity[0].setDate(DateTransform.format(mapval.get(e).getTime()));
                 entity[0].setSensorCode(mapval.get(e).getSENID());
-                entity[0].setDate(mapval.get(e).getTime());
+                entity[0].setDate(DateTransform.format(mapval.get(e).getTime()));
                 container[0].add(entity[0]);
             }
         }});

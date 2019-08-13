@@ -28,7 +28,7 @@ spring:
           max-concurrency: 2
           retry:
             enabled: false #是否支持重试
-          prefetch: 3
+          prefetch: 1
      virtual-host: /
 
 logback:

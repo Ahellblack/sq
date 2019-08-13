@@ -23,7 +23,7 @@ public class DayVo implements Serializable {
     private String sensorTypeName;
     private String sensorDataUnit;
 
-    private String time;
+    private Date time;
     private double avgV;
     private double maxV;
     private String maxT;
@@ -58,11 +58,11 @@ public class DayVo implements Serializable {
         this.senId = senId;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

@@ -14,7 +14,7 @@ public class TSDBVo implements Serializable {
     private final static Long serializabelID = 1234567890L;
 
     Integer SENID;
-    String Time;
+    Date Time;
     double V0;
     double V1;
     double V2;
@@ -64,11 +64,11 @@ public class TSDBVo implements Serializable {
     @Transient
     private Timestamp sensorDataTime;
 
-    public String getTime() {
+    public Date getTime() {
         return Time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         Time = time;
     }
 
