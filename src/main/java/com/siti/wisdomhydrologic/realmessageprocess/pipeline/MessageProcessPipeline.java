@@ -27,7 +27,7 @@ public abstract class MessageProcessPipeline {
     /**
      * 处理方法
      */
-    public abstract void doInterceptor(List<T> val, Map<String, Map<String, T>> configMap) ;
+    public abstract void doInterceptor(List<T> val) ;
 
 
 

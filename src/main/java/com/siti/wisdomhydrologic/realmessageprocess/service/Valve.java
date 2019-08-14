@@ -11,12 +11,8 @@ import java.util.concurrent.BlockingQueue;
  */
 public interface Valve<T,F,G> {
 
-    void beforeProcess(List<T> val, Map<String, Map<Integer, F>> configMap, BlockingQueue<G> cycleQueue);
+    void beforeProcess(List<T> val);
 
-    void doProcess(Map<Integer, T> val, Map<String, Map<Integer, F>> configMap, BlockingQueue<G> cycleQueue);
-
-    void beforeProcess(List<T> val, Map<String, Map<Integer, F>> configMap);
-
-    void doProcess(Map<Integer, T> val, Map<String, Map<Integer, F>> configMap);
+    void doProcess(Map<Integer, T> val,  Map<Integer, F> configMap);
 
 }

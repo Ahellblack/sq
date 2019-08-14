@@ -23,9 +23,9 @@ public class PipelineValve extends MessageProcessPipeline {
     }
 
     @Override
-    public void doInterceptor(List val, Map configMap) {
+    public void doInterceptor(List val) {
         IntStream.range(0, handlerChain.size()).forEach(i -> {
-            handlerChain.get(i).beforeProcess(val, configMap);
+            handlerChain.get(i).beforeProcess(val);
         });
     }
 }

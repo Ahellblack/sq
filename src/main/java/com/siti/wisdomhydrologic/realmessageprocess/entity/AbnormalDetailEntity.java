@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.realmessageprocess.entity;
 
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -29,7 +31,162 @@ public class AbnormalDetailEntity {
     int keepTime;
     int continueInterrupt;
     double errorValue;
+    String errorPeriod;
+    String equipmentError;
     Date createTime;
+
+    private AbnormalDetailEntity(builer builer){
+        this. date=builer.date;
+        this. sensorCode=builer.sensorCode;
+        this. fiveBelow=builer.fiveBelow;
+        this. fiveAbove=builer.fiveAbove;
+        this. hourBelow=builer.hourBelow;
+        this. hourAbove=builer.hourAbove;
+        this. dayBelow=builer.dayBelow;
+        this. dayAbove=builer.dayAbove;
+        this. moreNear=builer.moreNear;
+        this. lessNear=builer.lessNear;
+        this. floatingUp= builer.floatingUp;
+        this. floatingDown=builer.floatingDown;
+        this. keepTime=builer.keepTime;
+        this. continueInterrupt=builer.continueInterrupt;
+        this. errorValue=builer.errorValue;
+        this. errorPeriod=builer.errorPeriod;
+        this. equipmentError=builer.equipmentError;
+        this. createTime=builer.createTime;
+        //java 构建器
+    }
+
+    public static class builer{
+        String date;
+        int sensorCode;
+        int fiveBelow;
+        int fiveAbove;
+        int hourBelow;
+        int hourAbove;
+        int dayBelow;
+        int dayAbove;
+        int moreNear;
+        int lessNear;
+        int floatingUp;
+        int floatingDown;
+        int keepTime;
+        int continueInterrupt;
+        double errorValue;
+        String errorPeriod;
+        String equipmentError;
+        Date createTime;
+
+        public AbnormalDetailEntity build(){
+            return new AbnormalDetailEntity(this);
+        }
+
+        public builer date(String date) {
+            this.date = date;
+            return this;
+        }
+
+        public builer sensorCode(int sensorCode) {
+            this.sensorCode = sensorCode;
+            return this;
+        }
+
+        public builer fiveBelow(int fiveBelow) {
+            this.fiveBelow = fiveBelow;
+            return this;
+        }
+
+        public builer fiveAbove(int fiveAbove) {
+            this.fiveAbove = fiveAbove;
+            return this;
+        }
+
+        public builer hourBelow(int hourBelow) {
+            this.hourBelow = hourBelow;
+            return this;
+        }
+
+        public builer hourAbove(int hourAbove) {
+            this.hourAbove = hourAbove;
+            return this;
+        }
+
+        public builer dayBelow(int dayBelow) {
+            this.dayBelow = dayBelow;
+            return this;
+        }
+
+        public builer dayAbove(int dayAbove) {
+            this.dayAbove = dayAbove;
+            return this;
+        }
+
+        public builer moreNear(int moreNear) {
+            this.moreNear = moreNear;
+            return this;
+        }
+
+        public builer lessNear(int lessNear) {
+            this.lessNear = lessNear;
+            return this;
+        }
+
+        public builer floatingUp(int floatingUp) {
+            this.floatingUp = floatingUp;
+            return this;
+        }
+
+        public builer floatingDown(int floatingDown) {
+            this.floatingDown = floatingDown;
+            return this;
+        }
+
+        public builer keepTime(int keepTime) {
+            this.keepTime = keepTime;
+            return this;
+        }
+
+        public builer continueInterrupt(int continueInterrupt) {
+            this.continueInterrupt = continueInterrupt;
+            return this;
+        }
+
+        public builer errorValue(double errorValue) {
+            this.errorValue = errorValue;
+            return this;
+        }
+
+        public builer errorPeriod(String errorPeriod) {
+            this.errorPeriod = errorPeriod;
+            return this;
+        }
+
+        public builer equipmentError(String equipmentError) {
+            this.equipmentError = equipmentError;
+            return this;
+        }
+
+        public builer createTime(Date createTime) {
+            this.createTime = createTime;
+            return this;
+        }
+    }
+
+    public String getErrorPeriod() {
+        return errorPeriod;
+    }
+
+    public void setErrorPeriod(String errorPeriod) {
+        this.errorPeriod = errorPeriod;
+    }
+
+    public String getEquipmentError() {
+        return equipmentError;
+    }
+
+    public void setEquipmentError(String equipmentError) {
+        this.equipmentError = equipmentError;
+    }
 
     public double getErrorValue() {
         return errorValue;
