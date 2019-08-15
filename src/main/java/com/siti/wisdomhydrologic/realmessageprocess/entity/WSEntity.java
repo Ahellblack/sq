@@ -9,8 +9,8 @@ import java.util.Date;
  *
  * @data ${DATA}-15:18
  */
-@Table(name = "abnormal_water_level")
-public class WaterLevelEntity {
+@Table(name = "abnormal_wind_speed")
+public class WSEntity {
     @Id
     int id;
     int sensorCode;//模块
@@ -18,11 +18,9 @@ public class WaterLevelEntity {
     int interruptLimit;//中断次数
     double levelMax;//最高水位
     double levelMin;//最低水位
-    double compare;//与5分钟水位的差值
     double upMax;//最高上涨量
     double belowMin;//最高降低量
     int duration;//准许水位不变的最高时长
-    Date createTime;
     String exceptionValue;
 
     public String getExceptionValue() {
@@ -81,14 +79,6 @@ public class WaterLevelEntity {
         this.levelMin = levelMin;
     }
 
-    public double getCompare() {
-        return compare;
-    }
-
-    public void setCompare(double compare) {
-        this.compare = compare;
-    }
-
     public double getUpMax() {
         return upMax;
     }
@@ -113,11 +103,4 @@ public class WaterLevelEntity {
         this.duration = duration;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }

@@ -99,6 +99,7 @@ public class TsdbListener {
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
             finalValvo.setHandler(new TSDBRainfallValve());
+            finalValvo.setHandler(new TSDBWSValve());
             finalValvo.setHandler(new TSDBTidelValve());
             finalValvo.setHandler(new TSDBWaterlevelValve());
             logger.info("ColorsExecurots Initial...");

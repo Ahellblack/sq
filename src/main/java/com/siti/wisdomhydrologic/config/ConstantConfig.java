@@ -10,17 +10,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class ConstantConfig extends WebMvcConfigurerAdapter {
-    public static final String FLAGT = "T";
-
-    public static final String FLAGR = "R";
-
-    public static final String FLAGW = "W";
 
     public static final String WS="83";
 
     public static final String TS="81";
 
     public static final String RS="84";
+
+    public static final String WSS="85";
+
+    public static final String WDS="86";
+
+    public static final String WAT="75";
+
+    public static final String WAP="73";
+
+    public static final String WFV="71";
+
+    public static final String WFVY="73";
+
+    public static final String ES="89";
 
     public static final String BASEPACKAGE="com";
 

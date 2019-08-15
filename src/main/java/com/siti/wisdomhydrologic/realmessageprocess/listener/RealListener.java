@@ -43,12 +43,6 @@ import java.util.stream.IntStream;
 public class RealListener {
 
     @Resource
-    RainFallMapper rainFallMapper;
-    @Resource
-    TideLevelMapper tideLevelMapper;
-    @Resource
-    WaterLevelMapper waterLevelMapper;
-    @Resource
     RealMapper realMapper;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -87,8 +81,6 @@ public class RealListener {
              new Thread(() -> {
                 multiProcess(finalValvo);
             }).start();
-
-
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());

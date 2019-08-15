@@ -38,27 +38,6 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
         return context.getBean(requiredType);
     }
 
-/*
-    //获取水位配置表
-    Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
-            .get()
-            .stream()
-            .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
-    //获取潮位配置表
-    Map<Integer, Object> tideLevelMap = Optional.of(tideLevelMapper.fetchAll())
-            .get()
-            .stream()
-            .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));
-    //获取雨量配置表
-    Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
-            .get()
-            .stream()
-            .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
-
-    Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
-        configMap.put(ConstantConfig.FLAGW, waterLevelMap);
-        configMap.put(ConstantConfig.FLAGT, tideLevelMap);
-        configMap.put(ConstantConfig.FLAGR, rainfallMap);*/
     @Override
     public void beforeProcess(List<DayVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);

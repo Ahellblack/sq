@@ -2,24 +2,21 @@ package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.WSEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
 import com.siti.wisdomhydrologic.util.enumbean.DataError;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -27,8 +24,9 @@ import java.util.stream.Collectors;
  *
  * @data ${DATA}-9:54
  */
-@Component
-public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDetailEntity>,ApplicationContextAware {
+public  class RealWSValve implements Valve<RealVo,WSEntity,AbnormalDetailEntity>,ApplicationContextAware {
+
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -38,36 +36,33 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
     private static ApplicationContext context = null;
 
     AbnormalDetailMapper abnormalDetailMapper = null;
+
     public static <T> T getBean(Class<T> requiredType) {
         return context.getBean(requiredType);
     }
 
-
-
     @Override
     public void beforeProcess(List<RealVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
-        //获取潮位配置表
-        Map<Integer, TideLevelEntity> tideLevelMap = Optional.of(abnormalDetailMapper.fetchAllT())
+        //获取风速度配置表
+        Map<Integer, WSEntity> ws = Optional.of(abnormalDetailMapper.fetchWS())
                 .get()
                 .stream()
-                .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));
+                .collect(Collectors.toMap(WSEntity::getSensorCode, b -> b));
         Map<Integer, RealVo> map = realList.stream()
                 .filter(
-                        e -> ((e.getSenId() + "").substring(5)).equals(ConstantConfig.TS)
+                        e -> ((e.getSenId() + "").substring(5)).equals(ConstantConfig.WSS)
                 ).collect(Collectors.toMap(RealVo::getSenId, a -> a));
-        doProcess(map,tideLevelMap);
+        doProcess(map,ws);
     }
 
-    //
     @Override
-    public void doProcess(Map<Integer, RealVo> mapval, Map<Integer, TideLevelEntity> configMap) {
-
-        final double[] doubles={66666};
+    public void doProcess(Map<Integer, RealVo> mapval, Map<Integer, WSEntity> configMap) {
+        final double[] doubles={99999};
         final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
         mapval.keySet().stream().forEach(e -> {
             //        最大值最小值比较
-            TideLevelEntity config = configMap.get(e);
+            WSEntity config = configMap.get(e);
             if(config!=null) {
                 RealVo vo=mapval.get(e);
                 double realvalue= mapval.get(e).getFACTV();
@@ -78,22 +73,22 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSenId())  .sensorCode(vo.getSenId())
+                            .sensorCode(vo.getSenId())
                             .errorValue(realvalue)
-                            .dateError(DataError.LESS_SMALL_T.getErrorCode())
+                            .dateError(DataError.LESS_SMALL.getErrorCode())
                             .build());
                 } else if (realvalue > max) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSenId())  .sensorCode(vo.getSenId())
+                            .sensorCode(vo.getSenId())
                             .errorValue(realvalue)
-                            .dateError(DataError.MORE_BIG_T.getErrorCode())
+                            .dateError(DataError.MORE_BIG.getErrorCode())
                             .build());
                 }
                 //最大上升 最大下降
-                if (doubles[0] == 66666) {
+                if (doubles[0] == 9999) {
                     doubles[0] = realvalue;
                 } else {
                     if (realvalue> doubles[0]) {
@@ -103,19 +98,20 @@ public  class RealTidelValve implements Valve<RealVo,TideLevelEntity,AbnormalDet
                                             .dateToLocalDateTime(vo.getTime())
                                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                                     .sensorCode(vo.getSenId())
+                                    .dateError(DataError.CHANGE_BIG.getErrorCode())
                                     .errorValue(realvalue)
-                                    .dateError(DataError.CHANGE_BIG_T.getErrorCode())
                                     .build());
                         }
                     } else if (realvalue < doubles[0]) {
-                        if ((doubles[0]-realvalue ) > config.getBelowMin()) {
+                        if ((doubles[0] - realvalue) > config.getBelowMin()) {
+
                             exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                     .date(LocalDateUtil
                                             .dateToLocalDateTime(vo.getTime())
                                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                                    .sensorCode(vo.getSenId()).sensorCode(vo.getSenId())
+                                    .sensorCode(vo.getSenId())
                                     .errorValue(realvalue)
-                                    .dateError(DataError.CHANGE_SMALL_T.getErrorCode())
+                                    .dateError(DataError.CHANGE_SMALL.getErrorCode())
                                     .build());
                         }
                     }

@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
@@ -8,6 +10,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -70,28 +73,23 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                 double realvalue = mapval.get(e).getFACTV();
                 double max = rainfallEntity.getMaxFiveLevel();
                 double min = rainfallEntity.getMinFiveLevel();
-                AbnormalDetailEntity exception = null;
                 if (realvalue < min) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSenId()).fiveBelow(1)
-                            .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSenId())
+                            .errorValue(realvalue)
+                            .dateError(DataError.FIVE_LESS_R.getErrorCode())
                             .build());
                 } else if (realvalue > max) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSenId()).fiveBelow(0)
-                            .fiveAbove(1).hourBelow(0).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSenId())
+                            .errorValue(realvalue)
+                            .dateError(DataError.FIVE_MORE_R.getErrorCode())
                             .build());
                 }
                 if (rainfallEntity.getNearbySendorCode() != null) {
@@ -109,11 +107,8 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                                 .date(LocalDateUtil
                                         .dateToLocalDateTime(vo.getTime())
                                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                                .sensorCode(vo.getSenId()).fiveBelow(0)
-                                .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                .dayAbove(0).moreNear(1).lessNear(0).floatingUp(0)
-                                .floatingDown(0).keepTime(0).continueInterrupt(0)
-                                .errorValue(0).errorPeriod("").equipmentError("")
+                                .sensorCode(vo.getSenId())
+                                .dateError(DataError.MORENEAR_R.getErrorCode())
                                 .build());
                     }
                 }
@@ -129,41 +124,25 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                     if(frvs==null) {
                         exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                 .date(time[0])
-                                .sensorCode(e).fiveBelow(0)
-                                .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                                .floatingDown(0).keepTime(0).continueInterrupt(0)
-                                .errorValue(0).errorPeriod("").equipmentError(EquimentError.ELE_ERROR.getErrorMsg())
+                                .sensorCode(e)
                                 .build());
                     }else{
                         if(frvs.getFACTV()<=11.2){
                             exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                     .date(time[0])
-                                    .sensorCode(e).fiveBelow(0)
-                                    .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                    .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                                    .floatingDown(0).keepTime(0).continueInterrupt(0)
-                                    .errorValue(0).errorPeriod("").equipmentError(EquimentError.ELE_ERROR.getErrorMsg())
+                                    .sensorCode(e)
                                     .build());
                         }else{
                             exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                     .date(time[0])
-                                    .sensorCode(e).fiveBelow(0)
-                                    .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                    .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                                    .floatingDown(0).keepTime(0).continueInterrupt(0)
-                                    .errorValue(0).errorPeriod("").equipmentError(EquimentError.SENSOR_ERROR.getErrorMsg())
+                                    .sensorCode(e)
                                     .build());
                         }
                     }
                 }else{
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(time[0])
-                            .sensorCode(e).fiveBelow(0)
-                            .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError(EquimentError.SENSOR_ERROR.getErrorMsg())
+                            .sensorCode(e)
                             .build());
                 }
             });
@@ -178,5 +157,6 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         context = applicationContext;
     }
+
 
 }

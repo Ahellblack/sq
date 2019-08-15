@@ -1,9 +1,6 @@
 package com.siti.wisdomhydrologic.realmessageprocess.mapper;
 
-import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.*;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +28,9 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "</foreach></script>\n")
     int insertAndUpdate(@Param("list") List<AbnormalDetailEntity> list);
 
+    @Select("<script>select sensor_model_type from config_sensor_database where sensor_code=#{sensor_code}  </script>")
+    String getSensorModelType(@Param("sensor_code")String sensor_code);
+
     @Insert("<script>" +
             "replace into abnormal_detail(date,sensor_code,day_above,day_below,hour_above,hour_below," +
             "five_below,five_above,more_near,less_near,floating_up,floating_down,keeptime,continue_interrupt,error_period,equipment_error," +
@@ -51,11 +51,32 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     @Select("select * from abnormal_water_level")
     List<WaterLevelEntity> fetchAllW();
 
+    @Select("select * from abnormal_flow_velocity_y")
+    List<FVYEntity> fetchAllFVY();
+
+    @Select("select * from abnormal_flow_velocity")
+    List<FVEntity> fetchAllFV();
+
     @Select("select * from abnormal_tide_level")
     List<TideLevelEntity> fetchAllT();
 
+    @Select("select * from abnormal_air_temperature")
+    List<ATEntity> fetchAllAT();
+
+    @Select("select * from abnormal_air_pressure")
+    List<APEntity> fetchAllAP();
+
+    @Select("select * from abnormal_wind_speed")
+    List<WSEntity> fetchWS();
+
+    @Select("select * from abnormal_wind_direction")
+    List<WDEntity> fetchWD();
+
     @Select("select * from abnormal_rainfall")
     List<RainfallEntity> fetchAllR();
+
+    @Select("select * from abnormal_electric")
+    List<ELEEntity> fetchAllELE();
 
     @Select("<script>select * from real  where sensor_code = #{sensorcode} and time=DATE_ADD(#{time},INTERVAL -5 MINUTE)</script>\n")
     RealVo selectBefore5Ele(@Param("sensorcode") String sensorcode, @Param("time") String time);
