@@ -17,6 +17,7 @@ import com.siti.wisdomhydrologic.util.StationIdUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +38,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Resource
     private AbnormalDetailMapper abnormalDetailMapper;
 
+    private static final int STATUS = 2;
+
     public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate) {
         //默认查询本月
         if (createDate == null) {
@@ -55,6 +58,18 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
+
+        if (reportManageApplicationBroken.getRequestDesignatingStatus() == STATUS) {
+            //派单处理
+            LocalTime localTime = LocalTime.now();
+            LocalDate localDate = LocalDate.now();
+            LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+            ZoneId zone = ZoneId.systemDefault();
+            Instant instant = localDateTime.atZone(zone).toInstant();
+            Date date = Date.from(instant);
+            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(date, "YYYY-MM-dd HH:mm:ss"));
+        }
+
         return reportManageApplicationBrokenMapper.updateByPrimaryKey(reportManageApplicationBroken);
     }
 
@@ -85,7 +100,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 } else if (data.getDataError() != null) {
                     applicationBroken.setBrokenAccordingId(data.getDataError());
                 }
-                if(applicationBroken.getBrokenAccordingId()!=null) {
+                if (applicationBroken.getBrokenAccordingId() != null) {
                     //结合module表添加测站参数
                     moduleList.forEach(module -> {
                         if (module.getSectionCode() == data.getSectionCode()) {
@@ -118,16 +133,16 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 }
             });
 
-        int size = 1000;
-        int allsize = brokenList.size();
-        int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
-        IntStream.range(0, cycle).forEach(e -> {
-            if (allsize > 0) {
-                reportManageApplicationBrokenMapper.insertDataMantain(brokenList.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
-            }
-        });
-        return allsize;
-        }else{
+            int size = 1000;
+            int allsize = brokenList.size();
+            int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
+            IntStream.range(0, cycle).forEach(e -> {
+                if (allsize > 0) {
+                    reportManageApplicationBrokenMapper.insertDataMantain(brokenList.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
+                }
+            });
+            return allsize;
+        } else {
             return 0;
         }
     }

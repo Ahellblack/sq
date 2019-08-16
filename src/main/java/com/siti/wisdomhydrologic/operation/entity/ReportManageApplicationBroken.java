@@ -16,6 +16,25 @@ public class ReportManageApplicationBroken {
     private String resolveMethod;
     private int resolveUserId;
     private String remark;
+    private int requestDesignatingStatus;
+    private String requestDesignatingTime;
+
+
+    public int getRequestDesignatingStatus() {
+        return requestDesignatingStatus;
+    }
+
+    public void setRequestDesignatingStatus(int requestDesignatingStatus) {
+        this.requestDesignatingStatus = requestDesignatingStatus;
+    }
+
+    public String getRequestDesignatingTime() {
+        return requestDesignatingTime;
+    }
+
+    public void setRequestDesignatingTime(String requestDesignatingTime) {
+        this.requestDesignatingTime = requestDesignatingTime;
+    }
 
     public String getBrokenAccordingId() {
         return brokenAccordingId;

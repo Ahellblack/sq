@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/18.
  */
-@Service
 public interface DayDataService {
 
     int addDayData(List<DayVo> dayVo);

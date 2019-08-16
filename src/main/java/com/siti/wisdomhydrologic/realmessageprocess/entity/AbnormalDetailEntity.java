@@ -20,7 +20,7 @@ public class AbnormalDetailEntity {
     int sensorCode;
     String errorPeriod;
     double errorValue;
-    String dateError;
+    String dataError;
     String equipmentError;
     Date createTime;
 
@@ -29,7 +29,7 @@ public class AbnormalDetailEntity {
         this. sensorCode=builer.sensorCode;
         this. errorPeriod=builer.errorPeriod;
         this. errorValue=builer.errorValue;
-        this. dateError=builer.dateError;
+        this. dataError=builer.dataError;
         this. equipmentError=builer.equipmentError;
         this. createTime=builer.createTime;
         //java 构建器
@@ -39,7 +39,7 @@ public class AbnormalDetailEntity {
         String date;
         int sensorCode;
         double errorValue;
-        String dateError;
+        String dataError;
         String equipmentError;
         Date createTime;
        String errorPeriod;
@@ -61,8 +61,8 @@ public class AbnormalDetailEntity {
             return this;
         }
 
-        public builer dateError(String dateError) {
-            this.dateError = dateError;
+        public builer dateError(String dataError) {
+            this.dataError = dataError;
             return this;
         }
 
@@ -83,11 +83,11 @@ public class AbnormalDetailEntity {
     }
 
     public String getDateError() {
-        return dateError;
+        return dataError;
     }
 
-    public void setDateError(String dateError) {
-        this.dateError = dateError;
+    public void setDateError(String dataError) {
+        this.dataError = dataError;
     }
 
     public String getEquipmentError() {

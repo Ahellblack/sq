@@ -8,7 +8,10 @@ import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -20,6 +23,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by dell on 2019/7/18.
  */
 @Component
+@Transactional
+@EnableTransactionManagement(proxyTargetClass = true)
 public class DayDataServiceImpl implements DayDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(DayDataServiceImpl.class);
@@ -78,7 +83,7 @@ public class DayDataServiceImpl implements DayDataService {
 
     @Override
     public int addHourData(List<DayVo> HourVo) {
-        lock.lock();
+
         try {
             List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
             for (DayVo hour : HourVo) {
@@ -94,8 +99,6 @@ public class DayDataServiceImpl implements DayDataService {
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-        } finally {
-            lock.unlock();
         }
         /**
          * 分年份入库
@@ -110,8 +113,9 @@ public class DayDataServiceImpl implements DayDataService {
             dateBaseName = "history_5min_sensor_data_2001_2013";
             return dayDataMapper.addHourData(dateBaseName, HourVo);
         }
-        Calendar cal = Calendar.getInstance();
+        lock.lock();
         dayDataMapper.buildHourBase(dateBaseName);
+        lock.unlock();
         return dayDataMapper.addHourData(dateBaseName, HourVo);
     }
 }
