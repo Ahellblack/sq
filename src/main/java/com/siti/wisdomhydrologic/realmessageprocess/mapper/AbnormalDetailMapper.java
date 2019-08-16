@@ -83,6 +83,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
 
     @Select("<script>select count(1) from real where sensor_code=#{sensorCode} and time=#{time}</script>")
     int selectRealExist(@Param("sensorCode") Integer sensorCode,@Param("time")String time);
+
     @Insert("<script>" +
             "insert into abnormal_detail(date,sensor_code,five_below,five_above,more_near,less_near,error_value)\n" +
             "values <foreach collection=\"list\" index=\"index\" item=\"AbnormalDetailEntity\" separator=\",\">" +

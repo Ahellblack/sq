@@ -38,7 +38,6 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
 
     AbnormalDetailMapper abnormalDetailMapper = null;
 
-
     public static <T> T getBean(Class<T> requiredType) {
         return context.getBean(requiredType);
     }
@@ -113,7 +112,7 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                     }
                 }
             }
-        });
+        });/*
         //存在遗漏数据
         if(configMap.size()>0){
             configMap.keySet().forEach(e->{
@@ -146,7 +145,7 @@ public class RealRainfallValve implements Valve<RealVo, RainfallEntity, Abnormal
                             .build());
                 }
             });
-        }
+        }*/
         if (exceptionContainer[0].size() > 0) {
             abnormalDetailMapper.insertFinal(exceptionContainer[0]);
             exceptionContainer[0] = null;

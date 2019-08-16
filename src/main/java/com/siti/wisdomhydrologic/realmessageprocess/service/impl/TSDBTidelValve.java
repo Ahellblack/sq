@@ -8,6 +8,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -82,7 +83,7 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                 IntStream.range(j, j + limit).forEach(k -> {
                     if (arrayV[k] == -99) {
                         flag[0]++;
-                        String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
+                       /* String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
                                 .plusHours(-1)
                                 .plusMinutes(k * 5)
                                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -92,13 +93,10 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                                     .date(LocalDateUtil
                                             .dateToLocalDateTime(vo.getTime())
                                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                                    .sensorCode(vo.getSENID()).fiveBelow(0)
-                                    .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                    .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                                    .floatingDown(0).keepTime(0).continueInterrupt(0)
-                                    .errorValue(0).errorPeriod("").equipmentError(EquimentError.CAL_ERROR.getErrorMsg())
+                                    .sensorCode(vo.getSENID())
+                                    .dateError(DataError.RAIN_INTER.getErrorCode())
                                     .build());
-                        }
+                        }*/
                     }
                 });
                 if (flag[0] == limit) {
@@ -106,11 +104,8 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSENID()).fiveBelow(0)
-                            .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(1)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSENID())
+                            .dateError(DataError.INTENT_T.getErrorCode())
                             .build());
                 }
             });
@@ -123,17 +118,30 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSENID()).fiveBelow(0)
-                            .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(1).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSENID())
+                            .dateError(DataError.DURA_T.getErrorCode())
                             .build());
                 }else{
                     temp[0]=arrayV[k];
                     timelimit[0]=1;
                 }
-                if (doubles[0] == 99999) {
+
+                if(arrayV[k]==-99){
+                    //实时数据不存在
+                    String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
+                            .plusHours(-1)
+                            .plusMinutes(k * 5)
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    int flag=abnormalDetailMapper.selectRealExist(e,date);
+                    if(flag<1){
+                        exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                .date(date)
+                                .sensorCode(e)
+                                .equipmentError(DataError.EQ_TIDE.getErrorCode())
+                                .build());
+                    }
+                }
+                /*if (doubles[0] == 99999) {
                     doubles[0] = arrayV[k];
                 } else {
                     if ( arrayV[k] > doubles[0]) {
@@ -163,7 +171,7 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
                                     .build());
                         }
                     }
-                }
+                }*/
             });
         }});
         if (exceptionContainer[0].size() > 0) {

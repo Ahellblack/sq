@@ -77,7 +77,7 @@ public  class RealEleValve implements Valve<RealVo,ELEEntity,AbnormalDetailEntit
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                             .sensorCode(vo.getSenId())
                             .errorValue(realvalue)
-                            .dateError(DataError.LESS_SMALL_FV.getErrorCode())
+                            .dateError(DataError.LESS_SMALL_E.getErrorCode())
                             .build());
                 } else if (realvalue > max) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
@@ -86,7 +86,7 @@ public  class RealEleValve implements Valve<RealVo,ELEEntity,AbnormalDetailEntit
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                             .sensorCode(vo.getSenId())
                             .errorValue(realvalue)
-                            .dateError(DataError.MORE_BIG_FV.getErrorCode())
+                            .dateError(DataError.MORE_BIG_E.getErrorCode())
                             .build());
                 }
                 //最大上升 最大下降
@@ -100,7 +100,7 @@ public  class RealEleValve implements Valve<RealVo,ELEEntity,AbnormalDetailEntit
                                             .dateToLocalDateTime(vo.getTime())
                                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                                     .errorValue(realvalue)
-                                    .dateError(DataError.CHANGE_BIG_FV.getErrorCode())
+                                    .dateError(DataError.CHANGE_BIG_E.getErrorCode())
                                     .build());
                         }
                     } else if (realvalue < doubles[0]) {
@@ -111,7 +111,7 @@ public  class RealEleValve implements Valve<RealVo,ELEEntity,AbnormalDetailEntit
                                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                                     .sensorCode(vo.getSenId())
                                     .errorValue(realvalue)
-                                    .dateError(DataError.CHANGE_SMALL_FV.getErrorCode())
+                                    .dateError(DataError.CHANGE_SMALL_E.getErrorCode())
                                     .build());
                         }
                     }

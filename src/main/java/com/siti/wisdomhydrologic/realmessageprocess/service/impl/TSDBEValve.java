@@ -1,26 +1,24 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
-import com.google.common.collect.Lists;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.ELEEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
 import com.siti.wisdomhydrologic.util.enumbean.DataError;
-import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,7 +28,7 @@ import java.util.stream.IntStream;
  * @data ${DATA}-9:54
  */
 @Component
-public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, AbnormalDetailEntity>, ApplicationContextAware {
+public class TSDBEValve implements Valve<TSDBVo, ELEEntity, AbnormalDetailEntity>, ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -50,10 +48,10 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
     public void beforeProcess(List<TSDBVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
         //获取雨量配置表
-        Map<Integer, WaterLevelEntity> rainfallMap = Optional.of(abnormalDetailMapper.fetchAllW())
+        Map<Integer, ELEEntity> rainfallMap = Optional.of(abnormalDetailMapper.fetchAllELE())
                 .get()
                 .stream()
-                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
+                .collect(Collectors.toMap(ELEEntity::getSensorCode, a -> a));
         Map<Integer, TSDBVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSENID() + "").substring(5)).equals(ConstantConfig.WS)
@@ -64,10 +62,10 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
     }
 
     @Override
-    public void doProcess(Map<Integer, TSDBVo> mapval, Map<Integer, WaterLevelEntity> configMap) {
+    public void doProcess(Map<Integer, TSDBVo> mapval, Map<Integer, ELEEntity> configMap) {
         final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
         mapval.keySet().stream().forEach(e -> {
-            WaterLevelEntity config = configMap.get(e);
+            ELEEntity config = configMap.get(e);
             if (config != null) {
                 final double[] doubles = {99999};
                 final double[] temp = {-99};
@@ -90,12 +88,10 @@ public class TSDBWaterlevelValve implements Valve<TSDBVo, WaterLevelEntity, Abno
                                         .dateToLocalDateTime(vo.getTime())
                                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                                 .sensorCode(vo.getSENID())
-                                .dateError(DataError.INTENT_WATER.getErrorCode())
+                                .dateError(DataError.WS_INTER_E.getErrorCode())
                                 .build());
                     }
                 });
-                //数据不变的时长
-                //最大上升 最大下降
                 IntStream.range(0, arrayV.length).forEach(k -> {
                     String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
                             .plusHours(-1)

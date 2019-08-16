@@ -10,25 +10,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class ConstantConfig extends WebMvcConfigurerAdapter {
-
+    //水位
     public static final String WS="83";
-
+    //潮位
     public static final String TS="81";
-
+    //雨量
     public static final String RS="84";
-
+    //风速
     public static final String WSS="85";
-
+    //风向
     public static final String WDS="86";
-
+    //气温
     public static final String WAT="75";
-
+    //气压
     public static final String WAP="73";
-
+    //流速X
     public static final String WFV="71";
-
+    //流速Y
     public static final String WFVY="73";
-
+    //电压
     public static final String ES="89";
 
     public static final String BASEPACKAGE="com";

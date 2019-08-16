@@ -11,6 +11,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -59,27 +60,20 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
     @Override
     public void doProcess(Map<Integer, DayVo> mapval, Map<Integer, RainfallEntity> configMap) {
         final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
-        final String[] time = new String[1];
         mapval.keySet().stream().forEach(e -> {
             RainfallEntity config = configMap.get(e);
             if(config!=null){
             DayVo vo = mapval.get(e);
-            //中断次数
-            int limit = config.getInterruptLimit();
-            //一个小时最大最小值
             double daymax = config.getMaxDayLevel();
             double daymin = config.getMinDayLevel();
-            AbnormalDetailEntity entity =null;
             if(daymax>vo.getMaxV()){
                 exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                         .date(LocalDateUtil
                                 .dateToLocalDateTime(vo.getTime())
                                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .sensorCode(vo.getSenId()).fiveBelow(0)
-                        .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                        .dayAbove(1).moreNear(0).lessNear(0).floatingUp(0)
-                        .floatingDown(0).keepTime(0).continueInterrupt(0)
-                        .errorValue(0).errorPeriod("").equipmentError("")
+                        .sensorCode(vo.getSenId())
+                        .errorValue(vo.getMaxV())
+                        .dateError(DataError.DAY_MORE_R.getErrorCode())
                         .build());
             }
             if(daymin<vo.getMinV()){
@@ -87,14 +81,11 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
                         .date(LocalDateUtil
                                 .dateToLocalDateTime(vo.getTime())
                                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .sensorCode(vo.getSenId()).fiveBelow(0)
-                        .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(1)
-                        .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                        .floatingDown(0).keepTime(0).continueInterrupt(0)
-                        .errorValue(0).errorPeriod("").equipmentError("")
+                        .sensorCode(vo.getSenId())
+                        .errorValue(vo.getMaxV())
+                        .dateError(DataError.DAY_LESS_R.getErrorCode())
                         .build());
             }
-
         }});
         if (exceptionContainer[0].size() > 0) {
             abnormalDetailMapper.insertFinal(exceptionContainer[0]);

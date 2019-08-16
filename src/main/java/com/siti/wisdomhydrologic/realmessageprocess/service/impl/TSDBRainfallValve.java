@@ -9,7 +9,9 @@ import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
+import org.checkerframework.checker.units.qual.min;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -67,7 +69,7 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
         mapval.entrySet().stream().forEach((Map.Entry<Integer, TSDBVo> e) -> {
             RainfallEntity config = configMap.get(e);
             if (config != null) {
-                TSDBVo vo = mapval.get(e);
+                TSDBVo vo = mapval.get(e.getKey());
                 //中断次数
                 int limit = config.getInterruptLimit();
                 //一个小时最大最小值
@@ -75,30 +77,47 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                 double hourmin = config.getMinHourLevel();
                 double[] arrayV = {vo.getV0(), vo.getV1(), vo.getV2(), vo.getV3(), vo.getV4(), vo.getV5(),
                         vo.getV6(), vo.getV7(), vo.getV8(), vo.getV9(), vo.getV10(), vo.getV11()};
-                List<Double> tsLists = new ArrayList(Arrays.asList(arrayV));
-                OptionalDouble min = tsLists.stream().mapToDouble(Double::doubleValue).min();
-                OptionalDouble max = tsLists.stream().mapToDouble(Double::doubleValue).max();
-                if (min.getAsDouble() < hourmin) {
+                final double[] maxmin={0,0};
+                IntStream.range(0,arrayV.length).forEach(i->{
+                    if(arrayV[i]>maxmin[0]){
+                        maxmin[0]=arrayV[i];
+                    }
+                    if(arrayV[i]<maxmin[1]){
+                        maxmin[1]=arrayV[i];
+                    }
+                    if(arrayV[i]==-99){
+                        //实时数据不存在
+                        String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
+                                .plusHours(-1)
+                                .plusMinutes(i * 5)
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        int flag=abnormalDetailMapper.selectRealExist(e.getKey(),date);
+                        if(flag<1){
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(date)
+                                    .sensorCode(e.getKey())
+                                    .equipmentError(DataError.EQ_RAIN.getErrorCode())
+                                    .build());
+                        }
+                    }
+                });
+                if (maxmin[1] < hourmin) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSENID()).fiveBelow(0)
-                            .fiveAbove(0).hourBelow(1).hourAbove(0).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSENID())
+                            .errorValue(maxmin[1])
+                            .dateError(DataError.HOUR_MORE_R.getErrorCode())
                             .build());
-                } else if (max.getAsDouble() > hourmax) {
+                } else if (maxmin[0]> hourmax) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
                                     .dateToLocalDateTime(vo.getTime())
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                            .sensorCode(vo.getSENID()).fiveBelow(0)
-                            .fiveAbove(0).hourBelow(0).hourAbove(1).dayBelow(0)
-                            .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                            .floatingDown(0).keepTime(0).continueInterrupt(0)
-                            .errorValue(0).errorPeriod("").equipmentError("")
+                            .sensorCode(vo.getSENID())
+                            .errorValue(maxmin[0])
+                            .dateError(DataError.HOUR_LESS_R.getErrorCode())
                             .build());
                 }
                 IntStream.range(0, 13 - limit).forEach(j -> {
@@ -113,17 +132,11 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                                 .date(LocalDateUtil
                                         .dateToLocalDateTime(vo.getTime())
                                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                                .sensorCode(vo.getSENID()).fiveBelow(0)
-                                .fiveAbove(0).hourBelow(0).hourAbove(0).dayBelow(0)
-                                .dayAbove(0).moreNear(0).lessNear(0).floatingUp(0)
-                                .floatingDown(0).keepTime(0).continueInterrupt(1)
-                                .errorValue(0).errorPeriod("").equipmentError("")
+                                .sensorCode(vo.getSENID())
+                                .dateError(DataError.RAIN_INTER.getErrorCode())
                                 .build());
                     }
                 });
-            }else{
-                //实时数据不存在
-
             }
         });
         if (exceptionContainer[0].size() > 0) {

@@ -4,11 +4,14 @@ package com.siti.wisdomhydrologic.util.enumbean;
  * @author DC
  */
 public enum DataError {
+
 	MORE_BIG_T("data_11"),
 	LESS_SMALL_T("data_12"),
 	CHANGE_BIG_T("data_13"),
 	CHANGE_SMALL_T("data_14"),
-
+	DURA_T("data_77"),
+	//CHANGE_SMALL_T("data_14"),
+	INTENT_T("data_78"),
 	FIVE_MORE_R("data_3"),
 	FIVE_LESS_R("data_72"),
 	HOUR_LESS_R("data_73"),
@@ -72,11 +75,12 @@ public enum DataError {
 	CHANGE_BIG_Y("data_66"),
 	CHANGE_SMALL_Y("data_67"),
 	WS_INTER_Y("data_68"),
-	WS_DURA_Y("data_69")
-
-
-			;
-
+	WS_DURA_Y("data_69"),
+	EQ_RAIN("eq_5"),
+	EQ_TIDE("eq_6"),
+	EQ_WATER("eq_7"),
+	INTENT_WATER("data_79"),
+	INTENT_WATER_UPMAX("data_79");
 	private String errorCode;
 
 	DataError(String errorCode){
