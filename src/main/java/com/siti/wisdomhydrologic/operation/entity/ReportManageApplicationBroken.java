@@ -4,125 +4,118 @@ import java.util.Date;
 
 public class ReportManageApplicationBroken {
 
-  private int reportId;
-  private int manageOrgId;
-  private int manageOrgName;
-  private int brokenType;
-  private String brokenName;
-  private String brokenSituation;
-  private Date brokenResponseTime;
-  private Date brokenResolveTime;
-  private Date createTime;
-  private String resovleMethod;
-  private int resovleUserId;
-  private String remark;
+    private int reportId;
+    private int stationId;
+    private String stationName;
+    private String brokenName;
+    private String brokenAccording;
+    private String brokenAccordingId;
+    private Date brokenResponseTime;
+    private Date brokenResolveTime;
+    private Date createTime;
+    private String resolveMethod;
+    private int resolveUserId;
+    private String remark;
+
+    public String getBrokenAccordingId() {
+        return brokenAccordingId;
+    }
+
+    public void setBrokenAccordingId(String brokenAccordingId) {
+        this.brokenAccordingId = brokenAccordingId;
+    }
+
+    public String getBrokenAccording() {
+
+        return brokenAccording;
+    }
+
+    public void setBrokenAccording(String brokenAccording) {
+        this.brokenAccording = brokenAccording;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
 
-  public int getReportId() {
-    return reportId;
-  }
+    public int getReportId() {
+        return reportId;
+    }
 
-  public void setReportId(int reportId) {
-    this.reportId = reportId;
-  }
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
+    }
 
+    public int getStationId() {
+        return stationId;
+    }
 
-  public int getManageOrgId() {
-    return manageOrgId;
-  }
+    public void setStationId(int stationId) {
+        this.stationId = stationId;
+    }
 
-  public void setManageOrgId(int manageOrgId) {
-    this.manageOrgId = manageOrgId;
-  }
+    public String getStationName() {
+        return stationName;
+    }
 
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
 
-  public int getManageOrgName() {
-    return manageOrgName;
-  }
+    public String getBrokenName() {
+        return brokenName;
+    }
 
-  public void setManageOrgName(int manageOrgName) {
-    this.manageOrgName = manageOrgName;
-  }
-
-
-  public int getBrokenType() {
-    return brokenType;
-  }
-
-  public void setBrokenType(int brokenType) {
-    this.brokenType = brokenType;
-  }
+    public void setBrokenName(String brokenName) {
+        this.brokenName = brokenName;
+    }
 
 
-  public String getBrokenName() {
-    return brokenName;
-  }
+    public Date getBrokenResponseTime() {
+        return brokenResponseTime;
+    }
 
-  public void setBrokenName(String brokenName) {
-    this.brokenName = brokenName;
-  }
-
-
-  public String getBrokenSituation() {
-    return brokenSituation;
-  }
-
-  public void setBrokenSituation(String brokenSituation) {
-    this.brokenSituation = brokenSituation;
-  }
+    public void setBrokenResponseTime(Date brokenResponseTime) {
+        this.brokenResponseTime = brokenResponseTime;
+    }
 
 
-  public Date getBrokenResponseTime() {
-    return brokenResponseTime;
-  }
+    public Date getBrokenResolveTime() {
+        return brokenResolveTime;
+    }
 
-  public void setBrokenResponseTime(Date brokenResponseTime) {
-    this.brokenResponseTime = brokenResponseTime;
-  }
+    public void setBrokenResolveTime(Date brokenResolveTime) {
+        this.brokenResolveTime = brokenResolveTime;
+    }
 
+    public int getResolveUserId() {
+        return resolveUserId;
+    }
 
-  public Date getBrokenResolveTime() {
-    return brokenResolveTime;
-  }
+    public void setResolveUserId(int resolveUserId) {
+        this.resolveUserId = resolveUserId;
+    }
 
-  public void setBrokenResolveTime(Date brokenResolveTime) {
-    this.brokenResolveTime = brokenResolveTime;
-  }
+    public String getResolveMethod() {
 
+        return resolveMethod;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public void setResolveMethod(String resolveMethod) {
+        this.resolveMethod = resolveMethod;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public String getRemark() {
+        return remark;
+    }
 
-
-  public String getResovleMethod() {
-    return resovleMethod;
-  }
-
-  public void setResovleMethod(String resovleMethod) {
-    this.resovleMethod = resovleMethod;
-  }
-
-
-  public int getResovleUserId() {
-    return resovleUserId;
-  }
-
-  public void setResovleUserId(int resovleUserId) {
-    this.resovleUserId = resovleUserId;
-  }
-
-
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
 }

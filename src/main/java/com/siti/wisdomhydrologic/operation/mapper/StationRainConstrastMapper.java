@@ -35,7 +35,7 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
 
     @Select("<script>select * from report_station_rain_constrast " +
             "<if test=\"date!=null\"> where data_year_month = #{date}</if></script>")
-    List<ReportStationRainConstrast> getAll(@Param("date") Date date );
+    List<ReportStationRainConstrast> getAll(@Param("date") Date date);
 
 
 }

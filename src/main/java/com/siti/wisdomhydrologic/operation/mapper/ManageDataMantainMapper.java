@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
+import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
  * Created by dell on 2019/7/30.
  */
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
-    @Select("<script>Select * from report_manage_data_mantain" +
-            "<if test=\"createDate!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
+    @Select("<script>Select * from report_manage_data_mantain where " +
+            "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
             "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("createDate") String createDate);
 
@@ -26,13 +27,20 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
     @Insert("INSERT INTO `wisdomhydrologic`.`report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
-            "`miss_data_re_run`, `create_by`, `manage_org_id`, `manage_org_name`) " +
+            "`miss_data_re_run`, `create_by`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
             "VALUES (#{manage.stationCode}, #{manage.alterDate}, #{manage.stationName},#{manage.alterSensorTypeId}, #{manage.alterSensorTypeName},#{manage.errorDataReason},#{manage.errorDataType},#{manage.errorTimeSpace}," +
             " #{manage.errorValue}, #{manage.confirValue}, #{manage.errorUnit}, #{manage.errorDataReRun}, #{manage.missDataType}, #{manage.missTimeSpace}," +
-            " #{manage.missDataReRun}, #{manage.createBy}, #{manage.manageOrgId},#{manage.manageOrgName})")
+            " #{manage.missDataReRun}, #{manage.createBy}, #{manage.manageOrgId},#{manage.manageOrgName},#{item.brokenAccordingId})")
     int insert(@Param("manage") ReportManageDataMantain reportManageDataMantain);
 
-    @Update("UPDATE `wisdomhydrologic`.`report_manage_data_mantain` " +
-            "SET `station_code`= #{stationcode} WHERE `report_id` = 24 ")
-    int updateS(@Param("stationcode")String stationcode);
+
+
+    @Insert("<script>INSERT INTO `wisdomhydrologic`.`report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
+            "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
+            "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
+            "VALUES <foreach collection=\"list\" item=\"item\" separator=\",\">" +
+            "(#{item.stationCode}, #{item.alterDate}, #{item.stationName},#{item.alterSensorTypeId}, #{item.alterSensorTypeName},#{item.errorDataReason},#{item.errorDataType},#{item.errorTimeSpace}," +
+            " #{item.errorValue}, #{item.confirValue}, #{item.errorUnit}, #{item.errorDataReRun}, #{item.missDataType}, #{item.missTimeSpace}," +
+            " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId})</foreach></script>")
+    int insertAbnormal(@Param("list") List<ReportManageDataMantainVo> all);
 }

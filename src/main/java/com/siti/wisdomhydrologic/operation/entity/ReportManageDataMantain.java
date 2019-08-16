@@ -9,7 +9,7 @@ public class ReportManageDataMantain {
     @Excel(name = "reportId", height = 11, width = 10)
     private Integer reportId;
     @Excel(name = "stationCode", height = 11, width = 10)
-    private String stationCode;
+    private int stationCode;
     @Excel(name = "alterDate", height = 11, width = 20)
     private String alterDate;
     @Excel(name = "stationName", height = 11, width = 20)
@@ -39,14 +39,23 @@ public class ReportManageDataMantain {
     @Excel(name = "missDataReRun", height = 11, width = 10)
     private Integer missDataReRun;
     @Excel(name = "createTime", height = 11, width = 20)
-    private String createTime;
+    private Date createTime;
     @Excel(name = "createBy", height = 11, width = 20)
     private String createBy;
     @Excel(name = "manageOrgId", height = 11, width = 20)
     private Integer manageOrgId;
     @Excel(name = "manageOrgName", height = 11, width = 20)
     private String manageOrgName;
+    @Excel(name = "brokenAccordingId", height = 11, width = 20)
+    private String brokenAccordingId;
 
+    public String getBrokenAccordingId() {
+        return brokenAccordingId;
+    }
+
+    public void setBrokenAccordingId(String brokenAccordingId) {
+        this.brokenAccordingId = brokenAccordingId;
+    }
 
     public String getAlterDate() {
         return alterDate;
@@ -64,11 +73,11 @@ public class ReportManageDataMantain {
         this.reportId = reportId;
     }
 
-    public String getStationCode() {
+    public int getStationCode() {
         return stationCode;
     }
 
-    public void setStationCode(String stationCode) {
+    public void setStationCode(int stationCode) {
         this.stationCode = stationCode;
     }
 
@@ -176,11 +185,11 @@ public class ReportManageDataMantain {
         this.missDataReRun = missDataReRun;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -210,6 +219,6 @@ public class ReportManageDataMantain {
 
     @Override
     public String toString() {
-        return "ReportManageDataMantain{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime=" + createTime + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + '}';
+        return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime=" + createTime + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + '}';
     }
 }

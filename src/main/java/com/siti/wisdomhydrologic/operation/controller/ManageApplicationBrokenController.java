@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class ManageApplicationBrokenController {
     private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
 
     @GetMapping("/getAll")
-    public List<ReportManageApplicationBroken> selectAll() {
-        return manageApplicationBrokenService.getAll();
+    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate) {
+        return manageApplicationBrokenService.getAll(page,pageSize,createDate);
     }
 
     @PostMapping("/insert")
@@ -35,6 +36,11 @@ public class ManageApplicationBrokenController {
     @GetMapping("/delete")
     public int delete(Integer reportId) {
         return manageApplicationBrokenService.delete(reportId);
+    }
+
+    @GetMapping("/insertDataMantain")
+    public int insertDataMantain(String date){
+        return manageApplicationBrokenService.insertDataMantain(date);
     }
 
 }

@@ -21,7 +21,16 @@ public class ConfigRiverStation {
   private String stationAddress;
   private Date createTime;
   private Date updateTime;
+  private int stationId;
 
+
+  public int getStationId() {
+    return stationId;
+  }
+
+  public void setStationId(int stationId) {
+    this.stationId = stationId;
+  }
 
   public String getStationCode() {
     return stationCode;
