@@ -1,7 +1,10 @@
 package com.siti.wisdomhydrologic.realmessageprocess.entity;
 
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,19 +18,89 @@ public class AbnormalDetailEntity {
     String date;
     @Id
     int sensorCode;
-    int fiveBelow;
-    int fiveAbove;
-    int hourBelow;
-    int hourAbove;
-    int dayBelow;
-    int dayAbove;
-    int moreNear;
-    int lessNear;
-    int floatingUp;
-    int floatingDown;
-    int keepTime;
-    int continueInterrupt;
+
+    double errorValue;
+    String dateError;
+    String equipmentError;
     Date createTime;
+
+    private AbnormalDetailEntity(builer builer){
+        this. date=builer.date;
+        this. sensorCode=builer.sensorCode;
+
+        this. errorValue=builer.errorValue;
+        this. dateError=builer.dateError;
+        this. equipmentError=builer.equipmentError;
+        this. createTime=builer.createTime;
+        //java 构建器
+    }
+
+    public static class builer{
+        String date;
+        int sensorCode;
+        double errorValue;
+        String dateError;
+        String equipmentError;
+        Date createTime;
+
+        public AbnormalDetailEntity build(){
+            return new AbnormalDetailEntity(this);
+        }
+
+        public builer date(String date) {
+            this.date = date;
+            return this;
+        }
+
+        public builer sensorCode(int sensorCode) {
+            this.sensorCode = sensorCode;
+            return this;
+        }
+
+        public builer dateError(String dateError) {
+            this.dateError = dateError;
+            return this;
+        }
+
+        public builer errorValue(double errorValue) {
+            this.errorValue = errorValue;
+            return this;
+        }
+
+        public builer equipmentError(String equipmentError) {
+            this.equipmentError = equipmentError;
+            return this;
+        }
+
+        public builer createTime(Date createTime) {
+            this.createTime = createTime;
+            return this;
+        }
+    }
+
+    public String getDateError() {
+        return dateError;
+    }
+
+    public void setDateError(String dateError) {
+        this.dateError = dateError;
+    }
+
+    public String getEquipmentError() {
+        return equipmentError;
+    }
+
+    public void setEquipmentError(String equipmentError) {
+        this.equipmentError = equipmentError;
+    }
+
+    public double getErrorValue() {
+        return errorValue;
+    }
+
+    public void setErrorValue(double errorValue) {
+        this.errorValue = errorValue;
+    }
 
     public String getDate() {
         return date;
@@ -43,102 +116,6 @@ public class AbnormalDetailEntity {
 
     public void setSensorCode(int sensorCode) {
         this.sensorCode = sensorCode;
-    }
-
-    public int getFiveBelow() {
-        return fiveBelow;
-    }
-
-    public void setFiveBelow(int fiveBelow) {
-        this.fiveBelow = fiveBelow;
-    }
-
-    public int getFiveAbove() {
-        return fiveAbove;
-    }
-
-    public void setFiveAbove(int fiveAbove) {
-        this.fiveAbove = fiveAbove;
-    }
-
-    public int getHourBelow() {
-        return hourBelow;
-    }
-
-    public void setHourBelow(int hourBelow) {
-        this.hourBelow = hourBelow;
-    }
-
-    public int getHourAbove() {
-        return hourAbove;
-    }
-
-    public void setHourAbove(int hourAbove) {
-        this.hourAbove = hourAbove;
-    }
-
-    public int getDayBelow() {
-        return dayBelow;
-    }
-
-    public void setDayBelow(int dayBelow) {
-        this.dayBelow = dayBelow;
-    }
-
-    public int getDayAbove() {
-        return dayAbove;
-    }
-
-    public void setDayAbove(int dayAbove) {
-        this.dayAbove = dayAbove;
-    }
-
-    public int getMoreNear() {
-        return moreNear;
-    }
-
-    public void setMoreNear(int moreNear) {
-        this.moreNear = moreNear;
-    }
-
-    public int getLessNear() {
-        return lessNear;
-    }
-
-    public void setLessNear(int lessNear) {
-        this.lessNear = lessNear;
-    }
-
-    public int getFloatingUp() {
-        return floatingUp;
-    }
-
-    public void setFloatingUp(int floatingUp) {
-        this.floatingUp = floatingUp;
-    }
-
-    public int getFloatingDown() {
-        return floatingDown;
-    }
-
-    public void setFloatingDown(int floatingDown) {
-        this.floatingDown = floatingDown;
-    }
-
-    public int getKeepTime() {
-        return keepTime;
-    }
-
-    public void setKeepTime(int keepTime) {
-        this.keepTime = keepTime;
-    }
-
-    public int getContinueInterrupt() {
-        return continueInterrupt;
-    }
-
-    public void setContinueInterrupt(int continueInterrupt) {
-        this.continueInterrupt = continueInterrupt;
     }
 
     public Date getCreateTime() {

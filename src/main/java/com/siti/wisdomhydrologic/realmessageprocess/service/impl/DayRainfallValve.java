@@ -1,17 +1,23 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.google.common.collect.Maps;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
@@ -28,77 +34,62 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
 
     AbnormalDetailMapper abnormalDetailMapper=null;
 
-    @Override
-    public void beforeProcess(List<DayVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-    }
-
-    @Override
-    public void doProcess(Map<Integer, DayVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-    }
 
     public static <T> T getBean(Class<T> requiredType) {
         return context.getBean(requiredType);
     }
 
     @Override
-    public void beforeProcess(List<DayVo> realList, Map<String, Map<Integer, RainfallEntity>> configMap) {
+    public void beforeProcess(List<DayVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
+        //获取雨量配置表
+        Map<Integer, RainfallEntity> rainfallMap = Optional.of(abnormalDetailMapper.fetchAllR())
+                .get()
+                .stream()
+                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
         Map<Integer, DayVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSenId() + "").substring(5)).equals(ConstantConfig.RS)
                 ).collect(Collectors.toMap(DayVo::getSenId, a -> a,(v1,v2)->{
                     return v2;
                 }));
-        doProcess( map, configMap);
+        doProcess( map, rainfallMap);
     }
 
+
     @Override
-    public void doProcess(Map<Integer, DayVo> mapval, Map<String, Map<Integer, RainfallEntity>> configMap) {
-        Map<Integer, RainfallEntity> rainonfig = configMap.get(ConstantConfig.FLAGR);
-        final List[] container = {new ArrayList<AbnormalDetailEntity>()};
-        mapval.entrySet().stream().forEach(e -> {
-            RainfallEntity config = rainonfig.get(e);
+    public void doProcess(Map<Integer, DayVo> mapval, Map<Integer, RainfallEntity> configMap) {
+        final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
+        mapval.keySet().stream().forEach(e -> {
+            RainfallEntity config = configMap.get(e);
             if(config!=null){
             DayVo vo = mapval.get(e);
-            //中断次数
-            int limit = config.getInterruptLimit();
-            //一个小时最大最小值
             double daymax = config.getMaxDayLevel();
             double daymin = config.getMinDayLevel();
-            AbnormalDetailEntity entity = new AbnormalDetailEntity();
             if(daymax>vo.getMaxV()){
-                if(entity==null){
-                    entity = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(e.getValue().getTime()));
-                        setSensorCode(vo.getSenId());
-                        setDayAbove(1);
-                        setDayBelow(0);
-                    }};
-                }else{
-                    entity.setDayAbove(1);
-                    entity.setDayBelow(0);
-                }
+                exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                        .date(LocalDateUtil
+                                .dateToLocalDateTime(vo.getTime())
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .sensorCode(vo.getSenId())
+                        .errorValue(vo.getMaxV())
+                        .dateError(DataError.DAY_MORE_R.getErrorCode())
+                        .build());
             }
             if(daymin<vo.getMinV()){
-                if(entity==null){
-                    entity = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(e.getValue().getTime()));
-                        setSensorCode(vo.getSenId());
-                        setDayAbove(0);
-                        setDayBelow(1);
-                    }};
-                }else{
-                    entity.setDayBelow(1);
-                    entity.setDayAbove(0);
-                }
-            }
-            if (entity != null) {
-                container[0].add(entity);
+                exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                        .date(LocalDateUtil
+                                .dateToLocalDateTime(vo.getTime())
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .sensorCode(vo.getSenId())
+                        .errorValue(vo.getMaxV())
+                        .dateError(DataError.DAY_LESS_R.getErrorCode())
+                        .build());
             }
         }});
-        if(container[0].size()>0){
-            abnormalDetailMapper.insertTSDVBWater(container[0]);
-            container[0]=null;
+        if (exceptionContainer[0].size() > 0) {
+            abnormalDetailMapper.insertFinal(exceptionContainer[0]);
+            exceptionContainer[0] = null;
         }
     }
 

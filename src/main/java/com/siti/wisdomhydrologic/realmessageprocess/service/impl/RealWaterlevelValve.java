@@ -1,21 +1,25 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,12 +30,12 @@ import java.util.stream.Collectors;
 @Component
 public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, AbnormalDetailEntity>, ApplicationContextAware {
 
+    private static ApplicationContext context = null;
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         context = applicationContext;
     }
-
-    private static ApplicationContext context = null;
 
     AbnormalDetailMapper abnormalDetailMapper = null;
 
@@ -40,67 +44,115 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
     }
 
     @Override
-    public void beforeProcess(List<RealVo> val, Map<String, Map<Integer, WaterLevelEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-
-    }
-
-    @Override
-    public void doProcess(Map<Integer, RealVo> val, Map<String, Map<Integer, WaterLevelEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-
-    }
-
-    @Override
-    public void beforeProcess(List<RealVo> realList, Map<String, Map<Integer, WaterLevelEntity>> configMap) {
+    public void beforeProcess(List<RealVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
-
+        //获取雨量配置表
+        Map<Integer, WaterLevelEntity> rainfallMap = Optional.of(abnormalDetailMapper.fetchAllW())
+                .get()
+                .stream()
+                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
         Map<Integer, RealVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSenId() + "").substring(5)).equals(ConstantConfig.WS)
                 ).collect(Collectors.toMap(RealVo::getSenId, a -> a));
-        doProcess(map, configMap);
+        doProcess(map, rainfallMap);
     }
 
     @Override
-    public void doProcess(Map<Integer, RealVo> mapval, Map<String, Map<Integer, WaterLevelEntity>> configMap) {
-        Map<Integer, WaterLevelEntity> waterFlag = configMap
-                .get(ConstantConfig.FLAGW);
-        final List[] container = {new ArrayList<AbnormalDetailEntity>()};
+    public void doProcess(Map<Integer, RealVo> mapval, Map<Integer, WaterLevelEntity> configMap) {
+        final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
+        final double[] doubles={66666};
         mapval.keySet().stream().forEach(e -> {
             //        最大值最小值比较
-            WaterLevelEntity rainfallEntity = waterFlag.get(e);
-            if (rainfallEntity != null) {
-                double max = rainfallEntity.getLevelMax();
-                double min = rainfallEntity.getLevelMin();
-                com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity exception = null;
-                if (mapval.get(e).getFACTV() < min) {
-                    exception = new com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity() {{
-                        setSensorCode(mapval.get(e).getSenId());
-                        setDate(DateTransform.format(mapval.get(e).getTime()));
-                        setFiveAbove(0);
-                        setFiveBelow(1);
-                    }};
-                } else if (mapval.get(e).getFACTV() > max) {
-                    if (exception == null) {
-                        exception = new AbnormalDetailEntity() {{
-                            setSensorCode(mapval.get(e).getSenId());
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
-                            setFiveAbove(1);
-                            setFiveBelow(0);
-                        }};
-                    } else {
-                        exception.setFiveBelow(0);
-                        exception.setFiveAbove(1);
-                    }
+            WaterLevelEntity config = configMap.get(e);
+            if (config != null) {
+                RealVo vo=mapval.get(e);
+               /* double max = rainfallEntity.getLevelMax();
+                double min = rainfallEntity.getLevelMin();*/
+                double realvalue= mapval.get(e).getFACTV();
+                if (realvalue < config.getLevelMin()) {
+                    exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                            .date(LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                            .sensorCode(vo.getSenId())
+                            .errorValue(realvalue)
+                            .dateError(DataError.LESS_SMALL_WL.getErrorCode())
+                            .build());
+                } else if (realvalue > config.getLevelMax()) {
+                    exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                            .date(LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                            .sensorCode(vo.getSenId())
+                            .errorValue(realvalue)
+                            .dateError(DataError.MORE_BIG_WL.getErrorCode())
+                            .build());
                 }
-                //保持时长
-                if (exception != null) {
-                    container[0].add(exception);
+
+                /*String JsonConfig=config.getExceptionValue();
+                if(!JsonConfig.equals("")&&JsonConfig!=null){
+                    JSONArray array = JSONArray.parseArray(JsonConfig) ;
+                    for(int i=0;i<array.size();i++){
+                        JSONObject one= (JSONObject) array.get(i);
+                        if(one.get("error_value").equals(realvalue+"")){
+                            Object condition=one.get("condition");
+                            if(condition!=null){
+                                //TODO
+                               String type= abnormalDetailMapper. getSensorModelType("");
+                               if(type.contains(condition.toString())){
+                                   exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                           .date(LocalDateUtil
+                                                   .dateToLocalDateTime(vo.getTime())
+                                                   .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+
+                                           .build());
+                               }
+                            }else{
+                                exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                        .date(LocalDateUtil
+                                                .dateToLocalDateTime(vo.getTime())
+                                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+
+                                        .build());
+                            }
+                        }
+                    }
+                }*/
+
+                //realvalue
+                //最大上升 最大下降
+                if (doubles[0] == 66666) {
+                    doubles[0] = realvalue;
+                } else {
+                    if (realvalue> doubles[0]) {
+                        if ((realvalue - doubles[0]) > config.getUpMax()) {
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(LocalDateUtil
+                                            .dateToLocalDateTime(vo.getTime())
+                                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                    .errorValue(realvalue)
+                                    .dateError(DataError.CHANGE_BIG_WL.getErrorCode())
+                                    .build());
+                        }
+                    } else if (realvalue < doubles[0]) {
+                        if ((doubles[0]-realvalue ) > config.getBelowMin()) {
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(LocalDateUtil
+                                            .dateToLocalDateTime(vo.getTime())
+                                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                    .sensorCode(vo.getSenId())
+                                    .errorValue(realvalue)
+                                    .dateError(DataError.CHANGE_SMALL_WL.getErrorCode())
+                                    .build());
+                        }
+                    }
                 }
             }
         });
-        if (container[0].size() > 0) {
-            abnormalDetailMapper.insertWater(container[0]);
-            container[0] = null;
+        if (exceptionContainer[0].size() > 0) {
+            abnormalDetailMapper.insertFinal(exceptionContainer[0]);
+            exceptionContainer[0] = null;
         }
     }
 

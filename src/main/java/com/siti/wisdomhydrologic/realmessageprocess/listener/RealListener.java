@@ -8,10 +8,7 @@ import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.RealMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
+import com.siti.wisdomhydrologic.realmessageprocess.mapper.*;
 import com.siti.wisdomhydrologic.realmessageprocess.pipeline.PipelineValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.RealRainfallValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.RealTidelValve;
@@ -29,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,15 +43,7 @@ import java.util.stream.IntStream;
 public class RealListener {
 
     @Resource
-    RainFallMapper rainFallMapper;
-    @Resource
-    TideLevelMapper tideLevelMapper;
-    @Resource
-    WaterLevelMapper waterLevelMapper;
-    @Resource
     RealMapper realMapper;
-    @Resource
-    PipelineValve valvo;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
@@ -85,17 +75,17 @@ public class RealListener {
      */
     private void calPackage(List<RealVo> RealVoList, Channel channel, Message message) throws Exception {
         RealVo vo = RealVoList.get(0);
-
         if (flag.compareAndSet(false, true)) {
+            PipelineValve finalValvo=new PipelineValve();
              new Thread(() -> {
-                multiProcess();
+                multiProcess(finalValvo);
             }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
-            valvo.setHandler(new RealRainfallValve());
-            valvo.setHandler(new RealTidelValve());
-            valvo.setHandler(new RealWaterlevelValve());
+            finalValvo.setHandler(new RealRainfallValve());
+            finalValvo.setHandler(new RealTidelValve());
+            finalValvo.setHandler(new RealWaterlevelValve());
             logger.info("ColorsExecurots Initial...");
         }
         int currentsize = vo.getCurrentSize();
@@ -116,26 +106,7 @@ public class RealListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
-        //获取水位配置表
-        Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
-        //获取潮位配置表
-        Map<Integer, Object> tideLevelMap = Optional.of(tideLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));
-        //获取雨量配置表
-        Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
-        Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
-        configMap.put(ConstantConfig.FLAGW, waterLevelMap);
-        configMap.put(ConstantConfig.FLAGT, tideLevelMap);
-        configMap.put(ConstantConfig.FLAGR, rainfallMap);
+    private void multiProcess(PipelineValve finalValvo) {
         ColorsExecutor colors = new ColorsExecutor();
         colors.init();
         ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
@@ -143,11 +114,11 @@ public class RealListener {
             List<RealVo> voList = receiver.poll();
             if (voList != null) {
                 splitList(voList, 100);
-                valvo.doInterceptor(voList, configMap);
+                finalValvo.doInterceptor(voList);
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {
@@ -155,7 +126,6 @@ public class RealListener {
                 flag.compareAndSet(true, false);
                 break;
             }
-
         }
     }
 

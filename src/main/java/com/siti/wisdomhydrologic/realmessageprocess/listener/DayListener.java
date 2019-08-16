@@ -5,19 +5,12 @@ import com.rabbitmq.client.Channel;
 import com.siti.wisdomhydrologic.config.ColorsExecutor;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
-import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
+import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.pipeline.PipelineValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.DayRainfallValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBRainfallValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBTidelValve;
-import com.siti.wisdomhydrologic.realmessageprocess.service.impl.TSDBWaterlevelValve;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -50,14 +43,7 @@ public class DayListener {
     @Resource
     RainFallMapper rainFallMapper;
     @Resource
-    TideLevelMapper tideLevelMapper;
-    @Resource
-    WaterLevelMapper waterLevelMapper;
-    @Resource
-    private DayDataMapper dayDataMapper;
-    @Resource
-    PipelineValve valvo;
-
+    private DayDataServiceImpl DayDataService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
@@ -68,18 +54,17 @@ public class DayListener {
     @RabbitHandler
     public void dayprocess(List<DayVo> vo, Channel channel, Message message) {
         try {
-            System.out.println("-------------"+vo.size());
             if (vo.size() > 0) {
                 calPackage(vo, channel, message);
             } else {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             }
         } catch (Exception e) {
-          /*  try {
+            try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }*/
+            }
             logger.error(e.getMessage());
         }
     }
@@ -89,10 +74,10 @@ public class DayListener {
      */
     private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
         DayVo vo = List.get(0);
-
         if (flag.compareAndSet(false, true)) {
+            PipelineValve valvo=new PipelineValve();
             new Thread(() -> {
-                multiProcess();
+                multiProcess(valvo);
             }).start();
             receiver = new LinkedBlockingQueue(5);
             maxBatch.set(vo.getMaxBatch());
@@ -105,7 +90,6 @@ public class DayListener {
         int stastus = vo.getStatus();
         if (stastus == 1) {
             if (sumSize.get() == currentsize && maxBatch.get() == currentbatch) {
-                logger.info("day消息成功消费完成无丢包！");
                 logger.info("**********Day*********success end********");
             }
         }
@@ -118,25 +102,7 @@ public class DayListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
-      /*  //获取水位配置表
-        Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
-        //获取潮位配置表
-        Map<Integer, Object> tideLevelMap = Optional.of(tideLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));*/
-        //获取雨量配置表
-        Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
-        Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
-        configMap.put(ConstantConfig.FLAGR, rainfallMap);
-
+    private void multiProcess(PipelineValve valvo) {
         ColorsExecutor colors = new ColorsExecutor();
         colors.init();
         ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
@@ -144,11 +110,11 @@ public class DayListener {
             List<DayVo> voList = receiver.poll();
             if (voList != null) {
                 splitList(voList, 100);
-                valvo.doInterceptor(voList, configMap);
+                valvo.doInterceptor(voList);
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 3) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {
@@ -163,7 +129,7 @@ public class DayListener {
         int all = arrayList.size();
         int cycle = all % size == 0 ? all / size : (all / size + 1);
         IntStream.range(0, cycle).forEach(e -> {
-            dayDataMapper.addTestDayData(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
+            DayDataService.addDayData(arrayList.subList(e * size, (e + 1) * size > all ? all : size * (e + 1)));
         });
     }
 }

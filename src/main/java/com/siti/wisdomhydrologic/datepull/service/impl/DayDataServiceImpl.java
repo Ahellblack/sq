@@ -4,8 +4,8 @@ import com.siti.wisdomhydrologic.datepull.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.service.DayDataService;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
-import com.siti.wisdomhydrologic.datepull.vo.StationVo;
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+
+import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -52,8 +52,8 @@ public class DayDataServiceImpl implements DayDataService {
         }
         /**
          * 分年份入库
-         * */
-        String time = dayVo.get(0).getTime().substring(0, 4);
+         * *///DateTransform.format(mapval.get(e).getTime())
+        String time = DateTransform.format(dayVo.get(0).getTime()).substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         if (inttime < 2001) {
             logger.info("不存在{}的数据表", inttime);
@@ -100,7 +100,7 @@ public class DayDataServiceImpl implements DayDataService {
         /**
          * 分年份入库
          * */
-        String time = HourVo.get(0).getTime().substring(0, 4);
+        String time = DateTransform.format(HourVo.get(0).getTime()).substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         String dateBaseName = "history_hour_sensor_data_" + time;
         if (inttime < 2001) {

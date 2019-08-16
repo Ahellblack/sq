@@ -10,17 +10,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class ConstantConfig extends WebMvcConfigurerAdapter {
-    public static final String FLAGT = "T";
-
-    public static final String FLAGR = "R";
-
-    public static final String FLAGW = "W";
-
+    //水位
     public static final String WS="83";
-
+    //潮位
     public static final String TS="81";
-
+    //雨量
     public static final String RS="84";
+    //风速
+    public static final String WSS="85";
+    //风向
+    public static final String WDS="86";
+    //气温
+    public static final String WAT="75";
+    //气压
+    public static final String WAP="73";
+    //流速X
+    public static final String WFV="71";
+    //流速Y
+    public static final String WFVY="73";
+    //电压
+    public static final String ES="89";
 
     public static final String BASEPACKAGE="com";
 
@@ -32,6 +41,19 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
 
     public static final String SWAGGER_URL="http://localhost:8099/sq/swagger-ui.html";
 
+    public static final String ACCOUNT_SID = "8a216da855826478015599e3f66e1411";
+
+    public static final String AUTH_TOKEN = "71a6619327734d81957e60f2eeaa2626";
+
+    public static final String APPID = "8a216da86c8a1a54016c8dc74f1c0182";
+
+    public static final String SERVERIP = "app.cloopen.com";
+
+    public static final String SERVERPORT = "8883";
+
+    public static final String TEMPLATEID = "462488";
+
+    public static final boolean SMSFLAG=false;
     /*
 
     */

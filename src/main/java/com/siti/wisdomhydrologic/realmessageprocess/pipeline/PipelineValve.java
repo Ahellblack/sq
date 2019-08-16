@@ -14,11 +14,8 @@ import java.util.stream.IntStream;
  *
  * @data ${DATA}-14:56
  */
-@Service
-public class PipelineValve extends MessageProcessPipeline {
 
-    @Resource
-    AbnormalDetailMapper abnormalDetailMapper;
+public class PipelineValve extends MessageProcessPipeline {
 
     @Override
     public void setHandler(Valve indecator) {
@@ -26,9 +23,9 @@ public class PipelineValve extends MessageProcessPipeline {
     }
 
     @Override
-    public void doInterceptor(List val, Map configMap) {
+    public void doInterceptor(List val) {
         IntStream.range(0, handlerChain.size()).forEach(i -> {
-            handlerChain.get(i).beforeProcess(val, configMap);
+            handlerChain.get(i).beforeProcess(val);
         });
     }
 }

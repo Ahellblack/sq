@@ -7,6 +7,8 @@ import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.impl.TSDBServiceImpl;
+
+import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
@@ -15,7 +17,6 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.pipeline.PipelineValve;
 import com.siti.wisdomhydrologic.realmessageprocess.service.impl.*;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.TSDBVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -53,8 +54,8 @@ public class TsdbListener {
     WaterLevelMapper waterLevelMapper;
     @Resource
     private TSDBMapper tsdbMapper;
-    @Resource
-    PipelineValve valvo;
+
+
     @Resource
     private TSDBServiceImpl tsdbService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -73,12 +74,13 @@ public class TsdbListener {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
+        }finally {
             try {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            logger.error(e.getMessage());
         }
     }
 
@@ -87,16 +89,19 @@ public class TsdbListener {
      */
     private void calPackage(List<TSDBVo> List, Channel channel, Message message) throws Exception {
         TSDBVo vo = List.get(0);
+
         if (flag.compareAndSet(false, true)) {
-             new Thread(() -> {
-                multiProcess();
+            PipelineValve finalValvo=new PipelineValve();
+            new Thread(() -> {
+                multiProcess(finalValvo);
             }).start();
-            receiver = new LinkedBlockingQueue(5);
+            receiver = new LinkedBlockingQueue(4);
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
-            valvo.setHandler(new TSDBRainfallValve());
-            valvo.setHandler(new TSDBTidelValve());
-            valvo.setHandler(new TSDBWaterlevelValve());
+            finalValvo.setHandler(new TSDBRainfallValve());
+            finalValvo.setHandler(new TSDBWSValve());
+            finalValvo.setHandler(new TSDBTidelValve());
+            finalValvo.setHandler(new TSDBWaterlevelValve());
             logger.info("ColorsExecurots Initial...");
         }
         int currentsize = vo.getCurrentSize();
@@ -108,7 +113,8 @@ public class TsdbListener {
             }
         }
         receiver.put(List);
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        splitList(List, 100);
+        //channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         logger.info("tsdb_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
@@ -116,38 +122,21 @@ public class TsdbListener {
     /**
      * 触发一次消费任务
      */
-    private void multiProcess() {
-        //获取水位配置表
-        Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
-        //获取潮位配置表
-        Map<Integer, Object> tideLevelMap = Optional.of(tideLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));
-        //获取雨量配置表
-        Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
-        Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
-        configMap.put(ConstantConfig.FLAGW, waterLevelMap);
-        configMap.put(ConstantConfig.FLAGT, tideLevelMap);
-        configMap.put(ConstantConfig.FLAGR, rainfallMap);
+    private void multiProcess(PipelineValve valvo) {
+
+
         ColorsExecutor colors = new ColorsExecutor();
         colors.init();
         ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
         Runnable fetchTask = () -> {
             List<TSDBVo> voList = receiver.poll();
             if (voList != null) {
-                splitList(voList, 100);
-                valvo.doInterceptor(voList, configMap);
+
+                valvo.doInterceptor(voList);
             }
         };
         while (true) {
-            if (es.getQueue().size() < 2) {
+            if (es.getQueue().size() < 4) {
                 es.execute(fetchTask);
             }
             if (receiver.isEmpty()) {

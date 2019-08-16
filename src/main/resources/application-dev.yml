@@ -28,10 +28,18 @@ spring:
           max-concurrency: 2
           retry:
             enabled: false #是否支持重试
-          prefetch: 3
+          prefetch: 1
      virtual-host: /
 
 logback:
   logHome: C:/wh/log/
   logName: wh
 
+sms:
+   account_sid: 8a216da855826478015599e3f66e1411
+   auth_token: 71a6619327734d81957e60f2eeaa2626
+   appid: 8a216da86c8a1a54016c8dc74f1c0182
+   serverip: app.cloopen.com
+   serverport: 8883
+   templateid: 462488
+   flag: false

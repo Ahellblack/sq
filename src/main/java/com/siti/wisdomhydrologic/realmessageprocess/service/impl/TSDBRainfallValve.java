@@ -1,17 +1,23 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
+import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.TSDBVo;
+
 import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.util.LocalDateUtil;
+import com.siti.wisdomhydrologic.util.enumbean.DataError;
+import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
+import org.checkerframework.checker.units.qual.min;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
@@ -38,36 +44,32 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
         return context.getBean(requiredType);
     }
 
-    @Override
-    public void beforeProcess(List<TSDBVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
 
-    }
 
     @Override
-    public void doProcess(Map<Integer, TSDBVo> val, Map<String, Map<Integer, RainfallEntity>> configMap, BlockingQueue<AbnormalDetailEntity> cycleQueue) {
-    }
-
-    @Override
-    public void beforeProcess(List<TSDBVo> realList, Map<String, Map<Integer, RainfallEntity>> configMap) {
+    public void beforeProcess(List<TSDBVo> realList) {
         abnormalDetailMapper = getBean(AbnormalDetailMapper.class);
-
+        //获取雨量配置表
+        Map<Integer, RainfallEntity> rainfallMap = Optional.of(abnormalDetailMapper.fetchAllR())
+                .get()
+                .stream()
+                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
         Map<Integer, TSDBVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSENID() + "").substring(5)).equals(ConstantConfig.RS)
                 ).collect(Collectors.toMap(TSDBVo::getSENID, a -> a,(value1,value2)->{
                     return value2;
                 }));
-        doProcess( map, configMap);
+        doProcess( map, rainfallMap);
     }
 
     @Override
-    public void doProcess(Map<Integer, TSDBVo> mapval, Map<String, Map<Integer, RainfallEntity>> configMap) {
-        Map<Integer, RainfallEntity> rainonfig = configMap.get(ConstantConfig.FLAGR);
-        final List[] container = {new ArrayList<AbnormalDetailEntity>()};
+    public void doProcess(Map<Integer, TSDBVo> mapval,Map<Integer, RainfallEntity> configMap) {
+        final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
         mapval.entrySet().stream().forEach((Map.Entry<Integer, TSDBVo> e) -> {
-            RainfallEntity config = rainonfig.get(e);
+            RainfallEntity config = configMap.get(e);
             if (config != null) {
-                TSDBVo vo = mapval.get(e);
+                TSDBVo vo = mapval.get(e.getKey());
                 //中断次数
                 int limit = config.getInterruptLimit();
                 //一个小时最大最小值
@@ -75,29 +77,48 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                 double hourmin = config.getMinHourLevel();
                 double[] arrayV = {vo.getV0(), vo.getV1(), vo.getV2(), vo.getV3(), vo.getV4(), vo.getV5(),
                         vo.getV6(), vo.getV7(), vo.getV8(), vo.getV9(), vo.getV10(), vo.getV11()};
-                List<Double> tsLists = new ArrayList(Arrays.asList(arrayV));
-                OptionalDouble min = tsLists.stream().mapToDouble(Double::doubleValue).min();
-                OptionalDouble max = tsLists.stream().mapToDouble(Double::doubleValue).max();
-                final AbnormalDetailEntity[] entity = new AbnormalDetailEntity[1];
-                if (min.getAsDouble() < hourmin) {
-                    entity[0] = new AbnormalDetailEntity() {{
-                        setDate(DateTransform.format(mapval.get(e).getTime()));
-                        setSensorCode(vo.getSENID());
-                        setHourAbove(0);
-                        setHourBelow(1);
-                    }};
-                } else if (max.getAsDouble() > hourmax) {
-                    if (entity[0] == null) {
-                        entity[0] = new AbnormalDetailEntity() {{
-                            setDate(DateTransform.format(mapval.get(e).getTime()));
-                            setSensorCode(vo.getSENID());
-                            setHourAbove(1);
-                            setHourBelow(0);
-                        }};
-                    } else {
-                        entity[0].setHourBelow(0);
-                        entity[0].setHourAbove(1);
+                final double[] maxmin={0,0};
+                IntStream.range(0,arrayV.length).forEach(i->{
+                    if(arrayV[i]>maxmin[0]){
+                        maxmin[0]=arrayV[i];
                     }
+                    if(arrayV[i]<maxmin[1]){
+                        maxmin[1]=arrayV[i];
+                    }
+                    if(arrayV[i]==-99){
+                        //实时数据不存在
+                        String date = LocalDateUtil.dateToLocalDateTime(vo.getTime())
+                                .plusHours(-1)
+                                .plusMinutes(i * 5)
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        int flag=abnormalDetailMapper.selectRealExist(e.getKey(),date);
+                        if(flag<1){
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(date)
+                                    .sensorCode(e.getKey())
+                                    .equipmentError(DataError.EQ_RAIN.getErrorCode())
+                                    .build());
+                        }
+                    }
+                });
+                if (maxmin[1] < hourmin) {
+                    exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                            .date(LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                            .sensorCode(vo.getSENID())
+                            .errorValue(maxmin[1])
+                            .dateError(DataError.HOUR_MORE_R.getErrorCode())
+                            .build());
+                } else if (maxmin[0]> hourmax) {
+                    exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                            .date(LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                            .sensorCode(vo.getSENID())
+                            .errorValue(maxmin[0])
+                            .dateError(DataError.HOUR_LESS_R.getErrorCode())
+                            .build());
                 }
                 IntStream.range(0, 13 - limit).forEach(j -> {
                     final int[] flag = {0};
@@ -107,28 +128,21 @@ public class TSDBRainfallValve implements Valve<TSDBVo,RainfallEntity,AbnormalDe
                         }
                     });
                     if (flag[0] == limit) {
-                        if (entity[0] == null) {
-                            entity[0] = new AbnormalDetailEntity() {{
-                                setDate(DateTransform.format(mapval.get(e).getTime()));
-                                setSensorCode(vo.getSENID());
-                                setContinueInterrupt(1);
-                            }};
-                        } else {
-                            entity[0].setContinueInterrupt(1);
-                        }
-
+                        exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                .date(LocalDateUtil
+                                        .dateToLocalDateTime(vo.getTime())
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                .sensorCode(vo.getSENID())
+                                .dateError(DataError.RAIN_INTER.getErrorCode())
+                                .build());
                     }
                 });
-                if (entity[0] != null) {
-                    container[0].add(entity[0]);
-                }
             }
         });
-        if(container[0].size()>0){
-            abnormalDetailMapper.insertTSDBRain(container[0]);
-            container[0]=null;
+        if (exceptionContainer[0].size() > 0) {
+            abnormalDetailMapper.insertFinal(exceptionContainer[0]);
+            exceptionContainer[0] = null;
         }
-
     }
 
 
