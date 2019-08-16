@@ -15,7 +15,7 @@ public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
     List<ReportHyetometerTest> getAll();
 
     @Delete("delete from report_hyetometer_test where report_id = #{reportId}")
-    int delByReportId(@Param("reportId")Integer reportId);
+    int delByReportId(@Param("reportId") Integer reportId);
 
     @Update("UPDATE `report_hyetometer_test` SET `station_code`=#{hyetometer.stationCode}, " +
             "`station_name`=#{hyetometer.stationName},`manage_org_id`=#{hyetometer.manageOrgId}, " +

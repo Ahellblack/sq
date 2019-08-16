@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.realmessageprocess.mapper;
 
+import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.*;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import org.apache.ibatis.annotations.Insert;
@@ -162,4 +163,11 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "</foreach> on duplicate key update floating_up=values(floating_up),floating_down=values(floating_down)" +
             ",keeptime=values(keeptime),continue_interrupt=values(continue_interrupt)</script>\n")
     int insertTSDVBWater(@Param("list") List<AbnormalDetailEntity> list);
+
+
+    @Select("<script>select * from abnormal_detail a " +
+            "left join config_sensor_section_module b " +
+            "on a.sensor_code = b.section_code " +
+            "<if test=\"date!=null\" >where date = #{date}</if></script>")
+    List<ReportManageDataMantainVo> getALL(@Param("date") String date);
 }
