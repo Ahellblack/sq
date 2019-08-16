@@ -15,8 +15,8 @@ import java.util.Date;
 @Table(name = "abnormal_detail")
 public class AbnormalDetailEntity {
     @Id
+    int id;
     String date;
-    @Id
     int sensorCode;
 
     double errorValue;
@@ -124,5 +124,13 @@ public class AbnormalDetailEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
