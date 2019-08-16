@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by DC on 2019/7/19.
+ *
  * @data ${DATA}-18:03
  */
 public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
@@ -30,7 +31,15 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     int insertAndUpdate(@Param("list") List<AbnormalDetailEntity> list);
 
     @Select("<script>select sensor_model_type from config_sensor_database where sensor_code=#{sensor_code}  </script>")
-    String getSensorModelType(@Param("sensor_code")String sensor_code);
+    String getSensorModelType(@Param("sensor_code") String sensor_code);
+
+    @Insert("<script>" +
+            "insert into abnormal_detail(date,sensor_code,data_error,equipment_error," +
+            "error_value)\n" +
+            "values <foreach collection=\"list\" index=\"index\" item=\"AbnormalDetailEntity\" separator=\",\">" +
+            "( #{AbnormalDetailEntity.errorPeriod},#{AbnormalDetailEntity.dataError},#{AbnormalDetailEntity.equipmentError},#{AbnormalDetailEntity.errorValue})" +
+            "</foreach></script>\n")
+    int insertFinal(@Param("list") List<AbnormalDetailEntity> list);
 
     @Insert("<script>" +
             "replace into abnormal_detail(date,sensor_code,day_above,day_below,hour_above,hour_below," +
@@ -44,7 +53,8 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "#{AbnormalDetailEntity.floatingDown},#{AbnormalDetailEntity.keepTime},#{AbnormalDetailEntity.continueInterrupt}" +
             ",#{AbnormalDetailEntity.errorPeriod},#{AbnormalDetailEntity.equipmentError},#{AbnormalDetailEntity.errorValue})" +
             "</foreach></script>\n")
-    int insertFinal(@Param("list") List<AbnormalDetailEntity> list);
+    int insertFinalUpdate(@Param("list") List<AbnormalDetailEntity> list);
+
     //SELECT * FROM `real` where  time>DATE_ADD("2019-08-14 13:40:00",INTERVAL -5 MINUTE);
     @Select("<script>select * from real  where sensor_code like #{sensorcode} and time=#{time}</script>\n")
     List<RealVo> selectEle(@Param("sensorcode") String sensorcode, @Param("time") String time);
@@ -83,7 +93,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     RealVo selectBefore5Ele(@Param("sensorcode") String sensorcode, @Param("time") String time);
 
     @Select("<script>select count(1) from real where sensor_code=#{sensorCode} and time=#{time}</script>")
-    int selectRealExist(@Param("sensorCode") Integer sensorCode,@Param("time")String time);
+    int selectRealExist(@Param("sensorCode") Integer sensorCode, @Param("time") String time);
 
     @Insert("<script>" +
             "insert into abnormal_detail(date,sensor_code,five_below,five_above,more_near,less_near,error_value)\n" +
@@ -125,7 +135,6 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "five_above=values(five_above)</script>\n")
     int insertWater(@Param("list") List<AbnormalDetailEntity> list);
 
-
     @Insert("<script>" +
             "insert into abnormal_detail(date,sensor_code,day_above,day_below,error_value)\n" +
             "values <foreach collection=\"list\" index=\"index\" item=\"AbnormalDetailEntity\" separator=\",\">" +
@@ -143,8 +152,6 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "</foreach> on duplicate key update floating_up=values(floating_up),floating_down=values(floating_down)" +
             ",keeptime=values(keeptime),floating_down=values(floating_down)</script>\n")
     int insertTSDBTide(@Param("list") List<AbnormalDetailEntity> list);
-
-
 
     @Insert("<script>" +
             "insert into abnormal_detail(date,sensor_code,floating_up,floating_down,keeptime,continue_interrupt,error_value)\n" +
