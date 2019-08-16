@@ -75,7 +75,6 @@ public class RealListener {
      */
     private void calPackage(List<RealVo> RealVoList, Channel channel, Message message) throws Exception {
         RealVo vo = RealVoList.get(0);
-
         if (flag.compareAndSet(false, true)) {
             PipelineValve finalValvo=new PipelineValve();
              new Thread(() -> {

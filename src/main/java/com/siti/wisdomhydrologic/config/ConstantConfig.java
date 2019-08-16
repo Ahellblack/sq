@@ -41,6 +41,19 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
 
     public static final String SWAGGER_URL="http://localhost:8099/sq/swagger-ui.html";
 
+    public static final String ACCOUNT_SID = "8a216da855826478015599e3f66e1411";
+
+    public static final String AUTH_TOKEN = "71a6619327734d81957e60f2eeaa2626";
+
+    public static final String APPID = "8a216da86c8a1a54016c8dc74f1c0182";
+
+    public static final String SERVERIP = "app.cloopen.com";
+
+    public static final String SERVERPORT = "8883";
+
+    public static final String TEMPLATEID = "462488";
+
+    public static final boolean SMSFLAG=false;
     /*
 
     */
