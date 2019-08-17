@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +36,9 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "insert into abnormal_detail(date,sensor_code,data_error,equipment_error," +
             "error_value,error_period)\n" +
             "values <foreach collection=\"list\" index=\"index\" item=\"AbnormalDetailEntity\" separator=\",\">" +
-            "( #{AbnormalDetailEntity.errorPeriod},#{AbnormalDetailEntity.dataError},#{AbnormalDetailEntity.equipmentError},#{AbnormalDetailEntity.errorValue}" +
-            ",#{AbnormalDetailEntity.errorPeriod})" +
+            "( #{AbnormalDetailEntity.date},#{AbnormalDetailEntity.sensorCode},#{AbnormalDetailEntity.dataError}" +
+            ",#{AbnormalDetailEntity.equipmentError},#{AbnormalDetailEntity.errorValue},#{AbnormalDetailEntity.errorPeriod}" +
+            ")" +
             "</foreach></script>\n")
     int insertFinal(@Param("list") List<AbnormalDetailEntity> list);
 

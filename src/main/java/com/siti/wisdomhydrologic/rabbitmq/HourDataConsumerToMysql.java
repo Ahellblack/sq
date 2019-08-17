@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.siti.wisdomhydrologic.config.RabbitMQConfig;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
+import com.siti.wisdomhydrologic.datepull.vo.HourVo;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.enumbean.ReturnError;
 import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
@@ -43,7 +44,7 @@ public class HourDataConsumerToMysql {
 
     @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler
-    public void HourDataProcess(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
+    public void HourDataProcess(List<HourVo> HourVo, Channel channel, Message message) throws IOException {
         try {
             if (HourVo.size() > 1) {
                 calPackage(HourVo, channel, message);
@@ -65,7 +66,7 @@ public class HourDataConsumerToMysql {
              channel.basicReject(deliveryTag,false)*/
     @RabbitListener(queues = RabbitMQConfig.HISTORY_QUEUE_HOUR)
     @RabbitHandler   //可以接收到对象
-    public void HourDataProcessTwo(List<DayVo> HourVo, Channel channel, Message message) throws IOException {
+    public void HourDataProcessTwo(List<HourVo> HourVo, Channel channel, Message message) throws IOException {
         try {
             if (HourVo.size() > 1) {
 
@@ -82,11 +83,11 @@ public class HourDataConsumerToMysql {
      *
      * @param HourVoList
      */
-    private void calPackage(List<DayVo> HourVoList, Channel channel, Message message) throws IOException {
+    private void calPackage(List<HourVo> HourVoList, Channel channel, Message message) throws IOException {
         lock.lock();
         //消费完成后直接添加数据
         int i = insertHour(HourVoList);
-        DayVo HourVo = HourVoList.get(0);
+        HourVo HourVo = HourVoList.get(0);
         logger.info("Hour数据插入本地库{}条,花费时间{}", i);
         try {
             if (flag.compareAndSet(false, true)) {
@@ -118,7 +119,7 @@ public class HourDataConsumerToMysql {
             lock.unlock();
         }
     }
-    public int insertHour(List<DayVo> hourlist) {
+    public int insertHour(List<HourVo> hourlist) {
         return dayDataService.addHourData(hourlist);
     }
 

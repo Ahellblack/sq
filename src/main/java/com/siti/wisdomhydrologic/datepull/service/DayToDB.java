@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface DayToDB {
 
-    int batchInsert(List<DayEntity > entityList);
+    int batchInsert(List<DayEntity> entityList);
 }
