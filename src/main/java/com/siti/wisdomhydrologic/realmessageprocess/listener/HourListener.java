@@ -9,6 +9,7 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
+import com.siti.wisdomhydrologic.datepull.vo.HourVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
@@ -63,11 +64,11 @@ public class HourListener {
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
     private AtomicInteger sumSize = new AtomicInteger(0);
-    private BlockingQueue<List<DayVo>> receiver;
+    private BlockingQueue<List<HourVo>> receiver;
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_HOUR)
     @RabbitHandler
-    public void dayprocess(List<DayVo> vo, Channel channel, Message message) {
+    public void dayprocess(List<HourVo> vo, Channel channel, Message message) {
         try {
             if (vo.size() > 0) {
                 calPackage(vo, channel, message);
@@ -88,8 +89,8 @@ public class HourListener {
     /**
      * 判断是否丢包记录日志
      */
-    private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
-        DayVo vo = List.get(0);
+    private void calPackage(List<HourVo> List, Channel channel, Message message) throws Exception {
+        HourVo vo = List.get(0);
         splitList(List, 100);
         if (flag.compareAndSet(false, true)) {
           /*  PipelineValve finalValvo=new PipelineValve();

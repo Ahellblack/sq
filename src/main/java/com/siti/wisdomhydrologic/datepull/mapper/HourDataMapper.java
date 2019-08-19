@@ -13,35 +13,29 @@ import java.util.List;
 /**
  * Created by dell on 2019/7/18.
  */
-public interface DayDataMapper {
+public interface HourDataMapper {
+
+
+
+    @Select("Select * from config_sensor_section_module")
+    List<ConfigSensorSectionModule> getStation();
+
+    @Select("Select * from config_sensor_section_module where section_code = #{code}")
+    ConfigSensorSectionModule getStationByCode(@Param("code") Integer code);
+
 
     @Insert("<script>" +
-            "INSERT INTO `${database}` " +
-            "( `sensor_code`, `sensor_data_value`, `sensor_type_id`, `sensor_type_name`, " +
-            "`sensor_data_unit`, `sensor_data_upload_time`, `sensor_avg_data`, " +
-            "`sensor_max_data`, `sensor_max_data_time`, `sensor_min_data`, `sensor_min_data_time`," +
-            " `sensor_data_value_flag`, `sensor_avg_data_value_flag`, `sensor_max_data_value_flag`," +
-            " `sensor_min_data_value_flag`, `station_code`, `station_name`) VALUES" +
-            "<foreach collection=\"dayList\" item=\"item\" separator=\",\">" +
+            "INSERT INTO `${datebase}` " +
+            "(`sensor_code`, `sensor_data_value`, `sensor_type_id`, `sensor_type_name`, `sensor_data_unit`," +
+            " `sensor_data_upload_time`,`sensor_avg_data`, `sensor_max_data`, `sensor_max_data_time`, `sensor_min_data`, `sensor_min_data_time`, " +
+            "`sensor_data_value_flag`, `sensor_avg_data_value_flag`, `sensor_max_data_value_flag`, `sensor_min_data_value_flag`," +
+            "  `station_code`, `station_name`)  VALUES" +
+            "<foreach collection=\"hourList\" item=\"item\" separator=\",\">" +
             " (#{item.senId},#{item.v},#{item.sensorTypeId},#{item.sensorTypeName},#{item.sensorDataUnit}," +
             "#{item.time},#{item.avgV},#{item.maxV},#{item.maxT},#{item.minV},#{item.minT}," +
             "#{item.s},#{item.avgS},#{item.maxS},#{item.minS},#{item.stationId},#{item.stationName})" +
             "</foreach></script>")
-    int addDayData(@Param("database") String database, @Param("dayList") List<DayVo> dayList) ;
-
-    @Insert("<script>" +
-            "INSERT INTO `history_day_sensor_data` " +
-            "( `sensor_code`, `sensor_data_value`, `sensor_type_id`, `sensor_type_name`, " +
-            "`sensor_data_unit`, `sensor_data_upload_time`, `sensor_avg_data`, " +
-            "`sensor_max_data`, `sensor_max_data_time`, `sensor_min_data`, `sensor_min_data_time`," +
-            " `sensor_data_value_flag`, `sensor_avg_data_value_flag`, `sensor_max_data_value_flag`," +
-            " `sensor_min_data_value_flag`, `station_code`, `station_name`) VALUES" +
-            "<foreach collection=\"dayList\" item=\"item\" separator=\",\">" +
-            " (#{item.senId},#{item.v},#{item.sensorTypeId},#{item.sensorTypeName},#{item.sensorDataUnit}," +
-            "#{item.time},#{item.avgV},#{item.maxV},#{item.maxT},#{item.minV},#{item.minT}," +
-            "#{item.s},#{item.avgS},#{item.maxS},#{item.minS},#{item.stationId},#{item.stationName})" +
-            "</foreach></script>")
-    int addTestDayData(@Param("dayList") List<DayVo> dayList) ;
+    int addHourData(@Param("datebase") String datebase, @Param("hourList") List<HourVo> hourVo);
 
     @Update("CREATE TABLE if not exists `${database}`" +
             "(`sensor_code` int(10) DEFAULT NULL COMMENT '传感器编号', " +
@@ -63,18 +57,20 @@ public interface DayDataMapper {
             " `station_code` int(11) DEFAULT NULL COMMENT '传感器所属测站编号'," +
             "  `station_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '传感器所属测站名称') " +
             "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;")
-    int buildDayBase(@Param("database") String dateBaseName);
+    int buildHourBase(@Param("database") String dateBaseName);
 
 
-
-    @Select("Select * from config_sensor_section_module")
-    List<ConfigSensorSectionModule> getStation();
-
-    @Select("Select * from config_sensor_section_module where section_code = #{code}")
-    ConfigSensorSectionModule getStationByCode(@Param("code") Integer code);
-
-
-
-
+    @Insert("<script>" +
+            "INSERT INTO `history_hour_sensor_data` " +
+            "(`sensor_code`, `sensor_data_value`, `sensor_type_id`, `sensor_type_name`, `sensor_data_unit`," +
+            " `sensor_data_upload_time`,`sensor_avg_data`, `sensor_max_data`, `sensor_max_data_time`, `sensor_min_data`, `sensor_min_data_time`, " +
+            "`sensor_data_value_flag`, `sensor_avg_data_value_flag`, `sensor_max_data_value_flag`, `sensor_min_data_value_flag`," +
+            "  `station_code`, `station_name`)  VALUES" +
+            "<foreach collection=\"hourList\" item=\"item\" separator=\",\">" +
+            " (#{item.senId},#{item.v},#{item.sensorTypeId},#{item.sensorTypeName},#{item.sensorDataUnit}," +
+            "#{item.time},#{item.avgV},#{item.maxV},#{item.maxT},#{item.minV},#{item.minT}," +
+            "#{item.s},#{item.avgS},#{item.maxS},#{item.minS},#{item.stationId},#{item.stationName})" +
+            "</foreach></script>")
+    int addTestHourData(@Param("hourList") List<DayVo> hourVo);
 
 }

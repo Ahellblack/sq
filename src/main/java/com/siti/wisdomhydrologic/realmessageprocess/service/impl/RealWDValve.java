@@ -2,9 +2,7 @@ package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WDEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WSEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
@@ -13,7 +11,6 @@ import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

@@ -6,25 +6,20 @@ import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.datepull.vo.TSDBVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.WSEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
 import com.siti.wisdomhydrologic.util.enumbean.DataError;
-import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

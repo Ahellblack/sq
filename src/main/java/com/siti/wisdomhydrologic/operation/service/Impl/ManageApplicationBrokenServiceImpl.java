@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
@@ -14,6 +15,8 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.StationIdUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,6 +40,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     @Resource
     private AbnormalDetailMapper abnormalDetailMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
+
 
     private static final int STATUS = 2;
 
@@ -109,25 +114,30 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         }
                     });
                     List<String> basicStationList = StationIdUtils.getBasicStationList();
-                    //如果包含基本站名,判断为基本站
-                    if (basicStationList.contains(data.getStationName())) {
-                        calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
-                        //基本站往后1小时内
-                        calendar.add(calendar.HOUR, 1);
-                        applicationBroken.setBrokenResponseTime(calendar.getTime());
-                    } else {
-                        calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
-                        //一般站往后3小时内
-                        calendar.add(calendar.HOUR, 3);
-                        applicationBroken.setBrokenResponseTime(calendar.getTime());
-                    }
-                    list.forEach(e -> {
-                        //根据字典赋值故障判断依据和故障名称
-                        if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
-                            applicationBroken.setBrokenAccording(e.getBrokenAccording());
-                            applicationBroken.setBrokenName(e.getErrorName());
+                    try {
+                        //如果包含基本站名,判断为基本站
+                        if (basicStationList.contains(data.getStationName())) {
+                            calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
+                            //基本站往后1小时内
+                            calendar.add(calendar.HOUR, 1);
+                            applicationBroken.setBrokenResponseTime(calendar.getTime());
+                        } else {
+                            calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
+                            //一般站往后3小时内
+                            calendar.add(calendar.HOUR, 3);
+                            applicationBroken.setBrokenResponseTime(calendar.getTime());
                         }
-                    });
+                        list.forEach(e -> {
+                            //根据字典赋值故障判断依据和故障名称
+                            if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
+                                applicationBroken.setBrokenAccording(e.getBrokenAccording());
+                                applicationBroken.setBrokenName(e.getErrorName());
+                            }
+                        });
+                    }catch (Exception e) {
+                        logger.error(e.getMessage());
+                    }
+
                     applicationBroken.setCreateTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
                     brokenList.add(applicationBroken);
                 }

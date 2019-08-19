@@ -2,7 +2,6 @@ package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.APEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.ATEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;

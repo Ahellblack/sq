@@ -6,10 +6,8 @@ import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
 import com.siti.wisdomhydrologic.util.enumbean.DataError;
-import com.siti.wisdomhydrologic.util.enumbean.EquimentError;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -20,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -57,14 +54,14 @@ public class TSDBTidelValve implements Valve<TSDBVo,TideLevelEntity,AbnormalDeta
         Map<Integer, TSDBVo> map = realList.stream()
                 .filter(
                     e -> ((e.getSENID() + "").substring(5)).equals(ConstantConfig.TS)
-                ).collect(Collectors.toMap(TSDBVo::getSENID, a -> a,(value1,value2)->{
+                ).collect(Collectors.toMap(TSDBVo::getSENID, a -> a,(value1, value2)->{
             return value2;
         }));
         doProcess(map, tideLevelMap);
     }
 
     @Override
-    public void doProcess(Map<Integer,TSDBVo> val,  Map<Integer, TideLevelEntity> configMap) {
+    public void doProcess(Map<Integer,TSDBVo> val, Map<Integer, TideLevelEntity> configMap) {
         Map<Integer, TSDBVo> mapval=val;
         final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
         mapval.keySet().stream().forEach(e -> {

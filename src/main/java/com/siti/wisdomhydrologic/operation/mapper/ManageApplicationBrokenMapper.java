@@ -21,7 +21,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Delete("DELETE from report_manage_application_broken where report_id = #{reportId}")
     int deleteById(@Param("reportId") Integer reportId);
 
-    @Insert("<script>INSERT INTO `wisdomhydrologic`.`report_manage_application_broken`" +
+    @Insert("<script>INSERT INTO `report_manage_application_broken`" +
             "(`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
             "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`)" +
             " VALUES <foreach collection=\"brokenList\" item=\"item\" separator=\",\">" +

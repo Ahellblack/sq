@@ -2,16 +2,16 @@ package com.siti.wisdomhydrologic.datepull.service.impl;
 
 import com.siti.wisdomhydrologic.datepull.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
+import com.siti.wisdomhydrologic.datepull.mapper.HourDataMapper;
 import com.siti.wisdomhydrologic.datepull.service.DayDataService;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
-
+import com.siti.wisdomhydrologic.datepull.vo.HourVo;
+import com.siti.wisdomhydrologic.datepull.vo.StationVo;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -23,14 +23,14 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by dell on 2019/7/18.
  */
 @Component
-@Transactional
-@EnableTransactionManagement(proxyTargetClass = true)
 public class DayDataServiceImpl implements DayDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(DayDataServiceImpl.class);
 
     @Resource
     private DayDataMapper dayDataMapper;
+    @Resource
+    private HourDataMapper hourDataMapper;
 
     ReentrantLock lock = new ReentrantLock();
 
@@ -57,8 +57,8 @@ public class DayDataServiceImpl implements DayDataService {
         }
         /**
          * 分年份入库
-         * *///DateTransform.format(mapval.get(e).getTime())
-        String time = DateTransform.format(dayVo.get(0).getTime()).substring(0, 4);
+         * */
+        String time = DateTransform.Date2String(dayVo.get(0).getTime(),"YYYY-MM-dd HH:mm:ss").substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         if (inttime < 2001) {
             logger.info("不存在{}的数据表", inttime);
@@ -82,11 +82,11 @@ public class DayDataServiceImpl implements DayDataService {
     }
 
     @Override
-    public int addHourData(List<DayVo> HourVo) {
-
+    public int addHourData(List<HourVo> HourVo) {
+        lock.lock();
         try {
             List<ConfigSensorSectionModule> stationList = dayDataMapper.getStation();
-            for (DayVo hour : HourVo) {
+            for (HourVo hour : HourVo) {
                 for (ConfigSensorSectionModule station : stationList) {
                     if (hour.getSenId() == station.getSectionCode()) {
                         hour.setSensorTypeName(station.getSensorName());
@@ -99,23 +99,23 @@ public class DayDataServiceImpl implements DayDataService {
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
+        } finally {
+            lock.unlock();
         }
         /**
          * 分年份入库
          * */
-        String time = DateTransform.format(HourVo.get(0).getTime()).substring(0, 4);
+        String time = DateTransform.Date2String(HourVo.get(0).getTime(),"YYYY-MM-dd HH:mm:ss").substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         String dateBaseName = "history_hour_sensor_data_" + time;
         if (inttime < 2001) {
             logger.info("不存在{}的数据表", inttime);
             return 0;
         } else if (inttime >= 2001 && inttime <= 2013) {
-            dateBaseName = "history_5min_sensor_data_2001_2013";
-            return dayDataMapper.addHourData(dateBaseName, HourVo);
+            dateBaseName = "history_hour_sensor_data_2001_2013";
+            return hourDataMapper.addHourData(dateBaseName, HourVo);
         }
-        lock.lock();
-        dayDataMapper.buildHourBase(dateBaseName);
-        lock.unlock();
-        return dayDataMapper.addHourData(dateBaseName, HourVo);
+        hourDataMapper.buildHourBase(dateBaseName);
+        return hourDataMapper.addHourData(dateBaseName, HourVo);
     }
 }
