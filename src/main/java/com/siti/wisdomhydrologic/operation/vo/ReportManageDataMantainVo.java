@@ -37,28 +37,17 @@ public class ReportManageDataMantainVo {
     String date;
     @Id
     int sensorCode;
-    int fiveBelow;
-    int fiveAbove;
-    int hourBelow;
-    int hourAbove;
-    int dayBelow;
-    int dayAbove;
-    int moreNear;
-    int lessNear;
-    int floatingUp;
-    int floatingDown;
-    int keepTime;
-    int continueInterrupt;
-    int updateTime;
-
+    private int continueInterrupt;
+    private int updateTime;
+    private String dataError;
+    private String equipmentError;
 
     private int sectionCode;
     private String sectionName;
     private String sensorName;
     private String sectionDataUnit;
     private String sectionStatus;
-    private String dataError;
-    private String equipmentError;
+
 
     public int getUpdateTime() {
         return updateTime;
@@ -148,93 +137,6 @@ public class ReportManageDataMantainVo {
         this.sensorCode = sensorCode;
     }
 
-    public int getFiveBelow() {
-        return fiveBelow;
-    }
-
-    public void setFiveBelow(int fiveBelow) {
-        this.fiveBelow = fiveBelow;
-    }
-
-    public int getFiveAbove() {
-        return fiveAbove;
-    }
-
-    public void setFiveAbove(int fiveAbove) {
-        this.fiveAbove = fiveAbove;
-    }
-
-    public int getHourBelow() {
-        return hourBelow;
-    }
-
-    public void setHourBelow(int hourBelow) {
-        this.hourBelow = hourBelow;
-    }
-
-    public int getHourAbove() {
-        return hourAbove;
-    }
-
-    public void setHourAbove(int hourAbove) {
-        this.hourAbove = hourAbove;
-    }
-
-    public int getDayBelow() {
-        return dayBelow;
-    }
-
-    public void setDayBelow(int dayBelow) {
-        this.dayBelow = dayBelow;
-    }
-
-    public int getDayAbove() {
-        return dayAbove;
-    }
-
-    public void setDayAbove(int dayAbove) {
-        this.dayAbove = dayAbove;
-    }
-
-    public int getMoreNear() {
-        return moreNear;
-    }
-
-    public void setMoreNear(int moreNear) {
-        this.moreNear = moreNear;
-    }
-
-    public int getLessNear() {
-        return lessNear;
-    }
-
-    public void setLessNear(int lessNear) {
-        this.lessNear = lessNear;
-    }
-
-    public int getFloatingUp() {
-        return floatingUp;
-    }
-
-    public void setFloatingUp(int floatingUp) {
-        this.floatingUp = floatingUp;
-    }
-
-    public int getFloatingDown() {
-        return floatingDown;
-    }
-
-    public void setFloatingDown(int floatingDown) {
-        this.floatingDown = floatingDown;
-    }
-
-    public int getKeepTime() {
-        return keepTime;
-    }
-
-    public void setKeepTime(int keepTime) {
-        this.keepTime = keepTime;
-    }
 
     public int getContinueInterrupt() {
         return continueInterrupt;
@@ -406,6 +308,6 @@ public class ReportManageDataMantainVo {
 
     @Override
     public String toString() {
-        return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenAccordingId=" + brokenAccordingId + ", date='" + date + '\'' + ", sensorCode=" + sensorCode + ", fiveBelow=" + fiveBelow + ", fiveAbove=" + fiveAbove + ", hourBelow=" + hourBelow + ", hourAbove=" + hourAbove + ", dayBelow=" + dayBelow + ", dayAbove=" + dayAbove + ", moreNear=" + moreNear + ", lessNear=" + lessNear + ", floatingUp=" + floatingUp + ", floatingDown=" + floatingDown + ", keepTime=" + keepTime + ", continueInterrupt=" + continueInterrupt + ", updateTime=" + updateTime + ", sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorName='" + sensorName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + '}';
+        return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", date='" + date + '\'' + ", sensorCode=" + sensorCode + ", continueInterrupt=" + continueInterrupt + ", updateTime=" + updateTime + ", dataError='" + dataError + '\'' + ", equipmentError='" + equipmentError + '\'' + ", sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorName='" + sensorName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + '}';
     }
 }

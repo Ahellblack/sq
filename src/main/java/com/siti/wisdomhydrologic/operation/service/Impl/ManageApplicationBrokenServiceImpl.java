@@ -117,12 +117,12 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                     try {
                         //如果包含基本站名,判断为基本站
                         if (basicStationList.contains(data.getStationName())) {
-                            calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
+                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                             //基本站往后1小时内
                             calendar.add(calendar.HOUR, 1);
                             applicationBroken.setBrokenResponseTime(calendar.getTime());
                         } else {
-                            calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
+                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                             //一般站往后3小时内
                             calendar.add(calendar.HOUR, 3);
                             applicationBroken.setBrokenResponseTime(calendar.getTime());
@@ -138,7 +138,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         logger.error(e.getMessage());
                     }
 
-                    applicationBroken.setCreateTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
+                    applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                     brokenList.add(applicationBroken);
                 }
             });

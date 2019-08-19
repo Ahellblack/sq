@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.operation.utils;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 import java.util.List;
 
+*/
 /**
  * Created by dell on 2019/8/14.
- */
+ *//*
+
 public class AbnormalParamUtils {
 
     public List<ReportManageDataMantainVo> getAbnormalParam(String date, List<ReportManageDataMantainVo> all, List<ConfigAbnormalDictionary> abnormallist) {
@@ -208,3 +211,4 @@ public class AbnormalParamUtils {
         return all;
     }
 }
+*/

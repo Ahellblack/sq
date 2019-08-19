@@ -38,7 +38,7 @@ public class StationDataController {
         /**
          * 由于real表
          * */
-        if ((calendar.get(calendar.MINUTE) % 5) > 4) {
+        if ((calendar.get(calendar.MINUTE) % 5) >= 4) {
             realtime = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
         } else {
             realtime = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 10);
