@@ -1,8 +1,12 @@
-2019-08-07 15:54:45,499 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
-2019-08-07 15:54:45,671 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "dell-PC1565164453790"'s failed in-progress jobs.
-2019-08-07 16:00:00,651 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
-2019-08-07 16:00:00,651 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "localhost.localdomain1565164743613"'s failed in-progress jobs.
-2019-08-07 16:01:00,835 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
-2019-08-07 16:01:00,836 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "localhost.localdomain1565164820838"'s failed in-progress jobs.
-2019-08-07 16:05:08,245 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
-2019-08-07 16:05:08,246 [QuartzScheduler_schedulerFactoryBean-dell-PC1565158118190_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "localhost.localdomain1565164969421"'s failed in-progress jobs.
+2019-08-17 17:07:00,686 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 89 - ColorsExecurots Initial...
+2019-08-17 17:07:00,691 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:07:00,693 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:551,条数;551,状态:1
+2019-08-17 17:07:00,689 [Thread-9] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor1
+2019-08-17 17:07:01,052 [ColorsExecutor1] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor2
+2019-08-17 17:07:40,449 [QuartzScheduler_schedulerFactoryBean-dell-PC1566032684097_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
+2019-08-17 17:07:40,449 [QuartzScheduler_schedulerFactoryBean-dell-PC1566032684097_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "localhost.localdomain1566030939963"'s failed in-progress jobs.
+2019-08-17 17:08:00,541 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 89 - ColorsExecurots Initial...
+2019-08-17 17:08:00,541 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:08:00,542 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:571,条数;571,状态:1
+2019-08-17 17:08:00,542 [Thread-12] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor1
+2019-08-17 17:08:00,746 [ColorsExecutor1] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor2

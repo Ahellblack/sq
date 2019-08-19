@@ -112,10 +112,9 @@ public class DayDataServiceImpl implements DayDataService {
             logger.info("不存在{}的数据表", inttime);
             return 0;
         } else if (inttime >= 2001 && inttime <= 2013) {
-            dateBaseName = "history_5min_sensor_data_2001_2013";
+            dateBaseName = "history_hour_sensor_data_2001_2013";
             return hourDataMapper.addHourData(dateBaseName, HourVo);
         }
-        Calendar cal = Calendar.getInstance();
         hourDataMapper.buildHourBase(dateBaseName);
         return hourDataMapper.addHourData(dateBaseName, HourVo);
     }

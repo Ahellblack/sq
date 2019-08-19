@@ -99,7 +99,7 @@ public class RealListener {
         receiver.put(RealVoList);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
-        logger.info("real_queue消费者获取day数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
+        logger.info("real_queue消费者获取数据...总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
 

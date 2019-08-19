@@ -1,0 +1,998 @@
+2019-08-17 17:06:10,528 [main] INFO  c.s.w.WisdomhydrologicApplicationTests 48 - Starting WisdomhydrologicApplicationTests on dell-PC with PID 9664 (started by dell in H:\mavenWorkspace\sq)
+2019-08-17 17:06:10,544 [main] INFO  c.s.w.WisdomhydrologicApplicationTests 597 - The following profiles are active: test
+2019-08-17 17:06:10,947 [background-preinit] INFO  o.h.validator.internal.util.Version 30 - HV000001: Hibernate Validator 5.3.5.Final
+2019-08-17 17:06:14,902 [main] INFO  org.quartz.impl.StdSchedulerFactory 1208 - Using default implementation for ThreadExecutor
+2019-08-17 17:06:14,917 [main] INFO  o.quartz.core.SchedulerSignalerImpl 61 - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2019-08-17 17:06:14,917 [main] INFO  org.quartz.core.QuartzScheduler 229 - Quartz Scheduler v.2.3.0 created.
+2019-08-17 17:06:15,963 [main] INFO  org.quartz.core.QuartzScheduler 294 - Scheduler meta-data: Quartz Scheduler (v2.3.0) 'schedulerFactoryBean' with instanceId 'dell-PC1566032774904'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 20 threads.
+  Using job-store 'org.springframework.scheduling.quartz.LocalDataSourceJobStore' - which supports persistence. and is clustered.
+
+2019-08-17 17:06:15,964 [main] INFO  org.quartz.impl.StdSchedulerFactory 1362 - Quartz scheduler 'schedulerFactoryBean' initialized from an externally provided properties instance.
+2019-08-17 17:06:15,964 [main] INFO  org.quartz.impl.StdSchedulerFactory 1366 - Quartz scheduler version: 2.3.0
+2019-08-17 17:06:15,964 [main] INFO  org.quartz.core.QuartzScheduler 2287 - JobFactory set to: com.siti.wisdomhydrologic.quartz.config.ConfigureQuartz$AutowiringSpringBeanJobFactory@11f23203
+2019-08-17 17:06:17,276 [main] INFO  c.s.w.q.service.DynamicJobService 53 - INIT SUCCESS
+2019-08-17 17:06:29,175 [main] INFO  org.quartz.core.QuartzScheduler 547 - Scheduler schedulerFactoryBean_$_dell-PC1566032774904 started.
+2019-08-17 17:06:30,548 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 89 - ColorsExecurots Initial...
+2019-08-17 17:06:30,548 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:30,549 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:30,611 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:30,612 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:30,617 [Thread-7] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor1
+2019-08-17 17:06:30,682 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:30,682 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:30,702 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;565,状态:1
+2019-08-17 17:06:30,931 [ColorsExecutor1] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor2
+2019-08-17 17:06:31,029 [ColorsExecutor2] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor3
+2019-08-17 17:06:31,095 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:31,096 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:31,115 [ColorsExecutor3] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor4
+2019-08-17 17:06:31,146 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:31,147 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:31,147 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 96 - real消息成功消费完成无丢包！
+2019-08-17 17:06:31,152 [SimpleAsyncTaskExecutor-2] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;576,状态:1
+2019-08-17 17:06:31,184 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.RealListener 102 - real_queue消费者获取day数据...总包数:1,当前包数:1,总条数:576,条数;523,状态:1
+2019-08-17 17:06:31,201 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper 80 - Context refreshed
+2019-08-17 17:06:31,253 [ColorsExecutor4] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor5
+2019-08-17 17:06:31,311 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.TsdbListener 105 - ColorsExecurots Initial...
+2019-08-17 17:06:31,313 [Thread-13] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor1
+2019-08-17 17:06:31,313 [Thread-13] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor2
+2019-08-17 17:06:31,385 [ColorsExecutor5] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor6
+2019-08-17 17:06:31,417 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper 83 - Found {0} custom documentation plugin(s)
+2019-08-17 17:06:31,462 [ColorsExecutor6] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor7
+2019-08-17 17:06:31,486 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 53 - Scanning for api listing references
+2019-08-17 17:06:31,506 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,509 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='config-river-station-controller', position=0, controller=com.siti.wisdomhydrologic.maintainconfig.controller.ConfigRiverStationController}]] 
+2019-08-17 17:06:31,510 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-application-broken-controller
+2019-08-17 17:06:31,511 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='manage-application-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController}]] 
+2019-08-17 17:06:31,522 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method selectAll was manage-application-broken-controller
+2019-08-17 17:06:31,523 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: selectAll belongs to groups: [[ResourceGroup{groupName='manage-application-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController}]] 
+2019-08-17 17:06:31,523 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertDataMantain was manage-application-broken-controller
+2019-08-17 17:06:31,523 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insertDataMantain belongs to groups: [[ResourceGroup{groupName='manage-application-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController}]] 
+2019-08-17 17:06:31,524 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-application-broken-controller
+2019-08-17 17:06:31,525 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='manage-application-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController}]] 
+2019-08-17 17:06:31,525 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-application-broken-controller
+2019-08-17 17:06:31,526 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='manage-application-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController}]] 
+2019-08-17 17:06:31,527 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was five-min-sensor-data-ctrl
+2019-08-17 17:06:31,527 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='five-min-sensor-data-ctrl', position=0, controller=com.siti.wisdomhydrologic.datepull.controller.fiveMinSensorDataCtrl}]] 
+2019-08-17 17:06:31,528 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:31,537 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getVideoConfig belongs to groups: [[ResourceGroup{groupName='hai-kang-controller', position=0, controller=com.siti.wisdomhydrologic.video.HaiKangController}]] 
+2019-08-17 17:06:31,537 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteBy was hyetometer-controller
+2019-08-17 17:06:31,537 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: deleteBy belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,538 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteByList was hyetometer-controller
+2019-08-17 17:06:31,560 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: deleteByList belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,560 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:31,560 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,561 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was hyetometer-controller
+2019-08-17 17:06:31,562 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getExcel belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,562 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was hyetometer-controller
+2019-08-17 17:06:31,562 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,563 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was hyetometer-controller
+2019-08-17 17:06:31,563 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='hyetometer-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.HyetometerController}]] 
+2019-08-17 17:06:31,567 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was inspection-maintenance-controller
+2019-08-17 17:06:31,568 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='inspection-maintenance-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController}]] 
+2019-08-17 17:06:31,569 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was inspection-maintenance-controller
+2019-08-17 17:06:31,569 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='inspection-maintenance-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController}]] 
+2019-08-17 17:06:31,570 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByStationId was inspection-maintenance-controller
+2019-08-17 17:06:31,570 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByStationId belongs to groups: [[ResourceGroup{groupName='inspection-maintenance-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController}]] 
+2019-08-17 17:06:31,571 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was inspection-maintenance-controller
+2019-08-17 17:06:31,571 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='inspection-maintenance-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController}]] 
+2019-08-17 17:06:31,572 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refreshAll was job-controller
+2019-08-17 17:06:31,579 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: refreshAll belongs to groups: [[ResourceGroup{groupName='job-controller', position=0, controller=com.siti.wisdomhydrologic.quartz.ctrl.JobController}]] 
+2019-08-17 17:06:31,579 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refresh was job-controller
+2019-08-17 17:06:31,581 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: refresh belongs to groups: [[ResourceGroup{groupName='job-controller', position=0, controller=com.siti.wisdomhydrologic.quartz.ctrl.JobController}]] 
+2019-08-17 17:06:31,581 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-data-mantain-controller
+2019-08-17 17:06:31,581 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,581 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByCreateDate was manage-data-mantain-controller
+2019-08-17 17:06:31,586 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByCreateDate belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,587 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was manage-data-mantain-controller
+2019-08-17 17:06:31,588 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getExcel belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,588 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getSelect was manage-data-mantain-controller
+2019-08-17 17:06:31,588 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getSelect belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,588 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertAbnormalData was manage-data-mantain-controller
+2019-08-17 17:06:31,589 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insertAbnormalData belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,590 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-data-mantain-controller
+2019-08-17 17:06:31,590 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,590 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-data-mantain-controller
+2019-08-17 17:06:31,590 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='manage-data-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController}]] 
+2019-08-17 17:06:31,591 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-mantain-controller
+2019-08-17 17:06:31,591 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='manage-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageMantainController}]] 
+2019-08-17 17:06:31,591 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-mantain-controller
+2019-08-17 17:06:31,591 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='manage-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageMantainController}]] 
+2019-08-17 17:06:31,592 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was manage-mantain-controller
+2019-08-17 17:06:31,592 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='manage-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageMantainController}]] 
+2019-08-17 17:06:31,592 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-mantain-controller
+2019-08-17 17:06:31,619 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='manage-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.ManageMantainController}]] 
+2019-08-17 17:06:31,620 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:31,620 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getList belongs to groups: [[ResourceGroup{groupName='config-sensor-section-module-controller', position=0, controller=com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController}]] 
+2019-08-17 17:06:31,620 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:31,621 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='config-sensor-section-module-controller', position=0, controller=com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController}]] 
+2019-08-17 17:06:31,622 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:31,622 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='config-sensor-section-module-controller', position=0, controller=com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController}]] 
+2019-08-17 17:06:31,623 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByAutoMonth was station-rain-constrast-controller
+2019-08-17 17:06:31,623 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByAutoMonth belongs to groups: [[ResourceGroup{groupName='station-rain-constrast-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController}]] 
+2019-08-17 17:06:31,623 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByBaseMonth was station-rain-constrast-controller
+2019-08-17 17:06:31,624 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByBaseMonth belongs to groups: [[ResourceGroup{groupName='station-rain-constrast-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController}]] 
+2019-08-17 17:06:31,626 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByDiffMonth was station-rain-constrast-controller
+2019-08-17 17:06:31,626 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByDiffMonth belongs to groups: [[ResourceGroup{groupName='station-rain-constrast-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController}]] 
+2019-08-17 17:06:31,627 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByMonth was station-rain-constrast-controller
+2019-08-17 17:06:31,627 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getByMonth belongs to groups: [[ResourceGroup{groupName='station-rain-constrast-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController}]] 
+2019-08-17 17:06:31,627 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-rain-constrast-controller
+2019-08-17 17:06:31,627 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='station-rain-constrast-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController}]] 
+2019-08-17 17:06:31,627 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method testSwagger2 was test
+2019-08-17 17:06:31,628 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: testSwagger2 belongs to groups: [[ResourceGroup{groupName='test', position=0, controller=com.siti.wisdomhydrologic.justforyou.Test}]] 
+2019-08-17 17:06:31,630 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:31,630 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='config-sensor-database-controller', position=0, controller=com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorDatabaseController}]] 
+2019-08-17 17:06:31,637 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:31,638 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getList belongs to groups: [[ResourceGroup{groupName='station-data-controller', position=0, controller=com.siti.wisdomhydrologic.mainpage.controller.StationDataController}]] 
+2019-08-17 17:06:31,638 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:31,638 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getList belongs to groups: [[ResourceGroup{groupName='station-data-controller', position=0, controller=com.siti.wisdomhydrologic.mainpage.controller.StationDataController}]] 
+2019-08-17 17:06:31,639 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-broken-controller
+2019-08-17 17:06:31,640 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='station-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationBrokenController}]] 
+2019-08-17 17:06:31,640 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:31,640 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='station-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationBrokenController}]] 
+2019-08-17 17:06:31,640 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-broken-controller
+2019-08-17 17:06:31,640 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='station-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationBrokenController}]] 
+2019-08-17 17:06:31,641 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-broken-controller
+2019-08-17 17:06:31,641 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='station-broken-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationBrokenController}]] 
+2019-08-17 17:06:31,641 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-check-mantain-controller
+2019-08-17 17:06:31,641 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: delete belongs to groups: [[ResourceGroup{groupName='station-check-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController}]] 
+2019-08-17 17:06:31,641 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-check-mantain-controller
+2019-08-17 17:06:31,642 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: getAll belongs to groups: [[ResourceGroup{groupName='station-check-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController}]] 
+2019-08-17 17:06:31,642 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-check-mantain-controller
+2019-08-17 17:06:31,643 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: insert belongs to groups: [[ResourceGroup{groupName='station-check-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController}]] 
+2019-08-17 17:06:31,648 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-check-mantain-controller
+2019-08-17 17:06:31,650 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: update belongs to groups: [[ResourceGroup{groupName='station-check-mantain-controller', position=0, controller=com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController}]] 
+2019-08-17 17:06:31,657 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method updateS was test
+2019-08-17 17:06:31,657 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 72 - Request mapping: updateS belongs to groups: [[ResourceGroup{groupName='test', position=0, controller=com.siti.wisdomhydrologic.justforyou.Test}]] 
+2019-08-17 17:06:31,664 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/station-check-mantain-controller Description: station-check-mantain-controller Position: 0
+2019-08-17 17:06:31,665 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/hyetometer-controller Description: hyetometer-controller Position: 0
+2019-08-17 17:06:31,665 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/station-broken-controller Description: station-broken-controller Position: 0
+2019-08-17 17:06:31,665 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/station-data-controller Description: station-data-controller Position: 0
+2019-08-17 17:06:31,665 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/config-river-station-controller Description: config-river-station-controller Position: 0
+2019-08-17 17:06:31,666 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/manage-application-broken-controller Description: manage-application-broken-controller Position: 0
+2019-08-17 17:06:31,666 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/job-controller Description: job-controller Position: 0
+2019-08-17 17:06:31,666 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/five-min-sensor-data-ctrl Description: five-min-sensor-data-ctrl Position: 0
+2019-08-17 17:06:31,666 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/config-sensor-database-controller Description: config-sensor-database-controller Position: 0
+2019-08-17 17:06:31,667 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/manage-data-mantain-controller Description: manage-data-mantain-controller Position: 0
+2019-08-17 17:06:31,667 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/station-rain-constrast-controller Description: station-rain-constrast-controller Position: 0
+2019-08-17 17:06:31,667 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/inspection-maintenance-controller Description: inspection-maintenance-controller Position: 0
+2019-08-17 17:06:31,667 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/manage-mantain-controller Description: manage-mantain-controller Position: 0
+2019-08-17 17:06:31,667 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/hai-kang-controller Description: hai-kang-controller Position: 0
+2019-08-17 17:06:31,668 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/test Description: test Position: 0
+2019-08-17 17:06:31,668 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner 84 - Created resource listing Path: /default/config-sensor-section-module-controller Description: config-sensor-section-module-controller Position: 0
+2019-08-17 17:06:31,765 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,765 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,767 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,767 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,775 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:31,776 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:31,860 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,861 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:31,863 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:31,863 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:31,870 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /RiverStation/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigRiverStationController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:31,871 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /RiverStation/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigRiverStationController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:31,883 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,885 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,896 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,898 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,902 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,920 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,922 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,923 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,924 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,925 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,926 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,927 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,927 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,929 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,957 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:31,958 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-river-station-controller
+2019-08-17 17:06:32,003 [ColorsExecutor7] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor8
+2019-08-17 17:06:32,033 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,033 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,034 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,034 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,034 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase(true)
+2019-08-17 17:06:32,034 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase(true)
+2019-08-17 17:06:32,037 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,038 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase>(true)
+2019-08-17 17:06:32,038 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase(true)
+2019-08-17 17:06:32,039 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase(true)
+2019-08-17 17:06:32,040 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /sensorDatabase/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorDatabaseController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,040 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /sensorDatabase/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorDatabaseController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,041 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,042 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,043 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_1
+2019-08-17 17:06:32,043 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,044 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,044 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingHEAD_1
+2019-08-17 17:06:32,044 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,045 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,045 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPOST_1
+2019-08-17 17:06:32,045 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,046 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,046 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPUT_1
+2019-08-17 17:06:32,055 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,056 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,057 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPATCH_1
+2019-08-17 17:06:32,058 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,059 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,060 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingDELETE_1
+2019-08-17 17:06:32,060 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,061 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,062 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingOPTIONS_1
+2019-08-17 17:06:32,062 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,063 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was config-sensor-database-controller
+2019-08-17 17:06:32,063 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingTRACE_1
+2019-08-17 17:06:32,064 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,064 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,065 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,065 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,065 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule(true)
+2019-08-17 17:06:32,065 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule(true)
+2019-08-17 17:06:32,071 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,072 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule>(true)
+2019-08-17 17:06:32,073 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule(true)
+2019-08-17 17:06:32,073 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule(true)
+2019-08-17 17:06:32,074 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /module/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,074 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /module/getAll.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,076 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,078 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,079 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,080 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,081 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,084 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,086 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,087 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,088 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,088 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,089 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,089 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,090 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,091 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,091 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,092 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was config-sensor-section-module-controller
+2019-08-17 17:06:32,094 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,094 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,094 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,094 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,095 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /module/insert.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,095 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /module/insert.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,109 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,110 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,111 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,113 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,114 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,115 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,123 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,123 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,125 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,125 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,126 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,127 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,129 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,130 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,132 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,133 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was config-sensor-section-module-controller
+2019-08-17 17:06:32,134 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,134 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,134 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,135 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,135 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /module/update.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,135 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /module/update.com.siti.wisdomhydrologic.maintainconfig.controller.ConfigSensorSectionModuleController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,138 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,139 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,140 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,141 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,142 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,143 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,144 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,145 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,148 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,149 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,150 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,151 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,152 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,152 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,153 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,154 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was config-sensor-section-module-controller
+2019-08-17 17:06:32,155 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,155 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.Void(true)
+2019-08-17 17:06:32,156 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,156 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.Void(true)
+2019-08-17 17:06:32,156 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /fiveMinSensorData/getAll.com.siti.wisdomhydrologic.datepull.controller.fiveMinSensorDataCtrl.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,156 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /fiveMinSensorData/getAll.com.siti.wisdomhydrologic.datepull.controller.fiveMinSensorDataCtrl.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,157 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was five-min-sensor-data-ctrl
+2019-08-17 17:06:32,157 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was five-min-sensor-data-ctrl
+2019-08-17 17:06:32,161 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_2
+2019-08-17 17:06:32,162 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,162 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,163 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,163 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,164 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,164 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,165 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,165 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.config.HaiKangVideoConfig(true)
+2019-08-17 17:06:32,165 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /haikang/getConfig.com.siti.wisdomhydrologic.video.HaiKangController.getVideoConfig.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,166 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /haikang/getConfig.com.siti.wisdomhydrologic.video.HaiKangController.getVideoConfig.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,166 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,167 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,168 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,169 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,171 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,172 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,173 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,174 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,174 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,175 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,175 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,176 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,177 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,177 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,178 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,178 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getVideoConfig was hai-kang-controller
+2019-08-17 17:06:32,181 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Integer(false)
+2019-08-17 17:06:32,181 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.Integer(false)
+2019-08-17 17:06:32,176 [ColorsExecutor8] INFO  c.s.w.config.ColorsExecutor 61 - ColorsExecutor start creating thread :ColorsExecutor9
+2019-08-17 17:06:32,182 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Integer(false)
+2019-08-17 17:06:32,183 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.Integer(false)
+2019-08-17 17:06:32,183 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,185 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,185 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,185 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,186 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/deleteBy.com.siti.wisdomhydrologic.operation.controller.HyetometerController.deleteBy.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,186 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/deleteBy.com.siti.wisdomhydrologic.operation.controller.HyetometerController.deleteBy.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,187 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteBy was hyetometer-controller
+2019-08-17 17:06:32,188 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteBy was hyetometer-controller
+2019-08-17 17:06:32,189 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,190 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,190 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,191 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,191 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,191 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,191 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,191 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,192 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,192 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<java.lang.Integer>(false)
+2019-08-17 17:06:32,192 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/deleteChosen.com.siti.wisdomhydrologic.operation.controller.HyetometerController.deleteByList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,192 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/deleteChosen.com.siti.wisdomhydrologic.operation.controller.HyetometerController.deleteByList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,194 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteByList was hyetometer-controller
+2019-08-17 17:06:32,194 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method deleteByList was hyetometer-controller
+2019-08-17 17:06:32,195 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,196 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,196 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,196 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,196 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(true)
+2019-08-17 17:06:32,197 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(true)
+2019-08-17 17:06:32,199 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,199 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest>(true)
+2019-08-17 17:06:32,201 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(true)
+2019-08-17 17:06:32,202 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(true)
+2019-08-17 17:06:32,202 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/getAll.com.siti.wisdomhydrologic.operation.controller.HyetometerController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,202 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/getAll.com.siti.wisdomhydrologic.operation.controller.HyetometerController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,203 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,204 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,204 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_3
+2019-08-17 17:06:32,205 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,205 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,206 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingHEAD_2
+2019-08-17 17:06:32,206 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,207 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,207 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPOST_2
+2019-08-17 17:06:32,208 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,209 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,209 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPUT_2
+2019-08-17 17:06:32,210 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,210 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,211 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPATCH_2
+2019-08-17 17:06:32,211 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,212 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,212 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingDELETE_2
+2019-08-17 17:06:32,213 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,213 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,213 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingOPTIONS_2
+2019-08-17 17:06:32,214 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,214 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was hyetometer-controller
+2019-08-17 17:06:32,215 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingTRACE_2
+2019-08-17 17:06:32,215 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,216 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.Void(true)
+2019-08-17 17:06:32,216 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,216 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.Void(true)
+2019-08-17 17:06:32,216 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: javax.servlet.http.HttpServletResponse(false)
+2019-08-17 17:06:32,216 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key javax.servlet.http.HttpServletResponse(false)
+2019-08-17 17:06:32,216 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: javax.servlet.http.HttpServletResponse(false)
+2019-08-17 17:06:32,217 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key javax.servlet.http.HttpServletResponse(false)
+2019-08-17 17:06:32,217 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/getExcel.com.siti.wisdomhydrologic.operation.controller.HyetometerController.getExcel.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,218 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/getExcel.com.siti.wisdomhydrologic.operation.controller.HyetometerController.getExcel.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,218 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was hyetometer-controller
+2019-08-17 17:06:32,219 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was hyetometer-controller
+2019-08-17 17:06:32,220 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,220 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,221 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,221 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,221 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,221 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,222 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,223 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,229 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,229 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,230 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,230 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,231 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/insert.com.siti.wisdomhydrologic.operation.controller.HyetometerController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,231 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/insert.com.siti.wisdomhydrologic.operation.controller.HyetometerController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,232 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was hyetometer-controller
+2019-08-17 17:06:32,232 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was hyetometer-controller
+2019-08-17 17:06:32,234 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_1
+2019-08-17 17:06:32,235 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,235 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,235 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,235 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,236 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,236 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,236 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,236 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest(false)
+2019-08-17 17:06:32,236 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /hyetometer/update.com.siti.wisdomhydrologic.operation.controller.HyetometerController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,236 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /hyetometer/update.com.siti.wisdomhydrologic.operation.controller.HyetometerController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,238 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was hyetometer-controller
+2019-08-17 17:06:32,238 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was hyetometer-controller
+2019-08-17 17:06:32,239 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_1
+2019-08-17 17:06:32,239 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,240 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,240 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,240 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,240 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /inspectionMaintenance/delete.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,240 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /inspectionMaintenance/delete.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,241 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was inspection-maintenance-controller
+2019-08-17 17:06:32,242 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was inspection-maintenance-controller
+2019-08-17 17:06:32,243 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,243 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,243 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,244 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,244 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(true)
+2019-08-17 17:06:32,244 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(true)
+2019-08-17 17:06:32,251 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,252 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance>(true)
+2019-08-17 17:06:32,252 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(true)
+2019-08-17 17:06:32,252 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(true)
+2019-08-17 17:06:32,253 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /inspectionMaintenance/selectByStationId.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.getByStationId.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,253 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /inspectionMaintenance/selectByStationId.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.getByStationId.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,256 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByStationId was inspection-maintenance-controller
+2019-08-17 17:06:32,258 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByStationId was inspection-maintenance-controller
+2019-08-17 17:06:32,259 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,260 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,260 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,260 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,271 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,271 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,272 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,272 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,272 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,273 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,275 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,276 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,276 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /inspectionMaintenance/insert.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,277 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /inspectionMaintenance/insert.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,278 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was inspection-maintenance-controller
+2019-08-17 17:06:32,278 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was inspection-maintenance-controller
+2019-08-17 17:06:32,279 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_2
+2019-08-17 17:06:32,279 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,279 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,280 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,280 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance(false)
+2019-08-17 17:06:32,280 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,280 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,280 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,281 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,281 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /inspectionMaintenance/update.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,281 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /inspectionMaintenance/update.com.siti.wisdomhydrologic.operation.controller.InspectionMaintenanceController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,282 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was inspection-maintenance-controller
+2019-08-17 17:06:32,283 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was inspection-maintenance-controller
+2019-08-17 17:06:32,283 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_2
+2019-08-17 17:06:32,285 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,286 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.String(true)
+2019-08-17 17:06:32,286 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,286 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2019-08-17 17:06:32,286 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /job/refresh/{id}.com.siti.wisdomhydrologic.quartz.ctrl.JobController.refresh.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,286 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /job/refresh/{id}.com.siti.wisdomhydrologic.quartz.ctrl.JobController.refresh.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,289 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refresh was job-controller
+2019-08-17 17:06:32,290 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refresh was job-controller
+2019-08-17 17:06:32,291 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,291 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.String(true)
+2019-08-17 17:06:32,291 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,291 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2019-08-17 17:06:32,292 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /job/refresh/all.com.siti.wisdomhydrologic.quartz.ctrl.JobController.refreshAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,292 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /job/refresh/all.com.siti.wisdomhydrologic.quartz.ctrl.JobController.refreshAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,296 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refreshAll was job-controller
+2019-08-17 17:06:32,297 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method refreshAll was job-controller
+2019-08-17 17:06:32,305 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,306 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,306 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,306 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,306 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /applicationBroken/delete.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,306 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /applicationBroken/delete.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,313 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-application-broken-controller
+2019-08-17 17:06:32,315 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-application-broken-controller
+2019-08-17 17:06:32,316 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: deleteUsingGET_1
+2019-08-17 17:06:32,316 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,317 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,318 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,319 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,320 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,321 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,321 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,321 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,321 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,321 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,322 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,322 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,322 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /applicationBroken/insert.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,322 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /applicationBroken/insert.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,328 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-application-broken-controller
+2019-08-17 17:06:32,329 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-application-broken-controller
+2019-08-17 17:06:32,329 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_3
+2019-08-17 17:06:32,330 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,330 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,330 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,330 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,331 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /applicationBroken/insertDataMantain.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.insertDataMantain.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,331 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /applicationBroken/insertDataMantain.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.insertDataMantain.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,332 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertDataMantain was manage-application-broken-controller
+2019-08-17 17:06:32,332 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertDataMantain was manage-application-broken-controller
+2019-08-17 17:06:32,333 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,334 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,334 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,334 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,339 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,339 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,339 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,340 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,341 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,342 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken>(true)
+2019-08-17 17:06:32,346 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,347 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,347 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,347 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(true)
+2019-08-17 17:06:32,348 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /applicationBroken/getAll.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.selectAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,348 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /applicationBroken/getAll.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.selectAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,351 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method selectAll was manage-application-broken-controller
+2019-08-17 17:06:32,352 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method selectAll was manage-application-broken-controller
+2019-08-17 17:06:32,353 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,353 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,354 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,354 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken(false)
+2019-08-17 17:06:32,355 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,355 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,355 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,355 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,355 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /applicationBroken/update.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,356 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /applicationBroken/update.com.siti.wisdomhydrologic.operation.controller.ManageApplicationBrokenController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,364 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-application-broken-controller
+2019-08-17 17:06:32,365 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-application-broken-controller
+2019-08-17 17:06:32,366 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_3
+2019-08-17 17:06:32,367 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,368 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,368 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,368 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,368 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/delete.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,369 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/delete.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,370 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-data-mantain-controller
+2019-08-17 17:06:32,371 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-data-mantain-controller
+2019-08-17 17:06:32,371 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: deleteUsingGET_2
+2019-08-17 17:06:32,372 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,372 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,372 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,373 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,376 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,377 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,378 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,379 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,383 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,384 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.github.pagehelper.PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain>(true)
+2019-08-17 17:06:32,384 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,385 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,385 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,385 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(true)
+2019-08-17 17:06:32,386 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/getByCreateDate.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getByCreateDate.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,386 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/getByCreateDate.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getByCreateDate.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,389 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByCreateDate was manage-data-mantain-controller
+2019-08-17 17:06:32,390 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByCreateDate was manage-data-mantain-controller
+2019-08-17 17:06:32,391 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,391 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.Void(true)
+2019-08-17 17:06:32,392 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.Void(true)
+2019-08-17 17:06:32,392 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.Void(true)
+2019-08-17 17:06:32,392 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/getExcel.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getExcel.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,392 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/getExcel.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getExcel.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,394 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was manage-data-mantain-controller
+2019-08-17 17:06:32,395 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getExcel was manage-data-mantain-controller
+2019-08-17 17:06:32,396 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,396 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,396 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,396 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,397 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,397 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.Map<java.lang.Integer,java.lang.String>(true)
+2019-08-17 17:06:32,398 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/getSelect.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getSelect.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,399 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/getSelect.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.getSelect.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,399 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getSelect was manage-data-mantain-controller
+2019-08-17 17:06:32,400 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getSelect was manage-data-mantain-controller
+2019-08-17 17:06:32,400 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,401 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,406 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,406 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,406 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,407 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,407 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,407 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,413 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,413 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,413 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,413 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,414 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/insert.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,414 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/insert.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,415 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-data-mantain-controller
+2019-08-17 17:06:32,416 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-data-mantain-controller
+2019-08-17 17:06:32,416 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_4
+2019-08-17 17:06:32,417 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,417 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,417 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,418 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,418 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/insertAbnormal.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.insertAbnormalData.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,418 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/insertAbnormal.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.insertAbnormalData.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,419 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertAbnormalData was manage-data-mantain-controller
+2019-08-17 17:06:32,420 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insertAbnormalData was manage-data-mantain-controller
+2019-08-17 17:06:32,421 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,421 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,422 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,422 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,422 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,423 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,423 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,423 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain(false)
+2019-08-17 17:06:32,424 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageDataMantain/update.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,424 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageDataMantain/update.com.siti.wisdomhydrologic.operation.controller.ManageDataMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,425 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-data-mantain-controller
+2019-08-17 17:06:32,426 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-data-mantain-controller
+2019-08-17 17:06:32,426 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_4
+2019-08-17 17:06:32,428 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,428 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,428 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,429 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,429 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageMantain/delete.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,429 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageMantain/delete.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,430 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-mantain-controller
+2019-08-17 17:06:32,431 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was manage-mantain-controller
+2019-08-17 17:06:32,431 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: deleteUsingGET_3
+2019-08-17 17:06:32,432 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,432 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,432 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,432 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,433 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(true)
+2019-08-17 17:06:32,433 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(true)
+2019-08-17 17:06:32,436 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,436 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportManageMantain>(true)
+2019-08-17 17:06:32,437 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(true)
+2019-08-17 17:06:32,437 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(true)
+2019-08-17 17:06:32,438 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageMantain/selectByDate.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,438 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageMantain/selectByDate.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,440 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was manage-mantain-controller
+2019-08-17 17:06:32,441 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was manage-mantain-controller
+2019-08-17 17:06:32,442 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_4
+2019-08-17 17:06:32,443 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,443 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,443 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,444 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,446 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,446 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,447 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,447 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,447 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,447 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,448 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,448 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,448 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageMantain/insert.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,448 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageMantain/insert.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,449 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-mantain-controller
+2019-08-17 17:06:32,450 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was manage-mantain-controller
+2019-08-17 17:06:32,451 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_5
+2019-08-17 17:06:32,452 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,452 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,452 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,452 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportManageMantain(false)
+2019-08-17 17:06:32,453 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,453 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,453 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,453 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,454 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /manageMantain/update.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,454 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /manageMantain/update.com.siti.wisdomhydrologic.operation.controller.ManageMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,456 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-mantain-controller
+2019-08-17 17:06:32,459 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was manage-mantain-controller
+2019-08-17 17:06:32,460 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_5
+2019-08-17 17:06:32,462 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,462 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,463 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,463 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,463 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationBroken/delete.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,464 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationBroken/delete.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,465 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-broken-controller
+2019-08-17 17:06:32,466 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-broken-controller
+2019-08-17 17:06:32,466 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: deleteUsingGET_4
+2019-08-17 17:06:32,467 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,467 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,472 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,473 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,473 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(true)
+2019-08-17 17:06:32,473 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(true)
+2019-08-17 17:06:32,483 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,484 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken>(true)
+2019-08-17 17:06:32,485 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(true)
+2019-08-17 17:06:32,485 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(true)
+2019-08-17 17:06:32,486 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationBroken/getALL.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,486 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationBroken/getALL.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,487 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,489 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,490 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_5
+2019-08-17 17:06:32,491 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,492 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,492 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingHEAD_3
+2019-08-17 17:06:32,493 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,494 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,494 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPOST_3
+2019-08-17 17:06:32,494 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,495 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,495 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPUT_3
+2019-08-17 17:06:32,497 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,498 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,498 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingPATCH_3
+2019-08-17 17:06:32,499 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,499 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,499 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingDELETE_3
+2019-08-17 17:06:32,500 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,500 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,501 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingOPTIONS_3
+2019-08-17 17:06:32,501 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,501 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-broken-controller
+2019-08-17 17:06:32,502 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingTRACE_3
+2019-08-17 17:06:32,502 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,503 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,504 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,505 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,505 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,505 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,505 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,505 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,508 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,508 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,509 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,509 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,511 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationBroken/insert.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,511 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationBroken/insert.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,514 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-broken-controller
+2019-08-17 17:06:32,514 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-broken-controller
+2019-08-17 17:06:32,515 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_6
+2019-08-17 17:06:32,516 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,516 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,516 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,517 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,517 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,517 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,517 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,517 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportStationBroken(false)
+2019-08-17 17:06:32,520 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationBroken/update.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,520 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationBroken/update.com.siti.wisdomhydrologic.operation.controller.StationBrokenController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,523 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-broken-controller
+2019-08-17 17:06:32,524 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-broken-controller
+2019-08-17 17:06:32,525 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_6
+2019-08-17 17:06:32,526 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,527 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,527 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,527 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,527 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationCheck/delete.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,527 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationCheck/delete.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.delete.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,530 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-check-mantain-controller
+2019-08-17 17:06:32,531 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method delete was station-check-mantain-controller
+2019-08-17 17:06:32,531 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: deleteUsingGET_5
+2019-08-17 17:06:32,532 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,532 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,533 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,533 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,533 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(true)
+2019-08-17 17:06:32,533 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(true)
+2019-08-17 17:06:32,538 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.sql.Timestamp(true)
+2019-08-17 17:06:32,539 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.sql.Timestamp(true)
+2019-08-17 17:06:32,542 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,542 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain>(true)
+2019-08-17 17:06:32,543 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(true)
+2019-08-17 17:06:32,543 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(true)
+2019-08-17 17:06:32,543 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.sql.Timestamp(true)
+2019-08-17 17:06:32,544 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.sql.Timestamp(true)
+2019-08-17 17:06:32,544 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationCheck/getAll.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,544 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationCheck/getAll.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.getAll.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,544 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-check-mantain-controller
+2019-08-17 17:06:32,545 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getAll was station-check-mantain-controller
+2019-08-17 17:06:32,545 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getAllUsingGET_6
+2019-08-17 17:06:32,546 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,546 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,547 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,547 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,547 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,547 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,547 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,548 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,557 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,558 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,558 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,559 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,559 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.sql.Timestamp(false)
+2019-08-17 17:06:32,559 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.sql.Timestamp(false)
+2019-08-17 17:06:32,561 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.sql.Timestamp(false)
+2019-08-17 17:06:32,561 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.sql.Timestamp(false)
+2019-08-17 17:06:32,562 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationCheck/insert.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,562 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationCheck/insert.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.insert.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,564 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-check-mantain-controller
+2019-08-17 17:06:32,564 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method insert was station-check-mantain-controller
+2019-08-17 17:06:32,565 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: insertUsingPOST_7
+2019-08-17 17:06:32,565 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,566 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,566 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,566 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,566 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,566 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,567 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,567 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain(false)
+2019-08-17 17:06:32,567 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.sql.Timestamp(false)
+2019-08-17 17:06:32,567 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.sql.Timestamp(false)
+2019-08-17 17:06:32,568 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /stationCheck/update.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,568 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /stationCheck/update.com.siti.wisdomhydrologic.operation.controller.StationCheckMantainController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,569 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-check-mantain-controller
+2019-08-17 17:06:32,569 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-check-mantain-controller
+2019-08-17 17:06:32,570 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingPOST_7
+2019-08-17 17:06:32,573 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:32,574 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:32,574 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:32,575 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation>(true)
+2019-08-17 17:06:32,575 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:32,575 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation(true)
+2019-08-17 17:06:32,575 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /station/getLocation.com.siti.wisdomhydrologic.mainpage.controller.StationDataController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,576 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /station/getLocation.com.siti.wisdomhydrologic.mainpage.controller.StationDataController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,576 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,577 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,577 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingGET_1
+2019-08-17 17:06:32,577 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,578 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,578 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingHEAD_1
+2019-08-17 17:06:32,578 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,579 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,579 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPOST_1
+2019-08-17 17:06:32,579 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,580 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,580 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPUT_1
+2019-08-17 17:06:32,580 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,581 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,581 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPATCH_1
+2019-08-17 17:06:32,581 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,582 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,582 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingDELETE_1
+2019-08-17 17:06:32,582 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,582 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,583 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingOPTIONS_1
+2019-08-17 17:06:32,583 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,583 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,584 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingTRACE_1
+2019-08-17 17:06:32,584 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,584 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,585 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,591 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,596 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,597 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,597 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,597 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.mainpage.vo.RealStationVo(true)
+2019-08-17 17:06:32,598 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /station/getRealData.com.siti.wisdomhydrologic.mainpage.controller.StationDataController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,598 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /station/getRealData.com.siti.wisdomhydrologic.mainpage.controller.StationDataController.getList.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,600 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,601 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,602 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingGET_2
+2019-08-17 17:06:32,603 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,604 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,604 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingHEAD_2
+2019-08-17 17:06:32,605 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,606 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,606 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPOST_2
+2019-08-17 17:06:32,612 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,612 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,613 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPUT_2
+2019-08-17 17:06:32,614 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,614 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,615 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingPATCH_2
+2019-08-17 17:06:32,617 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,618 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,618 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingDELETE_2
+2019-08-17 17:06:32,619 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,620 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,620 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingOPTIONS_2
+2019-08-17 17:06:32,622 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,622 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getList was station-data-controller
+2019-08-17 17:06:32,623 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: getListUsingTRACE_2
+2019-08-17 17:06:32,625 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,625 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,625 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,625 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,626 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,626 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,652 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,653 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,654 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,654 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,654 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rainConstrast/getAllAuto.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByAutoMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,654 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rainConstrast/getAllAuto.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByAutoMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,655 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByAutoMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,656 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByAutoMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,657 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,657 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,657 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,657 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,658 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,658 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,659 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rainConstrast/getAllBase.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByBaseMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,659 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rainConstrast/getAllBase.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByBaseMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,660 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByBaseMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,661 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByBaseMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,662 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,664 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,664 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,664 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,664 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,665 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,665 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rainConstrast/getAllDiff.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByDiffMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,665 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rainConstrast/getAllDiff.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByDiffMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,667 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByDiffMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,668 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByDiffMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,668 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,669 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,669 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,669 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.util.List<com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo>(true)
+2019-08-17 17:06:32,670 [main] INFO  s.d.s.p.ModelPropertiesKeyGenerator 48 - Cache key generated: com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,670 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache modelProperties with key com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo(true)
+2019-08-17 17:06:32,670 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rainConstrast/getAll.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,671 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rainConstrast/getAll.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.getByMonth.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,672 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,672 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method getByMonth was station-rain-constrast-controller
+2019-08-17 17:06:32,673 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,673 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,673 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,674 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,674 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rainConstrast/update.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,674 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rainConstrast/update.com.siti.wisdomhydrologic.operation.controller.StationRainConstrastController.update.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,675 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-rain-constrast-controller
+2019-08-17 17:06:32,676 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method update was station-rain-constrast-controller
+2019-08-17 17:06:32,676 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator 40 - Generating unique operation named: updateUsingGET_1
+2019-08-17 17:06:32,677 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(false)
+2019-08-17 17:06:32,678 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.String(false)
+2019-08-17 17:06:32,678 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(false)
+2019-08-17 17:06:32,678 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.String(false)
+2019-08-17 17:06:32,678 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,678 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key java.lang.String(true)
+2019-08-17 17:06:32,678 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: java.lang.String(true)
+2019-08-17 17:06:32,679 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2019-08-17 17:06:32,679 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /rest/article.com.siti.wisdomhydrologic.justforyou.Test.testSwagger2.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,679 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /rest/article.com.siti.wisdomhydrologic.justforyou.Test.testSwagger2.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,680 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method testSwagger2 was test
+2019-08-17 17:06:32,687 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method testSwagger2 was test
+2019-08-17 17:06:32,692 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,692 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache models with key int(true)
+2019-08-17 17:06:32,692 [main] INFO  s.d.schema.ModelContextKeyGenerator 46 - Cache Key Generated: int(true)
+2019-08-17 17:06:32,693 [main] INFO  s.d.spring.web.caching.CachingAspect 79 - Caching aspect applied for cache modelDependencies with key int(true)
+2019-08-17 17:06:32,693 [main] INFO  s.d.s.web.OperationsKeyGenerator 51 - Cache key generated: /updateS.com.siti.wisdomhydrologic.justforyou.Test.updateS.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,693 [main] INFO  s.d.spring.web.caching.CachingAspect 68 - Caching aspect applied for cache operations with key /updateS.com.siti.wisdomhydrologic.justforyou.Test.updateS.DefaultGenericTypeNamingStrategy
+2019-08-17 17:06:32,694 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method updateS was test
+2019-08-17 17:06:32,694 [main] INFO  s.d.s.w.ClassOrApiAnnotationResourceGrouping 100 - Group for method updateS was test
+2019-08-17 17:06:32,742 [main] INFO  c.s.w.WisdomhydrologicApplicationTests 57 - Started WisdomhydrologicApplicationTests in 22.607 seconds (JVM running for 23.298)
+2019-08-17 17:06:33,068 [SimpleAsyncTaskExecutor-1] INFO  c.s.w.r.listener.TsdbListener 118 - tsdb_queue消费者获取day数据...总包数:0,当前包数:0,总条数:0,条数;0,状态:0
+2019-08-17 17:06:33,114 [Thread-20] INFO  org.quartz.core.QuartzScheduler 585 - Scheduler schedulerFactoryBean_$_dell-PC1566032774904 paused.
+2019-08-17 17:06:39,107 [Thread-20] INFO  org.quartz.core.QuartzScheduler 666 - Scheduler schedulerFactoryBean_$_dell-PC1566032774904 shutting down.
+2019-08-17 17:06:39,107 [Thread-20] INFO  org.quartz.core.QuartzScheduler 585 - Scheduler schedulerFactoryBean_$_dell-PC1566032774904 paused.
+2019-08-17 17:06:39,109 [Thread-20] INFO  org.quartz.core.QuartzScheduler 740 - Scheduler schedulerFactoryBean_$_dell-PC1566032774904 shutdown complete.
