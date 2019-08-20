@@ -14,6 +14,7 @@ public class ConfigRiverStation {
   private int regionId;
   private String regionName;
   private String stationWiskiCode;
+  //测站级别
   private int stationLevel;
   private double stationGaodeLongitude;
   private double stationGaodeLatitude;

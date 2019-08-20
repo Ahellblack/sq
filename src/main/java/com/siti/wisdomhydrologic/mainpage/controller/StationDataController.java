@@ -5,6 +5,7 @@ import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
+import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
@@ -52,55 +53,43 @@ public class StationDataController {
         Calendar calendar = Calendar.getInstance();
         String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
         calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
-        calendar.add(calendar.MINUTE, -5);
+        calendar.add(calendar.MINUTE, -10);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         System.out.println(realtime);
         return realStationDataMapper.getData(realtime,stationCode);
     }
 
-    @RequestMapping("/insertData")
+    @RequestMapping("/updateData")
     public int InsertRealData() {
         List<Integer> stationId = stationDataMapper.getStationId();
         stationId.forEach(id -> {
             try {
-                stationDataService.insertData(id);
+                stationDataService.updateData(id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
         return 1;
-
     }
-
-
     /**
      * @Param level 站点级别
      * @Param status 站点状态
      */
     @RequestMapping("/getLocation")
-    public List<ConfigRiverStation> getList(Integer level, Integer status) throws Exception {
+    public List<ConfigRiverStationVo> getList(@Param("level") Integer level, @Param("status") Integer status) throws Exception {
+
         Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
         String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
-        List<ReportManageDataMantainVo> abnormallist = abnormalDetailMapper.getALL(realtime);
-        List<Integer> stationList = new ArrayList<>();
-        List<ConfigRiverStation> returnList = new ArrayList<>();
-        abnormallist.forEach(data -> {
-            stationList.add(data.getSensorCode() / 100);
-        });
-        System.out.println(stationList.get(0));
-        List<ConfigRiverStation> stationLocation = stationDataMapper.getStationLocation(level);
-        stationLocation.forEach(data -> {
-            if (stationList.contains(data.getStationId())) {
-                //测站状态 1为故障,2为正常
-                data.setStatus(1);
-            } else {
-                data.setStatus(2);
-            }
-            if (status != null && status == data.getStatus()) {
-                returnList.add(data);
-            }
-        });
-        return returnList;
+        calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
+        calendar.add(calendar.MINUTE, -10);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(today);
+        realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
+        System.out.println("level:"+level+";status:"+status+";realtime:"+realtime);
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level,status,realtime);
+
+        return stationLocation;
     }
 
     /**

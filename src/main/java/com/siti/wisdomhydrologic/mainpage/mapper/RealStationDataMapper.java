@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * Created by dell on 20#{stationData.}9/8/20.
@@ -21,6 +22,17 @@ public interface RealStationDataMapper {
             " #{stationData.realDataFlowX}, #{stationData.realDataFlowY}, #{stationData.realDataAirPressure}," +
             " #{stationData.realDataAirTemperature}, #{stationData.status})")
     int insertStationData(@Param("stationData") RealStationVo realStationVo);
+
+    @Update("UPDATE `real_station_data` SET " +
+            "`time` = #{stationData.time}, `station_id` = #{stationData.stationId}," +
+            "`station_name` = #{stationData.stationName}, " +
+            "`water_level` = #{stationData.realDataWaterLevel}, `rainfall` = #{stationData.realDataRainFall}, " +
+            "`tide_level` = #{stationData.realDataTideLevel} , `electric` = #{stationData.realDataElectric}," +
+            "`wind_speed` = #{stationData.realDataWindSpeed}, `wind_direction` =#{stationData.realDataWindDirection}, " +
+            "`flow_velocity_x` = #{stationData.realDataFlowX} ,`flow_velocity_y` = #{stationData.realDataFlowY} , " +
+            " `air_pressure` =#{stationData.realDataAirPressure}, `air_temperature`=#{stationData.realDataAirTemperature}, " +
+            "`status` = #{stationData.status} WHERE station_id = #{stationData.stationId} ")
+    int updateStationData(@Param("stationData") RealStationVo realStationVo);
 
     @Select("select * from real_station_data where time = #{realTime}" +
             "and station_id = #{stationCode}")

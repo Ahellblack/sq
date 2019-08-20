@@ -36,7 +36,7 @@ public class StationDataServiceImpl implements StationDataService {
     private RealStationDataMapper realStationDataMapper;
 
 
-    public int insertData(Integer stationCode) throws Exception {
+    public void updateData(Integer stationCode) throws Exception {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
         String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
@@ -45,7 +45,6 @@ public class StationDataServiceImpl implements StationDataService {
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
-
         List<RealStationVo> stationData = stationDataMapper.getStationData(stationCode, realtime);
         List<ReportManageDataMantainVo> abnormallist = abnormalDetailMapper.getALL(realtime);
         List<Integer> stationList = new ArrayList<>();
@@ -94,9 +93,10 @@ public class StationDataServiceImpl implements StationDataService {
             } else {
                 realStationVo.setStatus(2);
             }
-
         });
-        return realStationDataMapper.insertStationData(realStationVo);
+        if (realStationVo.getTime() != null) {
+            realStationDataMapper.updateStationData(realStationVo);
+        }
     }
 
 
