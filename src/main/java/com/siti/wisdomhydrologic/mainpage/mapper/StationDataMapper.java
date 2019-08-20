@@ -18,6 +18,8 @@ public interface StationDataMapper {
             "AND TIME = #{time}")
     List<RealStationVo> getStationData(@Param("station_code") Integer stationCode, @Param("time") String realtime);
 
-    @Select("select station_id,station_gaode_longitude,station_gaode_latitude from config_river_station where station_id is not null")
-    List<ConfigRiverStation> getStationLocation();
+    @Select("<script>select station_id,station_gaode_longitude,station_gaode_latitude from config_river_station " +
+            "where station_id is not null " +
+            "<if test=\"level!=null\">and station_level = #{level}</if></script>")
+    List<ConfigRiverStation> getStationLocation(@Param("level") Integer level);
 }

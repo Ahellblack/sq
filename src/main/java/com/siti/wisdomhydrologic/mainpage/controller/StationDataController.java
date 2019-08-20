@@ -4,11 +4,14 @@ import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.Real;
+import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,8 +32,11 @@ public class StationDataController {
     @Resource
     private StationDataMapper stationDataMapper;
 
+    @Resource
+    private AbnormalDetailMapper abnormalDetailMapper;
+
     @RequestMapping("/getRealData")
-    public RealStationVo getList(Integer stationCode) throws Exception {
+    public RealStationVo getRealList(Integer stationCode) throws Exception {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
@@ -45,6 +51,11 @@ public class StationDataController {
         }
         System.out.println((calendar.get(calendar.MINUTE) % 5)+"___"+realtime);
         List<RealStationVo> stationData = stationDataMapper.getStationData(stationCode, realtime);
+        List<ReportManageDataMantainVo> abnormallist = abnormalDetailMapper.getALL(realtime);
+        List<Integer> stationList = new ArrayList<>();
+        abnormallist.forEach(data->{
+            stationList.add(data.getSensorCode()/100);
+        });
         RealStationVo realStationVo = new RealStationVo();
         stationData.forEach(data -> {
             realStationVo.setStationId(data.getStationId());
@@ -81,14 +92,46 @@ public class StationDataController {
             if (sensorTypeId.equals(ConstantConfig.WAP)) {
                 realStationVo.setRealDataAirPressure(data.getRealVal());
             }
+            if(stationList.contains(realStationVo.getStationId())){
+                //测站状态 1为故障,2为正常
+                data.setStatus(1);
+            }else{
+                data.setStatus(2);
+            }
         });
+
 
         return realStationVo;
     }
 
+    /**
+     * @Param level 站点级别
+     * @Param status 站点状态
+     * */
     @RequestMapping("/getLocation")
-    public List<ConfigRiverStation> getList() {
-        return stationDataMapper.getStationLocation();
+    public List<ConfigRiverStation> getList(Integer level,Integer status) throws Exception {
+        Date today = new Date();
+        String realtime = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
+        List<ReportManageDataMantainVo> abnormallist = abnormalDetailMapper.getALL(realtime);
+        List<Integer> stationList = new ArrayList<>();
+        List<ConfigRiverStation> returnList= new ArrayList<>();
+        abnormallist.forEach(data->{
+            stationList.add(data.getSensorCode()/100);
+        });
+        System.out.println(stationList.get(0));
+        List<ConfigRiverStation> stationLocation = stationDataMapper.getStationLocation(level);
+        stationLocation.forEach(data->{
+            if(stationList.contains(data.getStationId())){
+                //测站状态 1为故障,2为正常
+                data.setStatus(1);
+            }else{
+                data.setStatus(2);
+            }
+            if(status != null && status == data.getStatus()){
+                returnList.add(data);
+            }
+        });
+        return returnList;
     }
 
     /**

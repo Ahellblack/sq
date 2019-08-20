@@ -13,4 +13,5 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
     @Select("select * from config_sensor_section_module")
     List<ConfigRiverStation> getAll();
+
 }

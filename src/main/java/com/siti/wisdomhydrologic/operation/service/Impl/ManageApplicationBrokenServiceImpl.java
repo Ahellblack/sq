@@ -4,8 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
@@ -40,6 +42,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     @Resource
     private AbnormalDetailMapper abnormalDetailMapper;
+    @Resource
+    private ConfigRiverStationMapper configRiverStationMapper;
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
 
@@ -93,6 +97,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         //根据日期获取异常信息
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
+
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         //获取异常配置参数
         if (all.size() > 0) {
@@ -113,8 +119,28 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setStationName(module.getStationName());
                         }
                     });
-                    List<String> basicStationList = StationIdUtils.getBasicStationList();
                     try {
+                        riverStationList.forEach(river -> {
+                            if (data.getStationCode() == river.getStationLevel()) {
+                                if (river.getStationLevel() == 2) {
+                                    calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                                    //基本站往后1小时内
+                                    calendar.add(calendar.HOUR, 1);
+                                    applicationBroken.setBrokenResponseTime(calendar.getTime());
+                                } else {
+                                    calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                                    //一般站往后3小时内
+                                    calendar.add(calendar.HOUR, 3);
+                                    applicationBroken.setBrokenResponseTime(calendar.getTime());
+                                }
+                            }
+                            river.getStationId();
+                        });
+                    } catch (Exception e) {
+                        logger.error(e.getMessage());
+                    }
+                        /*
+                        List<String> basicStationList = StationIdUtils.getBasicStationList();
                         //如果包含基本站名,判断为基本站
                         if (basicStationList.contains(data.getStationName())) {
                             calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
@@ -126,17 +152,15 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             //一般站往后3小时内
                             calendar.add(calendar.HOUR, 3);
                             applicationBroken.setBrokenResponseTime(calendar.getTime());
+                        }*/
+                    list.forEach(e -> {
+                        //根据字典赋值故障判断依据和故障名称
+                        if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
+                            applicationBroken.setBrokenAccording(e.getBrokenAccording());
+                            applicationBroken.setBrokenName(e.getErrorName());
                         }
-                        list.forEach(e -> {
-                            //根据字典赋值故障判断依据和故障名称
-                            if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
-                                applicationBroken.setBrokenAccording(e.getBrokenAccording());
-                                applicationBroken.setBrokenName(e.getErrorName());
-                            }
-                        });
-                    }catch (Exception e) {
-                        logger.error(e.getMessage());
-                    }
+                    });
+
 
                     applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                     brokenList.add(applicationBroken);

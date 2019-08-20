@@ -22,7 +22,17 @@ public class ConfigRiverStation {
   private Date createTime;
   private Date updateTime;
   private int stationId;
+  //测站状态
+  private int status;
 
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
 
   public int getStationId() {
     return stationId;
