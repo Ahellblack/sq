@@ -122,13 +122,12 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                     try {
                         riverStationList.forEach(river -> {
                             if (data.getStationCode() == river.getStationLevel()) {
+                                calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                                 if (river.getStationLevel() == 2) {
-                                    calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                                     //基本站往后1小时内
                                     calendar.add(calendar.HOUR, 1);
                                     applicationBroken.setBrokenResponseTime(calendar.getTime());
                                 } else {
-                                    calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                                     //一般站往后3小时内
                                     calendar.add(calendar.HOUR, 3);
                                     applicationBroken.setBrokenResponseTime(calendar.getTime());

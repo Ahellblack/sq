@@ -22,4 +22,7 @@ public interface StationDataMapper {
             "where station_id is not null " +
             "<if test=\"level!=null\">and station_level = #{level}</if></script>")
     List<ConfigRiverStation> getStationLocation(@Param("level") Integer level);
+
+    @Select("select station_id from config_river_station where station_id is not null")
+    List<Integer> getStationId();
 }
