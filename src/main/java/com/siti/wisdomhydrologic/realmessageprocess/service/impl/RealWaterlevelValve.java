@@ -61,15 +61,15 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
     @Override
     public void doProcess(Map<Integer, RealVo> mapval, Map<Integer, WaterLevelEntity> configMap) {
         final List[] exceptionContainer = {new ArrayList<AbnormalDetailEntity>()};
-        final double[] doubles={66666};
+        final double[] doubles = {66666};
         mapval.keySet().stream().forEach(e -> {
             //        最大值最小值比较
             WaterLevelEntity config = configMap.get(e);
             if (config != null) {
-                RealVo vo=mapval.get(e);
+                RealVo vo = mapval.get(e);
                /* double max = rainfallEntity.getLevelMax();
                 double min = rainfallEntity.getLevelMin();*/
-                double realvalue= mapval.get(e).getFACTV();
+                double realvalue = mapval.get(e).getFACTV();
                 if (realvalue < config.getLevelMin()) {
                     exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                             .date(LocalDateUtil
@@ -90,42 +90,33 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
                             .build());
                 }
 
-                /*String JsonConfig=config.getExceptionValue();
-                if(!JsonConfig.equals("")&&JsonConfig!=null){
-                    JSONArray array = JSONArray.parseArray(JsonConfig) ;
-                    for(int i=0;i<array.size();i++){
-                        JSONObject one= (JSONObject) array.get(i);
-                        if(one.get("error_value").equals(realvalue+"")){
-                            Object condition=one.get("condition");
-                            if(condition!=null){
-                                //TODO
-                               String type= abnormalDetailMapper. getSensorModelType("");
-                               if(type.contains(condition.toString())){
-                                   exceptionContainer[0].add(new AbnormalDetailEntity.builer()
-                                           .date(LocalDateUtil
-                                                   .dateToLocalDateTime(vo.getTime())
-                                                   .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                String JsonConfig = config.getExceptionValue();
+                if (!JsonConfig.equals("") && JsonConfig != null) {
+                    JSONArray array = JSONArray.parseArray(JsonConfig);
+                    for (int i = 0; i < array.size(); i++) {
+                        JSONObject one = (JSONObject) array.get(i);
+                        if (one.get("error_value").equals(realvalue + "")) {
+                            String date = LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(date)
+                                    .errorPeriod(date)
+                                    .equipmentError(one.get("error_code").toString())
+                                    .build());
 
-                                           .build());
-                               }
-                            }else{
-                                exceptionContainer[0].add(new AbnormalDetailEntity.builer()
-                                        .date(LocalDateUtil
-                                                .dateToLocalDateTime(vo.getTime())
-                                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-
-                                        .build());
-                            }
                         }
                     }
-                }*/
+                }
+
+
 
                 //realvalue
                 //最大上升 最大下降
                 if (doubles[0] == 66666) {
                     doubles[0] = realvalue;
                 } else {
-                    if (realvalue> doubles[0]) {
+                    if (realvalue > doubles[0]) {
                         if ((realvalue - doubles[0]) > config.getUpMax()) {
                             exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                     .date(LocalDateUtil
@@ -136,7 +127,7 @@ public class RealWaterlevelValve implements Valve<RealVo, WaterLevelEntity, Abno
                                     .build());
                         }
                     } else if (realvalue < doubles[0]) {
-                        if ((doubles[0]-realvalue ) > config.getBelowMin()) {
+                        if ((doubles[0] - realvalue) > config.getBelowMin()) {
                             exceptionContainer[0].add(new AbnormalDetailEntity.builer()
                                     .date(LocalDateUtil
                                             .dateToLocalDateTime(vo.getTime())

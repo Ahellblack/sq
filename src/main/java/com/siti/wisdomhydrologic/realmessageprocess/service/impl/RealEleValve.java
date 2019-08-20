@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.ATEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
@@ -88,6 +90,27 @@ public  class RealEleValve implements Valve<RealVo,ELEEntity,AbnormalDetailEntit
                             .errorValue(realvalue)
                             .dateError(DataError.MORE_BIG_E.getErrorCode())
                             .build());
+                }
+
+                String JsonConfig = config.getExceptionValue();
+                if (!JsonConfig.equals("") && JsonConfig != null) {
+                    JSONArray array = JSONArray.parseArray(JsonConfig);
+                    for (int i = 0; i < array.size(); i++) {
+                        JSONObject one = (JSONObject) array.get(i);
+                        if (one.get("error_value").equals(realvalue + "")) {
+                            String date = LocalDateUtil
+                                    .dateToLocalDateTime(vo.getTime())
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                            //TODO
+                            exceptionContainer[0].add(new AbnormalDetailEntity.builer()
+                                    .date(date)
+                                    .errorPeriod(date)
+                                    .dateError(date)
+                                    .equipmentError(one.get("error_code").toString())
+                                    .build());
+
+                        }
+                    }
                 }
                 //最大上升 最大下降
                 if (doubles[0] == 66666) {

@@ -33,8 +33,23 @@ public class Test {
         return 1;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
+    public String updateS(){
+        return "/login";
+    }
+
+    @RequestMapping("/login-error")
+    public String loginError(){
+        return "login-error";
+    }
+
     public void quartzJob() {
 
         System.out.println("----------------------here comes!-------------------------------");
+    }
+
+    @RequestMapping(value = "/do/d", method = RequestMethod.GET, produces = "application/json")
+    public String dod(){
+        return "/do";
     }
 }
