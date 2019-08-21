@@ -93,6 +93,16 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      */
     @Override
     public int insertDataMantain(String date) {
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
+        } catch (Exception e) {
+        }
+        /**
+         * 查询上一个整5分再往前5分钟数据
+         * */
+        cal.add(cal.MINUTE, -5);
+
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
         //根据日期获取异常信息
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
@@ -102,6 +112,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         //获取异常配置参数
         if (all.size() > 0) {
+
             all.forEach(data -> {
                 Calendar calendar = Calendar.getInstance();
                 ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
@@ -119,19 +130,19 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setStationName(module.getStationName());
                         }
                     });
+
                     try {
                         riverStationList.forEach(river -> {
-                            if (data.getStationCode() == river.getStationLevel()) {
+                            if (data.getStationCode() == river.getStationId()) {
                                 calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                                 if (river.getStationLevel() == 2) {
-                                    //基本站往后1小时内
-                                    calendar.add(calendar.HOUR, 1);
-                                    applicationBroken.setBrokenResponseTime(calendar.getTime());
-                                } else {
                                     //一般站往后3小时内
                                     calendar.add(calendar.HOUR, 3);
-                                    applicationBroken.setBrokenResponseTime(calendar.getTime());
+                                } else {
+                                    //基本站往后1小时内
+                                    calendar.add(calendar.HOUR, 1);
                                 }
+                                applicationBroken.setBrokenResponseTime(calendar.getTime());
                             }
                             river.getStationId();
                         });
@@ -159,10 +170,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setBrokenName(e.getErrorName());
                         }
                     });
-
-
                     applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    brokenList.add(applicationBroken);
+                    List<ReportManageApplicationBroken> latestList = reportManageApplicationBrokenMapper.getLast(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
+                    latestList.forEach(abnormal -> {
+                        System.out.println(abnormal.getBrokenAccordingId()+"---"+applicationBroken.getBrokenAccordingId());
+                        if (!(abnormal.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId()))) {
+                            brokenList.add(applicationBroken);
+                        }
+                    });
                 }
             });
 

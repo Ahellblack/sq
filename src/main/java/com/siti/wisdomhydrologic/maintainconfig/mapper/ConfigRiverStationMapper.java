@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
-    @Select("select * from config_sensor_section_module")
+    @Select("select * from config_river_station")
     List<ConfigRiverStation> getAll();
 
 }

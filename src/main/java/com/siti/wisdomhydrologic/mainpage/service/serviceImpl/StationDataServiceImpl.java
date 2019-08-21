@@ -35,12 +35,18 @@ public class StationDataServiceImpl implements StationDataService {
     @Resource
     private RealStationDataMapper realStationDataMapper;
 
-
+    @Override
     public void updateData(Integer stationCode) throws Exception {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
+        /**
+         * 查询上一个整5分
+         * */
         String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
         calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
+        /**
+         * 查询上一个整5分再往前5分钟的real表数据
+         * */
         calendar.add(calendar.MINUTE, -5);
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(today);

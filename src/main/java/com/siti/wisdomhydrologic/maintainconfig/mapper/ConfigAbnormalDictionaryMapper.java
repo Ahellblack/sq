@@ -13,5 +13,8 @@ public interface ConfigAbnormalDictionaryMapper {
     @Select("select * from config_abnormal_dictionary")
     List<ConfigAbnormalDictionary> getList();
 
+    @Select("select error_name from config_abnormal_dictionary group by error_name")
+    List<String> getErrorName();
+
 
 }

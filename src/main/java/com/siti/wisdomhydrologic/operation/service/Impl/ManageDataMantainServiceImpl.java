@@ -46,7 +46,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
-        System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
         List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(createDate);
         /**
@@ -139,10 +138,8 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             return 0;
         }
     }
-    //return reportManageDataMantainMapper.insertAbnormal(all);
     public int insert(ReportManageDataMantain reportManageDataMantain) {
-        DateTransform.String2Date(reportManageDataMantain.getAlterDate(), "YYYY-MM-dd");
-        logger.info("要添加的ReportManageDataMantain：{}", reportManageDataMantain);
+        System.out.println(reportManageDataMantain);
         return reportManageDataMantainMapper.insert(reportManageDataMantain);
     }
 }

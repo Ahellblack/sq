@@ -5,6 +5,6 @@ package com.siti.wisdomhydrologic.mainpage.service;
  */
 public interface StationDataService {
 
-
+    void updateData(Integer stationCode) throws Exception;
 
 }

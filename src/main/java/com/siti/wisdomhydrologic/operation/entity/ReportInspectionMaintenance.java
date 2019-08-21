@@ -1,48 +1,90 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 
 public class ReportInspectionMaintenance {
 
+  @Excel(name = "reportId", height = 11, width = 20)
   private int reportId;
+  @Excel(name = "stationCode", height = 11, width = 20)
   private String stationCode;
+  @Excel(name = "stationName", height = 11, width = 20)
   private String stationName;
+  @Excel(name = "rtuType", height = 11, width = 20)
   private String rtuType;
+  @Excel(name = "monitoringProgram", height = 11, width = 20)
   private String monitoringProgram;
+  @Excel(name = "dataCollectionClock", height = 11, width = 20)
   private int dataCollectionClock;
+  @Excel(name = "dataCollectionParamCheck", height = 11, width = 20)
   private int dataCollectionParamCheck;
+  @Excel(name = "dataCollectionNormal", height = 11, width = 20)
   private int dataCollectionNormal;
+  @Excel(name = "dataCommunicationParam", height = 11, width = 20)
   private int dataCommunicationParam;
+  @Excel(name = "dataCommunicationChannel", height = 11, width = 20)
   private int dataCommunicationChannel;
+  @Excel(name = "powerSolarCheck", height = 11, width = 20)
   private int powerSolarCheck;
+  @Excel(name = "powerSolarVolt", height = 11, width = 20)
   private double powerSolarVolt;
+  @Excel(name = "powerStorageVolt", height = 11, width = 20)
   private double powerStorageVolt;
+  @Excel(name = "powerStorageCheck", height = 11, width = 20)
   private int powerStorageCheck;
+  @Excel(name = "rainInstrumentCheck", height = 11, width = 20)
   private int rainInstrumentCheck;
+  @Excel(name = "rainInstrumentCleanCheck", height = 11, width = 20)
   private int rainInstrumentCleanCheck;
+  @Excel(name = "rainEnviromentCheck", height = 11, width = 20)
   private int rainEnviromentCheck;
+  @Excel(name = "waterLevelInstrumentCheck", height = 11, width = 20)
   private int waterLevelInstrumentCheck;
+  @Excel(name = "waterLevelShaftCheck", height = 11, width = 20)
   private int waterLevelShaftCheck;
+  @Excel(name = "waterLevelStaffCheck", height = 11, width = 20)
   private int waterLevelStaffCheck;
+  @Excel(name = "waterLevelStaffIsAdjust", height = 11, width = 20)
   private int waterLevelStaffIsAdjust;
+  @Excel(name = "waterLevelZeroHeight", height = 11, width = 20)
   private double waterLevelZeroHeight;
+  @Excel(name = "waterLevelStaffValue", height = 11, width = 20)
   private double waterLevelStaffValue;
+  @Excel(name = "waterLevelTime", height = 11, width = 20)
   private Date waterLevelTime;
+  @Excel(name = "waterLevelIndicatorValue", height = 11, width = 20)
   private double waterLevelIndicatorValue;
+  @Excel(name = "waterLevelValue", height = 11, width = 20)
   private double waterLevelValue;
+  @Excel(name = "windInstrumentCheck", height = 11, width = 20)
   private int windInstrumentCheck;
+  @Excel(name = "windLightningProtect", height = 11, width = 20)
   private int windLightningProtect;
+  @Excel(name = "flowIsCompletion", height = 11, width = 20)
   private int flowIsCompletion;
+  @Excel(name = "flowPitch", height = 11, width = 20)
   private double flowPitch;
+  @Excel(name = "flowRoll", height = 11, width = 20)
   private double flowRoll;
+  @Excel(name = "flowEcho", height = 11, width = 20)
   private int flowEcho;
+  @Excel(name = "flowTestTime", height = 11, width = 20)
   private int flowTestTime;
+  @Excel(name = "pipeline", height = 11, width = 20)
   private int pipeline;
+  @Excel(name = "stationEnviromentInstrument", height = 11, width = 20)
   private int stationEnviromentInstrument;
+  @Excel(name = "stationIsClean", height = 11, width = 20)
   private int stationIsClean;
+  @Excel(name = "remark", height = 11, width = 20)
   private String remark;
+  @Excel(name = "maintainer", height = 11, width = 20)
   private String maintainer;
+  @Excel(name = "yearMonthTime", height = 11, width = 20)
   private String yearMonthTime;
+
 
   public String getYearMonthTime() {
     return yearMonthTime;

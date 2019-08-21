@@ -56,7 +56,7 @@ public class StationDataController {
         calendar.add(calendar.MINUTE, -10);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         System.out.println(realtime);
-        return realStationDataMapper.getData(realtime,stationCode);
+        return realStationDataMapper.getData(stationCode);
     }
 
     @RequestMapping("/updateData")

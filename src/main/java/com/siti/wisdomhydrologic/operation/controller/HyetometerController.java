@@ -19,6 +19,8 @@ import java.util.List;
 @RestController
 public class HyetometerController {
 
+
+
     @Resource
     private HyetometerServiceImpl reportHyetometerService;
 
@@ -48,8 +50,8 @@ public class HyetometerController {
         return reportHyetometerService.update(reportHyetometer);
     }
 
-    @PostMapping("/getExcel")
-    public void getExcel(@RequestBody HttpServletResponse response) {
+    @GetMapping("/getExcel")
+    public void getExcel(HttpServletResponse response) {
         List<ReportHyetometerTest> list = reportHyetometerService.getAll();
         EasyPoiUtil.exportExcel(list, "雨量计滴水实验记录表", "雨量计滴水", ReportHyetometerTest.class, "雨量计滴水实验记录表.xls", response);
     }

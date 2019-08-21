@@ -39,7 +39,7 @@ public class ReportManageDataMantain {
     @Excel(name = "missDataReRun", height = 11, width = 10)
     private Integer missDataReRun;
     @Excel(name = "createTime", height = 11, width = 20)
-    private Date createTime;
+    private String createTime;
     @Excel(name = "createBy", height = 11, width = 20)
     private String createBy;
     @Excel(name = "manageOrgId", height = 11, width = 20)
@@ -185,11 +185,11 @@ public class ReportManageDataMantain {
         this.missDataReRun = missDataReRun;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

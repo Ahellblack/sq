@@ -34,8 +34,8 @@ public interface RealStationDataMapper {
             "`status` = #{stationData.status} WHERE station_id = #{stationData.stationId} ")
     int updateStationData(@Param("stationData") RealStationVo realStationVo);
 
-    @Select("select * from real_station_data where time = #{realTime}" +
-            "and station_id = #{stationCode}")
-    RealStationData getData(@Param("realTime") String realTime, @Param("stationCode")Integer stationCode);
+    @Select("select * from real_station_data where " +
+            "station_id = #{stationCode}")
+    RealStationData getData(@Param("stationCode")Integer stationCode);
 
 }
