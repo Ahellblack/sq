@@ -47,7 +47,7 @@ public class Test {
         return 1;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
+    //@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
     public String updateS(){
         UserInfo details= (UserInfo) UserDetailService.loadUserByUsername("dc");
         List<Permission> all=details.getMenuList();
