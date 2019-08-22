@@ -22,7 +22,6 @@ public class DayVo implements Serializable {
     private int sensorTypeId;
     private String sensorTypeName;
     private String sensorDataUnit;
-
     private Date time;
     private double avgV;
     private double maxV;
@@ -33,7 +32,6 @@ public class DayVo implements Serializable {
     private int avgS;
     private int maxS;
     private int minS;
-
     /**
      * 添加测站的id,name
      */

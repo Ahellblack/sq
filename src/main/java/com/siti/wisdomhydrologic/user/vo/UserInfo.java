@@ -1,74 +1,141 @@
 package com.siti.wisdomhydrologic.user.vo;
 
+import com.siti.wisdomhydrologic.user.entity.Org;
+import com.siti.wisdomhydrologic.user.entity.Permission;
+import com.siti.wisdomhydrologic.user.entity.Role;
+import com.siti.wisdomhydrologic.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by DC on 2019/8/19.
  *
  * @data ${DATA}-14:27
  */
-public class UserInfo implements Serializable, UserDetails {
+public class UserInfo extends User implements Serializable, UserDetails, Principal {
 
-    private static final long serialVersionUID = 1L;
-    private String username;
-    private String password;
-    private String role;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
+    private List<Permission> menuList;
 
-    public UserInfo(String username, String password, String role, boolean accountNonExpired, boolean accountNonLocked,
-                    boolean credentialsNonExpired, boolean enabled) {
-        // TODO Auto-generated constructor stub
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.accountNonExpired = accountNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.credentialsNonExpired = credentialsNonExpired;
-        this.enabled = enabled;
+    private List<Role> roleList;
+
+    private List<Org> orgList;
+
+    public UserInfo(User user, List<Permission> menuList, List<Role> roleList, List<Org> orgList) {
+        super(user);
+        this.menuList = menuList;
+        this.roleList = roleList;
+        this.orgList = orgList;
     }
-    // 这是权限
+
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(role);
+        if (menuList == null || menuList.size() < 1) {
+            return AuthorityUtils.commaSeparatedStringToAuthorityList("");
+        }
+
+        //StringBuilder commaBuilder = new StringBuilder();
+
+
+        /*for (Permission auth : menuList) {
+            if (auth.getCode() == null || "".equals(auth.getCode())) {
+                continue;
+            }
+            commaBuilder.append(auth.getCode()).append(",");
+        }
+        String authorities = null;
+        if (commaBuilder.length() > 0) {
+            authorities = commaBuilder.substring(0, commaBuilder.length());
+        }
+        this.auth = authorities;*/
+
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(null);
     }
+
+    public void calToTree(int root, Permission finalP, List<Permission> all) {
+        int next = root + 1;
+        List<Permission> child = all.stream().filter(e ->
+                (e.getPath().split(",")[root].equals(finalP.getId() + "") && e.getSort() == next))
+                .collect(Collectors.toList());
+        if (child == null || child.size() < 1) {
+            return;
+        }
+        finalP.setChild(child);
+        child.stream().forEach(e -> {
+            calToTree(next, e, all);
+        });
+    }
+
+
+
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        return password;
+        return super.getPassword();
     }
+
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        return username;
+        return super.getUserName();
     }
+
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return accountNonExpired;
+        return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return accountNonLocked;
+        return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return credentialsNonExpired;
+        return true;
     }
+
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return enabled;
+        return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    public List<Permission> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Permission> menuList) {
+        this.menuList = menuList;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<Org> getOrgList() {
+        return orgList;
+    }
+
+    public void setOrgList(List<Org> orgList) {
+        this.orgList = orgList;
     }
 
 }

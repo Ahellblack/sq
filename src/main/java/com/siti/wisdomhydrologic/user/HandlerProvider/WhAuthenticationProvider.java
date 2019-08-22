@@ -36,7 +36,6 @@ public class WhAuthenticationProvider implements AuthenticationProvider {
         }
         String username;
         String password;
-        String pushId = null;
         if (logPwd.endsWith("#THT#")) {
             System.out.println("跳转登录");
             username = usernameTemp;
@@ -50,14 +49,13 @@ public class WhAuthenticationProvider implements AuthenticationProvider {
             }
             if (usernameTemp.contains("&")) {
                 username = usernameTemp.substring(0, usernameTemp.lastIndexOf("&"));
-                pushId = usernameTemp.substring(usernameTemp.lastIndexOf("&") + 1, usernameTemp.length());
             } else {
                 username = usernameTemp;
             }
             password = Md5Utils.encryptString(pwd);
         }
         UserInfo userInfo = (UserInfo) myUserDetailsService.loadUserByUsername(username);
-      /*  if (userInfo == null || "".equals(username)) {
+        if (userInfo == null || "".equals(username)) {
             throw new BadCredentialsException("用户不存在！");
         } else if ("".equals(username) || userInfo.getStatus() == 0) {
             throw new BadCredentialsException("用户不存在！");
@@ -69,11 +67,7 @@ public class WhAuthenticationProvider implements AuthenticationProvider {
                 throw new BadCredentialsException("用户名或密码错误！");
             }
         }
-        if (pushId != null) {
-            userInfo.setPushId(pushId);
-            System.out.println("pushId: " + pushId);
-        }
-        userInfo.setPassword(null);*/
+        userInfo.setPassword(null);
         Collection<? extends GrantedAuthority> authorities = userInfo.getAuthorities();
         return new UsernamePasswordAuthenticationToken(userInfo, logPwd, authorities);
     }
