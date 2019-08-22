@@ -13,6 +13,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
@@ -171,11 +172,15 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         }
                     });
                     applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    List<ReportManageApplicationBroken> latestList = reportManageApplicationBrokenMapper.getLast(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
-                    latestList.forEach(abnormal -> {
-                        System.out.println(abnormal.getBrokenAccordingId()+"---"+applicationBroken.getBrokenAccordingId());
-                        if (!(abnormal.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId()))) {
-                            brokenList.add(applicationBroken);
+                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
+                    getLatestData.forEach(abnormal -> {
+                        String according_id = applicationBroken.getBrokenAccordingId();
+                        if (!(according_id == null && "".equals(according_id))) {
+                            String eq_error = abnormal.getEquipmentError();
+                            String data_error = abnormal.getDateError();
+                            if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
+                                brokenList.add(applicationBroken);
+                            }
                         }
                     });
                 }
