@@ -6,11 +6,13 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.EasyPoiUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,8 @@ public class ManageDataMantainController {
     private ManageDataMantainServiceImpl reportManageDataMantainService;
     @Resource
     private DayDataMapper dayDataMapper;
+    @Resource
+    private ManageDataMantainMapper reportManageDataMantainMapper;
 
     /**
      * 根据修改日期查询
@@ -55,8 +59,12 @@ public class ManageDataMantainController {
     }
 
     @GetMapping("/getExcel")
-    public void getExcel(int page, int pageSize,HttpServletResponse response, String createDate) {
-        List<ReportManageDataMantain> list = (List<ReportManageDataMantain>) reportManageDataMantainService.getByCreateDate(page,pageSize,createDate);
+    public void getExcel(HttpServletResponse response, String createDate) {
+        //默认查询本月
+        if (createDate == null) {
+            createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(createDate);
         EasyPoiUtil.exportExcel(list, "数据修正登记表", "数据修正", ReportManageDataMantain.class, "数据修正登记表.xls", response);
     }
 

@@ -1,15 +1,11 @@
 package com.siti.wisdomhydrologic.realmessageprocess.service.impl;
 
-import com.google.common.collect.Maps;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.service.Valve;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.LocalDateUtil;
 import com.siti.wisdomhydrologic.util.enumbean.DataError;
 import org.springframework.beans.BeansException;
@@ -18,8 +14,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -50,7 +48,7 @@ public class DayRainfallValve implements ApplicationContextAware,Valve<DayVo,Rai
         Map<Integer, DayVo> map = realList.stream()
                 .filter(
                         e -> ((e.getSenId() + "").substring(5)).equals(ConstantConfig.RS)
-                ).collect(Collectors.toMap(DayVo::getSenId, a -> a,(v1,v2)->{
+                ).collect(Collectors.toMap(DayVo::getSenId, a -> a,(v1, v2)->{
                     return v2;
                 }));
         doProcess( map, rainfallMap);

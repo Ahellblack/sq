@@ -9,7 +9,10 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.datepull.mapper.TSDBMapper;
 import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.datepull.vo.DayVo;
+import com.siti.wisdomhydrologic.datepull.vo.HourVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.RainfallEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.TideLevelEntity;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.WaterLevelEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.RainFallMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.TideLevelMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.WaterLevelMapper;
@@ -42,7 +45,6 @@ import java.util.stream.IntStream;
  * @data ${DATA}-15:23
  */
 @Component
-@Transactional
 public class HourListener {
     @Resource
     private TSDBMapper tsdbMapper;
@@ -62,11 +64,11 @@ public class HourListener {
     private AtomicInteger maxBatch = new AtomicInteger(0);
     private AtomicBoolean flag = new AtomicBoolean(false);
     private AtomicInteger sumSize = new AtomicInteger(0);
-    private BlockingQueue<List<DayVo>> receiver;
+    private BlockingQueue<List<HourVo>> receiver;
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_HOUR)
     @RabbitHandler
-    public void dayprocess(List<DayVo> vo, Channel channel, Message message) {
+    public void dayprocess(List<HourVo> vo, Channel channel, Message message) {
         try {
             if (vo.size() > 0) {
                 calPackage(vo, channel, message);
@@ -87,15 +89,15 @@ public class HourListener {
     /**
      * 判断是否丢包记录日志
      */
-    private void calPackage(List<DayVo> List, Channel channel, Message message) throws Exception {
-        DayVo vo = List.get(0);
+    private void calPackage(List<HourVo> List, Channel channel, Message message) throws Exception {
+        HourVo vo = List.get(0);
         splitList(List, 100);
         if (flag.compareAndSet(false, true)) {
-            PipelineValve finalValvo=new PipelineValve();
+          /*  PipelineValve finalValvo=new PipelineValve();
             new Thread(() -> {
                 multiProcess(finalValvo);
             }).start();
-            receiver = new LinkedBlockingQueue(5);
+            receiver = new LinkedBlockingQueue(5);*/
             maxBatch.set(vo.getMaxBatch());
             sumSize.set(vo.getSumSize());
             logger.info("hour开始处理...");
@@ -108,7 +110,7 @@ public class HourListener {
                 logger.info("hour消息成功消费完成无丢包！");
             }
         }
-        receiver.put(List);
+        //receiver.put(List);
         logger.info("Hour消费者----总包数:{},当前包数:{},总条数:{},条数;{},状态:{}", maxBatch.get(),
                 currentbatch, sumSize.get(), currentsize, vo.getStatus());
     }
@@ -117,27 +119,10 @@ public class HourListener {
      * 触发一次消费任务
      */
     private void multiProcess(PipelineValve finalValvo) {
-      /*  //获取水位配置表
-        Map<Integer, Object> waterLevelMap = Optional.of(waterLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(WaterLevelEntity::getSensorCode, a -> a));
-        //获取潮位配置表
-        Map<Integer, Object> tideLevelMap = Optional.of(tideLevelMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(TideLevelEntity::getSensorCode, b -> b));*/
-        /*//获取雨量配置表
-        Map<Integer, Object> rainfallMap = Optional.of(rainFallMapper.fetchAll())
-                .get()
-                .stream()
-                .collect(Collectors.toMap(RainfallEntity::getSensorCode, a -> a));
-        Map<String, Map<Integer, Object>> configMap = Maps.newHashMap();
-        configMap.put(ConstantConfig.FLAGR, rainfallMap);
-*/
-        ColorsExecutor colors = new ColorsExecutor();
+
+        /*ColorsExecutor colors = new ColorsExecutor();
         colors.init();
-        ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();
+        ThreadPoolExecutor es = colors.getCustomThreadPoolExecutor();*/
         /*Runnable fetchTask = () -> {
             List<DayVo> voList = receiver.poll();
             if (voList != null) {

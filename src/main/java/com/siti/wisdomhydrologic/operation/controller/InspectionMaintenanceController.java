@@ -1,11 +1,14 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.entity.ReportInspectionMaintenance;
 import com.siti.wisdomhydrologic.operation.service.Impl.InspectionMaintenanceServiceImpl;
 import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.util.EasyPoiUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +48,12 @@ public class InspectionMaintenanceController {
     @PostMapping("/update")
     public int update(@RequestBody ReportInspectionMaintenance reportInspectionMaintenance) {
         return inspectionMaintenanceService.update(reportInspectionMaintenance);
+    }
+
+    @GetMapping("/getExcel")
+    public void getExcel(HttpServletResponse response,String stationId,String monthDate) {
+        List<ReportInspectionMaintenance> list = inspectionMaintenanceService.getByStationId(stationId,monthDate);
+        EasyPoiUtil.exportExcel(list, "记录表", "雨量计滴水", ReportHyetometerTest.class, "雨量计滴水实验记录表.xls", response);
     }
 
 }

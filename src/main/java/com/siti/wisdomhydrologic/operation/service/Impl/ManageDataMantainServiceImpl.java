@@ -11,7 +11,6 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
-import com.siti.wisdomhydrologic.operation.utils.AbnormalParamUtils;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
@@ -47,7 +46,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
-        System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
         List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(createDate);
         /**
@@ -140,10 +138,8 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             return 0;
         }
     }
-    //return reportManageDataMantainMapper.insertAbnormal(all);
     public int insert(ReportManageDataMantain reportManageDataMantain) {
-        DateTransform.String2Date(reportManageDataMantain.getAlterDate(), "YYYY-MM-dd");
-        logger.info("要添加的ReportManageDataMantain：{}", reportManageDataMantain);
+        System.out.println(reportManageDataMantain);
         return reportManageDataMantainMapper.insert(reportManageDataMantain);
     }
 }

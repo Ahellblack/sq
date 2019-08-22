@@ -39,7 +39,8 @@ public class RealStationVo {
     private Date createTime;
     private Date updateTime;
     private int StationId;
-
+    //测站状态
+    private int status;
 
     private double realDataWaterLevel;
     private double realDataTideLevel;
@@ -52,6 +53,14 @@ public class RealStationVo {
     private double realDataWindSpeed;
     private double realDataElectric;
 
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public double getRealDataWaterLevel() {
         return realDataWaterLevel;

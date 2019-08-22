@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.StationBrokenService;
@@ -19,7 +20,7 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public List<ReportStationBroken> getAll() {
-        return reportStationBrokenMapper.selectAll();
+        return reportStationBrokenMapper.getAll();
     }
 
     @Override
@@ -29,11 +30,11 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public int update(ReportStationBroken reportStationBroken) {
-        return reportStationBrokenMapper.updateByPrimaryKey(reportStationBroken);
+        return reportStationBrokenMapper.updateData(reportStationBroken);
     }
 
     @Override
     public int insert(ReportStationBroken reportStationBroken) {
-        return reportStationBrokenMapper.insert(reportStationBroken);
+        return reportStationBrokenMapper.insertData(reportStationBroken);
     }
 }

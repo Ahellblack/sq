@@ -1,21 +1,58 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 
 public class ReportManageApplicationBroken {
 
+
+    @Excel(name = "reportId", height = 11, width = 20)
     private int reportId;
+    @Excel(name = "stationId", height = 11, width = 20)
     private int stationId;
+    @Excel(name = "stationName", height = 11, width = 20)
     private String stationName;
+    @Excel(name = "brokenName", height = 11, width = 20)
     private String brokenName;
+    @Excel(name = "brokenAccording", height = 11, width = 20)
     private String brokenAccording;
+    @Excel(name = "brokenAccordingId", height = 11, width = 20)
     private String brokenAccordingId;
+    @Excel(name = "brokenResponseTime", height = 11, width = 20)
     private Date brokenResponseTime;
+    @Excel(name = "brokenResolveTime", height = 11, width = 20)
     private Date brokenResolveTime;
+    @Excel(name = "createTime", height = 11, width = 20)
     private Date createTime;
+    @Excel(name = "resolveMethod", height = 11, width = 20)
     private String resolveMethod;
+    @Excel(name = "resolveUserId", height = 11, width = 20)
     private int resolveUserId;
+    @Excel(name = "remark", height = 11, width = 20)
     private String remark;
+    @Excel(name = "requestDesignatingStatus", height = 11, width = 20)
+    private int requestDesignatingStatus;
+    @Excel(name = "requestDesignatingTime", height = 11, width = 20)
+    private String requestDesignatingTime;
+
+
+
+    public int getRequestDesignatingStatus() {
+        return requestDesignatingStatus;
+    }
+
+    public void setRequestDesignatingStatus(int requestDesignatingStatus) {
+        this.requestDesignatingStatus = requestDesignatingStatus;
+    }
+
+    public String getRequestDesignatingTime() {
+        return requestDesignatingTime;
+    }
+
+    public void setRequestDesignatingTime(String requestDesignatingTime) {
+        this.requestDesignatingTime = requestDesignatingTime;
+    }
 
     public String getBrokenAccordingId() {
         return brokenAccordingId;

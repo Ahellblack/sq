@@ -10,6 +10,7 @@ import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
@@ -55,7 +56,7 @@ public class TSDBServiceImpl implements TSDBService {
         /**
          * 分年份入库
          * */
-        String time = DateTransform.format(list.get(0).getTime()).substring(0, 4);
+        String time = DateTransform.Date2String(list.get(0).getTime(),"YYYY-MM-dd HH:mm:ss").substring(0, 4);
         Integer inttime = Integer.valueOf(time);
         String dateBaseName = "history_5min_sensor_data_" + time;
         if (inttime < 2001) {
@@ -65,6 +66,7 @@ public class TSDBServiceImpl implements TSDBService {
             dateBaseName = "history_5min_sensor_data_2001_2013";
             return tsdbMapper.insertTSDB(dateBaseName, list);
         }
+        Calendar cal = Calendar.getInstance();
         tsdbMapper.buildDatabase(dateBaseName);
         return tsdbMapper.insertTSDB(dateBaseName, list);
 

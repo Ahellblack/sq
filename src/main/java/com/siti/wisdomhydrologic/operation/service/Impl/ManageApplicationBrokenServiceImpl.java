@@ -2,21 +2,28 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.StationIdUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +43,12 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     @Resource
     private AbnormalDetailMapper abnormalDetailMapper;
+    @Resource
+    private ConfigRiverStationMapper configRiverStationMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
+
+
+    private static final int STATUS = 2;
 
     public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate) {
         //默认查询本月
@@ -55,6 +68,18 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
+
+        if (reportManageApplicationBroken.getRequestDesignatingStatus() == STATUS) {
+            //派单处理
+            LocalTime localTime = LocalTime.now();
+            LocalDate localDate = LocalDate.now();
+            LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+            ZoneId zone = ZoneId.systemDefault();
+            Instant instant = localDateTime.atZone(zone).toInstant();
+            Date date = Date.from(instant);
+            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(date, "YYYY-MM-dd HH:mm:ss"));
+        }
+
         return reportManageApplicationBrokenMapper.updateByPrimaryKey(reportManageApplicationBroken);
     }
 
@@ -69,13 +94,26 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      */
     @Override
     public int insertDataMantain(String date) {
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
+        } catch (Exception e) {
+        }
+        /**
+         * 查询上一个整5分再往前5分钟数据
+         * */
+        cal.add(cal.MINUTE, -5);
+
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
         //根据日期获取异常信息
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
+
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         //获取异常配置参数
         if (all.size() > 0) {
+
             all.forEach(data -> {
                 Calendar calendar = Calendar.getInstance();
                 ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
@@ -85,7 +123,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 } else if (data.getDataError() != null) {
                     applicationBroken.setBrokenAccordingId(data.getDataError());
                 }
-                if(applicationBroken.getBrokenAccordingId()!=null) {
+                if (applicationBroken.getBrokenAccordingId() != null) {
                     //结合module表添加测站参数
                     moduleList.forEach(module -> {
                         if (module.getSectionCode() == data.getSectionCode()) {
@@ -93,19 +131,39 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setStationName(module.getStationName());
                         }
                     });
-                    List<String> basicStationList = StationIdUtils.getBasicStationList();
-                    //如果包含基本站名,判断为基本站
-                    if (basicStationList.contains(data.getStationName())) {
-                        calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
-                        //基本站往后1小时内
-                        calendar.add(calendar.HOUR, 1);
-                        applicationBroken.setBrokenResponseTime(calendar.getTime());
-                    } else {
-                        calendar.setTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
-                        //一般站往后3小时内
-                        calendar.add(calendar.HOUR, 3);
-                        applicationBroken.setBrokenResponseTime(calendar.getTime());
+
+                    try {
+                        riverStationList.forEach(river -> {
+                            if (data.getStationCode() == river.getStationId()) {
+                                calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                                if (river.getStationLevel() == 2) {
+                                    //一般站往后3小时内
+                                    calendar.add(calendar.HOUR, 3);
+                                } else {
+                                    //基本站往后1小时内
+                                    calendar.add(calendar.HOUR, 1);
+                                }
+                                applicationBroken.setBrokenResponseTime(calendar.getTime());
+                            }
+                            river.getStationId();
+                        });
+                    } catch (Exception e) {
+                        logger.error(e.getMessage());
                     }
+                        /*
+                        List<String> basicStationList = StationIdUtils.getBasicStationList();
+                        //如果包含基本站名,判断为基本站
+                        if (basicStationList.contains(data.getStationName())) {
+                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                            //基本站往后1小时内
+                            calendar.add(calendar.HOUR, 1);
+                            applicationBroken.setBrokenResponseTime(calendar.getTime());
+                        } else {
+                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                            //一般站往后3小时内
+                            calendar.add(calendar.HOUR, 3);
+                            applicationBroken.setBrokenResponseTime(calendar.getTime());
+                        }*/
                     list.forEach(e -> {
                         //根据字典赋值故障判断依据和故障名称
                         if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
@@ -113,21 +171,31 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setBrokenName(e.getErrorName());
                         }
                     });
-                    applicationBroken.setCreateTime(DateTransform.String2Date(data.getCreateTime(), "YYYY-MM-dd HH:mm:ss"));
-                    brokenList.add(applicationBroken);
+                    applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
+                    getLatestData.forEach(abnormal -> {
+                        String according_id = applicationBroken.getBrokenAccordingId();
+                        if (!(according_id == null && "".equals(according_id))) {
+                            String eq_error = abnormal.getEquipmentError();
+                            String data_error = abnormal.getDateError();
+                            if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
+                                brokenList.add(applicationBroken);
+                            }
+                        }
+                    });
                 }
             });
 
-        int size = 1000;
-        int allsize = brokenList.size();
-        int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
-        IntStream.range(0, cycle).forEach(e -> {
-            if (allsize > 0) {
-                reportManageApplicationBrokenMapper.insertDataMantain(brokenList.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
-            }
-        });
-        return allsize;
-        }else{
+            int size = 1000;
+            int allsize = brokenList.size();
+            int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
+            IntStream.range(0, cycle).forEach(e -> {
+                if (allsize > 0) {
+                    reportManageApplicationBrokenMapper.insertDataMantain(brokenList.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
+                }
+            });
+            return allsize;
+        } else {
             return 0;
         }
     }

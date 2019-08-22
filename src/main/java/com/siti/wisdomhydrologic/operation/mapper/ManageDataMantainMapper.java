@@ -18,14 +18,14 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
     @Delete("delete from report_manage_data_mantain where report_id = #{reportId}")
     int deleteByReportId(@Param("reportId") Integer reportId);
 
-    @Update("UPDATE `wisdomhydrologic`.`report_manage_data_mantain` " +
+    @Update("UPDATE `report_manage_data_mantain` " +
             "SET `station_code` = #{manage.stationCode}, `alter_date`= #{manage.alterDate}, `station_name`= #{manage.stationName}, `alter_sensor_type_id`=#{manage.alterSensorTypeId}, `alter_sensor_type_name`=#{manage.alterSensorTypeName}, `error_data_reason`=#{manage.errorDataReason}, `error_data_type`=#{manage.errorDataType}, `error_time_space` = #{manage.errorTimeSpace} ," +
             "`error_value` = #{manage.errorValue}, `confir_value` = #{manage.confirValue}, `error_unit` = #{manage.errorUnit}, `error_data_re_run` = #{manage.errorDataReRun}, " +
             "`miss_data_type` = #{manage.missDataType}, `miss_time_space` = #{manage.missTimeSpace}, `miss_data_re_run` =#{manage.missDataReRun} , `create_by` = #{manage.createBy}, " +
             "`manage_org_id` = #{manage.manageOrgId}, `manage_org_name` = #{manage.manageOrgName} WHERE `report_id` = #{manage.reportId}")
     int update(@Param("manage") ReportManageDataMantain reportManageDataMantain);
 
-    @Insert("INSERT INTO `wisdomhydrologic`.`report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
+    @Insert("INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
             "`miss_data_re_run`, `create_by`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
             "VALUES (#{manage.stationCode}, #{manage.alterDate}, #{manage.stationName},#{manage.alterSensorTypeId}, #{manage.alterSensorTypeName},#{manage.errorDataReason},#{manage.errorDataType},#{manage.errorTimeSpace}," +
@@ -35,7 +35,7 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
 
 
-    @Insert("<script>INSERT INTO `wisdomhydrologic`.`report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
+    @Insert("<script>INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
             "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
             "VALUES <foreach collection=\"list\" item=\"item\" separator=\",\">" +

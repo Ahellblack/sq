@@ -1,18 +1,27 @@
 package com.siti.wisdomhydrologic.mainpage.controller;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
+import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
+import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
+import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
+import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.Real;
+import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import com.siti.wisdomhydrologic.util.DateTransform;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,66 +38,58 @@ public class StationDataController {
     @Resource
     private StationDataMapper stationDataMapper;
 
+    @Resource
+    private AbnormalDetailMapper abnormalDetailMapper;
+
+    @Resource
+    private RealStationDataMapper realStationDataMapper;
+    @Resource
+    private StationDataServiceImpl stationDataService;
+
+
     @RequestMapping("/getRealData")
-    public RealStationVo getList(Integer stationCode) throws Exception {
+    public RealStationData getRealList(Integer stationCode) throws Exception {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
-        String realtime = null;
-        /**
-         * 由于real表
-         * */
-        if ((calendar.get(calendar.MINUTE) % 5) > 4) {
-            realtime = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
-        } else {
-            realtime = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 10);
-        }
-        System.out.println((calendar.get(calendar.MINUTE) % 5)+"___"+realtime);
-        List<RealStationVo> stationData = stationDataMapper.getStationData(stationCode, realtime);
-        RealStationVo realStationVo = new RealStationVo();
-        stationData.forEach(data -> {
-            realStationVo.setStationId(data.getStationId());
-            realStationVo.setStationName(data.getStationName());
-            realStationVo.setTime(data.getTime());
-            String sensorTypeId = String.valueOf(data.getSensorCode() % 100);
-            if (sensorTypeId.equals(ConstantConfig.ES)) {
-                realStationVo.setRealDataElectric(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WFVY)) {
-                realStationVo.setRealDataFlowY(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WFV)) {
-                realStationVo.setRealDataFlowX(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.TS)) {
-                realStationVo.setRealDataTideLevel(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.RS)) {
-                realStationVo.setRealDataRainFall(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WS)) {
-                realStationVo.setRealDataWaterLevel(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WSS)) {
-                realStationVo.setRealDataWindSpeed(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WDS)) {
-                realStationVo.setRealDataWindDirection(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WAT)) {
-                realStationVo.setRealDataAirTemperature(data.getRealVal());
-            }
-            if (sensorTypeId.equals(ConstantConfig.WAP)) {
-                realStationVo.setRealDataAirPressure(data.getRealVal());
-            }
-        });
-
-        return realStationVo;
+        String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
+        calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
+        calendar.add(calendar.MINUTE, -10);
+        realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
+        System.out.println(realtime);
+        return realStationDataMapper.getData(stationCode);
     }
 
+    @RequestMapping("/updateData")
+    public int InsertRealData() {
+        List<Integer> stationId = stationDataMapper.getStationId();
+        stationId.forEach(id -> {
+            try {
+                stationDataService.updateData(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return 1;
+    }
+    /**
+     * @Param level 站点级别
+     * @Param status 站点状态
+     */
     @RequestMapping("/getLocation")
-    public List<ConfigRiverStation> getList() {
-        return stationDataMapper.getStationLocation();
+    public List<ConfigRiverStationVo> getList(@Param("level") Integer level, @Param("status") Integer status) throws Exception {
+
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
+        calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
+        calendar.add(calendar.MINUTE, -10);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(today);
+        realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
+        System.out.println("level:"+level+";status:"+status+";realtime:"+realtime);
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level,status,realtime);
+
+        return stationLocation;
     }
 
     /**
@@ -106,7 +107,7 @@ public class StationDataController {
     /**
      * 获取最近的整5分时间点real表数据
      *
-     * @Param dateFormat dateFormat的格式 如 YYYY-MM-dd
+     * @Param dateFormat dateFormat的格式 如 yyyy-MM-dd
      * @Param date 当前时间
      * @Param min 相隔时间
      */

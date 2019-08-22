@@ -14,18 +14,27 @@ import java.util.List;
  */
 public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
 
-    @Select("<script>select * from report_manage_application_broken" +
+    @Select("<script>select * from report_station_broken" +
             "<if test=\"createDate!=null\">where DATE_FORMAT(create_time,'%Y-%m') = #{createDate}</if> </script>")
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate);
 
-    @Delete("DELETE from report_manage_application_broken where report_id = #{reportId}")
+    @Select("<script>select * from report_station_broken" +
+            "<if test=\"createDate!=null\">where create_time = #{createDate} and </if> " +
+            "<if test=\"stationId!=null\"> station_id = #{stationId}</if></script>")
+    List<ReportManageApplicationBroken> getLast(@Param("createDate") String createDate,@Param("stationId") Integer stationId);
+
+    @Delete("DELETE from report_station_broken where report_id = #{reportId}")
     int deleteById(@Param("reportId") Integer reportId);
 
-    @Insert("<script>INSERT INTO `wisdomhydrologic`.`report_manage_application_broken`" +
+    @Insert("<script>INSERT INTO `report_station_broken`" +
             "(`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
             "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`)" +
             " VALUES <foreach collection=\"brokenList\" item=\"item\" separator=\",\">" +
             "(#{item.stationId},#{item.stationName}, #{item.brokenName}, #{item.brokenAccordingId}," +
             " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime},#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark})</foreach></script>")
     int insertDataMantain(@Param("brokenList") List<ReportManageApplicationBroken> brokenList);
+
+    @Select("SELECT * FROM report_station_broken ORDER BY create_time DESC LIMIT 10")
+    List<ReportManageApplicationBroken> getLatest10();
+
 }
