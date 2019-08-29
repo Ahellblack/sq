@@ -1,5 +1,0 @@
-2019-08-05 18:15:04,947 [http-nio-8099-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/sq] 179 - Initializing Spring FrameworkServlet 'dispatcherServlet'
-2019-08-05 18:15:04,947 [http-nio-8099-exec-3] INFO  o.s.web.servlet.DispatcherServlet 489 - FrameworkServlet 'dispatcherServlet': initialization started
-2019-08-05 18:15:04,968 [http-nio-8099-exec-3] INFO  o.s.web.servlet.DispatcherServlet 508 - FrameworkServlet 'dispatcherServlet': initialization completed in 21 ms
-2019-08-05 19:38:28,001 [QuartzScheduler_schedulerFactoryBean-dell-PC1565001418196_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3629 - ClusterManager: detected 1 failed or restarted instances.
-2019-08-05 19:38:28,024 [QuartzScheduler_schedulerFactoryBean-dell-PC1565001418196_ClusterManager] INFO  o.s.s.quartz.LocalDataSourceJobStore 3488 - ClusterManager: Scanning for instance "dell-PC1565005079277"'s failed in-progress jobs.
