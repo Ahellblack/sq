@@ -171,8 +171,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setBrokenName(e.getErrorName());
                         }
                     });
-                    applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
+                    /*applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getALL(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
                     getLatestData.forEach(abnormal -> {
                         String according_id = applicationBroken.getBrokenAccordingId();
                         if (!(according_id == null && "".equals(according_id))) {
@@ -182,7 +182,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                                 brokenList.add(applicationBroken);
                             }
                         }
-                    });
+                    });*/
                 }
             });
 
