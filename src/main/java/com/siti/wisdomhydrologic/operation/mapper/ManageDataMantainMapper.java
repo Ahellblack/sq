@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
@@ -47,6 +48,13 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
 */
 
+    @Update("UPDATE `report_manage_data_mantain` " +
+            "SET  `error_time_space` = #{manage.errorTimeSpace} ," +
+            "  WHERE `report_id` = #{manage.reportId}")
+    int updateTime(@Param("manage") ReportManageDataMantainVo reportManageDataMantain);
+
+
+
     @Insert("<script>INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
             "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
@@ -55,4 +63,8 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             " #{item.errorValue}, #{item.confirValue}, #{item.errorUnit}, #{item.errorDataReRun}, #{item.missDataType}, #{item.missTimeSpace}," +
             " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId})</foreach></script>")
     int insertAbnormal(@Param("list") List<ReportManageDataMantainVo> all);
+
+
+    @Select("select * from report_manage_data_mantain where station_code = #{stationCode} and create_time = #{last5MinuteTime}")
+    List<ReportManageDataMantain> getLastOne(@Param("stationCode") Integer stationCode, @Param("last5MinuteTime") String last5MinuteTime);
 }

@@ -37,12 +37,12 @@ public class HyetometerController {
 
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
-    public List<ReportHyetometerTest> getAll(String createTime,String createBy,Integer stationId){
-        return reportHyetometerService.getAll(createTime,createBy,stationId);
+    public List<ReportHyetometerTest> getAll(String createTime,String stationName){
+        return reportHyetometerService.getAll(createTime,stationName);
     }
 
     @GetMapping("/deleteBy")
-    public int deleteBy(@RequestBody Integer reportId){
+    public int deleteBy(Integer reportId){
         return reportHyetometerService.delByReportId(reportId);
     }
 
@@ -63,9 +63,9 @@ public class HyetometerController {
     @ApiOperation(value = "雨滴表excel导出接口", httpMethod = "GET", notes = "雨滴表excel导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response,String createTime,String createBy,int stationId) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response,String createTime,String stationName) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime,createBy,stationId);
+        Workbook workbook = exportSheetByTemplate(createTime,stationName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -103,9 +103,9 @@ public class HyetometerController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime,String createBy,int stationId) {
+    public Workbook exportSheetByTemplate(String createTime,String stationName) {
         // 查询数据,此处省略
-        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime,createBy,stationId);
+        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime,stationName);
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i+1);

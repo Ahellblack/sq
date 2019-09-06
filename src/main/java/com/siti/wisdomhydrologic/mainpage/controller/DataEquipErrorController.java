@@ -19,23 +19,14 @@ import java.util.List;
  */
 @RequestMapping("/dataEquip")
 @RestController
-@Api(value="首页数据与设备异常controller",tags={"首页数据异常"})
+@Api(value = "首页数据与设备异常controller", tags = {"首页数据异常"})
 public class DataEquipErrorController {
 
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
     @GetMapping("/get")
-    @ApiOperation(value = "首页数据异常接口", httpMethod = "GET",
-            notes = "数据异常接口," +
-                    "dataErrorNumber年数据异常数"+
-                    "equipErrorNumber年设备异常数"+
-                    "dataAnalystNumber年数据分析发现异常数"+
-                    "equipAnalystNumber年设备分析发现异常数"+
-                    "modelNumber模型发现异常数量"+
-                    "typicalValueNumber典型值发现异常数"+
-                    "dataErrorNumberMonth月数据异常数" +
-                    "equipErrorNumberMonth月设备异常数")
+    @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
     public DataEquipErrorVo getDataEquipErrorVo() {
 
         DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0, 0, 0);
@@ -44,21 +35,23 @@ public class DataEquipErrorController {
         String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
         List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAllData();
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null);
+        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate, null);
         monthData.forEach(data -> {
-            String[] splitStr = data.getBrokenAccordingId().split("_");
-            String type = splitStr[0];
-            if ("eq".equals(type)) {//设备 数据分析
-                vo.setEquipAnalystNumber(vo.getEquipAnalystNumber() + 1);
-            }
-            if ("data".equals(type)) {//数据 数据分析
-                vo.setDataAnalystNumber(vo.getDataAnalystNumber() + 1);
-            }
-            if ("md".equals(type)) {//模型
-                vo.setModelNumber(vo.getModelNumber() + 1);
-            }
-            if ("ty".equals(type)) {//典型值
-                vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
+            if (data.getBrokenAccordingId() != null) {
+                String[] splitStr = data.getBrokenAccordingId().split("_");
+                String type = splitStr[0];
+                if ("eq".equals(type)) {//设备 数据分析
+                    vo.setEquipAnalystNumber(vo.getEquipAnalystNumber() + 1);
+                }
+                if ("data".equals(type)) {//数据 数据分析
+                    vo.setDataAnalystNumber(vo.getDataAnalystNumber() + 1);
+                }
+                if ("md".equals(type)) {//模型
+                    vo.setModelNumber(vo.getModelNumber() + 1);
+                }
+                if ("ty".equals(type)) {//典型值
+                    vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
+                }
             }
         });
         vo.setEquipErrorNumberMonth(vo.getEquipAnalystNumber() + vo.getTypicalValueNumber());
@@ -68,19 +61,21 @@ public class DataEquipErrorController {
         vo.setModelNumber(0);
         vo.setTypicalValueNumber(0);
         allData.forEach(data -> {
-            String[] splitStr = data.getBrokenAccordingId().split("_");
-            String type = splitStr[0];
-            if ("eq".equals(type)) {
-                vo.setEquipAnalystNumber(vo.getEquipAnalystNumber() + 1);
-            }
-            if ("data".equals(type)) {
-                vo.setDataAnalystNumber(vo.getDataAnalystNumber() + 1);
-            }
-            if ("md".equals(type)) {
-                vo.setModelNumber(vo.getModelNumber() + 1);
-            }
-            if ("ty".equals(type)) {
-                vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
+            if (data.getBrokenAccordingId() != null) {
+                String[] splitStr = data.getBrokenAccordingId().split("_");
+                String type = splitStr[0];
+                if ("eq".equals(type)) {
+                    vo.setEquipAnalystNumber(vo.getEquipAnalystNumber() + 1);
+                }
+                if ("data".equals(type)) {
+                    vo.setDataAnalystNumber(vo.getDataAnalystNumber() + 1);
+                }
+                if ("md".equals(type)) {
+                    vo.setModelNumber(vo.getModelNumber() + 1);
+                }
+                if ("ty".equals(type)) {
+                    vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
+                }
             }
         });
         vo.setEquipErrorNumber(vo.getEquipAnalystNumber() + vo.getTypicalValueNumber());

@@ -15,11 +15,10 @@ import java.util.List;
 public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
 
     @Select("<script>select * from report_hyetometer_test " +
-            "<if test=\"createTime!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate}</if>" +
-            "<if test=\"createBy!=null\"> and create_by = #{createBy} </if>" +
-            "<if test=\"stationId!=null\"> and station_code = #{stationId} </if>" +
+            "<if test=\"createTime!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createTime}</if>" +
+            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%' </if>" +
             " </script>")
-    List<ReportHyetometerTest> getAll(@Param("createTime") String createTime, @Param("createBy") String createBy, @Param("stationId") Integer stationId);
+    List<ReportHyetometerTest> getAll(@Param("createTime") String createTime,@Param("stationName")String stationName);
 
     @Delete("delete from report_hyetometer_test where report_id = #{reportId}")
     int delByReportId(@Param("reportId") Integer reportId);

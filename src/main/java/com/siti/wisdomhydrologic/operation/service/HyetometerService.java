@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface HyetometerService {
 
-    List<ReportHyetometerTest> getAll(String createTime, String createBy, Integer stationId);
+    List<ReportHyetometerTest> getAll(String createTime,String stationName);
     int delByReportId(Integer reportId);
 }

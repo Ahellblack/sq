@@ -2,8 +2,10 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,8 @@ public class DropDownBoxController {
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
+    @Resource
+    private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
 
     @ApiOperation(value = "字典表数据下拉框", httpMethod = "GET", notes = "字典表数据下拉框")
     @GetMapping("/getDictionary")
@@ -58,6 +62,10 @@ public class DropDownBoxController {
     @GetMapping("/getSeError")
     public List<ConfigAbnormalDictionary> getSeList(){
         return configAbnormalDictionaryMapper.getSeErrorNameList();
+    }
+
+    public List<ConfigSensorDatabase> getDataBaseList(){
+        return configSensorDatabaseMapper.getAll();
     }
 
 

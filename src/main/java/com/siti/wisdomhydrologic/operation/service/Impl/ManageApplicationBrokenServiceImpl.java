@@ -55,7 +55,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         }
         PageHelper.startPage(page, pageSize);
         List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName);
-        all.forEach(data -> {
+        /*all.forEach(data -> {
             try {
                 if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
                     data.setCreateTime(data.getCreateTime().substring(0, 13));
@@ -72,7 +72,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             } catch (Exception e) {
                 e.printStackTrace();
             }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));
-        });
+        });*/
 
         return new PageInfo<>(all);
     }
