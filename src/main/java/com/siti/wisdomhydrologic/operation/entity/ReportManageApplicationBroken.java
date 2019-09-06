@@ -1,42 +1,75 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
+import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
 
 public class ReportManageApplicationBroken {
 
-
-    @Excel(name = "reportId", height = 11, width = 20)
+    @ApiModelProperty(value = "用户名", name = "reportId")
     private int reportId;
-    @Excel(name = "stationId", height = 11, width = 20)
+
+    @ApiModelProperty(value = "测站id", name = "reportId")
     private int stationId;
-    @Excel(name = "stationName", height = 11, width = 20)
+
+    @ApiModelProperty(value = "测站名", name = "reportId")
     private String stationName;
-    @Excel(name = "brokenName", height = 11, width = 20)
+
+    @ApiModelProperty(value = "异常名", name = "reportId")
     private String brokenName;
-    @Excel(name = "brokenAccording", height = 11, width = 20)
+
+    @ApiModelProperty(value = "异常依据", name = "reportId")
     private String brokenAccording;
-    @Excel(name = "brokenAccordingId", height = 11, width = 20)
+
+    @ApiModelProperty(value = "异常依据id", name = "reportId")
     private String brokenAccordingId;
-    @Excel(name = "brokenResponseTime", height = 11, width = 20)
-    private Date brokenResponseTime;
-    @Excel(name = "brokenResolveTime", height = 11, width = 20)
-    private Date brokenResolveTime;
-    @Excel(name = "createTime", height = 11, width = 20)
-    private Date createTime;
-    @Excel(name = "resolveMethod", height = 11, width = 20)
-    private String resolveMethod;
-    @Excel(name = "resolveUserId", height = 11, width = 20)
-    private int resolveUserId;
-    @Excel(name = "remark", height = 11, width = 20)
-    private String remark;
-    @Excel(name = "requestDesignatingStatus", height = 11, width = 20)
-    private int requestDesignatingStatus;
-    @Excel(name = "requestDesignatingTime", height = 11, width = 20)
+
+    @ApiModelProperty(value = "故障应处理时间(自动)", name = "reportId")
+    private String brokenResponseTime;
+
+    @ApiModelProperty(value = "故障解决时间（自动）", name = "reportId")
+    private String brokenResolveTime;
+
+    @ApiModelProperty(value = "故障生成时间（自动）", name = "reportId")
+    private String createTime;
+
+    @ApiModelProperty(value = "派单时间（自动）", name = "reportId")
     private String requestDesignatingTime;
 
+    @ApiModelProperty(value = "处理方式", name = "reportId")
+    private String resolveMethod;
 
+    @ApiModelProperty(value = "故障处理人（是否存在多人）", name = "reportId")
+    private String resolveUserId;
+
+    @ApiModelProperty(value = "备注", name = "reportId")
+    private String remark;
+
+    @ApiModelProperty(value = " 派单状态 1:发现  2：已派单  3：维护中  4：已处理", name = "reportId")
+    private int requestDesignatingStatus;
+
+
+    @ApiModelProperty(value = "防汛要求解决时间（手动）", name = "reportId")
+    private String brokenAskToResolveTime;
+
+    @ApiModelProperty(value = "防汛要求抢修情况上报时间，与前一列一致，且可改（手动）", name = "reportId")
+    private String brokenrRequestReportTime;
+
+
+    public String getBrokenAskToResolveTime() {
+        return brokenAskToResolveTime;
+    }
+
+    public void setBrokenAskToResolveTime(String brokenAskToResolveTime) {
+        this.brokenAskToResolveTime = brokenAskToResolveTime;
+    }
+
+    public String getBrokenrRequestReportTime() {
+        return brokenrRequestReportTime;
+    }
+
+    public void setBrokenrRequestReportTime(String brokenrRequestReportTime) {
+        this.brokenrRequestReportTime = brokenrRequestReportTime;
+    }
 
     public int getRequestDesignatingStatus() {
         return requestDesignatingStatus;
@@ -71,11 +104,11 @@ public class ReportManageApplicationBroken {
         this.brokenAccording = brokenAccording;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -113,28 +146,28 @@ public class ReportManageApplicationBroken {
     }
 
 
-    public Date getBrokenResponseTime() {
+    public String getBrokenResponseTime() {
         return brokenResponseTime;
     }
 
-    public void setBrokenResponseTime(Date brokenResponseTime) {
+    public void setBrokenResponseTime(String brokenResponseTime) {
         this.brokenResponseTime = brokenResponseTime;
     }
 
 
-    public Date getBrokenResolveTime() {
+    public String getBrokenResolveTime() {
         return brokenResolveTime;
     }
 
-    public void setBrokenResolveTime(Date brokenResolveTime) {
+    public void setBrokenResolveTime(String brokenResolveTime) {
         this.brokenResolveTime = brokenResolveTime;
     }
 
-    public int getResolveUserId() {
+    public String getResolveUserId() {
         return resolveUserId;
     }
 
-    public void setResolveUserId(int resolveUserId) {
+    public void setResolveUserId(String resolveUserId) {
         this.resolveUserId = resolveUserId;
     }
 

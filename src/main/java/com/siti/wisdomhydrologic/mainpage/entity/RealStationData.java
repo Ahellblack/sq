@@ -16,7 +16,35 @@ public class RealStationData {
   private double airPressure;
   private double airTemperature;
   private String status;
+  private double patencyRate;
+  //测站的畅通率限制
+  private double flowRate;
+  private int unPatencyNumber;
 
+
+  public int getUnPatencyNumber() {
+    return unPatencyNumber;
+  }
+
+  public void setUnPatencyNumber(int unPatencyNumber) {
+    this.unPatencyNumber = unPatencyNumber;
+  }
+
+  public double getFlowRate() {
+    return flowRate;
+  }
+
+  public void setFlowRate(double flowRate) {
+    this.flowRate = flowRate;
+  }
+
+  public double getPatencyRate() {
+    return patencyRate;
+  }
+
+  public void setPatencyRate(double patencyRate) {
+    this.patencyRate = patencyRate;
+  }
 
   public String getTime() {
     return time;

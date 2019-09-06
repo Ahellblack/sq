@@ -1,38 +1,33 @@
 package com.siti.wisdomhydrologic.mainpage.controller;
 
-import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
-import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.Real;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by dell on 2019/8/15.
  */
 @RestController
 @RequestMapping("/station")
+@Api(value = "首页测站实时数据controller", tags = {"首页测站实时数据"})
 public class StationDataController {
 
     @Resource
@@ -43,11 +38,14 @@ public class StationDataController {
 
     @Resource
     private RealStationDataMapper realStationDataMapper;
+
     @Resource
     private StationDataServiceImpl stationDataService;
 
 
-    @RequestMapping("/getRealData")
+    @ApiOperation(value = "首页地图站点点击数据展示接口", httpMethod = "GET", notes = "查询station_data表获取最近各站点的传感器数据,返回各类传感器数据值")
+    @ApiParam(name = "stationCode", value = "测站id(5位)")
+    @GetMapping("/getRealData")
     public RealStationData getRealList(Integer stationCode) throws Exception {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -59,22 +57,26 @@ public class StationDataController {
         return realStationDataMapper.getData(stationCode);
     }
 
-    @RequestMapping("/updateData")
-    public int InsertRealData() {
-        List<Integer> stationId = stationDataMapper.getStationId();
+    @ApiOperation(value = "测站实时状况表更新接口", httpMethod = "GET", notes = "测站实时状况表更新接口")
+    @GetMapping("/updateData")
+    public int InsertRealData() throws Exception {
+        /*List<Integer> stationId = stationDataMapper.getStationId();
         stationId.forEach(id -> {
-            try {
-                stationDataService.updateData(id);
-            } catch (Exception e) {
+            try {*/
+        stationDataService.updateData();
+           /* } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });*/
         return 1;
     }
+
     /**
      * @Param level 站点级别
      * @Param status 站点状态
      */
+    @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选")
+    @ApiParam(name = "level", value = "测站级别")
     @RequestMapping("/getLocation")
     public List<ConfigRiverStationVo> getList(@Param("level") Integer level, @Param("status") Integer status) throws Exception {
 
@@ -86,8 +88,8 @@ public class StationDataController {
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
-        System.out.println("level:"+level+";status:"+status+";realtime:"+realtime);
-        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level,status,realtime);
+        System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime);
 
         return stationLocation;
     }
@@ -121,5 +123,6 @@ public class StationDataController {
         }
         return new SimpleDateFormat(dateFormat).format(new Date(needTime));
     }
+
 
 }

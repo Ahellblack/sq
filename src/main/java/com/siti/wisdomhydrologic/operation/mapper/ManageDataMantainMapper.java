@@ -4,6 +4,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
+
 import java.util.List;
 
 /**
@@ -12,8 +13,18 @@ import java.util.List;
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
     @Select("<script>Select * from report_manage_data_mantain where " +
             "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationName!=null\"> and station_name like '%#{stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%#{alterType}%' </if>"+
             "</script>")
-    List<ReportManageDataMantain> getByCreateDate(@Param("createDate") String createDate);
+    List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
+
+    @Select("<script>Select * from report_manage_data_mantain where " +
+            "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationName!=null\"> and station_name like '%#{stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%#{alterType}%' </if>"+
+            "</script>")
+    List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
+
 
     @Delete("delete from report_manage_data_mantain where report_id = #{reportId}")
     int deleteByReportId(@Param("reportId") Integer reportId);
@@ -25,15 +36,15 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "`manage_org_id` = #{manage.manageOrgId}, `manage_org_name` = #{manage.manageOrgName} WHERE `report_id` = #{manage.reportId}")
     int update(@Param("manage") ReportManageDataMantain reportManageDataMantain);
 
-    @Insert("INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
+   /* @Insert("INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
             "`miss_data_re_run`, `create_by`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
             "VALUES (#{manage.stationCode}, #{manage.alterDate}, #{manage.stationName},#{manage.alterSensorTypeId}, #{manage.alterSensorTypeName},#{manage.errorDataReason},#{manage.errorDataType},#{manage.errorTimeSpace}," +
             " #{manage.errorValue}, #{manage.confirValue}, #{manage.errorUnit}, #{manage.errorDataReRun}, #{manage.missDataType}, #{manage.missTimeSpace}," +
-            " #{manage.missDataReRun}, #{manage.createBy}, #{manage.manageOrgId},#{manage.manageOrgName},#{item.brokenAccordingId})")
+            " #{manage.missDataReRun}, #{manage.createBy}, #{manage.manageOrgId},#{manage.manageOrgName},#{manage.brokenAccordingId})")
     int insert(@Param("manage") ReportManageDataMantain reportManageDataMantain);
 
-
+*/
 
     @Insert("<script>INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +

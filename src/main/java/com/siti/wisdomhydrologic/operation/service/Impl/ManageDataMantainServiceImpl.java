@@ -2,26 +2,24 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
-import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.IntStream;
 
 /**
@@ -39,40 +37,22 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
     @Resource
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
+    //LogOperation log;
 
-
-    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String createDate) {
+    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize,
+                                                             String stationName,String alterType,
+                                                             String createDate) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(createDate);
-        /**
-         * 获取的字符串掐头去尾[]符号,并删去"重新返回以","分隔的字符串
-         * */
-        list.forEach(data -> {
-            List<String> createList = new ArrayList<>();
-            if (data.getCreateBy() != null) {
-                String str = data.getCreateBy().substring(1);
-                str = str.substring(0, str.length() - 1);
-                str = str.replace("\"", "");
-                String[] split = str.split(",");
-                for (String s : split) {
-                    createList.add(s);
-                }
-            }
-            StringBuffer resultBuffer = new StringBuffer();
-            for (int i = 0; i < createList.size(); i++) {
-                String result = createList.get(i);
-                if (i == 0) {
-                    resultBuffer.append(result);
-                } else {
-                    resultBuffer.append("," + result);
-                }
-            }
-            String createName = resultBuffer.toString();
-            data.setCreateBy(createName);
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName,alterType,createDate);
+
+        list.forEach(data->{
+            if (data.getCreateTime()!=null)data.setCreateTime(data.getCreateTime().substring(1,13));
+            if(data.getMissTimeSpace()!=null)data.setMissTimeSpace(data.getMissTimeSpace().substring(1,13));
+            if(data.getErrorTimeSpace()!=null)data.setErrorTimeSpace(data.getErrorTimeSpace().substring(1,13));
         });
         return new PageInfo<ReportManageDataMantain>(list);
     }
@@ -88,13 +68,20 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         Date date = new Date();
         //格式为YYYY-MM-dd
         reportManageDataMantain.setAlterDate(DateOrTimeTrans.Date2TimeString(date));
-        logger.info("修改后的ReportManageDataMantain：{}", reportManageDataMantain);
-        return reportManageDataMantainMapper.update(reportManageDataMantain);
+        if (reportManageDataMantain.getConfirValue()!=null){
+            reportManageDataMantain.setErrorDataReRun(1);
+        }
+        if (reportManageDataMantain.getMissDataType()!=null && reportManageDataMantain.getMissTimeSpace()!=null){
+            reportManageDataMantain.setMissDataReRun(1);
+        }
+        System.out.println("修改后的ReportManageDataMantain："+reportManageDataMantain);
+        int result= reportManageDataMantainMapper.update(reportManageDataMantain);
+        return result;
     }
 
     @Override
     public int insertAbnormalData(String date) {
-        List<ConfigAbnormalDictionary> abnormallist = configAbnormalDictionaryMapper.getList();
+        List<ConfigAbnormalDictionary> dictionarylist = configAbnormalDictionaryMapper.getList();
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
@@ -104,22 +91,25 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                 if (abnormalData.getDataError() != null) {
                     abnormalData.setBrokenAccordingId(abnormalData.getDataError());
                     //根据字典获取异常名
-                    abnormallist.forEach(param -> {
+                    dictionarylist.forEach(param -> {
                         if (param.getBrokenAccordingId().equals(abnormalData.getBrokenAccordingId())) {
                             abnormalData.setErrorDataReason(param.getErrorName());
                             abnormalData.setBrokenAccordingId(param.getBrokenAccordingId());
+                            abnormalData.setErrorDataType(param.getErrorDataId());
                             //赋值测站号和修改日期
                             abnormalData.setStationCode(abnormalData.getSensorCode() / 100);
                             abnormalData.setCreateTime(abnormalData.getDate());
                             //修改日期添加时精确到某日
                             abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
                             abnormalData.setErrorTimeSpace(abnormalData.getCreateTime());
+                            abnormalData.setErrorDataReRun(0);
+                            abnormalData.setMissDataReRun(0);
                         }
                     });
                     //结合module表添加测站参数
                     moduleList.forEach(module -> {
                         if (module.getSectionCode() == abnormalData.getSectionCode()) {
-                            abnormalData.setAlterSensorTypeName(module.getSectionName());
+                            abnormalData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length()-2),module.getSectionName().length()));
                             abnormalData.setAlterSensorTypeId(module.getSectionCode() % 100);
                             abnormalData.setStationName(module.getStationName());
                         }

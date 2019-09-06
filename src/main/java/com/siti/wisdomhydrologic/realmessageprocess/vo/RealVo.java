@@ -1,7 +1,5 @@
 package com.siti.wisdomhydrologic.realmessageprocess.vo;
 
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
-
 import java.util.Date;
 
 /**

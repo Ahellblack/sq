@@ -1,6 +1,5 @@
 package com.siti.wisdomhydrologic.operation.service;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 
 import java.util.List;

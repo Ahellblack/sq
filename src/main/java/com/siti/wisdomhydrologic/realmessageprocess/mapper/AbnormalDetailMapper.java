@@ -170,4 +170,13 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "on a.sensor_code = b.section_code " +
             "<if test=\"date!=null\" >where date = #{date}</if></script>")
     List<ReportManageDataMantainVo> getALL(@Param("date") String date);
+
+    @Select("<script>select * from abnormal_detail"+
+            "<if test=\"date!=null\" >where date = #{date}</if></script>")
+    List<AbnormalDetailEntity> getAbnormal(@Param("date") String date);
+
+    @Select("<script>select * from abnormal_detail " +
+            "<if test=\"createDate!=null\">where date = #{createDate}</if> " +
+            "<if test=\"stationId!=null\">  and substring(sensor_code,1,5)= #{stationId}</if></script>")
+    List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("stationId") Integer stationId);
 }

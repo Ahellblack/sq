@@ -2,7 +2,6 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.siti.wisdomhydrologic.datepull.service.impl.DayDataServiceImpl;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
@@ -17,7 +16,6 @@ import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
-import com.siti.wisdomhydrologic.util.StationIdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,6 +56,19 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
         List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate);
+        all.forEach(data->{
+            try {
+                if(data.getCreateTime()!=null)data.setCreateTime(data.getCreateTime().substring(0, 13));
+                if(data.getBrokenrRequestReportTime()!=null)data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
+                if(data.getBrokenAskToResolveTime()!=null)data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
+                if(data.getBrokenResolveTime()!=null)data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
+                if(data.getRequestDesignatingTime()!=null)data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
+                if(data.getBrokenResponseTime()!=null)data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
+            }catch (Exception e){
+                e.printStackTrace();
+            }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));
+        });
+
         return new PageInfo<>(all);
     }
 
@@ -104,11 +115,13 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
          * */
         cal.add(cal.MINUTE, -5);
 
+        date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+
+
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
         //根据日期获取异常信息
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
-
         List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         //获取异常配置参数
@@ -143,7 +156,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                                     //基本站往后1小时内
                                     calendar.add(calendar.HOUR, 1);
                                 }
-                                applicationBroken.setBrokenResponseTime(calendar.getTime());
+                                applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(),"yyyy-MM-dd HH:mm:ss"));
                             }
                             river.getStationId();
                         });
@@ -171,18 +184,18 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             applicationBroken.setBrokenName(e.getErrorName());
                         }
                     });
-                    /*applicationBroken.setCreateTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getALL(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), applicationBroken.getStationId());
+                    applicationBroken.setCreateTime(data.getDate());
+                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), data.getSectionCode());
                     getLatestData.forEach(abnormal -> {
                         String according_id = applicationBroken.getBrokenAccordingId();
                         if (!(according_id == null && "".equals(according_id))) {
-                            String eq_error = abnormal.getEquipmentError();
-                            String data_error = abnormal.getDateError();
-                            if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
+                            //String eq_error = abnormal.getEquipmentError();
+                            //String data_error = abnormal.getDateError();
+                            //if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
                                 brokenList.add(applicationBroken);
-                            }
+                            //}
                         }
-                    });*/
+                    });
                 }
             });
 

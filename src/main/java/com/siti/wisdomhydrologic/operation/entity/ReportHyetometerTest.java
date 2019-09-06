@@ -2,8 +2,6 @@ package com.siti.wisdomhydrologic.operation.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
-import java.util.Date;
-
 /**
  * Created by dell on 2019/7/26.
  */
@@ -42,7 +40,7 @@ public class ReportHyetometerTest {
     @Excel(name = "createBy", height = 11, width = 20)
     private String createBy;
     @Excel(name = "createTime", height = 11, width = 20)
-    private Date createTime;
+    private String createTime;
 
 
     public Integer getReportId() {
@@ -165,20 +163,21 @@ public class ReportHyetometerTest {
         this.errorValue = errorValue;
     }
 
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getCreateBy() {
         return createBy;
     }
 
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 
     @Override

@@ -1,24 +1,78 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
-import java.util.Date;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
+
+/**
+ * 表三
+ * */
 public class ReportStationBroken {
 
+  @Excel(name = "reportId", height = 11, width = 10)
   private int reportId;
+
+  @Excel(name = "stationCode", height = 11, width = 10)
   private String stationCode;
+
+  @Excel(name = "stationName", height = 11, width = 10)
   private String stationName;
+
+  @Excel(name = "brokenHappenTime", height = 11, width = 10)
   private String brokenHappenTime;
+
+  @Excel(name = "brokenSituation", height = 11, width = 10)
   private String brokenSituation;
+
+  @Excel(name = "brokenResolveCreateTime", height = 11, width = 10)
   private String brokenResolveCreateTime;
+
+  @Excel(name = "resolveMethod", height = 11, width = 10)
   private String resolveMethod;
+
+  @Excel(name = "resolveUserIds", height = 11, width = 10)
   private String resolveUserIds;
+
+  @Excel(name = "remark", height = 11, width = 10)
   private String remark;
-  private int createBy;
+
+  @Excel(name = "createBy", height = 11, width = 10)
+  private String createBy;
+
+  @Excel(name = "manageOrgId", height = 11, width = 10)
   private int manageOrgId;
+
+  @Excel(name = "manageOrgName", height = 11, width = 10)
   private String manageOrgName;
+
+  @Excel(name = "brokenResolveTime", height = 11, width = 10)
   private String brokenResolveTime;
+
+  @Excel(name = "brokenResponseTime", height = 11, width = 10)
   private String brokenResponseTime;
+
+  @Excel(name = "createTime", height = 11, width = 10)
   private String createTime;
+
+  private String applicationEquipName;
+
+  private String applicationEquipTypeId;
+
+  public String getApplicationEquipTypeId() {
+    return applicationEquipTypeId;
+  }
+
+  public void setApplicationEquipTypeId(String applicationEquipTypeId) {
+    this.applicationEquipTypeId = applicationEquipTypeId;
+  }
+
+  public String getApplicationEquipName() {
+    return applicationEquipName;
+  }
+
+  public void setApplicationEquipName(String applicationEquipName) {
+    this.applicationEquipName = applicationEquipName;
+  }
 
   public int getReportId() {
     return reportId;
@@ -92,11 +146,11 @@ public class ReportStationBroken {
     this.remark = remark;
   }
 
-  public int getCreateBy() {
+  public String getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(int createBy) {
+  public void setCreateBy(String createBy) {
     this.createBy = createBy;
   }
 

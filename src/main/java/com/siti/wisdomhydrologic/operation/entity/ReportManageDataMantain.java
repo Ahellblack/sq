@@ -2,8 +2,6 @@ package com.siti.wisdomhydrologic.operation.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
-import java.util.Date;
-
 public class ReportManageDataMantain {
 
     @Excel(name = "reportId", height = 11, width = 10)
@@ -193,6 +191,7 @@ public class ReportManageDataMantain {
         this.createTime = createTime;
     }
 
+
     public String getCreateBy() {
         return createBy;
     }
@@ -216,6 +215,7 @@ public class ReportManageDataMantain {
     public void setManageOrgName(String manageOrgName) {
         this.manageOrgName = manageOrgName;
     }
+
 
     @Override
     public String toString() {

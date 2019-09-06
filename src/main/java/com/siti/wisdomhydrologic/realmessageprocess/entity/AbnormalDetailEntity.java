@@ -1,10 +1,7 @@
 package com.siti.wisdomhydrologic.realmessageprocess.entity;
 
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -144,5 +141,8 @@ public class AbnormalDetailEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public AbnormalDetailEntity() {
     }
 }

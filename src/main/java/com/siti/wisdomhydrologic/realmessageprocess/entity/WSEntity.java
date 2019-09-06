@@ -2,7 +2,6 @@ package com.siti.wisdomhydrologic.realmessageprocess.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * Created by DC on 2019/7/19.

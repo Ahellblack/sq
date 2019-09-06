@@ -7,6 +7,16 @@ public class ConfigAbnormalDictionary {
     private String brokenAccording;
     private String errorName;
     private int errorDataId;
+    private int table1Relate;
+
+
+    public int getTable1_relate() {
+        return table1Relate;
+    }
+
+    public void setTable1_relate(int table1Relate) {
+        this.table1Relate = table1Relate;
+    }
 
     public String getBrokenAccordingId() {
         return brokenAccordingId;
@@ -23,7 +33,6 @@ public class ConfigAbnormalDictionary {
     public void setBrokenAccording(String brokenAccording) {
         this.brokenAccording = brokenAccording;
     }
-
 
     public String getErrorName() {
         return errorName;

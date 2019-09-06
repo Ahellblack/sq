@@ -1,232 +1,311 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
-import java.util.Date;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 
 public class ReportManageMantain {
 
-  private int reportId;
-  private int manageOrgId;
-  private String manageOrgName;
-  private String mantainMonth;
-  private String mantainHour;
-  private int tempHuimidityException;
-  private int serverTimeException;
-  private int databaseServerException;
-  private int communicateServerException;
-  private int applicationServerException;
-  private int webServerException;
-  private int changtongRateException;
-  private int voltageException;
-  private int voltageProcessLineException;
-  private int dayRainReportException;
-  private int rainBarException;
-  private int daySeaLevelReportException;
-  private int seaLeveProcessLineException;
-  private int otherReportException;
-  private String remark;
-  private int createBy;
-  private Date createTime;
+    @Excel(name = "reportId", height = 11, width = 10)
+    private int reportId;
 
+    @Excel(name = "manageOrgId", height = 11, width = 10)
+    private int manageOrgId;
 
-  public int getReportId() {
-    return reportId;
-  }
+    @Excel(name = "manageOrgName", height = 11, width = 10)
+    private String manageOrgName;
 
-  public void setReportId(int reportId) {
-    this.reportId = reportId;
-  }
+    @Excel(name = "mantainMonth", height = 11, width = 10)
+    private String mantainMonth;
 
+    @Excel(name = "mantainHour", height = 11, width = 10)
+    private String mantainHour;
 
-  public int getManageOrgId() {
-    return manageOrgId;
-  }
+    @Excel(name = "tempHuimidityException", height = 11, width = 10)
+    private int tempHuimidityException;
 
-  public void setManageOrgId(int manageOrgId) {
-    this.manageOrgId = manageOrgId;
-  }
+    @Excel(name = "serverTimeException", height = 11, width = 10)
+    private int serverTimeException;
 
+    @Excel(name = "databaseServerException", height = 11, width = 10)
+    private int databaseServerException;
 
-  public String getManageOrgName() {
-    return manageOrgName;
-  }
+    @Excel(name = "communicateServerException", height = 11, width = 10)
+    private int communicateServerException;
 
-  public void setManageOrgName(String manageOrgName) {
-    this.manageOrgName = manageOrgName;
-  }
+    @Excel(name = "applicationServerException", height = 11, width = 10)
+    private int applicationServerException;
 
+    @Excel(name = "webServerException", height = 11, width = 10)
+    private int webServerException;
 
-  public String getMantainMonth() {
-    return mantainMonth;
-  }
+    private int workStation;
 
-  public void setMantainMonth(String mantainMonth) {
-    this.mantainMonth = mantainMonth;
-  }
+    @Excel(name = "changtongRateException", height = 11, width = 10)
+    private int changtongRateException;
 
+    @Excel(name = "voltageException", height = 11, width = 10)
+    private int voltageException;
 
-  public String getMantainHour() {
-    return mantainHour;
-  }
+    @Excel(name = "voltageProcessLineException", height = 11, width = 10)
+    private int voltageProcessLineException;
 
-  public void setMantainHour(String mantainHour) {
-    this.mantainHour = mantainHour;
-  }
+    @Excel(name = "dayRainReportException", height = 11, width = 10)
+    private int dayRainReportException;
 
+    @Excel(name = "rainBarException", height = 11, width = 10)
+    private int rainBarException;
 
-  public int getTempHuimidityException() {
-    return tempHuimidityException;
-  }
+    @Excel(name = "daySeaLevelReportException", height = 11, width = 10)
+    private int daySeaLevelReportException;
 
-  public void setTempHuimidityException(int tempHuimidityException) {
-    this.tempHuimidityException = tempHuimidityException;
-  }
+    @Excel(name = "seaLeveProcessLineException", height = 11, width = 10)
+    private int seaLeveProcessLineException;
 
+    @Excel(name = "otherReportException", height = 11, width = 10)
+    private int otherReportException;
 
-  public int getServerTimeException() {
-    return serverTimeException;
-  }
+    @Excel(name = "remark", height = 11, width = 10)
+    private String remark;
 
-  public void setServerTimeException(int serverTimeException) {
-    this.serverTimeException = serverTimeException;
-  }
+    @Excel(name = "createBy", height = 11, width = 10)
+    private String createBy;
 
+    @Excel(name = "createTime", height = 11, width = 10)
+    private String createTime;
 
-  public int getDatabaseServerException() {
-    return databaseServerException;
-  }
 
-  public void setDatabaseServerException(int databaseServerException) {
-    this.databaseServerException = databaseServerException;
-  }
+    public int getWorkStation() {
+        return workStation;
+    }
 
+    public void setWorkStation(int workStation) {
+        this.workStation = workStation;
+    }
 
-  public int getCommunicateServerException() {
-    return communicateServerException;
-  }
+    public int getReportId() {
+        return reportId;
+    }
 
-  public void setCommunicateServerException(int communicateServerException) {
-    this.communicateServerException = communicateServerException;
-  }
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
+    }
 
 
-  public int getApplicationServerException() {
-    return applicationServerException;
-  }
+    public int getManageOrgId() {
+        return manageOrgId;
+    }
 
-  public void setApplicationServerException(int applicationServerException) {
-    this.applicationServerException = applicationServerException;
-  }
+    public void setManageOrgId(int manageOrgId) {
+        this.manageOrgId = manageOrgId;
+    }
 
 
-  public int getWebServerException() {
-    return webServerException;
-  }
+    public String getManageOrgName() {
+        return manageOrgName;
+    }
 
-  public void setWebServerException(int webServerException) {
-    this.webServerException = webServerException;
-  }
+    public void setManageOrgName(String manageOrgName) {
+        this.manageOrgName = manageOrgName;
+    }
 
 
-  public int getChangtongRateException() {
-    return changtongRateException;
-  }
+    public String getMantainMonth() {
+        return mantainMonth;
+    }
 
-  public void setChangtongRateException(int changtongRateException) {
-    this.changtongRateException = changtongRateException;
-  }
+    public void setMantainMonth(String mantainMonth) {
+        this.mantainMonth = mantainMonth;
+    }
 
 
-  public int getVoltageException() {
-    return voltageException;
-  }
+    public String getMantainHour() {
+        return mantainHour;
+    }
 
-  public void setVoltageException(int voltageException) {
-    this.voltageException = voltageException;
-  }
+    public void setMantainHour(String mantainHour) {
+        this.mantainHour = mantainHour;
+    }
 
 
-  public int getVoltageProcessLineException() {
-    return voltageProcessLineException;
-  }
+    public int getTempHuimidityException() {
+        return tempHuimidityException;
+    }
 
-  public void setVoltageProcessLineException(int voltageProcessLineException) {
-    this.voltageProcessLineException = voltageProcessLineException;
-  }
+    public void setTempHuimidityException(int tempHuimidityException) {
+        this.tempHuimidityException = tempHuimidityException;
+    }
 
 
-  public int getDayRainReportException() {
-    return dayRainReportException;
-  }
+    public int getServerTimeException() {
+        return serverTimeException;
+    }
 
-  public void setDayRainReportException(int dayRainReportException) {
-    this.dayRainReportException = dayRainReportException;
-  }
+    public void setServerTimeException(int serverTimeException) {
+        this.serverTimeException = serverTimeException;
+    }
 
 
-  public int getRainBarException() {
-    return rainBarException;
-  }
+    public int getDatabaseServerException() {
+        return databaseServerException;
+    }
 
-  public void setRainBarException(int rainBarException) {
-    this.rainBarException = rainBarException;
-  }
+    public void setDatabaseServerException(int databaseServerException) {
+        this.databaseServerException = databaseServerException;
+    }
 
 
-  public int getDaySeaLevelReportException() {
-    return daySeaLevelReportException;
-  }
+    public int getCommunicateServerException() {
+        return communicateServerException;
+    }
 
-  public void setDaySeaLevelReportException(int daySeaLevelReportException) {
-    this.daySeaLevelReportException = daySeaLevelReportException;
-  }
+    public void setCommunicateServerException(int communicateServerException) {
+        this.communicateServerException = communicateServerException;
+    }
 
 
-  public int getSeaLeveProcessLineException() {
-    return seaLeveProcessLineException;
-  }
+    public int getApplicationServerException() {
+        return applicationServerException;
+    }
 
-  public void setSeaLeveProcessLineException(int seaLeveProcessLineException) {
-    this.seaLeveProcessLineException = seaLeveProcessLineException;
-  }
+    public void setApplicationServerException(int applicationServerException) {
+        this.applicationServerException = applicationServerException;
+    }
 
 
-  public int getOtherReportException() {
-    return otherReportException;
-  }
+    public int getWebServerException() {
+        return webServerException;
+    }
 
-  public void setOtherReportException(int otherReportException) {
-    this.otherReportException = otherReportException;
-  }
+    public void setWebServerException(int webServerException) {
+        this.webServerException = webServerException;
+    }
 
 
-  public String getRemark() {
-    return remark;
-  }
+    public int getChangtongRateException() {
+        return changtongRateException;
+    }
 
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
+    public void setChangtongRateException(int changtongRateException) {
+        this.changtongRateException = changtongRateException;
+    }
 
 
-  public int getCreateBy() {
-    return createBy;
-  }
+    public int getVoltageException() {
+        return voltageException;
+    }
 
-  public void setCreateBy(int createBy) {
-    this.createBy = createBy;
-  }
+    public void setVoltageException(int voltageException) {
+        this.voltageException = voltageException;
+    }
 
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public int getVoltageProcessLineException() {
+        return voltageProcessLineException;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public void setVoltageProcessLineException(int voltageProcessLineException) {
+        this.voltageProcessLineException = voltageProcessLineException;
+    }
 
-  @Override
-  public String toString() {
-    return "ReportManageMantain{" + "reportId=" + reportId + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", mantainMonth='" + mantainMonth + '\'' + ", mantainHour='" + mantainHour + '\'' + ", tempHuimidityException=" + tempHuimidityException + ", serverTimeException=" + serverTimeException + ", databaseServerException=" + databaseServerException + ", communicateServerException=" + communicateServerException + ", applicationServerException=" + applicationServerException + ", webServerException=" + webServerException + ", changtongRateException=" + changtongRateException + ", voltageException=" + voltageException + ", voltageProcessLineException=" + voltageProcessLineException + ", dayRainReportException=" + dayRainReportException + ", rainBarException=" + rainBarException + ", daySeaLevelReportException=" + daySeaLevelReportException + ", seaLeveProcessLineException=" + seaLeveProcessLineException + ", otherReportException=" + otherReportException + ", remark='" + remark + '\'' + ", createBy=" + createBy + ", createTime=" + createTime + '}';
-  }
+
+    public int getDayRainReportException() {
+        return dayRainReportException;
+    }
+
+    public void setDayRainReportException(int dayRainReportException) {
+        this.dayRainReportException = dayRainReportException;
+    }
+
+
+    public int getRainBarException() {
+        return rainBarException;
+    }
+
+    public void setRainBarException(int rainBarException) {
+        this.rainBarException = rainBarException;
+    }
+
+
+    public int getDaySeaLevelReportException() {
+        return daySeaLevelReportException;
+    }
+
+    public void setDaySeaLevelReportException(int daySeaLevelReportException) {
+        this.daySeaLevelReportException = daySeaLevelReportException;
+    }
+
+
+    public int getSeaLeveProcessLineException() {
+        return seaLeveProcessLineException;
+    }
+
+    public void setSeaLeveProcessLineException(int seaLeveProcessLineException) {
+        this.seaLeveProcessLineException = seaLeveProcessLineException;
+    }
+
+
+    public int getOtherReportException() {
+        return otherReportException;
+    }
+
+    public void setOtherReportException(int otherReportException) {
+        this.otherReportException = otherReportException;
+    }
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportManageMantain{" + "reportId=" + reportId + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", mantainMonth='" + mantainMonth + '\'' + ", mantainHour='" + mantainHour + '\'' + ", tempHuimidityException=" + tempHuimidityException + ", serverTimeException=" + serverTimeException + ", databaseServerException=" + databaseServerException + ", communicateServerException=" + communicateServerException + ", applicationServerException=" + applicationServerException + ", webServerException=" + webServerException + ", changtongRateException=" + changtongRateException + ", voltageException=" + voltageException + ", voltageProcessLineException=" + voltageProcessLineException + ", dayRainReportException=" + dayRainReportException + ", rainBarException=" + rainBarException + ", daySeaLevelReportException=" + daySeaLevelReportException + ", seaLeveProcessLineException=" + seaLeveProcessLineException + ", otherReportException=" + otherReportException + ", remark='" + remark + '\'' + ", createBy=" + createBy + ", createTime=" + createTime + '}';
+    }
+
+    public ReportManageMantain(int manageOrgId, String manageOrgName, String mantainMonth, String mantainHour, int tempHuimidityException, int serverTimeException, int databaseServerException, int communicateServerException, int applicationServerException, int webServerException, int workStation, int changtongRateException, int voltageException, int voltageProcessLineException, int dayRainReportException, int rainBarException, int daySeaLevelReportException, int seaLeveProcessLineException, int otherReportException, String remark, String createBy, String createTime) {
+        this.manageOrgId = manageOrgId;
+        this.manageOrgName = manageOrgName;
+        this.mantainMonth = mantainMonth;
+        this.mantainHour = mantainHour;
+        this.tempHuimidityException = tempHuimidityException;
+        this.serverTimeException = serverTimeException;
+        this.databaseServerException = databaseServerException;
+        this.communicateServerException = communicateServerException;
+        this.applicationServerException = applicationServerException;
+        this.webServerException = webServerException;
+        this.workStation = workStation;
+        this.changtongRateException = changtongRateException;
+        this.voltageException = voltageException;
+        this.voltageProcessLineException = voltageProcessLineException;
+        this.dayRainReportException = dayRainReportException;
+        this.rainBarException = rainBarException;
+        this.daySeaLevelReportException = daySeaLevelReportException;
+        this.seaLeveProcessLineException = seaLeveProcessLineException;
+        this.otherReportException = otherReportException;
+        this.remark = remark;
+        this.createBy = createBy;
+        this.createTime = createTime;
+    }
+
+    public ReportManageMantain() {
+    }
 }

@@ -1,7 +1,10 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -11,8 +14,12 @@ import java.util.List;
  */
 public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
 
-    @Select("select * from report_hyetometer_test")
-    List<ReportHyetometerTest> getAll();
+    @Select("<script>select * from report_hyetometer_test " +
+            "<if test=\"createTime!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate}</if>" +
+            "<if test=\"createBy!=null\"> and create_by = #{createBy} </if>" +
+            "<if test=\"stationId!=null\"> and station_code = #{stationId} </if>" +
+            " </script>")
+    List<ReportHyetometerTest> getAll(@Param("createTime") String createTime, @Param("createBy") String createBy, @Param("stationId") int stationId);
 
     @Delete("delete from report_hyetometer_test where report_id = #{reportId}")
     int delByReportId(@Param("reportId") Integer reportId);

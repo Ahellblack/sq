@@ -1,6 +1,5 @@
 package com.siti.wisdomhydrologic.maintainconfig.entity;
 
-import java.util.Date;
 
 public class ConfigRiverStation {
 
@@ -20,12 +19,23 @@ public class ConfigRiverStation {
     private double stationGaodeLatitude;
     private int isSluiceGate;
     private String stationAddress;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private int stationId;
     //测站状态
     private int status;
 
+    //分中心id
+    private int sysOrg;
+
+
+    public int getSysOrg() {
+        return sysOrg;
+    }
+
+    public void setSysOrg(int sysOrg) {
+        this.sysOrg = sysOrg;
+    }
 
     public int getStatus() {
         return status;
@@ -178,20 +188,20 @@ public class ConfigRiverStation {
     }
 
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

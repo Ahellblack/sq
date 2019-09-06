@@ -31,4 +31,5 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     public int update(ReportStationCheckMantain reportStationCheckMantain) {
         return stationCheckMantainMapper.updateByPrimaryKey(reportStationCheckMantain);
     }
+
 }

@@ -1,48 +1,131 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 public class ReportStationCheckMantain {
 
+  @Excel(name = "reportId", height = 11, width = 10)
   private int reportId;
+
+  @Excel(name = "mantainDate", height = 11, width = 10)
   private String mantainDate;
+
+  @Excel(name = "stationCode", height = 11, width = 10)
   private String stationCode;
+
+  @Excel(name = "stationName", height = 11, width = 10)
   private String stationName;
+
+  @Excel(name = "stationManangeOrgId", height = 11, width = 10)
   private int stationManangeOrgId;
+
+  @Excel(name = "stationManageOrgName", height = 11, width = 10)
   private String stationManageOrgName;
+
+  @Excel(name = "rtuType", height = 11, width = 10)
   private String rtuType;
+
+  @Excel(name = "checkRainSensor", height = 11, width = 10)
   private int checkRainSensor;
+
+  @Excel(name = "checkWaterLevelSensor", height = 11, width = 10)
   private int checkWaterLevelSensor;
+
+  @Excel(name = "checkSpeedDirectionSensor", height = 11, width = 10)
   private int checkSpeedDirectionSensor;
+
+  @Excel(name = "checkFlowSensor", height = 11, width = 10)
   private int checkFlowSensor;
+
+  @Excel(name = "checkOtherSensor", height = 11, width = 10)
   private String checkOtherSensor;
+
+  @Excel(name = "dataCollectionCorrect", height = 11, width = 10)
   private int dataCollectionCorrect;
+
+  @Excel(name = "dataCollectionParameterCheck", height = 11, width = 10)
   private int dataCollectionParameterCheck;
+
+  @Excel(name = "dataCollectionNormal", height = 11, width = 10)
   private int dataCollectionNormal;
+
+  @Excel(name = "dataCommunicateParameterCheck", height = 11, width = 10)
   private int dataCommunicateParameterCheck;
+
+  @Excel(name = "dataCommunicateChannel", height = 11, width = 10)
   private int dataCommunicateChannel;
+
+  @Excel(name = "solarEnergyVoltageCheck", height = 11, width = 10)
   private int solarEnergyVoltageCheck;
+
+  @Excel(name = "solarEnergyVoltageValue", height = 11, width = 10)
   private double solarEnergyVoltageValue;
+
+  @Excel(name = "storageBatteryVoltageCheck", height = 11, width = 10)
   private int storageBatteryVoltageCheck;
+
+  @Excel(name = "storageBatteryValue", height = 11, width = 10)
   private double storageBatteryValue;
+
+  @Excel(name = "rainfallSensorNormal", height = 11, width = 10)
   private int rainfallSensorNormal;
+
+  @Excel(name = "rainfallSensorCleanCheck", height = 11, width = 10)
   private int rainfallSensorCleanCheck;
+
+  @Excel(name = "rainfallSensorRangeCheck", height = 11, width = 10)
   private int rainfallSensorRangeCheck;
+
+  @Excel(name = "waterLevelCheckNormal", height = 11, width = 10)
   private int waterLevelCheckNormal;
+
+  @Excel(name = "waterLeverCheckShaft", height = 11, width = 10)
   private int waterLeverCheckShaft;
+
+  @Excel(name = "waterLeverCleanCheck", height = 11, width = 10)
   private int waterLeverCleanCheck;
+
+  @Excel(name = "waterLeverAdjust", height = 11, width = 10)
   private int waterLeverAdjust;
+
+  @Excel(name = "speedDirectionCheckNormal", height = 11, width = 10)
   private int speedDirectionCheckNormal;
+
+  @Excel(name = "speedDirectionCheckLightingProtection", height = 11, width = 10)
   private int speedDirectionCheckLightingProtection;
+
+  @Excel(name = "flowmeterDataCheckNormal", height = 11, width = 10)
   private int flowmeterDataCheckNormal;
+
+  @Excel(name = "flowmeterPitchGesture", height = 11, width = 10)
   private double flowmeterPitchGesture;
+
+  @Excel(name = "flowmeterRollingGesture", height = 11, width = 10)
   private double flowmeterRollingGesture;
+
+  @Excel(name = "flowmeterSignalStrength", height = 11, width = 10)
   private int flowmeterSignalStrength;
+
+  @Excel(name = "flowmeterRecordTimeWarp", height = 11, width = 10)
   private int flowmeterRecordTimeWarp;
+
+  @Excel(name = "linePipeCheckNormal", height = 11, width = 10)
   private int linePipeCheckNormal;
+
+  @Excel(name = "stationEnviroment", height = 11, width = 10)
   private int stationEnviroment;
+
+  @Excel(name = "stationCleanCheck", height = 11, width = 10)
   private int stationCleanCheck;
+
+  @Excel(name = "remark", height = 11, width = 10)
   private String remark;
-  private int createBy;
-  private java.sql.Timestamp createTime;
+
+  @Excel(name = "createBy", height = 11, width = 10)
+  private String createBy;
+
+  @Excel(name = "createTime", height = 11, width = 10)
+  private String createTime;
 
 
   public int getReportId() {
@@ -396,21 +479,19 @@ public class ReportStationCheckMantain {
   }
 
 
-  public int getCreateBy() {
+  public String getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(int createBy) {
+  public void setCreateBy(String createBy) {
     this.createBy = createBy;
   }
 
-
-  public java.sql.Timestamp getCreateTime() {
+  public String getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(java.sql.Timestamp createTime) {
+  public void setCreateTime(String createTime) {
     this.createTime = createTime;
   }
-
 }

@@ -1,52 +1,138 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
-import java.util.Date;
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 
 public class ReportStationRainConstrast {
-
+  @Excel(name = "reportId", height = 11, width = 10)
   private int reportId;
+
+  @Excel(name = "stationCode", height = 11, width = 10)
   private String stationCode;
+
+  @Excel(name = "stationName", height = 11, width = 10)
   private String stationName;
+
+  @Excel(name = "manageOrgId", height = 11, width = 10)
   private int manageOrgId;
+
+  @Excel(name = "manageOrgName", height = 11, width = 10)
   private String manageOrgName;
+
+  @Excel(name = "dataYearMonth", height = 11, width = 10)
   private String dataYearMonth;
+
+  @Excel(name = "day1", height = 11, width = 10)
   private String day1;
+
+  @Excel(name = "day2", height = 11, width = 10)
   private String day2;
+
+  @Excel(name = "day3", height = 11, width = 10)
   private String day3;
+
+  @Excel(name = "day4", height = 11, width = 10)
   private String day4;
+
+  @Excel(name = "day5", height = 11, width = 10)
   private String day5;
+
+  @Excel(name = "day6", height = 11, width = 10)
   private String day6;
+
+  @Excel(name = "day7", height = 11, width = 10)
   private String day7;
+
+  @Excel(name = "day8", height = 11, width = 10)
   private String day8;
+
+  @Excel(name = "day9", height = 11, width = 10)
   private String day9;
+
+  @Excel(name = "day10", height = 11, width = 10)
   private String day10;
+
+  @Excel(name = "day11", height = 11, width = 10)
   private String day11;
+
+  @Excel(name = "day12", height = 11, width = 10)
   private String day12;
+
+  @Excel(name = "day13", height = 11, width = 10)
   private String day13;
+
+  @Excel(name = "day14", height = 11, width = 10)
   private String day14;
+
+  @Excel(name = "day15", height = 11, width = 10)
   private String day15;
+
+  @Excel(name = "day16", height = 11, width = 10)
   private String day16;
+
+  @Excel(name = "day17", height = 11, width = 10)
   private String day17;
+
+  @Excel(name = "day18", height = 11, width = 10)
   private String day18;
+
+  @Excel(name = "day19", height = 11, width = 10)
   private String day19;
+
+  @Excel(name = "day20", height = 11, width = 10)
   private String day20;
+
+  @Excel(name = "day21", height = 11, width = 10)
   private String day21;
+
+  @Excel(name = "day22", height = 11, width = 10)
   private String day22;
+
+  @Excel(name = "day23", height = 11, width = 10)
   private String day23;
+
+  @Excel(name = "day24", height = 11, width = 10)
   private String day24;
+
+  @Excel(name = "day25", height = 11, width = 10)
   private String day25;
+
+  @Excel(name = "day26", height = 11, width = 10)
   private String day26;
+
+  @Excel(name = "day27", height = 11, width = 10)
   private String day27;
+
+  @Excel(name = "day28", height = 11, width = 10)
   private String day28;
+
+  @Excel(name = "day29", height = 11, width = 10)
   private String day29;
+
+  @Excel(name = "day30", height = 11, width = 10)
   private String day30;
+
+  @Excel(name = "day31", height = 11, width = 10)
   private String day31;
+
+  @Excel(name = "total", height = 11, width = 10)
   private String total;
+
+  @Excel(name = "remark", height = 11, width = 10)
   private String remark;
-  private Date createTime;
-  private int createBy;
-  private Date updateTime;
+
+  @Excel(name = "createTime", height = 11, width = 10)
+  private String createTime;
+
+  @Excel(name = "createBy", height = 11, width = 10)
+  private String createBy;
+
+  @Excel(name = "updateTime", height = 11, width = 10)
+  private String updateTime;
+
+  @Excel(name = "updateBy", height = 11, width = 10)
   private int updateBy;
+
 
 
   public int getReportId() {
@@ -399,27 +485,27 @@ public class ReportStationRainConstrast {
     this.remark = remark;
   }
 
-  public Date getCreateTime() {
+  public String getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(Date createTime) {
+  public void setCreateTime(String createTime) {
     this.createTime = createTime;
   }
 
-  public int getCreateBy() {
+  public String getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(int createBy) {
+  public void setCreateBy(String createBy) {
     this.createBy = createBy;
   }
 
-  public Date getUpdateTime() {
+  public String getUpdateTime() {
     return updateTime;
   }
 
-  public void setUpdateTime(Date updateTime) {
+  public void setUpdateTime(String updateTime) {
     this.updateTime = updateTime;
   }
 
@@ -431,5 +517,8 @@ public class ReportStationRainConstrast {
     this.updateBy = updateBy;
   }
 
-
+  @Override
+  public String toString() {
+    return "ReportStationRainConstrast{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", dataYearMonth='" + dataYearMonth + '\'' + ", day1='" + day1 + '\'' + ", day2='" + day2 + '\'' + ", day3='" + day3 + '\'' + ", day4='" + day4 + '\'' + ", day5='" + day5 + '\'' + ", day6='" + day6 + '\'' + ", day7='" + day7 + '\'' + ", day8='" + day8 + '\'' + ", day9='" + day9 + '\'' + ", day10='" + day10 + '\'' + ", day11='" + day11 + '\'' + ", day12='" + day12 + '\'' + ", day13='" + day13 + '\'' + ", day14='" + day14 + '\'' + ", day15='" + day15 + '\'' + ", day16='" + day16 + '\'' + ", day17='" + day17 + '\'' + ", day18='" + day18 + '\'' + ", day19='" + day19 + '\'' + ", day20='" + day20 + '\'' + ", day21='" + day21 + '\'' + ", day22='" + day22 + '\'' + ", day23='" + day23 + '\'' + ", day24='" + day24 + '\'' + ", day25='" + day25 + '\'' + ", day26='" + day26 + '\'' + ", day27='" + day27 + '\'' + ", day28='" + day28 + '\'' + ", day29='" + day29 + '\'' + ", day30='" + day30 + '\'' + ", day31='" + day31 + '\'' + ", total='" + total + '\'' + ", remark='" + remark + '\'' + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", updateTime='" + updateTime + '\'' + ", updateBy=" + updateBy + '}';
+  }
 }

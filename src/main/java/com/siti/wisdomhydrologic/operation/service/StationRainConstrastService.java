@@ -16,5 +16,5 @@ public interface StationRainConstrastService {
     List<ReportStationRainConstrast> getAll(Date date);
     List<ReportStationRainConstrastVo> getByMonth(String date);
 
-    int update(ReportStationRainConstrastVo reportStationRainConstrastVo);
+    /*int update(ReportStationRainConstrastVo reportStationRainConstrastVo);*/
 }

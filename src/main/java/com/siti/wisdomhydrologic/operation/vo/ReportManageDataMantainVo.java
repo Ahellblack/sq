@@ -1,9 +1,6 @@
 package com.siti.wisdomhydrologic.operation.vo;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
-
 import javax.persistence.Id;
-import java.util.Date;
 
 public class ReportManageDataMantainVo {
 
@@ -28,6 +25,9 @@ public class ReportManageDataMantainVo {
     private Integer manageOrgId;
     private String manageOrgName;
     private String brokenAccordingId;
+    private String errorDataTypeName;
+    private String errorDataReRunName;
+    private String missDataReRunName;
 
 
     /**
@@ -48,6 +48,30 @@ public class ReportManageDataMantainVo {
     private String sectionDataUnit;
     private String sectionStatus;
 
+
+    public String getErrorDataTypeName() {
+        return errorDataTypeName;
+    }
+
+    public void setErrorDataTypeName(String errorDataTypeName) {
+        this.errorDataTypeName = errorDataTypeName;
+    }
+
+    public String getErrorDataReRunName() {
+        return errorDataReRunName;
+    }
+
+    public void setErrorDataReRunName(String errorDataReRunName) {
+        this.errorDataReRunName = errorDataReRunName;
+    }
+
+    public String getMissDataReRunName() {
+        return missDataReRunName;
+    }
+
+    public void setMissDataReRunName(String missDataReRunName) {
+        this.missDataReRunName = missDataReRunName;
+    }
 
     public int getUpdateTime() {
         return updateTime;

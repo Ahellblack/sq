@@ -1,7 +1,6 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
 import javax.persistence.Id;
-import java.util.Date;
 
 /**
  * Created by dell on 2019/8/15.
@@ -11,7 +10,7 @@ public class RealStationVo {
     @Id
     private int sensorCode;
     @Id
-    private Date time;
+    private String time;
     private Double realVal;
     private Integer modified;
     private Integer cycle;
@@ -36,8 +35,8 @@ public class RealStationVo {
     private double stationGaodeLatitude;
     private int isSluiceGate;
     private String stationAddress;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private int StationId;
     //测站状态
     private int status;
@@ -53,6 +52,16 @@ public class RealStationVo {
     private double realDataWindSpeed;
     private double realDataElectric;
 
+    private double patencyRate;
+
+
+    public double getPatencyRate() {
+        return patencyRate;
+    }
+
+    public void setPatencyRate(double patencyRate) {
+        this.patencyRate = patencyRate;
+    }
 
     public int getStatus() {
         return status;
@@ -158,11 +167,11 @@ public class RealStationVo {
         this.sensorCode = sensorCode;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -326,19 +335,19 @@ public class RealStationVo {
         this.stationAddress = stationAddress;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

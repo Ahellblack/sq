@@ -1,8 +1,5 @@
 package com.siti.wisdomhydrologic.operation.vo;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by dell on 2019/8/2.
  */
@@ -15,115 +12,144 @@ public class ReportStationRainConstrastVo {
     private String dataYearMonth;
     private String total;
     private String remark;
-    private Date createTime;
-    private int createBy;
-    private Date updateTime;
+    private String createTime;
+    private String createBy;
+    private String updateTime;
     private int updateBy;
 
-    /**
+ /*   *//**
      * 字段列表
-     * */
+     * *//*
     private List<Double> autoList;
     private List<Double> baseList;
-    private List<Double> diffList;
+    private List<Double> diffList;*/
     /**
      * auto字段
      * base字段
      * diff字段
      * */
-    private double day1Auto;
-    private double day1Base;
-    private double day1Diff;
-    private double day2Auto;
-    private double day2Base;
-    private double day2Diff;
-    private double day3Auto;
-    private double day3Base;
-    private double day3Diff;
-    private double day4Auto;
-    private double day4Base;
-    private double day4Diff;
-    private double day5Auto;
-    private double day5Base;
-    private double day5Diff;
-    private double day6Auto;
-    private double day6Base;
-    private double day6Diff;
-    private double day7Auto;
-    private double day7Base;
-    private double day7Diff;
-    private double day8Auto;
-    private double day8Base;
-    private double day8Diff;
-    private double day9Auto;
-    private double day9Base;
-    private double day9Diff;
-    private double day10Auto;
-    private double day10Base;
-    private double day10Diff;
-    private double day11Auto;
-    private double day11Base;
-    private double day11Diff;
-    private double day12Auto;
-    private double day12Base;
-    private double day12Diff;
-    private double day13Auto;
-    private double day13Base;
-    private double day13Diff;
-    private double day14Auto;
-    private double day14Base;
-    private double day14Diff;
-    private double day15Auto;
-    private double day15Base;
-    private double day15Diff;
-    private double day16Auto;
-    private double day16Base;
-    private double day16Diff;
-    private double day17Auto;
-    private double day17Base;
-    private double day17Diff;
-    private double day18Auto;
-    private double day18Base;
-    private double day18Diff;
-    private double day19Auto;
-    private double day19Base;
-    private double day19Diff;
-    private double day20Auto;
-    private double day20Base;
-    private double day20Diff;
-    private double day21Auto;
-    private double day21Base;
-    private double day21Diff;
-    private double day22Auto;
-    private double day22Base;
-    private double day22Diff;
-    private double day23Auto;
-    private double day23Base;
-    private double day23Diff;
-    private double day24Auto;
-    private double day24Base;
-    private double day24Diff;
-    private double day25Auto;
-    private double day25Base;
-    private double day25Diff;
-    private double day26Auto;
-    private double day26Base;
-    private double day26Diff;
-    private double day27Auto;
-    private double day27Base;
-    private double day27Diff;
-    private double day28Auto;
-    private double day28Base;
-    private double day28Diff;
-    private double day29Auto;
-    private double day29Base;
-    private double day29Diff;
-    private double day30Auto;
-    private double day30Base;
-    private double day30Diff;
-    private double day31Auto;
-    private double day31Base;
-    private double day31Diff;
+    private String day1Auto;
+    private String day1Base;
+    private String day1Diff;
+    private String day2Auto;
+    private String day2Base;
+    private String day2Diff;
+    private String day3Auto;
+    private String day3Base;
+    private String day3Diff;
+    private String day4Auto;
+    private String day4Base;
+    private String day4Diff;
+    private String day5Auto;
+    private String day5Base;
+    private String day5Diff;
+    private String day6Auto;
+    private String day6Base;
+    private String day6Diff;
+    private String day7Auto;
+    private String day7Base;
+    private String day7Diff;
+    private String day8Auto;
+    private String day8Base;
+    private String day8Diff;
+    private String day9Auto;
+    private String day9Base;
+    private String day9Diff;
+    private String day10Auto;
+    private String day10Base;
+    private String day10Diff;
+    private String day11Auto;
+    private String day11Base;
+    private String day11Diff;
+    private String day12Auto;
+    private String day12Base;
+    private String day12Diff;
+    private String day13Auto;
+    private String day13Base;
+    private String day13Diff;
+    private String day14Auto;
+    private String day14Base;
+    private String day14Diff;
+    private String day15Auto;
+    private String day15Base;
+    private String day15Diff;
+    private String day16Auto;
+    private String day16Base;
+    private String day16Diff;
+    private String day17Auto;
+    private String day17Base;
+    private String day17Diff;
+    private String day18Auto;
+    private String day18Base;
+    private String day18Diff;
+    private String day19Auto;
+    private String day19Base;
+    private String day19Diff;
+    private String day20Auto;
+    private String day20Base;
+    private String day20Diff;
+    private String day21Auto;
+    private String day21Base;
+    private String day21Diff;
+    private String day22Auto;
+    private String day22Base;
+    private String day22Diff;
+    private String day23Auto;
+    private String day23Base;
+    private String day23Diff;
+    private String day24Auto;
+    private String day24Base;
+    private String day24Diff;
+    private String day25Auto;
+    private String day25Base;
+    private String day25Diff;
+    private String day26Auto;
+    private String day26Base;
+    private String day26Diff;
+    private String day27Auto;
+    private String day27Base;
+    private String day27Diff;
+    private String day28Auto;
+    private String day28Base;
+    private String day28Diff;
+    private String day29Auto;
+    private String day29Base;
+    private String day29Diff;
+    private String day30Auto;
+    private String day30Base;
+    private String day30Diff;
+    private String day31Auto;
+    private String day31Base;
+    private String day31Diff;
+    //total
+    private String autoTotal;
+    private String baseTotal;
+    private String diffTotal;
+
+
+    public String getAutoTotal() {
+        return autoTotal;
+    }
+
+    public void setAutoTotal(String autoTotal) {
+        this.autoTotal = autoTotal;
+    }
+
+    public String getBaseTotal() {
+        return baseTotal;
+    }
+
+    public void setBaseTotal(String baseTotal) {
+        this.baseTotal = baseTotal;
+    }
+
+    public String getDiffTotal() {
+        return diffTotal;
+    }
+
+    public void setDiffTotal(String diffTotal) {
+        this.diffTotal = diffTotal;
+    }
 
     public int getReportId() {
         return reportId;
@@ -189,27 +215,27 @@ public class ReportStationRainConstrastVo {
         this.remark = remark;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public int getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(int createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -220,6 +246,7 @@ public class ReportStationRainConstrastVo {
     public void setUpdateBy(int updateBy) {
         this.updateBy = updateBy;
     }
+/*
 
     public List<Double> getAutoList() {
         return autoList;
@@ -244,753 +271,754 @@ public class ReportStationRainConstrastVo {
     public void setDiffList(List<Double> diffList) {
         this.diffList = diffList;
     }
+*/
 
-    public double getDay1Auto() {
+    public String getDay1Auto() {
         return day1Auto;
     }
 
-    public void setDay1Auto(double day1Auto) {
+    public void setDay1Auto(String day1Auto) {
         this.day1Auto = day1Auto;
     }
 
-    public double getDay1Base() {
+    public String getDay1Base() {
         return day1Base;
     }
 
-    public void setDay1Base(double day1Base) {
+    public void setDay1Base(String day1Base) {
         this.day1Base = day1Base;
     }
 
-    public double getDay1Diff() {
+    public String getDay1Diff() {
         return day1Diff;
     }
 
-    public void setDay1Diff(double day1Diff) {
+    public void setDay1Diff(String day1Diff) {
         this.day1Diff = day1Diff;
     }
 
-    public double getDay2Auto() {
+    public String getDay2Auto() {
         return day2Auto;
     }
 
-    public void setDay2Auto(double day2Auto) {
+    public void setDay2Auto(String day2Auto) {
         this.day2Auto = day2Auto;
     }
 
-    public double getDay2Base() {
+    public String getDay2Base() {
         return day2Base;
     }
 
-    public void setDay2Base(double day2Base) {
+    public void setDay2Base(String day2Base) {
         this.day2Base = day2Base;
     }
 
-    public double getDay2Diff() {
+    public String getDay2Diff() {
         return day2Diff;
     }
 
-    public void setDay2Diff(double day2Diff) {
+    public void setDay2Diff(String day2Diff) {
         this.day2Diff = day2Diff;
     }
 
-    public double getDay3Auto() {
+    public String getDay3Auto() {
         return day3Auto;
     }
 
-    public void setDay3Auto(double day3Auto) {
+    public void setDay3Auto(String day3Auto) {
         this.day3Auto = day3Auto;
     }
 
-    public double getDay3Base() {
+    public String getDay3Base() {
         return day3Base;
     }
 
-    public void setDay3Base(double day3Base) {
+    public void setDay3Base(String day3Base) {
         this.day3Base = day3Base;
     }
 
-    public double getDay3Diff() {
+    public String getDay3Diff() {
         return day3Diff;
     }
 
-    public void setDay3Diff(double day3Diff) {
+    public void setDay3Diff(String day3Diff) {
         this.day3Diff = day3Diff;
     }
 
-    public double getDay4Auto() {
+    public String getDay4Auto() {
         return day4Auto;
     }
 
-    public void setDay4Auto(double day4Auto) {
+    public void setDay4Auto(String day4Auto) {
         this.day4Auto = day4Auto;
     }
 
-    public double getDay4Base() {
+    public String getDay4Base() {
         return day4Base;
     }
 
-    public void setDay4Base(double day4Base) {
+    public void setDay4Base(String day4Base) {
         this.day4Base = day4Base;
     }
 
-    public double getDay4Diff() {
+    public String getDay4Diff() {
         return day4Diff;
     }
 
-    public void setDay4Diff(double day4Diff) {
+    public void setDay4Diff(String day4Diff) {
         this.day4Diff = day4Diff;
     }
 
-    public double getDay5Auto() {
+    public String getDay5Auto() {
         return day5Auto;
     }
 
-    public void setDay5Auto(double day5Auto) {
+    public void setDay5Auto(String day5Auto) {
         this.day5Auto = day5Auto;
     }
 
-    public double getDay5Base() {
+    public String getDay5Base() {
         return day5Base;
     }
 
-    public void setDay5Base(double day5Base) {
+    public void setDay5Base(String day5Base) {
         this.day5Base = day5Base;
     }
 
-    public double getDay5Diff() {
+    public String getDay5Diff() {
         return day5Diff;
     }
 
-    public void setDay5Diff(double day5Diff) {
+    public void setDay5Diff(String day5Diff) {
         this.day5Diff = day5Diff;
     }
 
-    public double getDay6Auto() {
+    public String getDay6Auto() {
         return day6Auto;
     }
 
-    public void setDay6Auto(double day6Auto) {
+    public void setDay6Auto(String day6Auto) {
         this.day6Auto = day6Auto;
     }
 
-    public double getDay6Base() {
+    public String getDay6Base() {
         return day6Base;
     }
 
-    public void setDay6Base(double day6Base) {
+    public void setDay6Base(String day6Base) {
         this.day6Base = day6Base;
     }
 
-    public double getDay6Diff() {
+    public String getDay6Diff() {
         return day6Diff;
     }
 
-    public void setDay6Diff(double day6Diff) {
+    public void setDay6Diff(String day6Diff) {
         this.day6Diff = day6Diff;
     }
 
-    public double getDay7Auto() {
+    public String getDay7Auto() {
         return day7Auto;
     }
 
-    public void setDay7Auto(double day7Auto) {
+    public void setDay7Auto(String day7Auto) {
         this.day7Auto = day7Auto;
     }
 
-    public double getDay7Base() {
+    public String getDay7Base() {
         return day7Base;
     }
 
-    public void setDay7Base(double day7Base) {
+    public void setDay7Base(String day7Base) {
         this.day7Base = day7Base;
     }
 
-    public double getDay7Diff() {
+    public String getDay7Diff() {
         return day7Diff;
     }
 
-    public void setDay7Diff(double day7Diff) {
+    public void setDay7Diff(String day7Diff) {
         this.day7Diff = day7Diff;
     }
 
-    public double getDay8Auto() {
+    public String getDay8Auto() {
         return day8Auto;
     }
 
-    public void setDay8Auto(double day8Auto) {
+    public void setDay8Auto(String day8Auto) {
         this.day8Auto = day8Auto;
     }
 
-    public double getDay8Base() {
+    public String getDay8Base() {
         return day8Base;
     }
 
-    public void setDay8Base(double day8Base) {
+    public void setDay8Base(String day8Base) {
         this.day8Base = day8Base;
     }
 
-    public double getDay8Diff() {
+    public String getDay8Diff() {
         return day8Diff;
     }
 
-    public void setDay8Diff(double day8Diff) {
+    public void setDay8Diff(String day8Diff) {
         this.day8Diff = day8Diff;
     }
 
-    public double getDay9Auto() {
+    public String getDay9Auto() {
         return day9Auto;
     }
 
-    public void setDay9Auto(double day9Auto) {
+    public void setDay9Auto(String day9Auto) {
         this.day9Auto = day9Auto;
     }
 
-    public double getDay9Base() {
+    public String getDay9Base() {
         return day9Base;
     }
 
-    public void setDay9Base(double day9Base) {
+    public void setDay9Base(String day9Base) {
         this.day9Base = day9Base;
     }
 
-    public double getDay9Diff() {
+    public String getDay9Diff() {
         return day9Diff;
     }
 
-    public void setDay9Diff(double day9Diff) {
+    public void setDay9Diff(String day9Diff) {
         this.day9Diff = day9Diff;
     }
 
-    public double getDay10Auto() {
+    public String getDay10Auto() {
         return day10Auto;
     }
 
-    public void setDay10Auto(double day10Auto) {
+    public void setDay10Auto(String day10Auto) {
         this.day10Auto = day10Auto;
     }
 
-    public double getDay10Base() {
+    public String getDay10Base() {
         return day10Base;
     }
 
-    public void setDay10Base(double day10Base) {
+    public void setDay10Base(String day10Base) {
         this.day10Base = day10Base;
     }
 
-    public double getDay10Diff() {
+    public String getDay10Diff() {
         return day10Diff;
     }
 
-    public void setDay10Diff(double day10Diff) {
+    public void setDay10Diff(String day10Diff) {
         this.day10Diff = day10Diff;
     }
 
-    public double getDay11Auto() {
+    public String getDay11Auto() {
         return day11Auto;
     }
 
-    public void setDay11Auto(double day11Auto) {
+    public void setDay11Auto(String day11Auto) {
         this.day11Auto = day11Auto;
     }
 
-    public double getDay11Base() {
+    public String getDay11Base() {
         return day11Base;
     }
 
-    public void setDay11Base(double day11Base) {
+    public void setDay11Base(String day11Base) {
         this.day11Base = day11Base;
     }
 
-    public double getDay11Diff() {
+    public String getDay11Diff() {
         return day11Diff;
     }
 
-    public void setDay11Diff(double day11Diff) {
+    public void setDay11Diff(String day11Diff) {
         this.day11Diff = day11Diff;
     }
 
-    public double getDay12Auto() {
+    public String getDay12Auto() {
         return day12Auto;
     }
 
-    public void setDay12Auto(double day12Auto) {
+    public void setDay12Auto(String day12Auto) {
         this.day12Auto = day12Auto;
     }
 
-    public double getDay12Base() {
+    public String getDay12Base() {
         return day12Base;
     }
 
-    public void setDay12Base(double day12Base) {
+    public void setDay12Base(String day12Base) {
         this.day12Base = day12Base;
     }
 
-    public double getDay12Diff() {
+    public String getDay12Diff() {
         return day12Diff;
     }
 
-    public void setDay12Diff(double day12Diff) {
+    public void setDay12Diff(String day12Diff) {
         this.day12Diff = day12Diff;
     }
 
-    public double getDay13Auto() {
+    public String getDay13Auto() {
         return day13Auto;
     }
 
-    public void setDay13Auto(double day13Auto) {
+    public void setDay13Auto(String day13Auto) {
         this.day13Auto = day13Auto;
     }
 
-    public double getDay13Base() {
+    public String getDay13Base() {
         return day13Base;
     }
 
-    public void setDay13Base(double day13Base) {
+    public void setDay13Base(String day13Base) {
         this.day13Base = day13Base;
     }
 
-    public double getDay13Diff() {
+    public String getDay13Diff() {
         return day13Diff;
     }
 
-    public void setDay13Diff(double day13Diff) {
+    public void setDay13Diff(String day13Diff) {
         this.day13Diff = day13Diff;
     }
 
-    public double getDay14Auto() {
+    public String getDay14Auto() {
         return day14Auto;
     }
 
-    public void setDay14Auto(double day14Auto) {
+    public void setDay14Auto(String day14Auto) {
         this.day14Auto = day14Auto;
     }
 
-    public double getDay14Base() {
+    public String getDay14Base() {
         return day14Base;
     }
 
-    public void setDay14Base(double day14Base) {
+    public void setDay14Base(String day14Base) {
         this.day14Base = day14Base;
     }
 
-    public double getDay14Diff() {
+    public String getDay14Diff() {
         return day14Diff;
     }
 
-    public void setDay14Diff(double day14Diff) {
+    public void setDay14Diff(String day14Diff) {
         this.day14Diff = day14Diff;
     }
 
-    public double getDay15Auto() {
+    public String getDay15Auto() {
         return day15Auto;
     }
 
-    public void setDay15Auto(double day15Auto) {
+    public void setDay15Auto(String day15Auto) {
         this.day15Auto = day15Auto;
     }
 
-    public double getDay15Base() {
+    public String getDay15Base() {
         return day15Base;
     }
 
-    public void setDay15Base(double day15Base) {
+    public void setDay15Base(String day15Base) {
         this.day15Base = day15Base;
     }
 
-    public double getDay15Diff() {
+    public String getDay15Diff() {
         return day15Diff;
     }
 
-    public void setDay15Diff(double day15Diff) {
+    public void setDay15Diff(String day15Diff) {
         this.day15Diff = day15Diff;
     }
 
-    public double getDay16Auto() {
+    public String getDay16Auto() {
         return day16Auto;
     }
 
-    public void setDay16Auto(double day16Auto) {
+    public void setDay16Auto(String day16Auto) {
         this.day16Auto = day16Auto;
     }
 
-    public double getDay16Base() {
+    public String getDay16Base() {
         return day16Base;
     }
 
-    public void setDay16Base(double day16Base) {
+    public void setDay16Base(String day16Base) {
         this.day16Base = day16Base;
     }
 
-    public double getDay16Diff() {
+    public String getDay16Diff() {
         return day16Diff;
     }
 
-    public void setDay16Diff(double day16Diff) {
+    public void setDay16Diff(String day16Diff) {
         this.day16Diff = day16Diff;
     }
 
-    public double getDay17Auto() {
+    public String getDay17Auto() {
         return day17Auto;
     }
 
-    public void setDay17Auto(double day17Auto) {
+    public void setDay17Auto(String day17Auto) {
         this.day17Auto = day17Auto;
     }
 
-    public double getDay17Base() {
+    public String getDay17Base() {
         return day17Base;
     }
 
-    public void setDay17Base(double day17Base) {
+    public void setDay17Base(String day17Base) {
         this.day17Base = day17Base;
     }
 
-    public double getDay17Diff() {
+    public String getDay17Diff() {
         return day17Diff;
     }
 
-    public void setDay17Diff(double day17Diff) {
+    public void setDay17Diff(String day17Diff) {
         this.day17Diff = day17Diff;
     }
 
-    public double getDay18Auto() {
+    public String getDay18Auto() {
         return day18Auto;
     }
 
-    public void setDay18Auto(double day18Auto) {
+    public void setDay18Auto(String day18Auto) {
         this.day18Auto = day18Auto;
     }
 
-    public double getDay18Base() {
+    public String getDay18Base() {
         return day18Base;
     }
 
-    public void setDay18Base(double day18Base) {
+    public void setDay18Base(String day18Base) {
         this.day18Base = day18Base;
     }
 
-    public double getDay18Diff() {
+    public String getDay18Diff() {
         return day18Diff;
     }
 
-    public void setDay18Diff(double day18Diff) {
+    public void setDay18Diff(String day18Diff) {
         this.day18Diff = day18Diff;
     }
 
-    public double getDay19Auto() {
+    public String getDay19Auto() {
         return day19Auto;
     }
 
-    public void setDay19Auto(double day19Auto) {
+    public void setDay19Auto(String day19Auto) {
         this.day19Auto = day19Auto;
     }
 
-    public double getDay19Base() {
+    public String getDay19Base() {
         return day19Base;
     }
 
-    public void setDay19Base(double day19Base) {
+    public void setDay19Base(String day19Base) {
         this.day19Base = day19Base;
     }
 
-    public double getDay19Diff() {
+    public String getDay19Diff() {
         return day19Diff;
     }
 
-    public void setDay19Diff(double day19Diff) {
+    public void setDay19Diff(String day19Diff) {
         this.day19Diff = day19Diff;
     }
 
-    public double getDay20Auto() {
+    public String getDay20Auto() {
         return day20Auto;
     }
 
-    public void setDay20Auto(double day20Auto) {
+    public void setDay20Auto(String day20Auto) {
         this.day20Auto = day20Auto;
     }
 
-    public double getDay20Base() {
+    public String getDay20Base() {
         return day20Base;
     }
 
-    public void setDay20Base(double day20Base) {
+    public void setDay20Base(String day20Base) {
         this.day20Base = day20Base;
     }
 
-    public double getDay20Diff() {
+    public String getDay20Diff() {
         return day20Diff;
     }
 
-    public void setDay20Diff(double day20Diff) {
+    public void setDay20Diff(String day20Diff) {
         this.day20Diff = day20Diff;
     }
 
-    public double getDay21Auto() {
+    public String getDay21Auto() {
         return day21Auto;
     }
 
-    public void setDay21Auto(double day21Auto) {
+    public void setDay21Auto(String day21Auto) {
         this.day21Auto = day21Auto;
     }
 
-    public double getDay21Base() {
+    public String getDay21Base() {
         return day21Base;
     }
 
-    public void setDay21Base(double day21Base) {
+    public void setDay21Base(String day21Base) {
         this.day21Base = day21Base;
     }
 
-    public double getDay21Diff() {
+    public String getDay21Diff() {
         return day21Diff;
     }
 
-    public void setDay21Diff(double day21Diff) {
+    public void setDay21Diff(String day21Diff) {
         this.day21Diff = day21Diff;
     }
 
-    public double getDay22Auto() {
+    public String getDay22Auto() {
         return day22Auto;
     }
 
-    public void setDay22Auto(double day22Auto) {
+    public void setDay22Auto(String day22Auto) {
         this.day22Auto = day22Auto;
     }
 
-    public double getDay22Base() {
+    public String getDay22Base() {
         return day22Base;
     }
 
-    public void setDay22Base(double day22Base) {
+    public void setDay22Base(String day22Base) {
         this.day22Base = day22Base;
     }
 
-    public double getDay22Diff() {
+    public String getDay22Diff() {
         return day22Diff;
     }
 
-    public void setDay22Diff(double day22Diff) {
+    public void setDay22Diff(String day22Diff) {
         this.day22Diff = day22Diff;
     }
 
-    public double getDay23Auto() {
+    public String getDay23Auto() {
         return day23Auto;
     }
 
-    public void setDay23Auto(double day23Auto) {
+    public void setDay23Auto(String day23Auto) {
         this.day23Auto = day23Auto;
     }
 
-    public double getDay23Base() {
+    public String getDay23Base() {
         return day23Base;
     }
 
-    public void setDay23Base(double day23Base) {
+    public void setDay23Base(String day23Base) {
         this.day23Base = day23Base;
     }
 
-    public double getDay23Diff() {
+    public String getDay23Diff() {
         return day23Diff;
     }
 
-    public void setDay23Diff(double day23Diff) {
+    public void setDay23Diff(String day23Diff) {
         this.day23Diff = day23Diff;
     }
 
-    public double getDay24Auto() {
+    public String getDay24Auto() {
         return day24Auto;
     }
 
-    public void setDay24Auto(double day24Auto) {
+    public void setDay24Auto(String day24Auto) {
         this.day24Auto = day24Auto;
     }
 
-    public double getDay24Base() {
+    public String getDay24Base() {
         return day24Base;
     }
 
-    public void setDay24Base(double day24Base) {
+    public void setDay24Base(String day24Base) {
         this.day24Base = day24Base;
     }
 
-    public double getDay24Diff() {
+    public String getDay24Diff() {
         return day24Diff;
     }
 
-    public void setDay24Diff(double day24Diff) {
+    public void setDay24Diff(String day24Diff) {
         this.day24Diff = day24Diff;
     }
 
-    public double getDay25Auto() {
+    public String getDay25Auto() {
         return day25Auto;
     }
 
-    public void setDay25Auto(double day25Auto) {
+    public void setDay25Auto(String day25Auto) {
         this.day25Auto = day25Auto;
     }
 
-    public double getDay25Base() {
+    public String getDay25Base() {
         return day25Base;
     }
 
-    public void setDay25Base(double day25Base) {
+    public void setDay25Base(String day25Base) {
         this.day25Base = day25Base;
     }
 
-    public double getDay25Diff() {
+    public String getDay25Diff() {
         return day25Diff;
     }
 
-    public void setDay25Diff(double day25Diff) {
+    public void setDay25Diff(String day25Diff) {
         this.day25Diff = day25Diff;
     }
 
-    public double getDay26Auto() {
+    public String getDay26Auto() {
         return day26Auto;
     }
 
-    public void setDay26Auto(double day26Auto) {
+    public void setDay26Auto(String day26Auto) {
         this.day26Auto = day26Auto;
     }
 
-    public double getDay26Base() {
+    public String getDay26Base() {
         return day26Base;
     }
 
-    public void setDay26Base(double day26Base) {
+    public void setDay26Base(String day26Base) {
         this.day26Base = day26Base;
     }
 
-    public double getDay26Diff() {
+    public String getDay26Diff() {
         return day26Diff;
     }
 
-    public void setDay26Diff(double day26Diff) {
+    public void setDay26Diff(String day26Diff) {
         this.day26Diff = day26Diff;
     }
 
-    public double getDay27Auto() {
+    public String getDay27Auto() {
         return day27Auto;
     }
 
-    public void setDay27Auto(double day27Auto) {
+    public void setDay27Auto(String day27Auto) {
         this.day27Auto = day27Auto;
     }
 
-    public double getDay27Base() {
+    public String getDay27Base() {
         return day27Base;
     }
 
-    public void setDay27Base(double day27Base) {
+    public void setDay27Base(String day27Base) {
         this.day27Base = day27Base;
     }
 
-    public double getDay27Diff() {
+    public String getDay27Diff() {
         return day27Diff;
     }
 
-    public void setDay27Diff(double day27Diff) {
+    public void setDay27Diff(String day27Diff) {
         this.day27Diff = day27Diff;
     }
 
-    public double getDay28Auto() {
+    public String getDay28Auto() {
         return day28Auto;
     }
 
-    public void setDay28Auto(double day28Auto) {
+    public void setDay28Auto(String day28Auto) {
         this.day28Auto = day28Auto;
     }
 
-    public double getDay28Base() {
+    public String getDay28Base() {
         return day28Base;
     }
 
-    public void setDay28Base(double day28Base) {
+    public void setDay28Base(String day28Base) {
         this.day28Base = day28Base;
     }
 
-    public double getDay28Diff() {
+    public String getDay28Diff() {
         return day28Diff;
     }
 
-    public void setDay28Diff(double day28Diff) {
+    public void setDay28Diff(String day28Diff) {
         this.day28Diff = day28Diff;
     }
 
-    public double getDay29Auto() {
+    public String getDay29Auto() {
         return day29Auto;
     }
 
-    public void setDay29Auto(double day29Auto) {
+    public void setDay29Auto(String day29Auto) {
         this.day29Auto = day29Auto;
     }
 
-    public double getDay29Base() {
+    public String getDay29Base() {
         return day29Base;
     }
 
-    public void setDay29Base(double day29Base) {
+    public void setDay29Base(String day29Base) {
         this.day29Base = day29Base;
     }
 
-    public double getDay29Diff() {
+    public String getDay29Diff() {
         return day29Diff;
     }
 
-    public void setDay29Diff(double day29Diff) {
+    public void setDay29Diff(String day29Diff) {
         this.day29Diff = day29Diff;
     }
 
-    public double getDay30Auto() {
+    public String getDay30Auto() {
         return day30Auto;
     }
 
-    public void setDay30Auto(double day30Auto) {
+    public void setDay30Auto(String day30Auto) {
         this.day30Auto = day30Auto;
     }
 
-    public double getDay30Base() {
+    public String getDay30Base() {
         return day30Base;
     }
 
-    public void setDay30Base(double day30Base) {
+    public void setDay30Base(String day30Base) {
         this.day30Base = day30Base;
     }
 
-    public double getDay30Diff() {
+    public String getDay30Diff() {
         return day30Diff;
     }
 
-    public void setDay30Diff(double day30Diff) {
+    public void setDay30Diff(String day30Diff) {
         this.day30Diff = day30Diff;
     }
 
-    public double getDay31Auto() {
+    public String getDay31Auto() {
         return day31Auto;
     }
 
-    public void setDay31Auto(double day31Auto) {
+    public void setDay31Auto(String day31Auto) {
         this.day31Auto = day31Auto;
     }
 
-    public double getDay31Base() {
+    public String getDay31Base() {
         return day31Base;
     }
 
-    public void setDay31Base(double day31Base) {
+    public void setDay31Base(String day31Base) {
         this.day31Base = day31Base;
     }
 
-    public double getDay31Diff() {
+    public String getDay31Diff() {
         return day31Diff;
     }
 
-    public void setDay31Diff(double day31Diff) {
+    public void setDay31Diff(String day31Diff) {
         this.day31Diff = day31Diff;
     }
 
     @Override
     public String toString() {
-        return "ReportStationRainConstrastVo{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", dataYearMonth='" + dataYearMonth + '\'' + ", total='" + total + '\'' + ", remark='" + remark + '\'' + ", createTime=" + createTime + ", createBy=" + createBy + ", updateTime=" + updateTime + ", updateBy=" + updateBy + ", autoList=" + autoList + ", baseList=" + baseList + ", diffList=" + diffList + ", day1Auto=" + day1Auto + ", day1Base=" + day1Base + ", day1Diff=" + day1Diff + ", day2Auto=" + day2Auto + ", day2Base=" + day2Base + ", day2Diff=" + day2Diff + ", day3Auto=" + day3Auto + ", day3Base=" + day3Base + ", day3Diff=" + day3Diff + ", day4Auto=" + day4Auto + ", day4Base=" + day4Base + ", day4Diff=" + day4Diff + ", day5Auto=" + day5Auto + ", day5Base=" + day5Base + ", day5Diff=" + day5Diff + ", day6Auto=" + day6Auto + ", day6Base=" + day6Base + ", day6Diff=" + day6Diff + ", day7Auto=" + day7Auto + ", day7Base=" + day7Base + ", day7Diff=" + day7Diff + ", day8Auto=" + day8Auto + ", day8Base=" + day8Base + ", day8Diff=" + day8Diff + ", day9Auto=" + day9Auto + ", day9Base=" + day9Base + ", day9Diff=" + day9Diff + ", day10Auto=" + day10Auto + ", day10Base=" + day10Base + ", day10Diff=" + day10Diff + ", day11Auto=" + day11Auto + ", day11Base=" + day11Base + ", day11Diff=" + day11Diff + ", day12Auto=" + day12Auto + ", day12Base=" + day12Base + ", day12Diff=" + day12Diff + ", day13Auto=" + day13Auto + ", day13Base=" + day13Base + ", day13Diff=" + day13Diff + ", day14Auto=" + day14Auto + ", day14Base=" + day14Base + ", day14Diff=" + day14Diff + ", day15Auto=" + day15Auto + ", day15Base=" + day15Base + ", day15Diff=" + day15Diff + ", day16Auto=" + day16Auto + ", day16Base=" + day16Base + ", day16Diff=" + day16Diff + ", day17Auto=" + day17Auto + ", day17Base=" + day17Base + ", day17Diff=" + day17Diff + ", day18Auto=" + day18Auto + ", day18Base=" + day18Base + ", day18Diff=" + day18Diff + ", day19Auto=" + day19Auto + ", day19Base=" + day19Base + ", day19Diff=" + day19Diff + ", day20Auto=" + day20Auto + ", day20Base=" + day20Base + ", day20Diff=" + day20Diff + ", day21Auto=" + day21Auto + ", day21Base=" + day21Base + ", day21Diff=" + day21Diff + ", day22Auto=" + day22Auto + ", day22Base=" + day22Base + ", day22Diff=" + day22Diff + ", day23Auto=" + day23Auto + ", day23Base=" + day23Base + ", day23Diff=" + day23Diff + ", day24Auto=" + day24Auto + ", day24Base=" + day24Base + ", day24Diff=" + day24Diff + ", day25Auto=" + day25Auto + ", day25Base=" + day25Base + ", day25Diff=" + day25Diff + ", day26Auto=" + day26Auto + ", day26Base=" + day26Base + ", day26Diff=" + day26Diff + ", day27Auto=" + day27Auto + ", day27Base=" + day27Base + ", day27Diff=" + day27Diff + ", day28Auto=" + day28Auto + ", day28Base=" + day28Base + ", day28Diff=" + day28Diff + ", day29Auto=" + day29Auto + ", day29Base=" + day29Base + ", day29Diff=" + day29Diff + ", day30Auto=" + day30Auto + ", day30Base=" + day30Base + ", day30Diff=" + day30Diff + ", day31Auto=" + day31Auto + ", day31Base=" + day31Base + ", day31Diff=" + day31Diff + '}';
+        return "ReportStationRainConstrastVo{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", dataYearMonth='" + dataYearMonth + '\'' + ", total='" + total + '\'' + ", remark='" + remark + '\'' + ", createTime=" + createTime + ", createBy='" + createBy + '\'' + ", updateTime=" + updateTime + ", updateBy=" + updateBy + ", day1Auto=" + day1Auto + ", day1Base=" + day1Base + ", day1Diff=" + day1Diff + ", day2Auto=" + day2Auto + ", day2Base=" + day2Base + ", day2Diff=" + day2Diff + ", day3Auto=" + day3Auto + ", day3Base=" + day3Base + ", day3Diff=" + day3Diff + ", day4Auto=" + day4Auto + ", day4Base=" + day4Base + ", day4Diff=" + day4Diff + ", day5Auto=" + day5Auto + ", day5Base=" + day5Base + ", day5Diff=" + day5Diff + ", day6Auto=" + day6Auto + ", day6Base=" + day6Base + ", day6Diff=" + day6Diff + ", day7Auto=" + day7Auto + ", day7Base=" + day7Base + ", day7Diff=" + day7Diff + ", day8Auto=" + day8Auto + ", day8Base=" + day8Base + ", day8Diff=" + day8Diff + ", day9Auto=" + day9Auto + ", day9Base=" + day9Base + ", day9Diff=" + day9Diff + ", day10Auto=" + day10Auto + ", day10Base=" + day10Base + ", day10Diff=" + day10Diff + ", day11Auto=" + day11Auto + ", day11Base=" + day11Base + ", day11Diff=" + day11Diff + ", day12Auto=" + day12Auto + ", day12Base=" + day12Base + ", day12Diff=" + day12Diff + ", day13Auto=" + day13Auto + ", day13Base=" + day13Base + ", day13Diff=" + day13Diff + ", day14Auto=" + day14Auto + ", day14Base=" + day14Base + ", day14Diff=" + day14Diff + ", day15Auto=" + day15Auto + ", day15Base=" + day15Base + ", day15Diff=" + day15Diff + ", day16Auto=" + day16Auto + ", day16Base=" + day16Base + ", day16Diff=" + day16Diff + ", day17Auto=" + day17Auto + ", day17Base=" + day17Base + ", day17Diff=" + day17Diff + ", day18Auto=" + day18Auto + ", day18Base=" + day18Base + ", day18Diff=" + day18Diff + ", day19Auto=" + day19Auto + ", day19Base=" + day19Base + ", day19Diff=" + day19Diff + ", day20Auto=" + day20Auto + ", day20Base=" + day20Base + ", day20Diff=" + day20Diff + ", day21Auto=" + day21Auto + ", day21Base=" + day21Base + ", day21Diff=" + day21Diff + ", day22Auto=" + day22Auto + ", day22Base=" + day22Base + ", day22Diff=" + day22Diff + ", day23Auto=" + day23Auto + ", day23Base=" + day23Base + ", day23Diff=" + day23Diff + ", day24Auto=" + day24Auto + ", day24Base=" + day24Base + ", day24Diff=" + day24Diff + ", day25Auto=" + day25Auto + ", day25Base=" + day25Base + ", day25Diff=" + day25Diff + ", day26Auto=" + day26Auto + ", day26Base=" + day26Base + ", day26Diff=" + day26Diff + ", day27Auto=" + day27Auto + ", day27Base=" + day27Base + ", day27Diff=" + day27Diff + ", day28Auto=" + day28Auto + ", day28Base=" + day28Base + ", day28Diff=" + day28Diff + ", day29Auto=" + day29Auto + ", day29Base=" + day29Base + ", day29Diff=" + day29Diff + ", day30Auto=" + day30Auto + ", day30Base=" + day30Base + ", day30Diff=" + day30Diff + ", day31Auto=" + day31Auto + ", day31Base=" + day31Base + ", day31Diff=" + day31Diff + '}';
     }
 }

@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface ManageMantainService {
     List<ReportManageMantain> getAll(String date);
-    int insert(ReportManageMantain reportManageMantain);
+
     int update(ReportManageMantain reportManageMantain);
 }
