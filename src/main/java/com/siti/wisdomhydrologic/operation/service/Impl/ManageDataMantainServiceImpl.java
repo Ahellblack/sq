@@ -50,9 +50,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName,alterType,createDate);
 
         list.forEach(data->{
-            if (data.getCreateTime()!=null)data.setCreateTime(data.getCreateTime().substring(1,13));
-            if(data.getMissTimeSpace()!=null)data.setMissTimeSpace(data.getMissTimeSpace().substring(1,13));
-            if(data.getErrorTimeSpace()!=null)data.setErrorTimeSpace(data.getErrorTimeSpace().substring(1,13));
+            if (data.getCreateTime()!=null&&data.getCreateTime().length()>=13)data.setCreateTime(data.getCreateTime().substring(0,13));
+            if(data.getMissTimeSpace()!=null&&data.getMissTimeSpace().length()>=13)data.setMissTimeSpace(data.getMissTimeSpace().substring(0,13));
+            if(data.getErrorTimeSpace()!=null&&data.getErrorTimeSpace().length()>=13)data.setErrorTimeSpace(data.getErrorTimeSpace().substring(0,13));
         });
         return new PageInfo<ReportManageDataMantain>(list);
     }
@@ -90,6 +90,14 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             all.forEach(abnormalData -> {
                 if (abnormalData.getDataError() != null) {
                     abnormalData.setBrokenAccordingId(abnormalData.getDataError());
+
+
+                    /**
+                     * 查询上次5分钟内的数据表中是否包含
+                     * */
+
+
+
                     //根据字典获取异常名
                     dictionarylist.forEach(param -> {
                         if (param.getBrokenAccordingId().equals(abnormalData.getBrokenAccordingId())) {
@@ -101,7 +109,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                             abnormalData.setCreateTime(abnormalData.getDate());
                             //修改日期添加时精确到某日
                             abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
-                            abnormalData.setErrorTimeSpace(abnormalData.getCreateTime());
+                            abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0,13));
                             abnormalData.setErrorDataReRun(0);
                             abnormalData.setMissDataReRun(0);
                         }
