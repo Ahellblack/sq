@@ -37,7 +37,7 @@ public class HyetometerController {
 
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
-    public List<ReportHyetometerTest> getAll(String createTime,String createBy,int stationId){
+    public List<ReportHyetometerTest> getAll(String createTime,String createBy,Integer stationId){
         return reportHyetometerService.getAll(createTime,createBy,stationId);
     }
 

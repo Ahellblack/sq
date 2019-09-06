@@ -19,7 +19,7 @@ public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
             "<if test=\"createBy!=null\"> and create_by = #{createBy} </if>" +
             "<if test=\"stationId!=null\"> and station_code = #{stationId} </if>" +
             " </script>")
-    List<ReportHyetometerTest> getAll(@Param("createTime") String createTime, @Param("createBy") String createBy, @Param("stationId") int stationId);
+    List<ReportHyetometerTest> getAll(@Param("createTime") String createTime, @Param("createBy") String createBy, @Param("stationId") Integer stationId);
 
     @Delete("delete from report_hyetometer_test where report_id = #{reportId}")
     int delByReportId(@Param("reportId") Integer reportId);

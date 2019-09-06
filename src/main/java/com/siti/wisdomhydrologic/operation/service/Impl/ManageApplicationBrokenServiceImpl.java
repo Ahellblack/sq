@@ -48,23 +48,29 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate,String stationName) {
+    public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate, String stationName) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate,stationName);
-        all.forEach(data->{
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName);
+        all.forEach(data -> {
             try {
-                if(data.getCreateTime()!=null&&data.getCreateTime().length()>=13)data.setCreateTime(data.getCreateTime().substring(0, 13));
-                if(data.getBrokenrRequestReportTime()!=null&&data.getBrokenrRequestReportTime().length()>=13)data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
-                if(data.getBrokenAskToResolveTime()!=null&&data.getBrokenAskToResolveTime().length()>=13)data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
-                if(data.getBrokenResolveTime()!=null&&data.getBrokenResolveTime().length()>=13)data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
-                if(data.getRequestDesignatingTime()!=null&&data.getRequestDesignatingTime().length()>=13)data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
-                if(data.getBrokenResponseTime()!=null&&data.getBrokenResponseTime().length()>=13)data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
-            }catch (Exception e){
+                if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
+                    data.setCreateTime(data.getCreateTime().substring(0, 13));
+                if (data.getBrokenrRequestReportTime() != null && data.getBrokenrRequestReportTime().length() >= 13)
+                    data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
+                if (data.getBrokenAskToResolveTime() != null && data.getBrokenAskToResolveTime().length() >= 13)
+                    data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
+                if (data.getBrokenResolveTime() != null && data.getBrokenResolveTime().length() >= 13)
+                    data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
+                if (data.getRequestDesignatingTime() != null && data.getRequestDesignatingTime().length() >= 13)
+                    data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
+                if (data.getBrokenResponseTime() != null && data.getBrokenResponseTime().length() >= 13)
+                    data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
+            } catch (Exception e) {
                 e.printStackTrace();
             }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));
         });
@@ -74,12 +80,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int insert(ReportManageApplicationBroken reportManageApplicationBroken) {
+        reportManageApplicationBroken.setRequestDesignatingStatus(1);
         return reportManageApplicationBrokenMapper.insert(reportManageApplicationBroken);
     }
 
     @Override
     public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
 
+        reportManageApplicationBroken.setRequestDesignatingStatus(1);
         if (reportManageApplicationBroken.getRequestDesignatingStatus() == STATUS) {
             //派单处理
             LocalTime localTime = LocalTime.now();
@@ -91,7 +99,13 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(date, "YYYY-MM-dd HH:mm:ss"));
         }
 
-        return reportManageApplicationBrokenMapper.updateByPrimaryKey(reportManageApplicationBroken);
+        return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
+    }
+
+
+    public int updateMalStatus(ReportManageApplicationBroken reportManageApplicationBroken, Integer status) {
+        reportManageApplicationBroken.setRequestDesignatingStatus(status);
+        return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
     }
 
     @Override
@@ -115,7 +129,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
          * */
         cal.add(cal.MINUTE, -5);
 
-        date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+        date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
 
 
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
@@ -156,7 +170,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                                     //基本站往后1小时内
                                     calendar.add(calendar.HOUR, 1);
                                 }
-                                applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(),"yyyy-MM-dd HH:mm:ss"));
+                                applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
                             }
                             river.getStationId();
                         });
@@ -192,7 +206,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             //String eq_error = abnormal.getEquipmentError();
                             //String data_error = abnormal.getDateError();
                             //if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
-                                brokenList.add(applicationBroken);
+                            brokenList.add(applicationBroken);
                             //}
                         }
                     });

@@ -4,10 +4,7 @@ import com.siti.wisdomhydrologic.mainpage.vo.ReportManageApplicationBrokenVo;
 import com.siti.wisdomhydrologic.mainpage.vo.StationMalFunction;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -62,4 +59,31 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "SUBSTR(b.create_time,1,7) = #{createTime} " +
             "and a.sys_org = #{sysOrg}")
     List<ManageMantainVo> getLastMonthList(@Param("createTime") String createTime, @Param("sysOrg") int sysOrg);
+
+
+    @Insert("INSERT INTO `report_station_broken` " +
+            "(`station_id`, `station_name`, `broken_name`, " +
+            "`broken_according_id`, `broken_according`, `create_time`, " +
+            "`broken_response_time`, `request_designating_time`, `broken_resolve_time`," +
+            " `resolve_method`, `resolve_user_id`, `remark`, " +
+            "`request_designating_status`, `broken_ask_to_resolve_time`," +
+            " `broken_request_report_time`) VALUES " +
+            "(#{data.stationId},#{data.stationName}, #{data.brokenName}," +
+            " #{data.brokenAccordingId}, #{data.brokenAccording}, #{data.createTime}," +
+            "#{data.brokenResponseTime}, #{data.requestDesignatingTime}," +
+            " #{data.brokenResolveTime}, #{data.resolveMethod}, #{data.resolveUserId}," +
+            " #{data.remark}, #{data.requestDesignatingStatus},#{data.brokenAskToResolveTime},#{data.brokenrRequestReportTime})")
+    int insert(@Param("data") ReportManageApplicationBroken broken);
+
+
+    @Update("UPDATE `report_station_broken` SET  `station_id` = #{data.stationId}, `station_name` = #{data.stationName}, " +
+            "`broken_name` = #{data.brokenName}, `broken_according_id` = #{data.brokenAccordingId}, `broken_according` = #{data.brokenAccording}," +
+            " `create_time` = #{data.createTime}, `broken_response_time` = #{data.brokenResponseTime}, " +
+            "`request_designating_time` = #{data.requestDesignatingTime}, `broken_resolve_time` = #{data.brokenResolveTime}, " +
+            "`resolve_method` =  #{data.resolveMethod}, `resolve_user_id` = #{data.resolveUserId}, `remark` = #{data.remark}, " +
+            "`request_designating_status` = #{data.requestDesignatingStatus}, `broken_ask_to_resolve_time` = #{data.brokenAskToResolveTime}, " +
+            "`broken_request_report_time` = #{data.brokenrRequestReportTime} WHERE report_id = #{data.reportId}")
+    int update(@Param("data") ReportManageApplicationBroken broken);
+
+
 }

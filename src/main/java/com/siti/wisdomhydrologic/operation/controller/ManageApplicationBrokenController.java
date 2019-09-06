@@ -53,6 +53,12 @@ public class ManageApplicationBrokenController {
     public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
+    @ApiOperation(value = "表四应用程序及设备异常表查派单状态修改", httpMethod = "POST", notes = "表四应用程序及设备异常表派单状况修改,参数为2绑定派单，参数为4绑定已处理")
+    @PostMapping("/updateStatus")
+    public int updateMalStatus(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,Integer status){
+        return manageApplicationBrokenService.updateMalStatus(reportManageApplicationBroken,status);
+    }
+
     @ApiOperation(value = "表四应用程序及设备异常表删除", httpMethod = "GET", notes = "表四应用程序及设备异常表删除")
     @GetMapping("/delete")
     public int delete(Integer reportId) {

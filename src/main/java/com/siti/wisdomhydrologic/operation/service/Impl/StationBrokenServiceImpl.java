@@ -31,7 +31,7 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public int update(ReportStationBroken reportStationBroken) {
-        return reportStationBrokenMapper.updateByPrimaryKey(reportStationBroken);
+        return reportStationBrokenMapper.updateData(reportStationBroken);
     }
 
     @Override

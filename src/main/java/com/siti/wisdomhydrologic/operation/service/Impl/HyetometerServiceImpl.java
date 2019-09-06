@@ -18,7 +18,7 @@ public class HyetometerServiceImpl implements HyetometerService {
     @Resource
     private HyetometerMapper reportHyetometerMapper;
 
-    public List<ReportHyetometerTest> getAll(String createTime,String createBy,int stationId) {
+    public List<ReportHyetometerTest> getAll(String createTime,String createBy,Integer stationId) {
         return reportHyetometerMapper.getAll(createTime,createBy,stationId);
     }
 
