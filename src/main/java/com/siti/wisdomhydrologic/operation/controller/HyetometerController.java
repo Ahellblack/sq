@@ -52,6 +52,7 @@ public class HyetometerController {
     }
     @PostMapping("/insert")
     public int insert(@RequestBody ReportHyetometerTest reportHyetometer){
+
         return reportHyetometerService.insert(reportHyetometer);
     }
     @PostMapping("/update")

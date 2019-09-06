@@ -37,9 +37,10 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime},#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark})</foreach></script>")
     int insertDataMantain(@Param("brokenList") List<ReportManageApplicationBroken> brokenList);
 
-    @Select("SELECT * FROM report_station_broken a left join config_river_station b" +
-            " on a.station_id = b.station_id GROUP BY a.station_id LIMIT 10")
-    List<ReportManageApplicationBrokenVo> getLatest10();
+    @Select("<script>SELECT * FROM report_station_broken a left join config_river_station b" +
+            " on a.station_id = b.station_id GROUP BY a.station_id " +
+            "<if test=\'regionId != null \'>where region_id = #{regionId}</if> LIMIT 10 </script>")
+    List<ReportManageApplicationBrokenVo> getLatest10(@Param("regionId") Integer regionId);
 
     @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             "where request_designating_status is not null and " +

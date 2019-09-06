@@ -53,7 +53,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
-        System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
         List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName);
         all.forEach(data -> {
