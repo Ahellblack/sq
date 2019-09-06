@@ -11,35 +11,35 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class ConstantConfig extends WebMvcConfigurerAdapter {
     //水位
-    public static final String WS="83";
+    public static final String WS = "83";
     //潮位
-    public static final String TS="81";
+    public static final String TS = "81";
     //雨量
-    public static final String RS="84";
+    public static final String RS = "84";
     //风速
-    public static final String WSS="85";
+    public static final String WSS = "85";
     //风向
-    public static final String WDS="86";
+    public static final String WDS = "86";
     //气温
-    public static final String WAT="75";
+    public static final String WAT = "75";
     //气压
-    public static final String WAP="73";
+    public static final String WAP = "73";
     //流速X
-    public static final String WFV="71";
+    public static final String WFV = "71";
     //流速Y
-    public static final String WFVY="73";
+    public static final String WFVY = "73";
     //电压
-    public static final String ES="89";
+    public static final String ES = "89";
 
-    public static final String BASEPACKAGE="com";
+    public static final String BASEPACKAGE = "com";
 
-    public static final String SWAGGER_TITLE="swagger测试接口";
+    public static final String SWAGGER_TITLE = "swagger测试接口";
 
-    public static final String DESCRIPTION="智慧水情运维系统";
+    public static final String DESCRIPTION = "智慧水情运维系统";
 
-    public static final String SWAGGER_VERSION="1.0";
+    public static final String SWAGGER_VERSION = "1.0";
 
-    public static final String SWAGGER_URL="http://localhost:8099/sq/swagger-ui.html";
+    public static final String SWAGGER_URL = "http://localhost:8099/sq/swagger-ui.html";
 
     public static final String ACCOUNT_SID = "8a216da855826478015599e3f66e1411";
 
@@ -53,20 +53,38 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
 
     public static final String TEMPLATEID = "462488";
 
-    public static final boolean SMSFLAG=false;
+    public static final boolean SMSFLAG = false;
+
+    public static final String HAIKANGAPPKEY = "c725240706e4454bad75945b219ba0e5";
+
+    public static final String HAIKANGAPPSECRET = "528c2c2221b206c90861ce56a73d73bf";
+
+    public static final String FLUENCYEZOPEN = "//open.ys7.com/D24409905/1.live";
+
+    public static final String HIGHDEFINITIONEZOPEN = "//open.ys7.com/D24409905/1.hd.live";
+
+    public static final String HAIKANGURL = "https://open.ys7.com/api/lapp/token/get";
+
+    public static final String HAIKANGURL2 = "https://open.ys7.com/api/lapp/live/video/list";
+
+    public static final String HAIKANGLIVELIST ="D24409905";
+
+    public static final String DEVIDURL = "http://114.80.231.178:18080/sq_dataWareHouse/deviceStatus/getByDevId";
+
+    public static final String DEVID = "ZOIC59M6";
     /*
 
     */
 /**
-     * PC版本号
-     *//*
+ * PC版本号
+ *//*
 
     @Value("${version.pc}")
     private String pcversion;
     */
 /**
-     * 小版本号
-     *//*
+ * 小版本号
+ *//*
 
     @Value("${version.build}")
     private String build;

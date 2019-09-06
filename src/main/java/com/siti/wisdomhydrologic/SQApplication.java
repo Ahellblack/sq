@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 public class SQApplication extends SpringBootServletInitializer{
 
-	public static void main(String[] args) {
-		SpringApplication.run(SQApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SQApplication.class, args);
+    }
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(SQApplication.class);
     }

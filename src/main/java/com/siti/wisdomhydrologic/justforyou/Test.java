@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.justforyou;
 
 import com.google.common.collect.Lists;
@@ -19,11 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+*/
 /**
  * Created by DC on 2019/7/25.
  *
  * @data ${DATA}-16:28
- */
+ *//*
+
 @RestController
 public class Test {
 
@@ -99,3 +102,4 @@ public class Test {
         return "/do";
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.user.vo;
 
 import com.siti.wisdomhydrologic.user.entity.Org;
@@ -14,11 +15,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+*/
 /**
  * Created by DC on 2019/8/19.
  *
  * @data ${DATA}-14:27
- */
+ *//*
+
 public class UserInfo extends User implements Serializable, UserDetails, Principal {
 
     private List<Permission> menuList;
@@ -48,7 +51,8 @@ public class UserInfo extends User implements Serializable, UserDetails, Princip
         //StringBuilder commaBuilder = new StringBuilder();
 
 
-        /*for (Permission auth : menuList) {
+        */
+/*for (Permission auth : menuList) {
             if (auth.getCode() == null || "".equals(auth.getCode())) {
                 continue;
             }
@@ -58,7 +62,8 @@ public class UserInfo extends User implements Serializable, UserDetails, Princip
         if (commaBuilder.length() > 0) {
             authorities = commaBuilder.substring(0, commaBuilder.length());
         }
-        this.auth = authorities;*/
+        this.auth = authorities;*//*
+
 
         return AuthorityUtils.commaSeparatedStringToAuthorityList(null);
     }
@@ -139,3 +144,4 @@ public class UserInfo extends User implements Serializable, UserDetails, Princip
     }
 
 }
+*/

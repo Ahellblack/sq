@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.user.HandlerProvider;
 
 import com.alibaba.fastjson.JSON;
@@ -19,10 +20,12 @@ import java.util.Map;
 public class WhAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-   /* @Resource
+   */
+/* @Resource
     private LoginRecordBiz loginRecordBiz;
     @Resource
-    private UserBiz userBiz;*/
+    private UserBiz userBiz;*//*
+
 
 
     @Override
@@ -35,12 +38,14 @@ public class WhAuthenticationSuccessHandler implements AuthenticationSuccessHand
         //输出登录提示信息
         String ipAddress = getIpAddress(request);
         String userAgent = request.getHeader("User-Agent"); // 请求信息（终端类型(1Android,2iPhone,3iPad,4PC)）
-       /* logger.info("[" + userDetails.getUserName() + "] logged in the system at " + DateOrTimeTrans.nowTimetoString() + ", IP:" + ipAddress + ",User-Agent:" + userAgent);
+       */
+/* logger.info("[" + userDetails.getUserName() + "] logged in the system at " + DateOrTimeTrans.nowTimetoString() + ", IP:" + ipAddress + ",User-Agent:" + userAgent);
         //登录日志
         loginRecordBiz.save(new LoginRecord(userDetails.getId(), userAgent, ipAddress));
         if (userDetails.getPushId() != null && !"".equals(userDetails.getPushId())) {
             userBiz.updatePushIdByUserName(userDetails.getPushId(), userDetails.getUserName());
-        }*/
+        }*//*
+
         response.setCharacterEncoding("UTF-8");
         Map<String, Object> map = new HashMap<>();
         map.put("status", "success");
@@ -73,3 +78,4 @@ public class WhAuthenticationSuccessHandler implements AuthenticationSuccessHand
     }
 
 }
+*/

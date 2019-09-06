@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.config;
 
 import com.siti.wisdomhydrologic.user.HandlerProvider.RestAuthenticationEntryPoint;
@@ -44,14 +45,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 , "/count/countRecentWeek"
                 , "/count/dealRateRecentWeek"
                 ,"/verify/getVerify"
-                ,"/position/**"
-                ,"/bikeDispatch/**"
-                ,"/boundary/**"
-                ,"/bicycleTotal/**"
-                ,"/kpHour/**"
-                ,"/ble/**"
-                ,"/personPosition/**"
-                ,"/plat/**"
+                ,"/position*/
+/**"
+                ,"/bikeDispatch*/
+/**"
+                ,"/boundary*/
+/**"
+                ,"/bicycleTotal*/
+/**"
+                ,"/kpHour*/
+/**"
+                ,"/ble*/
+/**"
+                ,"/personPosition*/
+/**"
+                ,"/plat*/
+/**"
         );
         super.configure(web);
     }
@@ -61,7 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();        // 解决前端无法使用iframe的问题
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/*").permitAll()
+                .antMatchers("*/
+/*").permitAll()
                 // 其他地址访问需要验证权限
                 .anyRequest().authenticated()
                 .and()
@@ -85,3 +95,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.user.HandlerProvider;
 
 import org.springframework.security.core.AuthenticationException;
@@ -18,3 +19,4 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	}
 
 }
+*/

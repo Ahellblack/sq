@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.user.HandlerProvider;
 
 import com.siti.wisdomhydrologic.user.service.UserDetailService;
@@ -78,3 +79,4 @@ public class WhAuthenticationProvider implements AuthenticationProvider {
     }
 
 }
+*/

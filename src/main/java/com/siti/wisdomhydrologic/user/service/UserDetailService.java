@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.user.service;
 
 
@@ -13,11 +14,13 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by DC on 2019/8/19.
  *
  * @data ${DATA}-14:29
- */
+ *//*
+
 @Service
 public class UserDetailService implements UserDetailsService {
     @Resource
@@ -49,3 +52,4 @@ public class UserDetailService implements UserDetailsService {
 
 }
 
+*/
