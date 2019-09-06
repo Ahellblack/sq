@@ -35,7 +35,7 @@ public class ManageDataMantainTask {
         cal.add(cal.MINUTE, -5);
         date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
         int i = reportManageDataMantainService.insertAbnormalData(date);
-        System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");
+        if (i > 0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");
         return i;
     }
 

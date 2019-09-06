@@ -48,22 +48,22 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate) {
+    public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate,String stationName) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         System.out.println(createDate);
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate,stationName);
         all.forEach(data->{
             try {
-                if(data.getCreateTime()!=null)data.setCreateTime(data.getCreateTime().substring(0, 13));
-                if(data.getBrokenrRequestReportTime()!=null)data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
-                if(data.getBrokenAskToResolveTime()!=null)data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
-                if(data.getBrokenResolveTime()!=null)data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
-                if(data.getRequestDesignatingTime()!=null)data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
-                if(data.getBrokenResponseTime()!=null)data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
+                if(data.getCreateTime()!=null&&data.getCreateTime().length()>=13)data.setCreateTime(data.getCreateTime().substring(0, 13));
+                if(data.getBrokenrRequestReportTime()!=null&&data.getBrokenrRequestReportTime().length()>=13)data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
+                if(data.getBrokenAskToResolveTime()!=null&&data.getBrokenAskToResolveTime().length()>=13)data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
+                if(data.getBrokenResolveTime()!=null&&data.getBrokenResolveTime().length()>=13)data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
+                if(data.getRequestDesignatingTime()!=null&&data.getRequestDesignatingTime().length()>=13)data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
+                if(data.getBrokenResponseTime()!=null&&data.getBrokenResponseTime().length()>=13)data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
             }catch (Exception e){
                 e.printStackTrace();
             }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));

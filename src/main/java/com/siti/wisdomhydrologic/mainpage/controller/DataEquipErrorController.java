@@ -44,7 +44,7 @@ public class DataEquipErrorController {
         String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
         List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAllData();
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate);
+        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null);
         monthData.forEach(data -> {
             String[] splitStr = data.getBrokenAccordingId().split("_");
             String type = splitStr[0];

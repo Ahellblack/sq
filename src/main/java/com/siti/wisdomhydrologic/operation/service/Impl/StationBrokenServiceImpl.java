@@ -31,11 +31,11 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public int update(ReportStationBroken reportStationBroken) {
-        return reportStationBrokenMapper.updateData(reportStationBroken);
+        return reportStationBrokenMapper.updateByPrimaryKey(reportStationBroken);
     }
 
     @Override
     public int insert(ReportStationBroken reportStationBroken) {
-        return reportStationBrokenMapper.insert(reportStationBroken);
+        return reportStationBrokenMapper.insertData(reportStationBroken);
     }
 }

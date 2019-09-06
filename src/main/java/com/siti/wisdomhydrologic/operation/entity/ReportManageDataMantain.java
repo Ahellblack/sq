@@ -1,51 +1,63 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import io.swagger.annotations.ApiModelProperty;
 
 public class ReportManageDataMantain {
 
-    @Excel(name = "reportId", height = 11, width = 10)
+    @ApiModelProperty("value=自增主键id")
     private Integer reportId;
-    @Excel(name = "stationCode", height = 11, width = 10)
+    @ApiModelProperty("value=测站编号")
     private int stationCode;
-    @Excel(name = "alterDate", height = 11, width = 20)
+    @ApiModelProperty("value=数据修正日期，xxxx-xx")
     private String alterDate;
-    @Excel(name = "stationName", height = 11, width = 20)
+    @ApiModelProperty("value=测站名称")
     private String stationName;
-    @Excel(name = "alterSensorTypeId", height = 11, width = 10)
+    @ApiModelProperty("value=修改项目字典ID(传感器类型ID)")
     private Integer alterSensorTypeId;
-    @Excel(name = "alterSensorTypeName", height = 11, width = 20)
+    @ApiModelProperty("value=修改项目字典名称(传感器类型名称)")
     private String alterSensorTypeName;
-    @Excel(name = "errorDataReason", height = 11, width = 20)
+    @ApiModelProperty("value=错误原因 ")
     private String errorDataReason;
-    @Excel(name = "errorDataType", height = 11, width = 10)
+    @ApiModelProperty("value=数据类型（是否有固定类型:1 实时 2 五分钟 3 小时 4 一天")
     private Integer errorDataType;
-    @Excel(name = "errorTimeSpace", height = 11, width = 10)
+    @ApiModelProperty("value=错误发生时段")
     private String errorTimeSpace;
-    @Excel(name = "errorValue", height = 11, width = 10)
+    @ApiModelProperty("value=错误值")
     private String errorValue;
-    @Excel(name = "confirValue", height = 11, width = 10)
+    @ApiModelProperty("value=改正值")
     private String confirValue;
-    @Excel(name = "errorUnit", height = 11, width = 5)
+    @ApiModelProperty("value=错误值单位")
     private String errorUnit;
-    @Excel(name = "errorDataReRun", height = 11, width = 10)
+    @ApiModelProperty("value=是否进行错误数据反算0 否 1 是,")
     private Integer errorDataReRun;
-    @Excel(name = "missDataType", height = 11, width = 10)
+    @ApiModelProperty("value=缺数数据类型（是否有固定类型，实时、五分钟、小时）")
     private String missDataType;
-    @Excel(name = "missTimeSpace", height = 11, width = 10)
+    @ApiModelProperty("value=缺数数据时段2019-03-20 10:00~2019-03-20 11:00")
     private String missTimeSpace;
-    @Excel(name = "missDataReRun", height = 11, width = 10)
+    @ApiModelProperty("value=是否进行缺数数据反算0 否 1 是")
     private Integer missDataReRun;
-    @Excel(name = "createTime", height = 11, width = 20)
+    @ApiModelProperty("value=上报时间")
     private String createTime;
-    @Excel(name = "createBy", height = 11, width = 20)
+    @ApiModelProperty("value=数据修改人")
     private String createBy;
-    @Excel(name = "manageOrgId", height = 11, width = 20)
+    @ApiModelProperty("value=分中心（管理组织）ID")
     private Integer manageOrgId;
-    @Excel(name = "manageOrgName", height = 11, width = 20)
+    @ApiModelProperty("value=分中心（管理组织）名称")
     private String manageOrgName;
-    @Excel(name = "brokenAccordingId", height = 11, width = 20)
+    @ApiModelProperty("value=数据错误判断依据")
     private String brokenAccordingId;
+
+    @ApiModelProperty("value=数据错误最后发生时间")
+    private String errorLastestAppearTime;
+
+    public String getErrorLastestAppearTime() {
+        return errorLastestAppearTime;
+    }
+
+    public void setErrorLastestAppearTime(String errorLastestAppearTime) {
+        this.errorLastestAppearTime = errorLastestAppearTime;
+    }
 
     public String getBrokenAccordingId() {
         return brokenAccordingId;

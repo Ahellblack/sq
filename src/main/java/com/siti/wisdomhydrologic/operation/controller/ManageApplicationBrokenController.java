@@ -40,8 +40,8 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate) {
-        return manageApplicationBrokenService.getAll(page, pageSize, createDate);
+    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate,String stationName) {
+        return manageApplicationBrokenService.getAll(page, pageSize, createDate,stationName);
     }
 
     @PostMapping("/insert")
@@ -68,9 +68,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createTime) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String createTime,String stationName) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime);
+        Workbook workbook = exportSheetByTemplate(createTime,stationName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -108,9 +108,9 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime) {
+    public Workbook exportSheetByTemplate(String createTime,String stationName) {
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime,stationName);
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
             data.setReportId(i+1);

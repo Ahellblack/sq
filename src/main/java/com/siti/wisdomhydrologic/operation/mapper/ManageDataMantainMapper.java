@@ -11,17 +11,18 @@ import java.util.List;
  * Created by dell on 2019/7/30.
  */
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
-    @Select("<script>Select * from report_manage_data_mantain where " +
-            "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%#{stationName}%'  </if>"+
-            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%#{alterType}%' </if>"+
+    @Select("<script>Select * from report_manage_data_mantain a " +
+            "left join config_abnormal_dictionary b on a.broken_according_id = b.broken_according_id where " +
+            "<if test=\"createDate!=null\">  DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%${alterType}%' </if>"+
             "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
 
     @Select("<script>Select * from report_manage_data_mantain where " +
             "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%#{stationName}%'  </if>"+
-            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%#{alterType}%' </if>"+
+            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%${alterType}%' </if>"+
             "</script>")
     List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
 

@@ -18,13 +18,14 @@ import java.util.List;
 public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
 
     @Select("<script>select * from report_station_broken" +
-            "<if test=\"createDate!=null\">where DATE_FORMAT(create_time,'%Y-%m') = #{createDate}</if> </script>")
-    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate);
+            "<if test=\"createDate!=null\">where DATE_FORMAT(create_time,'%Y-%m') = #{createDate}</if> " +
+            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'</if></script>")
+    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationName")String stationName);
 
 
     @Select("<script>select * from report_station_broken" +
-            "<if test=\"createDate!=null\">where create_time = #{createDate} and </if> " +
-            "<if test=\"stationId!=null\"> station_id = #{stationId}</if></script>")
+            "<if test=\"createDate!=null\">where create_time = #{createDate} </if> " +
+            "<if test=\"stationId!=null\"> and  station_id = #{stationId}</if></script>")
     List<ReportManageApplicationBroken> getAllData();
 
 

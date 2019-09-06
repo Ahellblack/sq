@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Id;
 
 public class ReportManageDataMantainVo {
@@ -29,6 +31,8 @@ public class ReportManageDataMantainVo {
     private String errorDataReRunName;
     private String missDataReRunName;
 
+    @ApiModelProperty("value=数据错误最后发生时间")
+    private String errorLastestAppearTime;
 
     /**
      * 异常数据表字段
@@ -48,6 +52,13 @@ public class ReportManageDataMantainVo {
     private String sectionDataUnit;
     private String sectionStatus;
 
+    public String getErrorLastestAppearTime() {
+        return errorLastestAppearTime;
+    }
+
+    public void setErrorLastestAppearTime(String errorLastestAppearTime) {
+        this.errorLastestAppearTime = errorLastestAppearTime;
+    }
 
     public String getErrorDataTypeName() {
         return errorDataTypeName;

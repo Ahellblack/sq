@@ -28,7 +28,7 @@ public interface ReportStationBrokenMapper extends Mapper<ReportStationBroken>{
             "`broken_resolve_time`, `broken_response_time`, `create_time`) " +
             "VALUES (#{Broken.stationCode}, #{Broken.stationName}, #{Broken.brokenHappenTime}," +
             " #{Broken.brokenSituation},#{Broken.brokenResolveCreateTime}," +
-            " #{Broken.resolveMethod}, #{Broken.resolveUserIds}, '#{Broken.remark}," +
+            " #{Broken.resolveMethod}, #{Broken.resolveUserIds}, #{Broken.remark}," +
             " #{Broken.createBy}, #{Broken.manageOrgId}, #{Broken.manageOrgName}," +
             " #{Broken.brokenResolveTime}, #{Broken.brokenResponseTime}, " +
             "#{Broken.createTime})" )

@@ -45,7 +45,7 @@ public class ManageApplicationBrokenTask {
         date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
 
         int i = manageApplicationBrokenService.insertDataMantain(date);
-        System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
+        if(i>0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
         return i;
     }
 
