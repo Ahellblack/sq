@@ -13,11 +13,13 @@ public interface ReportStationBrokenMapper extends Mapper<ReportStationBroken>{
     @Delete("delete from report_manage_application_broken where report_id = #{reportId}")
     int deleteById(@Param("reportId") Integer reportId);
 
-    @Select("select * from report_manage_application_broken")
-    List<ReportStationBroken> getAll();
+    @Select("<script> select * from report_manage_application_broken " +
+            "where DATE_FORMAT(broken_happen_time,'%Y-%m') = #{createDate}" +
+            "<if test=\"applicationEquipName!=null\"> and application_equip_name like '%${applicationEquipName}%' </if></script>")
+    List<ReportStationBroken> getAll(@Param("createDate")String createDate,@Param("applicationEquipName") String applicationEquipName);
 
     @Select("select * from report_manage_application_broken " +
-            "where SUBSTR(broken_happen_time,1,7) = '2019-07'")
+            "where SUBSTR(broken_happen_time,1,7) = #{brokenTime}")
     List<ReportStationBroken> getLastMonthAll(@Param("brokenTime") String brokenTime);
 
     @Insert("INSERT INTO `report_manage_application_broken`" +

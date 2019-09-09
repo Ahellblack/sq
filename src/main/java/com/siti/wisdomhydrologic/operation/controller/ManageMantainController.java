@@ -42,6 +42,7 @@ public class ManageMantainController {
     @ApiOperation(value = "表一日常维护记录表查询，根据登录后的sysorg和月份参数查询", httpMethod = "GET", notes = "表一日常维护记录表查询")
     @GetMapping("/selectByDate")
     public List<ReportManageMantain> getAll(String date) {
+
         return reportManageMantainService.getAll(date);
     }
 

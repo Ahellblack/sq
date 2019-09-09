@@ -34,8 +34,8 @@ public class StationBrokenController {
 
     @ApiOperation(value = "表三应用程序及设备故障登记表查询", httpMethod = "GET", notes = "表三应用程序及设备故障登记表查询")
     @RequestMapping("/getAll")
-    public List<ReportStationBroken> getAll(){
-        return stationBrokenService.getAll();
+    public List<ReportStationBroken> getAll(String createDate,String applicationEquipName){
+        return stationBrokenService.getAll(createDate,applicationEquipName);
     }
     @GetMapping("/delete")
     public int delete(Integer reportId){
@@ -54,9 +54,9 @@ public class StationBrokenController {
     @ApiOperation(value = "表三应用程序及设备故障登记表模板导出", httpMethod = "GET", notes = "表三应用程序及设备故障登记表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createTime) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String createDate,String applicationEquipName) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime);
+        Workbook workbook = exportSheetByTemplate(createDate,applicationEquipName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -94,9 +94,9 @@ public class StationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime) {
+    public Workbook exportSheetByTemplate(String createDate,String applicationEquipName) {
         // 查询数据,此处省略
-        List<ReportStationBroken> list = stationBrokenService.getAll();
+        List<ReportStationBroken> list = stationBrokenService.getAll(createDate,applicationEquipName);
         for (int i = 0; i < list.size(); i++) {
             ReportStationBroken data = list.get(i);
             data.setReportId(i+1);
@@ -121,7 +121,7 @@ public class StationBrokenController {
         params.setSheetName("表三");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", list);
-        map.put("date", createTime);
+        map.put("date", createDate);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         // 导出excel
         return workbook;

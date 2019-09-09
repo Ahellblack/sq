@@ -44,8 +44,8 @@ public class RecordDeviceReplaceController {
 
     @ApiOperation(value = "表八测站设备变更记录表查询", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
-    public List<RecordDeviceReplace> getAll() {
-        return mapper.getAll();
+    public List<RecordDeviceReplace> getAll(String stationName,String createDate) {
+        return mapper.getAll(stationName,createDate);
     }
 
     @GetMapping("/delete")
@@ -55,6 +55,7 @@ public class RecordDeviceReplaceController {
 
     @GetMapping("/update")
     public int update(RecordDeviceReplace recordDeviceReplace) {
+
         return mapper.updateByPrimaryKey(recordDeviceReplace);
     }
 
@@ -66,9 +67,9 @@ public class RecordDeviceReplaceController {
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createTime) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName,String createDate) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime);
+        Workbook workbook = exportSheetByTemplate(stationName,createDate);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -106,13 +107,13 @@ public class RecordDeviceReplaceController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime) {
+    public Workbook exportSheetByTemplate(String stationName,String createDate) {
         //默认查询本月
-        if (createTime == null) {
-            createTime = DateOrTimeTrans.Date2TimeString3(new Date());
+        if (createDate == null) {
+            createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         // 查询数据,此处省略
-        List<RecordDeviceReplace> list = mapper.getAll();
+        List<RecordDeviceReplace> list = mapper.getAll(stationName,createDate);
         for (int i = 0; i < list.size(); i++) {
             RecordDeviceReplace data = list.get(i);
             data.setReportId(i + 1);
@@ -136,7 +137,7 @@ public class RecordDeviceReplaceController {
         params.setSheetName("表八");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", list);
-        map.put("date", createTime);
+        map.put("date", createDate);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         // 导出excel
         return workbook;

@@ -12,11 +12,9 @@ import com.siti.wisdomhydrologic.util.StationIdUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dell on 2019/8/1.
@@ -48,28 +46,68 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         return null;
     }
 
-    @Override
-    public List<ReportStationRainConstrastVo> getByMonth(String date) {
+    public List<ReportStationRainConstrastVo> getExcel(String date) {
         if (date == null) {
             //获取当前日期的上个月时间
             date = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         System.out.println(date);
         List<ReportStationRainConstrastVo> list = stationRainConstrastMapper.getByMonth(date);
-
-
         return list;
     }
 
-    public int update(/*ReportStationRainConstrastVo vo*/) {
+    @Override
+    public List<Map<String, Object>> getByMonth(String date) {
+        if (date == null) {
+            //获取当前日期的上个月时间
+            date = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        System.out.println(date);
+        List<ReportStationRainConstrastVo> list = stationRainConstrastMapper.getByMonth(date);
+        List<Map<String, Object>> returnList = new ArrayList<>();
+        list.forEach(data -> {
+            Map<String, Object> map = new HashMap<>();
+            List<String> autoList = new ArrayList<>();
+            List<String> baseList = new ArrayList<>();
+            List<String> diffList = new ArrayList<>();
+            map.put("stationName", data.getStationName());
+            for (int i = 1; i <= 31; i++) {
+                try {
+                    Method method1 = data.getClass().getMethod("getDay" + i + "Auto");
+                    Method method2 = data.getClass().getMethod("getDay" + i + "Base");
+                    Method method3 = data.getClass().getMethod("getDay" + i + "Diff");
+
+                    autoList.add((String) method1.invoke(data));
+                    baseList.add((String) method2.invoke(data));
+                    diffList.add((String) method3.invoke(data));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+            map.put("自动测报", autoList);
+            map.put("基本站", baseList);
+            map.put("差值", diffList);
+            map.put("情况说明", data.getRemark());
+
+            returnList.add(map);
+        });
+
+        return returnList;
+    }
+
+    public int update(ReportStationRainConstrastVo vo) {
+/*
         ReportStationRainConstrastVo vo = new ReportStationRainConstrastVo();
         vo.setDay1Auto("10");
         vo.setDay1Base("20");
         vo.setCreateBy("zyw");
         vo.setStationCode("16101");
         vo.setDataYearMonth("2019-08");
-
-
+*/
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
 
         /**

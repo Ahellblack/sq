@@ -64,9 +64,24 @@ public class DropDownBoxController {
         return configAbnormalDictionaryMapper.getSeErrorNameList();
     }
 
+
     public List<ConfigSensorDatabase> getDataBaseList(){
         return configSensorDatabaseMapper.getAll();
     }
+
+
+    @ApiOperation(value = "设备名称下拉框", httpMethod = "GET", notes = "设备名称下拉框,运维表8下拉框")
+    @GetMapping("/getSensorTypeName")
+    public List<String> getSensorTypeNameList(){
+        return configSensorDatabaseMapper.getSensorTypeNameList();
+    }
+
+    @ApiOperation(value = "设备型号下拉框", httpMethod = "GET", notes = "设备型号下拉框,运维表8下拉框")
+    @GetMapping("/getSensorModelType")
+    public List<ConfigSensorDatabase> getSensorTypeId(String sensorTypeName,Integer stationId){
+        return configSensorDatabaseMapper.getSensorTypeId(sensorTypeName,stationId);
+    }
+
 
 
 }

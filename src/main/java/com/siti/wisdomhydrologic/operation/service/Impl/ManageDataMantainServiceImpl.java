@@ -117,6 +117,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 abnormalData.setErrorDataType(param.getErrorDataId());
                                 //修改日期添加时精确到某日
                                 abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
+                                abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime().substring(0, 10));
                                 abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13)+","+abnormalData.getCreateTime().substring(0, 13));
                                 abnormalData.setErrorDataReRun(0);
                                 abnormalData.setMissDataReRun(0);

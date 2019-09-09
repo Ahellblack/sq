@@ -37,7 +37,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
      * */
     public List<ReportManageMantain> getAll(String date) {
         //查询数据前进行数据获取
-        insertOrUpdate(date);
+        //insertOrUpdate(date);
         int sysOrg=1002;
         return reportManageMantainMapper.getDataByMonth(date,sysOrg);
     }

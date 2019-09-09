@@ -8,7 +8,7 @@ import java.util.List;
  * Created by dell on 2019/7/31.
  */
 public interface StationBrokenService {
-    List<ReportStationBroken> getAll();
+    List<ReportStationBroken> getAll(String createDate,String stationName);
 
     int delete(Integer reportId);
 

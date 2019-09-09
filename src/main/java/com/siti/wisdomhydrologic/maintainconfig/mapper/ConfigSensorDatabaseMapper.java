@@ -14,6 +14,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     @Select("SELECT * FROM config_sensor_database")
     List<ConfigSensorDatabase> getAll();
 
+
     // 根据资产ID查询
     @Select("SELECT * FROM `config_sensor_database` WHERE property_code=#{propertyCode}")
     ConfigSensorDatabase findAllByPropertyCode(@Param("propertyCode") Long propertyCode);
@@ -22,7 +23,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     @Select("SELECT * FROM `config_sensor_database` WHERE sensor_code=#{sensorCode}")
     List<ConfigSensorDatabase> findAllBySensorCode(@Param("sensorCode") String sensorCode);
 
-    // 根据资产类型ID查询
+    // getSensorTypeId
     @Select("SELECT * FROM `config_sensor_database` WHERE sensor_type_id=#{sensorTypeId}")
     List<ConfigSensorDatabase> findAllByTypeID(@Param("sensorTypeId") String sensorTypeId);
 
@@ -76,4 +77,14 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     // 根据 propertyCode 删除
     @Delete("DELETE FROM `config_sensor_database` WHERE `property_code`=#{propertyCode}")
     int deleteByPropertyCode(@Param("propertyCode") Long propertyCode);
+
+
+    @Select("select sensor_type_name from config_sensor_database GROUP BY sensor_type_name")
+    List<String> getSensorTypeNameList();
+
+    @Select("<script>select * from config_sensor_database " +
+            "where sensor_type_name = #{sensorTypeName} " +
+            "<if test=\"stationId!=null\"> and station_id = #{stationId} </if>" +
+            " GROUP BY sensor_model_type</script>")
+    List<ConfigSensorDatabase> getSensorTypeId(@Param("sensorTypeName") String sensorTypeName,@Param("StationId")Integer stationId);
 }

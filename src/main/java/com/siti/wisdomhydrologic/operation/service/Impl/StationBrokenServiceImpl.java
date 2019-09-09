@@ -18,10 +18,10 @@ public class StationBrokenServiceImpl implements StationBrokenService {
     private ReportStationBrokenMapper reportStationBrokenMapper;
 
     @Override
-    public List<ReportStationBroken> getAll() {
+    public List<ReportStationBroken> getAll(String createDate,String applicationEquipName) {
 
 
-        return reportStationBrokenMapper.getAll();
+        return reportStationBrokenMapper.getAll(createDate, applicationEquipName);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public int insert(ReportStationBroken reportStationBroken) {
+        reportStationBroken.setCreateTime(reportStationBroken.getBrokenHappenTime()+":00:00");
         return reportStationBrokenMapper.insertData(reportStationBroken);
     }
 }

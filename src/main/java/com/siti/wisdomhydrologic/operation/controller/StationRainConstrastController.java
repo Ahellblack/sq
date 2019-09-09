@@ -44,8 +44,8 @@ public class StationRainConstrastController {
      */
     @ApiOperation(value = "表七测站降水量数据比对表，默认查询上月数据", httpMethod = "GET", notes = "表七测站降水量数据比对表查询")
     @GetMapping("/getAll")
-    public List<ReportStationRainConstrastVo> getByMonth(String date) {
-        List<ReportStationRainConstrastVo> list = stationRainConstrastService.getByMonth(date);
+    public List<Map<String, Object>>  getByMonth(String date) {
+        List<Map<String, Object>>  list = stationRainConstrastService.getByMonth(date);
         return list;
     }
 
@@ -54,7 +54,7 @@ public class StationRainConstrastController {
      */
     @GetMapping("/update")
     public int update(ReportStationRainConstrastVo reportStationRainConstrastVo) {
-        return stationRainConstrastService.update();
+        return stationRainConstrastService.update(reportStationRainConstrastVo);
     }
 
 
@@ -123,7 +123,7 @@ public class StationRainConstrastController {
      */
     public Workbook exportSheetByTemplate(String createTime) {
         // 查询数据,此处省略
-        List<ReportStationRainConstrastVo> list = stationRainConstrastService.getByMonth(createTime);
+        List<ReportStationRainConstrastVo> list = stationRainConstrastService.getExcel(createTime);
 
         for (int i = 0; i < list.size(); i++) {
             ReportStationRainConstrastVo data = list.get(i);

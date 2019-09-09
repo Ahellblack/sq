@@ -57,11 +57,11 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
     @Insert("<script>INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
-            "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`) " +
+            "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`,`error_lastest_appear_time`) " +
             "VALUES <foreach collection=\"list\" item=\"item\" separator=\",\">" +
             "(#{item.stationCode}, #{item.alterDate}, #{item.stationName},#{item.alterSensorTypeId}, #{item.alterSensorTypeName},#{item.errorDataReason},#{item.errorDataType},#{item.errorTimeSpace}," +
             " #{item.errorValue}, #{item.confirValue}, #{item.errorUnit}, #{item.errorDataReRun}, #{item.missDataType}, #{item.missTimeSpace}," +
-            " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId})</foreach></script>")
+            " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId},#{item.errorLastestAppearTime})</foreach></script>")
     int insertAbnormal(@Param("list") List<ReportManageDataMantainVo> all);
 
 

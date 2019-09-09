@@ -118,18 +118,18 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      */
     @Override
     public int insertDataMantain(String date) {
-        Calendar cal = Calendar.getInstance();
+        /*Calendar cal = Calendar.getInstance();
         try {
             cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
         } catch (Exception e) {
         }
-        /**
+        *//**
          * 查询上一个整5分再往前5分钟数据
-         * */
+         * *//*
         cal.add(cal.MINUTE, -5);
 
         date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-
+*/
 
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
         //根据日期获取异常信息
@@ -198,17 +198,17 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         }
                     });
                     applicationBroken.setCreateTime(data.getDate());
-                    List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), data.getSectionCode());
-                    getLatestData.forEach(abnormal -> {
-                        String according_id = applicationBroken.getBrokenAccordingId();
+                    /*List<AbnormalDetailEntity> getLatestData = abnormalDetailMapper.getLatestData(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"), data.getSectionCode());
+                     getLatestData.forEach(abnormal -> {
+                       String according_id = applicationBroken.getBrokenAccordingId();
                         if (!(according_id == null && "".equals(according_id))) {
                             //String eq_error = abnormal.getEquipmentError();
                             //String data_error = abnormal.getDateError();
                             //if (!(according_id.equals(eq_error)||according_id.equals(data_error))) {
-                            brokenList.add(applicationBroken);
                             //}
                         }
-                    });
+                    });*/
+                    brokenList.add(applicationBroken);
                 }
             });
 
