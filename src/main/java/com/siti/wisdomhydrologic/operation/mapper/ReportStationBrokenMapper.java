@@ -40,7 +40,7 @@ public interface ReportStationBrokenMapper extends Mapper<ReportStationBroken>{
     @Update("UPDATE report_manage_application_broken set `station_code` =#{Broken.stationCode},`station_name`=#{Broken.stationName}," +
             "`broken_happen_time` =#{Broken.brokenHappenTime}, `broken_situation` =#{Broken.brokenSituation},`broken_resolve_create_time`=#{Broken.brokenResolveCreateTime}," +
             "`resolve_method` =  #{Broken.resolveMethod},`resolve_user_ids` = #{Broken.resolveUserIds}," +
-            "`application_equip_type_id` = #{applicationEquipTypeId},`application_equip_name` = #{applicationEquipName}," +
+            "`application_equip_type_id` = #{Broken.applicationEquipTypeId},`application_equip_name` = #{Broken.applicationEquipName}," +
             "`remark`=#{Broken.remark}, `create_by`=#{Broken.createBy}, `manage_org_id`=#{Broken.manageOrgId}," +
             " `manage_org_name`=#{Broken.manageOrgName}, `broken_resolve_time`=#{Broken.brokenResolveTime}, `broken_response_time`= #{Broken.brokenResponseTime}, " +
             "`create_time`=#{Broken.createTime} WHERE `report_id`=#{Broken.reportId}")

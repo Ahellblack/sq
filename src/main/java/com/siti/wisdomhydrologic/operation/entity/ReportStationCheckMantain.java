@@ -127,6 +127,52 @@ public class ReportStationCheckMantain {
   @Excel(name = "createTime", height = 11, width = 10)
   private String createTime;
 
+  private String waterLevelZeroheight;
+  private String waterLevelStaffvalue;
+  private String waterLevelTime;
+  private String waterLevelIndicatorvalue;
+  private String waterLevelValue;
+
+
+  public String getWaterLevelZeroheight() {
+    return waterLevelZeroheight;
+  }
+
+  public void setWaterLevelZeroheight(String waterLevelZeroheight) {
+    this.waterLevelZeroheight = waterLevelZeroheight;
+  }
+
+  public String getWaterLevelStaffvalue() {
+    return waterLevelStaffvalue;
+  }
+
+  public void setWaterLevelStaffvalue(String waterLevelStaffvalue) {
+    this.waterLevelStaffvalue = waterLevelStaffvalue;
+  }
+
+  public String getWaterLevelTime() {
+    return waterLevelTime;
+  }
+
+  public void setWaterLevelTime(String waterLevelTime) {
+    this.waterLevelTime = waterLevelTime;
+  }
+
+  public String getWaterLevelIndicatorvalue() {
+    return waterLevelIndicatorvalue;
+  }
+
+  public void setWaterLevelIndicatorvalue(String waterLevelIndicatorvalue) {
+    this.waterLevelIndicatorvalue = waterLevelIndicatorvalue;
+  }
+
+  public String getWaterLevelValue() {
+    return waterLevelValue;
+  }
+
+  public void setWaterLevelValue(String waterLevelValue) {
+    this.waterLevelValue = waterLevelValue;
+  }
 
   public int getReportId() {
     return reportId;

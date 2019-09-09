@@ -100,15 +100,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     }
 
     public int update(ReportStationRainConstrastVo vo) {
-/*
-        ReportStationRainConstrastVo vo = new ReportStationRainConstrastVo();
-        vo.setDay1Auto("10");
-        vo.setDay1Base("20");
-        vo.setCreateBy("zyw");
-        vo.setStationCode("16101");
-        vo.setDataYearMonth("2019-08");
-*/
+
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
+
+        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationCode(), vo.getDataYearMonth());
+        station.setDay1Diff((Double.parseDouble(station.getDay1Auto())-Double.parseDouble(vo.getDay1Base()))+"");
 
         /**
          *为DAY1至DAY31进行数据修改
@@ -119,10 +115,14 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         for (int i = 1; i <= 31; i++) {
             try {
                 method = entity.getClass().getMethod("setDay" + i, String.class);
-                method1 = vo.getClass().getMethod("getDay" + i + "Auto");
+                method1 = station.getClass().getMethod("getDay" + i + "Auto");
                 method2 = vo.getClass().getMethod("getDay" + i + "Base");
                 if (method1.invoke(vo) != null && method2.invoke(vo) != null) {
-                    method.invoke(entity, (method1.invoke(vo) + "," + (method2.invoke(vo)) + "," + ((Double.parseDouble(method1.invoke(vo).toString()) - (Double.parseDouble(method2.invoke(vo).toString()))))));
+                    method.invoke(entity,
+                            (method1.invoke(station) + ","
+                                    + (method2.invoke(vo)) + ","
+                                    + ((Double.parseDouble(method1.invoke(station).toString())
+                                    - (Double.parseDouble(method2.invoke(vo).toString()))))));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

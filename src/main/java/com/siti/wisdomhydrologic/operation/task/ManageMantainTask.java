@@ -22,7 +22,7 @@ public class ManageMantainTask {
     /**
      * 定时每月初执行
      */
-    @Scheduled(cron = "0 0 0 1 1/1 ? ")
+    @Scheduled(cron = "0 0 0 1 1/1 ?")
     public void insertData() throws Exception {
         Date date = new Date();
         Calendar cal = Calendar.getInstance();

@@ -162,9 +162,9 @@ public class ManageDataMantainController {
             int type = data.getErrorDataType();
             data.setErrorDataTypeName(type == 1 ? "实时" : type == 2 ? "5分钟" : type == 3 ? "小时" : type == 4 ? "一天" : "空值");
             int miss = data.getMissDataReRun();
-            data.setMissDataReRunName(miss == 0 ? "√" : "×");
+            data.setMissDataReRunName(miss == 0 ? "×" : "√");
             int error = data.getErrorDataReRun();
-            data.setErrorDataReRunName(error == 0 ? "√" : "×");
+            data.setErrorDataReRunName(error == 0 ? "×" : "√");
 
         }
         int count1 = 0;

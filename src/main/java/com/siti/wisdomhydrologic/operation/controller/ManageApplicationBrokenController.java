@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/applicationBroken")
-@Api(value="应用程序及设备异常表controller",tags={"表四应用程序及设备异常表"})
+@Api(value = "应用程序及设备异常表controller", tags = {"表四应用程序及设备异常表"})
 public class ManageApplicationBrokenController {
 
     @Resource
@@ -40,8 +40,8 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate,String stationName) {
-        return manageApplicationBrokenService.getAll(page, pageSize, createDate,stationName);
+    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate, String stationName) {
+        return manageApplicationBrokenService.getAll(page, pageSize, createDate, stationName);
     }
 
     @PostMapping("/insert")
@@ -53,10 +53,11 @@ public class ManageApplicationBrokenController {
     public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
+
     @ApiOperation(value = "表四应用程序及设备异常表查派单状态修改", httpMethod = "POST", notes = "表四应用程序及设备异常表派单状况修改,参数为2绑定派单，参数为4绑定已处理")
     @PostMapping("/updateStatus")
-    public int updateMalStatus(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,Integer status){
-        return manageApplicationBrokenService.updateMalStatus(reportManageApplicationBroken,status);
+    public int updateMalStatus(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken, Integer status) {
+        return manageApplicationBrokenService.updateMalStatus(reportManageApplicationBroken, status);
     }
 
     @ApiOperation(value = "表四应用程序及设备异常表删除", httpMethod = "GET", notes = "表四应用程序及设备异常表删除")
@@ -74,9 +75,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createTime,String stationName) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String createTime, String stationName) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime,stationName);
+        Workbook workbook = exportSheetByTemplate(createTime, stationName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -114,25 +115,29 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime,String stationName) {
+    public Workbook exportSheetByTemplate(String createTime, String stationName) {
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime,stationName);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName);
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
-            data.setReportId(i+1);
-            if (data.getCreateTime()!= null)data.setCreateTime(data.getCreateTime().substring(8,10)+"日"+data.getCreateTime().substring(11,13)+"时");
-            if (data.getBrokenResponseTime()!= null)data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8,10)+"日"+data.getBrokenResponseTime().substring(11,13)+"时");
-            if (data.getBrokenAskToResolveTime()!= null)data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(8,10)+"日"+data.getBrokenAskToResolveTime().substring(11,13)+"时");
-            if (data.getBrokenrRequestReportTime()!= null)data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(8,10)+"日"+data.getBrokenrRequestReportTime().substring(11,13)+"时");
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResponseTime() != null)
+                data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8, 10) + "日" + data.getBrokenResponseTime().substring(11, 13) + "时");
+            if (data.getBrokenAskToResolveTime() != null)
+                data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(8, 10) + "日" + data.getBrokenAskToResolveTime().substring(11, 13) + "时");
+            if (data.getBrokenrRequestReportTime() != null)
+                data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(8, 10) + "日" + data.getBrokenrRequestReportTime().substring(11, 13) + "时");
         }
         int count1 = 0;
         // 设置导出配置
         // 获取导出excel指定模版
         URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath() ;
+        String logFilePath = url.getPath();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
-        TemplateExportParams params = new TemplateExportParams(logFilePath+"sqexcelmodel/model4.xls");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model4.xls");
         File f = new File(this.getClass().getResource("/").getPath());
         // 标题开始行
         // params.setHeadingStartRow(0);

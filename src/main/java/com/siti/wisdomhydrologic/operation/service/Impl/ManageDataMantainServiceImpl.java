@@ -49,6 +49,19 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         PageHelper.startPage(page, pageSize);
         List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate);
 
+        List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
+
+        /**
+         * 把页面查询的依据id 替换成依据内容
+         * */
+        list.forEach(data -> {
+            list1.forEach(data2 -> {
+                if (data2.getBrokenAccordingId().equals(data.getBrokenAccordingId())) {
+                    data.setBrokenAccordingId(data2.getBrokenAccording());
+                }
+            });
+        });
+
         /*list.forEach(data -> {
             if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
                 data.setCreateTime(data.getCreateTime().substring(0, 13));
@@ -118,7 +131,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 //修改日期添加时精确到某日
                                 abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
                                 abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime().substring(0, 10));
-                                abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13)+","+abnormalData.getCreateTime().substring(0, 13));
+                                abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13) + "," + abnormalData.getCreateTime().substring(0, 13));
                                 abnormalData.setErrorDataReRun(0);
                                 abnormalData.setMissDataReRun(0);
                             }

@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationRainConstrast;
+import com.siti.wisdomhydrologic.operation.mapper.StationRainConstrastMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationRainConstrastServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
 import io.swagger.annotations.Api;
@@ -35,6 +37,8 @@ import java.util.Map;
 public class StationRainConstrastController {
     @Resource
     private StationRainConstrastServiceImpl stationRainConstrastService;
+    @Resource
+    private StationRainConstrastMapper stationRainConstrastMapper;
 
     /**
      * 获取某个月的全部站点数据对表
@@ -53,8 +57,9 @@ public class StationRainConstrastController {
      * 客户可修改基本站数值
      */
     @GetMapping("/update")
-    public int update(ReportStationRainConstrastVo reportStationRainConstrastVo) {
-        return stationRainConstrastService.update(reportStationRainConstrastVo);
+    public int update(ReportStationRainConstrastVo vo) {
+
+        return stationRainConstrastService.update(vo);
     }
 
 

@@ -16,6 +16,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.util.PushMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     public int updateMalStatus(ReportManageApplicationBroken reportManageApplicationBroken, Integer status) {
         reportManageApplicationBroken.setRequestDesignatingStatus(status);
+        if (status == 2) {
+            PushMsg.pushMsgToClient("18121105875", 10);
+        }
         return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
     }
 

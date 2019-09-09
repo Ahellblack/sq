@@ -81,4 +81,8 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             "WHERE `station_code` = #{entity.stationCode} " +
             "AND `data_year_month` = #{entity.dataYearMonth}")
     int updateData(@Param("entity") ReportStationRainConstrast entity);
+
+    @Select("select * from report_station_rain_constrast " +
+            "where station_code = #{stationCode} and data_year_month = #{dataYearMonth} ")
+    ReportStationRainConstrastVo getStation(@Param("stationCode") String stationCode,@Param("dataYearMonth") String dataYearMonth);
 }
