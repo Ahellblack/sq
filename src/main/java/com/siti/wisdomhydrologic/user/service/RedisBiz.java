@@ -1,7 +1,8 @@
-package com.siti.wisdomhydrologic.redis;
+package com.siti.wisdomhydrologic.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @data ${DATA}-11:03
  */
-@Service
+@Component
 public class RedisBiz {
     @Autowired
     private RedisTemplate redisTemplate;
@@ -118,7 +119,7 @@ public class RedisBiz {
      * @return
      */
     public Object hmGet(String key, Object hashKey){
-        HashOperations<String, Object, Object>  hash = redisTemplate.opsForHash();
+        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
         return hash.get(key,hashKey);
     }
 

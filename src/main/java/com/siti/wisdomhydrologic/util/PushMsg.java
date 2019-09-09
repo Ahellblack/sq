@@ -10,7 +10,7 @@ public class PushMsg {
     private static String APPID = "8aaf0708624670f2016261f89d5b09be";
     private static String SERVERIP = "app.cloopen.com";
     private static String SERVERPORT = "8883";
-    private static String TEMPLATEID = "240720";//240720 // 100070
+    private static String TEMPLATEID = "462488";//240720 // 100070
 
 
     /**

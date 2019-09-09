@@ -105,6 +105,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     public int updateMalStatus(ReportManageApplicationBroken reportManageApplicationBroken, Integer status) {
         reportManageApplicationBroken.setRequestDesignatingStatus(status);
+
         if (status == 2) {
             PushMsg.pushMsgToClient("18121105875", 10);
         }

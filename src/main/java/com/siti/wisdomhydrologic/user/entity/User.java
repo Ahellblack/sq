@@ -1,7 +1,11 @@
 package com.siti.wisdomhydrologic.user.entity;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * Created by DC on 2019/8/21.
@@ -34,6 +38,36 @@ public class User {
     private String remark;
 
     private String lastTime;
+    @Transient
+    List<Role> roles;
+    @Transient
+    List<Permission> menuList ;   //  获取角色的目录权限
+    @Transient
+    List<Org> orgList;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Permission> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Permission> menuList) {
+        this.menuList = menuList;
+    }
+
+    public List<Org> getOrgList() {
+        return orgList;
+    }
+
+    public void setOrgList(List<Org> orgList) {
+        this.orgList = orgList;
+    }
 
     public User(User user) {
     }

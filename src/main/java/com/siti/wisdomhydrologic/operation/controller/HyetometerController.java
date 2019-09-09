@@ -109,6 +109,12 @@ public class HyetometerController {
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i+1);
+            data.getTimeDuration();
+            data.getStartTime();
+            data.getEndTime();
+            data.setTimeDuration(data.getTimeDuration().substring(11,13)+"时"+data.getTimeDuration().substring(14,16)+"分"+data.getTimeDuration().substring(17,19)+"秒");
+            data.setStartTime(data.getStartTime().substring(11,13)+"时"+data.getStartTime().substring(14,16)+"分"+data.getStartTime().substring(17,19)+"秒");
+            data.setEndTime(data.getEndTime().substring(11,13)+"时"+data.getEndTime().substring(14,16)+"分"+data.getEndTime().substring(17,19)+"秒");
            // if (data.getCreateTime()!= null)data.setCreateTime(data.getCreateTime().substring(8,10)+"日"+data.getCreateTime().substring(11,13)+"时");
        }
         int count1 = 0;
