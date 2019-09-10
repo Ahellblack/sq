@@ -21,9 +21,9 @@ public class RealStationVo {
      * 测站
      * */
     private String stationCode;
-    private String stationTelemetryCode;
+//    private String stationTelemetryCode;
     private String stationName;
-    private int orgId;
+    /*private int orgId;
     private String orgName;
     private int riverId;
     private String riverName;
@@ -36,8 +36,8 @@ public class RealStationVo {
     private int isSluiceGate;
     private String stationAddress;
     private String createTime;
-    private String updateTime;
-    private int StationId;
+    private String updateTime;*/
+    //private int StationId;
     //测站状态
     private int status;
 
@@ -113,14 +113,6 @@ public class RealStationVo {
 
     public double getRealDataAirPressure() {
         return realDataAirPressure;
-    }
-
-    public int getStationId() {
-        return StationId;
-    }
-
-    public void setStationId(int stationId) {
-        StationId = stationId;
     }
 
     public void setRealDataAirPressure(double realDataAirPressure) {
@@ -223,13 +215,6 @@ public class RealStationVo {
         this.stationCode = stationCode;
     }
 
-    public String getStationTelemetryCode() {
-        return stationTelemetryCode;
-    }
-
-    public void setStationTelemetryCode(String stationTelemetryCode) {
-        this.stationTelemetryCode = stationTelemetryCode;
-    }
 
     public String getStationName() {
         return stationName;
@@ -238,119 +223,6 @@ public class RealStationVo {
     public void setStationName(String stationName) {
         this.stationName = stationName;
     }
-
-    public int getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(int orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getOrgName() {
-        return orgName;
-    }
-
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
-    }
-
-    public int getRiverId() {
-        return riverId;
-    }
-
-    public void setRiverId(int riverId) {
-        this.riverId = riverId;
-    }
-
-    public String getRiverName() {
-        return riverName;
-    }
-
-    public void setRiverName(String riverName) {
-        this.riverName = riverName;
-    }
-
-    public int getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
-    }
-
-    public String getRegionName() {
-        return regionName;
-    }
-
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
-    }
-
-    public String getStationWiskiCode() {
-        return stationWiskiCode;
-    }
-
-    public void setStationWiskiCode(String stationWiskiCode) {
-        this.stationWiskiCode = stationWiskiCode;
-    }
-
-    public int getStationLevel() {
-        return stationLevel;
-    }
-
-    public void setStationLevel(int stationLevel) {
-        this.stationLevel = stationLevel;
-    }
-
-    public double getStationGaodeLongitude() {
-        return stationGaodeLongitude;
-    }
-
-    public void setStationGaodeLongitude(double stationGaodeLongitude) {
-        this.stationGaodeLongitude = stationGaodeLongitude;
-    }
-
-    public double getStationGaodeLatitude() {
-        return stationGaodeLatitude;
-    }
-
-    public void setStationGaodeLatitude(double stationGaodeLatitude) {
-        this.stationGaodeLatitude = stationGaodeLatitude;
-    }
-
-    public int getIsSluiceGate() {
-        return isSluiceGate;
-    }
-
-    public void setIsSluiceGate(int isSluiceGate) {
-        this.isSluiceGate = isSluiceGate;
-    }
-
-    public String getStationAddress() {
-        return stationAddress;
-    }
-
-    public void setStationAddress(String stationAddress) {
-        this.stationAddress = stationAddress;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
 
     @Override
     public String toString() {

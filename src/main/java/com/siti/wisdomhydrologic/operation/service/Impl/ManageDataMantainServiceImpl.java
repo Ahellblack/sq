@@ -116,11 +116,14 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     cal.setTime(DateTransform.String2Date(abnormalData.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
                     cal.add(cal.MINUTE, -5);
                     String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-
-                    if (reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime).size() > 0) {
+                    List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime);
+                    if (lastOne.size() > 0) {
+                        ReportManageDataMantain dataMantain = lastOne.get(0);
                         abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
-                        abnormalData.setErrorTimeSpace(reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime).get(0).getCreateTime() + "," + abnormalData.getCreateTime());
+                        abnormalData.setErrorTimeSpace(dataMantain.getCreateTime() + "," + abnormalData.getCreateTime());
+                        abnormalData.setReportId(dataMantain.getReportId());
                         reportManageDataMantainMapper.updateTime(abnormalData);
+                        System.out.println("表二数据错误时间更替" + abnormalData);
                     } else {
                         //根据字典获取异常名
                         dictionarylist.forEach(param -> {
@@ -131,7 +134,12 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 //修改日期添加时精确到某日
                                 abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
                                 abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime().substring(0, 10));
-                                abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13) + "," + abnormalData.getCreateTime().substring(0, 13));
+                                //状态为实时或小时时,错误时段为时间段
+                                if (abnormalData.getErrorDataType() == 1 || abnormalData.getErrorDataType() == 3) {
+                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13) + "," + abnormalData.getCreateTime().substring(0, 13));
+                                } else {
+                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13));
+                                }
                                 abnormalData.setErrorDataReRun(0);
                                 abnormalData.setMissDataReRun(0);
                             }

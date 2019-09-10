@@ -13,10 +13,11 @@ import java.util.List;
 public interface StationDataMapper {
 
     @Select("SELECT * FROM `real` a " +
-            "LEFT JOIN (SELECT  sensor_code ,Max( time ) AS LatestTime FROM `real`  GROUP BY sensor_code  ) b "+
-            "ON a.sensor_code = b.sensor_code " +
-            "LEFT JOIN  config_river_station c on c.station_id = SUBSTR( a.sensor_code, 1, ( LENGTH( a.sensor_code ) - 2 ) ) "+
-            "WHERE a.time = b.LatestTime  and c.station_id is not null")
+            "LEFT JOIN (SELECT  sensor_code ,Max( time ) AS LatestTime FROM `real`  " +
+            " GROUP BY sensor_code ) b " +
+            " ON a.sensor_code = b.sensor_code " +
+            " LEFT JOIN  config_sensor_section_module c on c.section_code = a.sensor_code \n" +
+            " WHERE a.time = b.LatestTime  and  c.sensor_code is not null  order by time desc")
     List<RealStationVo> getStationData();
 
     @Select("<script>" +

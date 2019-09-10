@@ -32,11 +32,11 @@ public interface RealStationDataMapper {
             "`wind_speed` = #{stationData.realDataWindSpeed}, `wind_direction` =#{stationData.realDataWindDirection}, " +
             "`flow_velocity_x` = #{stationData.realDataFlowX} ,`flow_velocity_y` = #{stationData.realDataFlowY} , " +
             " `air_pressure` =#{stationData.realDataAirPressure}, `air_temperature`=#{stationData.realDataAirTemperature}, " +
-            "`status` = #{stationData.status} , `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationId} ")
+            "`status` = #{stationData.status} , `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationCode} ")
     int updateStationData(@Param("stationData") RealStationVo realStationVo);
 
     @Update("UPDATE `real_station_data` SET " +
-            " `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationId} ")
+            " `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationCode} ")
     int updateStationPatency(@Param("stationData") RealStationVo realStationVo);
 
 

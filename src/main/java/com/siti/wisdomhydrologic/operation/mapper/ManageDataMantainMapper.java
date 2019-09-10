@@ -50,6 +50,7 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
     @Update("UPDATE `report_manage_data_mantain` " +
             "SET  `error_time_space` = #{manage.errorTimeSpace} ," +
+            " `error_lastest_appear_time` = #{manage.errorLastestAppearTime}" +
             "  WHERE `report_id` = #{manage.reportId}")
     int updateTime(@Param("manage") ReportManageDataMantainVo reportManageDataMantain);
 

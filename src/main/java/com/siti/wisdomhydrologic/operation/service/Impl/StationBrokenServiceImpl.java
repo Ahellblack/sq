@@ -31,6 +31,7 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public int update(ReportStationBroken reportStationBroken) {
+        reportStationBroken.setCreateTime(reportStationBroken.getBrokenHappenTime()+":00:00");
         return reportStationBrokenMapper.updateData(reportStationBroken);
     }
 

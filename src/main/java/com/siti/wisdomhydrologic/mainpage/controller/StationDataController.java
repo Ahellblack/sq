@@ -75,7 +75,9 @@ public class StationDataController {
      * @Param level 站点级别
      * @Param status 站点状态
      */
-    @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选")
+    @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选" +
+            "测站状态 0位离线； 1为正常；2为故障" +
+            "站点类型：0 基本站；1国家站；2一般站")
     @ApiParam(name = "level", value = "测站级别")
     @RequestMapping("/getLocation")
     public List<ConfigRiverStationVo> getList(@Param("level") Integer level, @Param("status") Integer status) throws Exception {

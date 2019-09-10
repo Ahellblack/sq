@@ -27,7 +27,7 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
     //流速X
     public static final String WFV = "71";
     //流速Y
-    public static final String WFVY = "73";
+    public static final String WFVY = "72";
     //电压
     public static final String ES = "89";
 

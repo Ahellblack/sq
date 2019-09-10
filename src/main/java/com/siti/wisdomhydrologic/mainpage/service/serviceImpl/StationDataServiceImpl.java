@@ -68,7 +68,7 @@ public class StationDataServiceImpl implements StationDataService {
         abnormallist.forEach(data -> {
             stationList.add(data.getSensorCode() / 100);
         });
-        RealStationVo realStationVo = new RealStationVo();
+
         /*//先赋值id
         realStationVo.setStationId(stationCode);
         //System.out.println(calendar.getTime() + "---------------" + date9);
@@ -84,7 +84,8 @@ public class StationDataServiceImpl implements StationDataService {
             stationIdList.add(data.getStationId());
         });*/
         stationData.forEach(data -> {
-            realStationVo.setStationId(data.getStationId());
+            RealStationVo realStationVo = new RealStationVo();
+            realStationVo.setStationCode(data.getStationCode());
             realStationVo.setStationName(data.getStationName());
             realStationVo.setTime(data.getTime());
             String sensorTypeId = String.valueOf(data.getSensorCode() % 100);
@@ -118,13 +119,13 @@ public class StationDataServiceImpl implements StationDataService {
             if (sensorTypeId.equals(ConstantConfig.WAP)) {
                 realStationVo.setRealDataAirPressure(data.getRealVal());
             }
-            if (stationList.contains(realStationVo.getStationId())) {
+            if (stationList.contains(realStationVo.getStationCode())) {
                 //测站状态 1为正常,2为故障
                 realStationVo.setStatus(2);
             } else {
                 realStationVo.setStatus(1);
             }
-            List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationId() + "84");
+            List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "84");
             //通畅率变化
             realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 288f));
              realStationDataMapper.updateStationPatency(realStationVo);
