@@ -54,6 +54,29 @@ public class ReportManageApplicationBroken {
     @ApiModelProperty(value = "防汛要求抢修情况上报时间，与前一列一致，且可改（手动）", name = "reportId")
     private String brokenrRequestReportTime;
 
+    @ApiModelProperty(value = "故障开始处理时间（自动）")
+    private String brokenOnResolveTime;
+
+    @ApiModelProperty(value = "故障最后出现时间")
+    private String errorLastestAppearTime;
+
+
+    public String getErrorLastestAppearTime() {
+        return errorLastestAppearTime;
+    }
+
+    public void setErrorLastestAppearTime(String errorLastestAppearTime) {
+        this.errorLastestAppearTime = errorLastestAppearTime;
+    }
+
+    public String getBrokenOnResolveTime() {
+
+        return brokenOnResolveTime;
+    }
+
+    public void setBrokenOnResolveTime(String brokenOnResolveTime) {
+        this.brokenOnResolveTime = brokenOnResolveTime;
+    }
 
     public String getBrokenAskToResolveTime() {
         return brokenAskToResolveTime;
@@ -188,4 +211,9 @@ public class ReportManageApplicationBroken {
         this.remark = remark;
     }
 
+
+    @Override
+    public String toString() {
+        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenrRequestReportTime='" + brokenrRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
+    }
 }

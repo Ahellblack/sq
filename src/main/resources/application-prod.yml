@@ -2,11 +2,11 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://10.1.30.207:3306/wh?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+    password: pdsw
+    url: jdbc:mysql://172.20.50.115:3306/wh?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
   redis:
-      host: 10.1.30.202
-      password: sharebike@siti
+      host: 172.20.50.115
+      password: wh@siti
       port: 6379
       pool:
         max-active: 2000

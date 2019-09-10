@@ -1,11 +1,13 @@
 package com.siti.wisdomhydrologic.realmessageprocess.mapper;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.*;
 import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -177,6 +179,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
 
     @Select("<script>select * from abnormal_detail " +
             "<if test=\"createDate!=null\">where date = #{createDate}</if> " +
-            "<if test=\"stationId!=null\">  and substring(sensor_code,1,5)= #{stationId}</if></script>")
-    List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("stationId") Integer stationId);
+            "<if test=\"sensorCode!=null\">  and sensor_code = #{sensorCode}</if></script>")
+    List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("sensorCode") Integer sensorCode);
+
 }

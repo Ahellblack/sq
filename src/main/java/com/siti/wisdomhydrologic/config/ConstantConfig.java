@@ -39,7 +39,7 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
 
     public static final String SWAGGER_VERSION = "1.0";
 
-    public static final String SWAGGER_URL = "http://localhost:8099/sq/swagger-ui.html";
+    public static final String SWAGGER_URL = "http://localhost:8080/sq/swagger-ui.html";
 
     public static final String ACCOUNT_SID = "8a216da855826478015599e3f66e1411";
 

@@ -1,50 +1,53 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel
 public class RecordDeviceReplace {
 
-    @Excel(name = "reportId", height = 11, width = 20)
+    @ApiModelProperty(value = "自增id")
     private int reportId;
-    @Excel(name = "stationCode", height = 11, width = 20)
+    @ApiModelProperty(value = "测站id")
     private String stationCode;
-    @Excel(name = "stationName", height = 11, width = 20)
+    @ApiModelProperty(value = "测站名")
     private String stationName;
-    @Excel(name = "manageOrgId", height = 11, width = 20)
+    @ApiModelProperty(value = "测站组织id")
     private int manageOrgId;
-    @Excel(name = "manageOrgName", height = 11, width = 20)
+    @ApiModelProperty(value = "测站组织名")
     private String manageOrgName;
-    @Excel(name = "replaceDate", height = 11, width = 20)
+    @ApiModelProperty(value = "更换日期")
     private String replaceDate;
-    @Excel(name = "originDeviceTypeCode", height = 11, width = 20)
+    @ApiModelProperty(value = "原设备型号")
     private String originDeviceTypeCode;
-    @Excel(name = "originDeviceCode", height = 11, width = 20)
+    @ApiModelProperty(value = "原设备编号" )
     private String originDeviceCode;
-    @Excel(name = "originOrgId", height = 11, width = 20)
+    @ApiModelProperty(value = "原资产归属单位ID")
     private int originOrgId;
-    @Excel(name = "originOrgName", height = 11, width = 20)
+    @ApiModelProperty(value = "原资产归属单位名称")
     private String originOrgName;
-    @Excel(name = "newDeviceTypeCode", height = 11, width = 20)
+    @ApiModelProperty(value = "现设备型号")
     private String newDeviceTypeCode;
-    @Excel(name = "newDeviceCode", height = 11, width = 20)
+    @ApiModelProperty(value = "现设备编号")
     private String newDeviceCode;
-    @Excel(name = "newOrgId", height = 11, width = 20)
+    @ApiModelProperty(value = "现设备资产归属单位ID")
     private int newOrgId;
-    @Excel(name = "newOrgName", height = 11, width = 20)
+    @ApiModelProperty(value = "现设备自查归属单位名称")
     private String newOrgName;
-    @Excel(name = "replaceReason", height = 11, width = 20)
+    @ApiModelProperty(value = "更换原因")
     private String replaceReason;
-    @Excel(name = "createBy", height = 11, width = 20)
+    @ApiModelProperty(value = "填报人")
     private String createBy;
-    @Excel(name = "createTime", height = 11, width = 20)
+    @ApiModelProperty(value = "填报时间")
     private String createTime;
-    @Excel(name = "updateBy", height = 11, width = 20)
+    @ApiModelProperty(value = "修改人")
     private int updateBy;
-    @Excel(name = "newDeviceName", height = 11, width = 20)
+    @ApiModelProperty(value = "现设备名称")
     private String newDeviceName;
-    @Excel(name = "originDeviceName", height = 11, width = 20)
+    @ApiModelProperty(value = "原设备名称")
     private String originDeviceName;
+
 
 
     public String getNewDeviceName() {

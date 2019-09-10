@@ -21,7 +21,11 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     }
 
     public int insert(ReportStationCheckMantain reportStationCheckMantain) {
-        return stationCheckMantainMapper.insert(reportStationCheckMantain);
+        try {
+            return stationCheckMantainMapper.insert(reportStationCheckMantain);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public int delete(Integer reportId) {
@@ -29,7 +33,11 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     }
 
     public int update(ReportStationCheckMantain reportStationCheckMantain) {
-        return stationCheckMantainMapper.updateByPrimaryKey(reportStationCheckMantain);
+        try {
+            return stationCheckMantainMapper.updateByPrimaryKey(reportStationCheckMantain);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }

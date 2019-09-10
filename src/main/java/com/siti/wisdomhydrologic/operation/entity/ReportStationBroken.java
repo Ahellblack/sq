@@ -2,11 +2,13 @@ package com.siti.wisdomhydrologic.operation.entity;
 
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import io.swagger.annotations.ApiModel;
 
 
 /**
  * 表三
  * */
+@ApiModel
 public class ReportStationBroken {
 
   @Excel(name = "reportId", height = 11, width = 10)

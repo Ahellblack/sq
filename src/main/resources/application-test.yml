@@ -5,8 +5,8 @@ spring:
     password: root
     url: jdbc:mysql://10.1.30.207:3306/wh?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
   redis:
-      host: 10.1.30.202
-      password: sharebike@siti
+      host: 10.1.30.210
+      password: siti@sw
       port: 6379
       pool:
         max-active: 2000

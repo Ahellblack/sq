@@ -31,10 +31,11 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Insert("<script>INSERT INTO `report_station_broken`" +
             "(`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
-            "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`)" +
+            "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`,`error_lastest_appear_time`)" +
             " VALUES <foreach collection=\"brokenList\" item=\"item\" separator=\",\">" +
             "(#{item.stationId},#{item.stationName}, #{item.brokenName}, #{item.brokenAccordingId}," +
-            " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime},#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark})</foreach></script>")
+            " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime}," +
+            "#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark},#{item.errorLastestAppearTime})</foreach></script>")
     int insertDataMantain(@Param("brokenList") List<ReportManageApplicationBroken> brokenList);
 
     @Select("<script>SELECT * FROM report_station_broken a left join config_river_station b" +
@@ -67,15 +68,16 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Insert("INSERT INTO `report_station_broken` " +
             "(`station_id`, `station_name`, `broken_name`, " +
             "`broken_according_id`, `broken_according`, `create_time`, " +
-            "`broken_response_time`, `request_designating_time`, `broken_resolve_time`," +
+            "`broken_response_time`, `broken_on_resolve_time`,`request_designating_time`, `broken_resolve_time`," +
             " `resolve_method`, `resolve_user_id`, `remark`, " +
             "`request_designating_status`, `broken_ask_to_resolve_time`," +
-            " `broken_request_report_time`) VALUES " +
+            " `broken_request_report_time`,`error_lastest_appear_time`) VALUES " +
             "(#{data.stationId},#{data.stationName}, #{data.brokenName}," +
             " #{data.brokenAccordingId}, #{data.brokenAccording}, #{data.createTime}," +
-            "#{data.brokenResponseTime}, #{data.requestDesignatingTime}," +
+            "#{data.brokenResponseTime},#{data.brokenOnResolveTime}, #{data.requestDesignatingTime}," +
             " #{data.brokenResolveTime}, #{data.resolveMethod}, #{data.resolveUserId}," +
-            " #{data.remark}, #{data.requestDesignatingStatus},#{data.brokenAskToResolveTime},#{data.brokenrRequestReportTime})")
+            " #{data.remark}, #{data.requestDesignatingStatus},#{data.brokenAskToResolveTime}," +
+            "#{data.brokenrRequestReportTime},#{data.errorLastestAppearTime})")
     int insert(@Param("data") ReportManageApplicationBroken broken);
 
 
@@ -89,4 +91,9 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     int update(@Param("data") ReportManageApplicationBroken broken);
 
 
+    @Select("select * from report_station_broken where station_id = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")
+    ReportManageApplicationBroken getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
+
+    @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  WHERE report_id = #{data.reportId}")
+    void updateTime(@Param("data") ReportManageApplicationBroken lastData, @Param("date") String date);
 }

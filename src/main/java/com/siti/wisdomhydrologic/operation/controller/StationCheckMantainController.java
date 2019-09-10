@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @RequestMapping("/stationCheck")
 @RestController
-@Api(value="测站检查维护记录表controller",tags={"测站检查维护记录表"})
+@Api(value = "测站检查维护记录表controller", tags = {"测站检查维护记录表"})
 public class StationCheckMantainController {
     @Resource
     private StationCheckMantainServiceImpl stationCheckMantainService;
@@ -38,20 +38,23 @@ public class StationCheckMantainController {
 
     @ApiOperation(value = "表五测站检查维护记录表查询，根据日期及测站id进行筛选，每次导出一条数据", httpMethod = "GET", notes = "表五测站检查维护记录表查询")
     @GetMapping("/getAll")
-    public ReportStationCheckMantain getAll(String mantainDate,String stationId ){
+    public ReportStationCheckMantain getAll(String mantainDate, String stationId) {
 
-        return stationCheckMantainMapper.getByStationId(mantainDate,stationId);
+        return stationCheckMantainMapper.getByStationId(mantainDate, stationId);
     }
+
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportStationCheckMantain reportStationCheckMantain){
+    public int insert(@RequestBody ReportStationCheckMantain reportStationCheckMantain) {
         return stationCheckMantainService.insert(reportStationCheckMantain);
     }
+
     @GetMapping("/delete")
-    public int delete(Integer reportId){
+    public int delete(Integer reportId) {
         return stationCheckMantainService.delete(reportId);
     }
+
     @PostMapping("/update")
-    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain){
+    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain) {
         return stationCheckMantainService.update(reportStationCheckMantain);
     }
 
@@ -60,7 +63,7 @@ public class StationCheckMantainController {
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String mantainDate, String stationId) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(mantainDate,stationId);
+        Workbook workbook = exportSheetByTemplate(mantainDate, stationId);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -101,7 +104,7 @@ public class StationCheckMantainController {
      */
     public Workbook exportSheetByTemplate(@Param("mantainDate") String mantainDate, @Param("stationId") String stationId) {
         // 查询数据,此处省略
-        ReportStationCheckMantain entity = stationCheckMantainMapper.getByStationId(mantainDate,stationId);
+        ReportStationCheckMantain entity = stationCheckMantainMapper.getByStationId(mantainDate, stationId);
         /*for (int i = 0; i < list.size(); i++) {
             ReportInspectionMaintenance data = list.get(i);
             data.setReportId(i+1);
@@ -110,10 +113,10 @@ public class StationCheckMantainController {
         // 设置导出配置
         // 获取导出excel指定模版
         URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath() ;
+        String logFilePath = url.getPath();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
-        TemplateExportParams params = new TemplateExportParams(logFilePath+"sqexcelmodel/model5.xls");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model5.xls");
         File f = new File(this.getClass().getResource("/").getPath());
         // 标题开始行
         // params.setHeadingStartRow(0);

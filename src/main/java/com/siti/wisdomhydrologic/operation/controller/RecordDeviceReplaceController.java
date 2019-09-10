@@ -8,10 +8,7 @@ import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -53,15 +50,23 @@ public class RecordDeviceReplaceController {
         return mapper.deleteData(reportId);
     }
 
-    @GetMapping("/update")
+    @PostMapping("/update")
     public int update(RecordDeviceReplace recordDeviceReplace) {
-
-        return mapper.updateByPrimaryKey(recordDeviceReplace);
+        try{
+            return mapper.updateByPrimaryKey(recordDeviceReplace);
+        }catch (Exception e){
+            return 0;
+        }
     }
 
-    @GetMapping("/insert")
+    @PostMapping("/insert")
     public int insert(RecordDeviceReplace recordDeviceReplace) {
-        return mapper.insert(recordDeviceReplace);
+        try{
+            return mapper.insert(recordDeviceReplace);
+
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")

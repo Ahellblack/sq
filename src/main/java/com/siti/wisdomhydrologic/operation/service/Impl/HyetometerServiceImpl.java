@@ -33,11 +33,23 @@ public class HyetometerServiceImpl implements HyetometerService {
         if (reportHyetometer.getCreateTime() == null) {
             reportHyetometer.setCreateTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
         }
-        return reportHyetometerMapper.insert(reportHyetometer);
+        reportHyetometer.setLibraryDate(reportHyetometer.getCreateTime());
+        try {
+            reportHyetometerMapper.insert(reportHyetometer);
+        }catch (Exception e){
+            return 0;
+        }
+        return 1;
     }
 
     public int update(ReportHyetometerTest reportHyetometer) {
-        return reportHyetometerMapper.update(reportHyetometer);
+
+        try {
+            reportHyetometerMapper.update(reportHyetometer);
+        }catch (Exception e){
+            return 0;
+        }
+        return 1;
     }
 
     public int delByReportIdList(List<Integer> reportIdList) {

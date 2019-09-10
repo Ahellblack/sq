@@ -10,6 +10,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
@@ -91,8 +92,13 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             reportManageDataMantain.setMissDataReRun(1);
         }
         System.out.println("修改后的ReportManageDataMantain：" + reportManageDataMantain);
-        int result = reportManageDataMantainMapper.update(reportManageDataMantain);
-        return result;
+
+        try{
+            int result = reportManageDataMantainMapper.update(reportManageDataMantain);
+            return result;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     @Override
@@ -106,9 +112,8 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             all.forEach(abnormalData -> {
                 if (abnormalData.getDataError() != null) {
                     abnormalData.setBrokenAccordingId(abnormalData.getDataError());
-                    //赋值测站号和修改日期
-                    abnormalData.setStationCode(abnormalData.getSensorCode() / 100);
-                    abnormalData.setCreateTime(abnormalData.getDate());
+
+
                     /**
                      * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
                      * */
@@ -116,12 +121,27 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     cal.setTime(DateTransform.String2Date(abnormalData.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
                     cal.add(cal.MINUTE, -5);
                     String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                    List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime);
-                    if (lastOne.size() > 0) {
-                        ReportManageDataMantain dataMantain = lastOne.get(0);
+                   // List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime);
+
+                    /**
+                     * 查询上个五分钟的异常表数据。
+                     * */
+                    List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, abnormalData.getSensorCode());
+
+                    //赋值测站号和修改日期
+                    abnormalData.setStationCode(abnormalData.getSensorCode() / 100);
+                    abnormalData.setCreateTime(abnormalData.getDate());
+
+                    if (latestData.size() > 0) {
+                        /**
+                         * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
+                         * 若有，更新最后一次生成时间
+                         * */
+                        ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abnormalData.getSectionCode(), last5MinuteTime);
+
                         abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
-                        abnormalData.setErrorTimeSpace(dataMantain.getCreateTime() + "," + abnormalData.getCreateTime());
-                        abnormalData.setReportId(dataMantain.getReportId());
+                        abnormalData.setErrorTimeSpace(lastestData.getCreateTime() + "," + abnormalData.getCreateTime());
+                        abnormalData.setReportId(lastestData.getReportId());
                         reportManageDataMantainMapper.updateTime(abnormalData);
                         System.out.println("表二数据错误时间更替" + abnormalData);
                     } else {
@@ -170,6 +190,10 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
 
     public int insert(ReportManageDataMantain reportManageDataMantain) {
         System.out.println(reportManageDataMantain);
-        return reportManageDataMantainMapper.insert(reportManageDataMantain);
+        try{
+            return reportManageDataMantainMapper.insert(reportManageDataMantain);
+        }catch (Exception e){
+            return 0;
+        }
     }
 }

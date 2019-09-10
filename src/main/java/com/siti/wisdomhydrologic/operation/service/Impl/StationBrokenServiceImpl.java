@@ -19,8 +19,6 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Override
     public List<ReportStationBroken> getAll(String createDate,String applicationEquipName) {
-
-
         return reportStationBrokenMapper.getAll(createDate, applicationEquipName);
     }
 
@@ -32,12 +30,21 @@ public class StationBrokenServiceImpl implements StationBrokenService {
     @Override
     public int update(ReportStationBroken reportStationBroken) {
         reportStationBroken.setCreateTime(reportStationBroken.getBrokenHappenTime()+":00:00");
-        return reportStationBrokenMapper.updateData(reportStationBroken);
+        try {
+            return reportStationBrokenMapper.updateData(reportStationBroken);
+
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     @Override
     public int insert(ReportStationBroken reportStationBroken) {
         reportStationBroken.setCreateTime(reportStationBroken.getBrokenHappenTime()+":00:00");
-        return reportStationBrokenMapper.insertData(reportStationBroken);
+        try{
+            return reportStationBrokenMapper.insertData(reportStationBroken);
+        }catch (Exception e){
+            return 0;
+        }
     }
 }

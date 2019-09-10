@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
@@ -68,4 +69,9 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
     @Select("select * from report_manage_data_mantain where station_code = #{stationCode} and create_time = #{last5MinuteTime}")
     List<ReportManageDataMantain> getLastOne(@Param("stationCode") Integer stationCode, @Param("last5MinuteTime") String last5MinuteTime);
+
+    @Select("select * from report_manage_data_mantain where station_code = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")
+    ReportManageDataMantain getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
+
+
 }

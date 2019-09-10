@@ -145,7 +145,11 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     @Override
     public int update(ReportManageMantain reportManageMantain) {
         System.out.println("待修改的表一数据："+reportManageMantain);
-        return reportManageMantainMapper.update(reportManageMantain);
+        try{
+            return reportManageMantainMapper.update(reportManageMantain);
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     public int delete(Integer reportId) {

@@ -5,7 +5,7 @@ spring:
     password: root
     url: jdbc:mysql://10.1.30.205:3306/wisdomhydrologic?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
   redis:
-    host: 10.1.30.129
+    host: 10.1.30.210
     password: wh@siti
     port: 6379
     pool:

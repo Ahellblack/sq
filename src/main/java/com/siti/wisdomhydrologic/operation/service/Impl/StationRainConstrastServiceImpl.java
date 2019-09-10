@@ -104,7 +104,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
 
         ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationCode(), vo.getDataYearMonth());
-        station.setDay1Diff((Double.parseDouble(station.getDay1Auto())-Double.parseDouble(vo.getDay1Base()))+"");
+        station.setDay1Diff((Double.parseDouble(station.getDay1Auto()) - Double.parseDouble(vo.getDay1Base())) + "");
 
         /**
          *为DAY1至DAY31进行数据修改
@@ -118,11 +118,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 method1 = station.getClass().getMethod("getDay" + i + "Auto");
                 method2 = vo.getClass().getMethod("getDay" + i + "Base");
                 if (method1.invoke(vo) != null && method2.invoke(vo) != null) {
-                    method.invoke(entity,
-                            (method1.invoke(station) + ","
-                                    + (method2.invoke(vo)) + ","
-                                    + ((Double.parseDouble(method1.invoke(station).toString())
-                                    - (Double.parseDouble(method2.invoke(vo).toString()))))));
+                    method.invoke(entity, (method1.invoke(station) + "," + (method2.invoke(vo)) + "," + ((Double.parseDouble(method1.invoke(station).toString()) - (Double.parseDouble(method2.invoke(vo).toString()))))));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -169,7 +165,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         entity.setTotal(autototal + "," + basetotal + "," + difftotal);
 
         System.out.println(entity.toString());
-        return stationRainConstrastMapper.updateData(entity);
+        try {
+            return stationRainConstrastMapper.updateData(entity);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void insertOrUpdateData() throws Exception {
@@ -225,13 +225,19 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 } else {
                     //update时赋值
                     entity.setTotal(((Double.parseDouble(total.split(",")[0]) + dayVo.getSensorDataValue()) + "," + total.split(",")[1]) + "," + Double.parseDouble(total.split(",")[2]));
-                    stationRainConstrastMapper.update(daynumber, dayVo.getSensorDataValue() + ",0,0", entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
+                    try {
+                        stationRainConstrastMapper.update(daynumber, dayVo.getSensorDataValue() + ",0,0", entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
+                    } catch (Exception e) {
+                    }
                 }
             } else {
                 if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
                     //月初赋值
                     entity.setTotal("0,0,0");
-                    stationRainConstrastMapper.insert(entity);
+                    try {
+                        stationRainConstrastMapper.insert(entity);
+                    } catch (Exception e) {
+                    }
                 }
             }
         });
