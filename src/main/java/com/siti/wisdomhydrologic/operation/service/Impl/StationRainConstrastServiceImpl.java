@@ -26,6 +26,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
 
+
     @Override
     public List<ReportStationRainConstrastVo> getAutoByMonth(Date date) {
         return stationRainConstrastMapper.getAutoByMonth(date);
@@ -103,8 +104,10 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
 
-        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationCode(), vo.getDataYearMonth());
-        station.setDay1Diff((Double.parseDouble(station.getDay1Auto()) - Double.parseDouble(vo.getDay1Base())) + "");
+        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationName(), vo.getDataYearMonth());
+       // station.setDay1Diff((Double.parseDouble(station.getDay1Auto()) - Double.parseDouble(vo.getDay1Base())) + "");
+
+        ReportStationRainConstrast stationdata = stationRainConstrastMapper.getData(vo.getStationName(), vo.getDataYearMonth());
 
         /**
          *为DAY1至DAY31进行数据修改
@@ -112,13 +115,27 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         Method method = null;
         Method method1 = null;
         Method method2 = null;
+        Method method3 = null;
         for (int i = 1; i <= 31; i++) {
             try {
+                /**
+                 * entity的数据 若base数据不为空，进行数据值差
+                 * */
                 method = entity.getClass().getMethod("setDay" + i, String.class);
                 method1 = station.getClass().getMethod("getDay" + i + "Auto");
                 method2 = vo.getClass().getMethod("getDay" + i + "Base");
-                if (method1.invoke(vo) != null && method2.invoke(vo) != null) {
-                    method.invoke(entity, (method1.invoke(station) + "," + (method2.invoke(vo)) + "," + ((Double.parseDouble(method1.invoke(station).toString()) - (Double.parseDouble(method2.invoke(vo).toString()))))));
+                method3 = entity.getClass().getMethod("getDay" + i);
+                if (method2.invoke(vo) != null && (!"".equals(method2.invoke(vo)))) {
+                    method.invoke(entity,
+                            (method1.invoke(station) + "," +
+                                    (method2.invoke(vo)) + "," +
+                                    ((Double.parseDouble(method1.invoke(station).toString())
+                                            - (Double.parseDouble(method2.invoke(vo).toString()))))));
+                }else {
+                    /**
+                     * 若没有base数据 entity赋值原来的数据
+                     * */
+                    method.invoke(entity,method3.invoke(stationdata));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -128,15 +145,15 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
          * 为修改值赋值
          * */
         entity.setCreateBy(vo.getCreateBy());
-        entity.setDataYearMonth(vo.getDataYearMonth());
-        entity.setStationCode(vo.getStationCode());
-        entity.setStationName(vo.getStationName());
-        entity.setManageOrgId(vo.getManageOrgId());
-        entity.setManageOrgName(vo.getManageOrgName());
         entity.setRemark(vo.getRemark());
         entity.setUpdateBy(vo.getUpdateBy());
         entity.setUpdateTime(vo.getUpdateTime());
         entity.setCreateTime(vo.getCreateTime());
+        entity.setStationName(vo.getStationName());
+        entity.setDataYearMonth(vo.getDataYearMonth());
+
+        List<ConfigRiverStation> allByStationName = configRiverStationMapper.getAllByStationName(entity.getStationName());
+        entity.setStationCode(allByStationName.get(0).getStationId());
         /**
          * 设置total的值
          * */
@@ -164,7 +181,6 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         }
         entity.setTotal(autototal + "," + basetotal + "," + difftotal);
 
-        System.out.println(entity.toString());
         try {
             return stationRainConstrastMapper.updateData(entity);
         } catch (Exception e) {
@@ -198,7 +214,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
             ConfigRiverStation station = configRiverStationMapper.getAllByCode(data);
             entity.setStationName(station.getStationName());
-            entity.setStationCode(station.getStationId() + "");
+            entity.setStationCode(station.getStationId());
             entity.setManageOrgName(station.getOrgName());
             entity.setManageOrgId(station.getOrgId());
 
@@ -234,6 +250,14 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
                     //月初赋值
                     entity.setTotal("0,0,0");
+                    for (int i = 1; i <= 31; i++) {
+                        try {
+                            Method method = entity.getClass().getMethod("setDay"+i,String.class);
+                            method.invoke(entity,"0,0,0");
+                        } catch (Exception e) {
+                            System.out.println("月初表7数据自动添加出错");
+                        }
+                    }
                     try {
                         stationRainConstrastMapper.insert(entity);
                     } catch (Exception e) {
