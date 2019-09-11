@@ -14,8 +14,12 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,6 @@ public class Usertrol {
     private RedisBiz redisBiz;
     @Resource
     private UserMapper userMapper;
-
     /**
      * 获取当前登录用户
      *
@@ -47,15 +50,21 @@ public class Usertrol {
 
     @PostMapping("login")
     public Object getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
-        String logPwd = BASE64Util.decode(password);
-        password = Md5Utils.encryptString(logPwd);
-        if (logPwd == null) {
-            throw new RuntimeException("登录失败，请重新登录！");
-        }
-        password = "e10adc3949ba59abbe56e057f20f883e";
-        User user = userMapper.findByUserName(username);
-        System.out.println(session.getId());
+        RequestAttributes ra=RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();
+        request.getSession(true).setAttribute("keytest","testvalue");
+
         try {
+            if(password==""||"".equals(password)){
+                return null;
+            }
+            //redisBiz.get(session.getId());
+            String logPwd = BASE64Util.decode(password);
+            password = Md5Utils.encryptString(logPwd);
+            if (logPwd == null) {
+                throw new RuntimeException("登录失败，请重新登录！");
+            }
+            User user = userMapper.findByUserName(username);
             if (user.getPassword().equals(password)) {
                 List<Role> roles = userMapper.findRole(user.getId());
                 List<Permission> menuList = userMapper.findByPermission(username);   //  获取角色的目录权限
@@ -66,12 +75,12 @@ public class Usertrol {
                 user.setOrgList(orgList);
                 user.setRoles(roles);
                 if (session.getId() != "" && !"".equals(session.getId())) {
-                    redisBiz.set(session.getId(), username, timeLong);
+                    redisBiz.set(session.getId(), user, timeLong);
                     return user;
                 }
             }
         } catch (Exception e) {
-            return null;
+            return "输入的账户或密码有误";
         }
         return null;
     }

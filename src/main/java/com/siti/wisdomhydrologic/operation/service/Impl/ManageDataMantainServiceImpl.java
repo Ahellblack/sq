@@ -91,6 +91,15 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (reportManageDataMantain.getMissDataType() != null && reportManageDataMantain.getMissTimeSpace() != null) {
             reportManageDataMantain.setMissDataReRun(1);
         }
+        String createTime = reportManageDataMantain.getCreateTime();
+        String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
+
+        if (errorLastestAppearTime!=null){
+            reportManageDataMantain.setErrorTimeSpace(createTime+","+errorLastestAppearTime);
+        }else {
+            reportManageDataMantain.setErrorTimeSpace(createTime);
+        }
+
         System.out.println("修改后的ReportManageDataMantain：" + reportManageDataMantain);
 
         try{
@@ -112,7 +121,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             all.forEach(abnormalData -> {
                 if (abnormalData.getDataError() != null) {
                     abnormalData.setBrokenAccordingId(abnormalData.getDataError());
-
 
                     /**
                      * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
@@ -140,10 +148,10 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                         ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abnormalData.getSectionCode(), last5MinuteTime);
 
                         abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
-                        abnormalData.setErrorTimeSpace(lastestData.getCreateTime() + "," + abnormalData.getCreateTime());
+                        abnormalData.setErrorTimeSpace(lastestData.getCreateTime().substring(0,13) + "," + abnormalData.getCreateTime().substring(0,13));
                         abnormalData.setReportId(lastestData.getReportId());
                         reportManageDataMantainMapper.updateTime(abnormalData);
-                        System.out.println("表二数据错误时间更替" + abnormalData);
+                        System.out.println(abnormalData.getStationName()+"的异常"+abnormalData.getBrokenAccordingId()+"表二数据错误时间更替" + abnormalData.getErrorLastestAppearTime());
                     } else {
                         //根据字典获取异常名
                         dictionarylist.forEach(param -> {
@@ -153,12 +161,12 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 abnormalData.setErrorDataType(param.getErrorDataId());
                                 //修改日期添加时精确到某日
                                 abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
-                                abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime().substring(0, 10));
+                                abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
                                 //状态为实时或小时时,错误时段为时间段
                                 if (abnormalData.getErrorDataType() == 1 || abnormalData.getErrorDataType() == 3) {
                                     abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13) + "," + abnormalData.getCreateTime().substring(0, 13));
                                 } else {
-                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13));
+                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime());
                                 }
                                 abnormalData.setErrorDataReRun(0);
                                 abnormalData.setMissDataReRun(0);

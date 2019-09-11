@@ -17,7 +17,15 @@ public class ConfigSensorDatabase {
   private int manageOrgId;
   private String manageOrgName;
   private String sensorModelType;
+  private String subordinateCompany;
 
+  public String getSubordinateCompany() {
+    return subordinateCompany;
+  }
+
+  public void setSubordinateCompany(String subordinateCompany) {
+    this.subordinateCompany = subordinateCompany;
+  }
 
   public int getPropertyCode() {
     return propertyCode;

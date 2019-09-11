@@ -92,7 +92,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
 
     @Select("select * from report_station_broken where station_id = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")
-    ReportManageApplicationBroken getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
+    List<ReportManageApplicationBroken> getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
 
     @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  WHERE report_id = #{data.reportId}")
     void updateTime(@Param("data") ReportManageApplicationBroken lastData, @Param("date") String date);

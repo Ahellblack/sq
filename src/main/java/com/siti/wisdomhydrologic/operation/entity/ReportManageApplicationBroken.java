@@ -47,11 +47,10 @@ public class ReportManageApplicationBroken {
     @ApiModelProperty(value = " 派单状态 1:发现  2：已派单  3：维护中  4：已处理", name = "reportId")
     private int requestDesignatingStatus;
 
-
-    @ApiModelProperty(value = "防汛要求解决时间（手动）", name = "reportId")
+    @ApiModelProperty(value = "防汛要求解决时间（手动）")
     private String brokenAskToResolveTime;
 
-    @ApiModelProperty(value = "防汛要求抢修情况上报时间，与前一列一致，且可改（手动）", name = "reportId")
+    @ApiModelProperty(value = "防汛要求抢修情况上报时间，与前一列一致，且可改（手动）")
     private String brokenrRequestReportTime;
 
     @ApiModelProperty(value = "故障开始处理时间（自动）")

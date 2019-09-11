@@ -152,9 +152,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, data.getSensorCode());
                 if (latestData.size() > 0) {
                     try {
-                        ReportManageApplicationBroken lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
+                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
                         if(lastData != null){
-                            reportManageApplicationBrokenMapper.updateTime(lastData, data.getDate());
+                            reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
                             System.out.println("表四数据错误时间更替" + lastData);
                         }
                     } catch (Exception e) {

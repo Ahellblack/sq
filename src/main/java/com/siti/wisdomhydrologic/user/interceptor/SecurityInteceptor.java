@@ -22,10 +22,9 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
     }
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        /*redisBiz = getBean(RedisBiz.class);
+       /* redisBiz = getBean(RedisBiz.class);
         httpServletResponse.setContentType("text/html;charset=UTF-8");
         HttpSession session = httpServletRequest.getSession();
-        System.out.println(session.getId());
         if(!redisBiz.exists(session.getId())){
             httpServletResponse.sendRedirect("/login");
             httpServletResponse.getWriter().write("请先完成登陆！");

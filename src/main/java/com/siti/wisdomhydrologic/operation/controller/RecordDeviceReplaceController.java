@@ -2,8 +2,11 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.operation.entity.RecordDeviceReplace;
 import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
+import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,16 +36,19 @@ import java.util.Map;
  */
 @RequestMapping("/recordDevice")
 @RestController
-@Api(value="测站设备变更记录表controller",tags={"测站设备变更记录表"})
+@Api(value = "测站设备变更记录表controller", tags = {"测站设备变更记录表"})
 public class RecordDeviceReplaceController {
+
+    @Resource
+    private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
 
     @Resource
     private RecordDeviceReplaceMapper mapper;
 
     @ApiOperation(value = "表八测站设备变更记录表查询", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
-    public List<RecordDeviceReplace> getAll(String stationName,String createDate) {
-        return mapper.getAll(stationName,createDate);
+    public List<RecordDeviceReplace> getAll(String stationName, String createDate) {
+        return mapper.getAll(stationName, createDate);
     }
 
     @GetMapping("/delete")
@@ -52,19 +58,68 @@ public class RecordDeviceReplaceController {
 
     @PostMapping("/update")
     public int update(RecordDeviceReplace recordDeviceReplace) {
-        try{
+        try {
             return mapper.updateByPrimaryKey(recordDeviceReplace);
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
+    @ApiOperation(value = "表八原设备资产选择下拉框", httpMethod = "GET", notes = "表八原设备资产选择下拉框")
+    @GetMapping("/getOriginDatabase")
+    public List<ConfigSensorDatabase> getOriginList(String orgName, String senserTypeName) {
+        return configSensorDatabaseMapper.getData(senserTypeName, orgName);
+    }
+    @ApiOperation(value = "表八新备用设备资产选择下拉框", httpMethod = "GET", notes = "表八新备用设备资产选择下拉框")
+    @GetMapping("/getOriginDatabase")
+    public List<ConfigSensorDatabase> getNewList(String senserTypeName) {
+        return configSensorDatabaseMapper.getNewData(senserTypeName);
+    }
+
 
     @PostMapping("/insert")
-    public int insert(RecordDeviceReplace recordDeviceReplace) {
-        try{
-            return mapper.insert(recordDeviceReplace);
+    public int insert(RecordDeviceReplaceVo vo) {
 
-        }catch (Exception e){
+        //ConfigSensorDatabase database = configSensorDatabaseMapper.getData(vo.getOriginDeviceName(),vo.getManageOrgName());
+        //旧设备状态更新
+        ConfigSensorDatabase oldDatabase = configSensorDatabaseMapper.findAllByPropertyCode(vo.getOriginDatabaseId());
+        //设置状态为 0备用,1已使用,2维修中,3已报废
+        if (oldDatabase != null) {
+            oldDatabase.setSensorUseStatus(vo.getOriginDatabaseStatus());
+            configSensorDatabaseMapper.update(oldDatabase);
+        } else {
+            return 0;
+        }
+        //新设备备用状态选择测站,状态更新为1:已安装
+        ConfigSensorDatabase newDatabase = configSensorDatabaseMapper.findAllByPropertyCode(vo.getNewDatabaseId());
+        if (newDatabase != null) {
+            newDatabase.setSensorUseStatus(1);
+            newDatabase.setManageOrgId(oldDatabase.getManageOrgId());
+            newDatabase.setManageOrgName(oldDatabase.getManageOrgName());
+        }else {
+            return 0;
+        }
+        configSensorDatabaseMapper.update(newDatabase);
+        //为设备更替记录赋值
+        RecordDeviceReplace entity = new RecordDeviceReplace();
+        entity.setReplaceDate(vo.getReplaceDate());
+        entity.setCreateBy(vo.getCreateBy());
+        entity.setCreateTime(vo.getCreateTime());
+        entity.setManageOrgId(oldDatabase.getManageOrgId());
+        entity.setManageOrgName(oldDatabase.getManageOrgName());
+        entity.setOriginDeviceCode(oldDatabase.getSensorCode());
+        entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
+        entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
+        entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
+        entity.setNewDeviceCode(newDatabase.getSensorCode());
+        entity.setNewDeviceName(newDatabase.getSensorTypeName());
+        entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
+        entity.setNewOrgName(newDatabase.getSubordinateCompany());
+
+        //修改设备记录在资产表
+        try {
+            return mapper.insert(entity);
+
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -72,9 +127,9 @@ public class RecordDeviceReplaceController {
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName,String createDate) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName,createDate);
+        Workbook workbook = exportSheetByTemplate(stationName, createDate);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -112,13 +167,13 @@ public class RecordDeviceReplaceController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName,String createDate) {
+    public Workbook exportSheetByTemplate(String stationName, String createDate) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         // 查询数据,此处省略
-        List<RecordDeviceReplace> list = mapper.getAll(stationName,createDate);
+        List<RecordDeviceReplace> list = mapper.getAll(stationName, createDate);
         for (int i = 0; i < list.size(); i++) {
             RecordDeviceReplace data = list.get(i);
             data.setReportId(i + 1);

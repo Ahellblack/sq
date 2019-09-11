@@ -87,4 +87,14 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
             "<if test=\"stationId!=null\"> and station_id = #{stationId} </if>" +
             " GROUP BY sensor_model_type</script>")
     List<ConfigSensorDatabase> getSensorTypeId(@Param("sensorTypeName") String sensorTypeName,@Param("StationId")Integer stationId);
+
+    @Select("select * from config_sensor_database " +
+            "where sensor_type_name =#{originDeviceName} and manage_org_name =#{manageOrgName} and sensor_use_status = 1" )
+    List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName,@Param("manageOrgName")String manageOrgName);
+
+
+    @Select("select * from config_sensor_database " +
+            "where sensor_type_name =#{originDeviceName} and sensor_use_status = 0" )
+    List<ConfigSensorDatabase> getNewData(@Param("originDeviceName") String originDeviceName);
+
 }
