@@ -119,16 +119,19 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
         ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
-        String numberStr = "";
 
-        for (int i = 0; i < phoneNumber.size(); i++) {
-            numberStr = numberStr + "," + phoneNumber.get(i);
+        if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
+            String numberStr = "";
+            for (int i = 0; i < phoneNumber.size(); i++) {
+                numberStr = numberStr + "," + phoneNumber.get(i);
+            }
+            if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
+                //发送短信
+                PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
+            }
+            return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
         }
-        if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
-            //发送短信
-            PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
-        }
-        return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
+        return 0;
     }
 
     @Override
