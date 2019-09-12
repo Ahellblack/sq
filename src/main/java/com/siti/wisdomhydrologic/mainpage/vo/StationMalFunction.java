@@ -5,13 +5,13 @@ package com.siti.wisdomhydrologic.mainpage.vo;
  */
 public class StationMalFunction {
 //北站
-    private Integer NstationNumber;
-    private Integer NmalNumber;
-    private Integer NonResolveNumber;
-    private Integer NendResolveNumber;
-    private Integer NnormalStationNumber;
-    private Integer NabnormalStationNumber;
-    private Integer NdownStationNumber;
+    private Integer NstationNumber;//北测站数
+    private Integer NmalNumber;//北派单数
+    private Integer NonResolveNumber;//北在处理中数
+    private Integer NendResolveNumber;//北处理完数
+    private Integer NnormalStationNumber;//北正常测站数
+    private Integer NabnormalStationNumber;//北异常测站数
+    private Integer NdownStationNumber;//北离线测站数
 //南站
     private Integer SstationNumber;
     private Integer SmalNumber;

@@ -32,7 +32,7 @@ public class ReportManageDataMantain {
     @ApiModelProperty("value=是否进行错误数据反算0 否 1 是,")
     private Integer errorDataReRun;
     @ApiModelProperty("value=缺数数据类型（是否有固定类型，实时、五分钟、小时）")
-    private String missDataType;
+    private Integer missDataType;
     @ApiModelProperty("value=缺数数据时段2019-03-20 10:00~2019-03-20 11:00")
     private String missTimeSpace;
     @ApiModelProperty("value=是否进行缺数数据反算0 否 1 是")
@@ -171,11 +171,11 @@ public class ReportManageDataMantain {
         this.errorDataReRun = errorDataReRun;
     }
 
-    public String getMissDataType() {
+    public Integer getMissDataType() {
         return missDataType;
     }
 
-    public void setMissDataType(String missDataType) {
+    public void setMissDataType(Integer missDataType) {
         this.missDataType = missDataType;
     }
 

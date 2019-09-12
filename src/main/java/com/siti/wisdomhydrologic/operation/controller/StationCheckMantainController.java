@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain;
 import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationCheckMantainServiceImpl;
@@ -35,6 +37,8 @@ public class StationCheckMantainController {
     private StationCheckMantainServiceImpl stationCheckMantainService;
     @Resource
     private StationCheckMantainMapper stationCheckMantainMapper;
+    @Resource
+    private ConfigRiverStationMapper configRiverStationMapper;
 
     @ApiOperation(value = "表五测站检查维护记录表查询，根据日期及测站id进行筛选，每次导出一条数据", httpMethod = "GET", notes = "表五测站检查维护记录表查询")
     @GetMapping("/getAll")
@@ -44,7 +48,13 @@ public class StationCheckMantainController {
         if (byStationId!=null){
             return byStationId;
         }else {
-            return new ReportStationCheckMantain(mantainDate,stationId);
+
+            //表5 页面设计 任何时间和测站可以查询并修改数据,当库中无数据时,新增一条数据
+            ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(stationId);
+            ReportStationCheckMantain newData = new ReportStationCheckMantain(mantainDate, stationId, allByCode.getStationName());
+            stationCheckMantainMapper.insert(newData);
+
+            return newData;
         }
     }
 

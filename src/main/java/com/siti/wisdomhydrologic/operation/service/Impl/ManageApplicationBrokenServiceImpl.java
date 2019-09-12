@@ -46,7 +46,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private ConfigRiverStationMapper configRiverStationMapper;
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
-
     private static final int STATUS = 2;
 
     public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate, String stationName) {
@@ -93,7 +92,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Override
     public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
 
-        reportManageApplicationBroken.setRequestDesignatingStatus(1);
+        /*reportManageApplicationBroken.setRequestDesignatingStatus(1);
         if (reportManageApplicationBroken.getRequestDesignatingStatus() == STATUS) {
             //派单处理
             LocalTime localTime = LocalTime.now();
@@ -103,7 +102,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             Instant instant = localDateTime.atZone(zone).toInstant();
             Date date = Date.from(instant);
             reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(date, "YYYY-MM-dd HH:mm:ss"));
-        }
+        }*/
         try {
             reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
         } catch (Exception e) {
@@ -113,13 +112,22 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
 
-    public int updateMalStatus(ReportManageApplicationBroken reportManageApplicationBroken, Integer status) {
-        reportManageApplicationBroken.setRequestDesignatingStatus(status);
+    public int updateMalStatus(Integer reportId) {
 
-        if (status == 2) {
-            PushMsg.pushMsgToClient("18121105875", "1", "1", "3");
+        ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
+        reportManageApplicationBroken.setRequestDesignatingStatus(2);
+
+        ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
+        List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
+        String numberStr = "";
+
+        for (int i = 0; i < phoneNumber.size(); i++) {
+            numberStr = numberStr + "," + phoneNumber.get(i);
         }
-
+        if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
+            //发送短信
+            PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
+        }
         return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
     }
 
@@ -153,7 +161,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 if (latestData.size() > 0) {
                     try {
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
-                        if(lastData != null){
+                        if (lastData != null) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
                             System.out.println("表四数据错误时间更替" + lastData);
                         }

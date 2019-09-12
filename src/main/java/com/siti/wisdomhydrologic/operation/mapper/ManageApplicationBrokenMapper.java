@@ -96,4 +96,16 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  WHERE report_id = #{data.reportId}")
     void updateTime(@Param("data") ReportManageApplicationBroken lastData, @Param("date") String date);
+
+
+    @Select("select a.phone_num " +
+            "from sys_user as a " +
+            "LEFT JOIN sys_user_org as b on a.id=b.uid " +
+            "LEFT JOIN config_region as c on c.manage_org_id=b.org_id " +
+            "where c.region_id=#{RegionId} and b.is_leader=1 ")
+    List<String> getNumberByRegionId(@Param("RegionId") Integer RegionId);
+
+    @Select("select * from report_station_broken where report_id = #{reportId}")
+    ReportManageApplicationBroken getOne(@Param("reportId") Integer reportId);
+
 }

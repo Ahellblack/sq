@@ -85,7 +85,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         Date date = new Date();
         //格式为YYYY-MM-dd
         reportManageDataMantain.setAlterDate(DateOrTimeTrans.Date2TimeString(date));
-        if (reportManageDataMantain.getConfirValue() != null) {
+        if (reportManageDataMantain.getConfirValue() != null && (!"".equals(reportManageDataMantain.getConfirValue()))) {
             reportManageDataMantain.setErrorDataReRun(1);
         }
         if (reportManageDataMantain.getMissDataType() != null && (!"".equals(reportManageDataMantain.getMissDataType()))) {
@@ -118,69 +118,74 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
         if (all.size() > 0) {
             //获取异常配置参数
-            all.forEach(abnormalData -> {
-                if (abnormalData.getDataError() != null) {
-                    abnormalData.setBrokenAccordingId(abnormalData.getDataError());
+            all.forEach(abData -> {
+                if (abData.getDataError() != null) {
+                    abData.setBrokenAccordingId(abData.getDataError());
 
                     /**
                      * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
                      * */
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(DateTransform.String2Date(abnormalData.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+                    cal.setTime(DateTransform.String2Date(abData.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
                     cal.add(cal.MINUTE, -5);
                     String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                   // List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abnormalData.getStationCode(), last5MinuteTime);
+                   // List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abData.getStationCode(), last5MinuteTime);
 
                     /**
                      * 查询上个五分钟的异常表数据。
                      * */
-                    List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, abnormalData.getSensorCode());
+                    List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
 
                     //赋值测站号和修改日期
-                    abnormalData.setStationCode(abnormalData.getSensorCode() / 100);
-                    abnormalData.setCreateTime(abnormalData.getDate());
+                    abData.setStationCode(abData.getSensorCode() / 100);
+                    abData.setCreateTime(abData.getDate());
 
                     if (latestData.size() > 0) {
                         /**
                          * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
                          * 若有，更新最后一次生成时间
                          * */
-                        ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abnormalData.getSectionCode(), last5MinuteTime);
+                        ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
 
-                        abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
-                        abnormalData.setErrorTimeSpace(lastestData.getCreateTime().substring(0,13) + "," + abnormalData.getCreateTime().substring(0,13));
-                        abnormalData.setReportId(lastestData.getReportId());
-                        reportManageDataMantainMapper.updateTime(abnormalData);
-                        System.out.println(abnormalData.getStationName()+"的异常"+abnormalData.getBrokenAccordingId()+"表二数据错误时间更替" + abnormalData.getErrorLastestAppearTime());
+                        abData.setErrorLastestAppearTime(abData.getCreateTime());
+                        abData.setErrorTimeSpace(lastestData.getCreateTime().substring(0,13) + "," + abData.getCreateTime().substring(0,13));
+                        abData.setReportId(lastestData.getReportId());
+                        reportManageDataMantainMapper.updateTime(abData);
+                        System.out.println(abData.getStationName()+"的异常"+abData.getBrokenAccordingId()+"表二数据错误时间更替" + abData.getErrorLastestAppearTime());
                     } else {
                         //根据字典获取异常名
                         dictionarylist.forEach(param -> {
-                            if (param.getBrokenAccordingId().equals(abnormalData.getBrokenAccordingId())) {
-                                abnormalData.setErrorDataReason(param.getErrorName());
-                                abnormalData.setBrokenAccordingId(param.getBrokenAccordingId());
-                                abnormalData.setErrorDataType(param.getErrorDataId());
+                            if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {
+                                abData.setErrorDataReason(param.getErrorName());
+                                abData.setBrokenAccordingId(param.getBrokenAccordingId());
+                                abData.setErrorDataType(param.getErrorDataId());
                                 //修改日期添加时精确到某日
-                                abnormalData.setAlterDate(abnormalData.getCreateTime().substring(0, 10));
-                                abnormalData.setErrorLastestAppearTime(abnormalData.getCreateTime());
+                                abData.setAlterDate(abData.getCreateTime().substring(0, 10));
+                                abData.setErrorLastestAppearTime(abData.getCreateTime());
                                 //状态为实时或小时时,错误时段为时间段
-                                if (abnormalData.getErrorDataType() == 1 || abnormalData.getErrorDataType() == 3) {
-                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime().substring(0, 13) + "," + abnormalData.getCreateTime().substring(0, 13));
-                                } else {
-                                    abnormalData.setErrorTimeSpace(abnormalData.getCreateTime());
+                                //实时时段精度到时分秒
+                                if (abData.getErrorDataType() == 1 ) {
+                                    abData.setErrorTimeSpace(abData.getCreateTime() + "," + abData.getCreateTime());
+                                }//小时时段精度到时
+                                else if(abData.getErrorDataType() == 3){
+                                    abData.setErrorTimeSpace(abData.getCreateTime().substring(0, 13) + "," + abData.getCreateTime().substring(0, 13));
+                                }else {
+                                    //5分钟,一天异常为单个时间
+                                    abData.setErrorTimeSpace(abData.getCreateTime());
                                 }
-                                abnormalData.setErrorDataReRun(0);
-                                abnormalData.setMissDataReRun(0);
+                                abData.setErrorDataReRun(0);
+                                abData.setMissDataReRun(0);
                             }
                         });
                         //结合module表添加测站参数
                         moduleList.forEach(module -> {
-                            if (module.getSectionCode() == abnormalData.getSectionCode()) {
-                                abnormalData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
-                                abnormalData.setAlterSensorTypeId(module.getSectionCode() % 100);
-                                abnormalData.setStationName(module.getStationName());
+                            if (module.getSectionCode() == abData.getSectionCode()) {
+                                abData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
+                                abData.setAlterSensorTypeId(module.getSectionCode() % 100);
+                                abData.setStationName(module.getStationName());
                             }
                         });
-                        abnormalall.add(abnormalData);
+                        abnormalall.add(abData);
                     }
                 }
             });

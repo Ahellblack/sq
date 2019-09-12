@@ -43,6 +43,9 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("select * from config_river_station")
     List<ConfigRiverStation> getAll();
 
+    /*@Select("")
+    List<ConfigRiverStation> getCheckAll();*/
+
     @Select("select * from config_river_station where station_id = #{stationId}")
     ConfigRiverStation getAllByCode(@Param("stationId") Integer stationId);
 
