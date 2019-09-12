@@ -1,3 +1,4 @@
+/*
 package com.siti.wisdomhydrologic.config;
 
 import org.slf4j.Logger;
@@ -17,11 +18,13 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.Nullable;
 
+*/
 /**
  * Created by DC on 2019/6/12.
  *
  * @data ${DATA}-14:58
- */
+ *//*
+
 @Configuration
 public class RabbitMQConfig {
 
@@ -106,7 +109,8 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
-    /**
+    */
+/**
      * 针对消费者配置
      * 1. 设置交换机类型
      * 2. 将队列绑定到交换机
@@ -114,7 +118,8 @@ public class RabbitMQConfig {
      HeadersExchange ：通过添加属性key-value匹配
      DirectExchange:按照routingkey分发到指定队列
      TopicExchange:多关键字匹配
-     */
+     *//*
+
     @Bean
     public TopicExchange defaultExchange() {
         return new TopicExchange(WH_EXCHANGE,true,false);
@@ -125,10 +130,12 @@ public class RabbitMQConfig {
         return new TopicExchange(WH_HISTORY_EXCHANGE,true,false);
     }
 
-    /**
+    */
+/**
      * 获取队列month
      * @return
-     */
+     *//*
+
     @Bean
     public Queue queuReal() {
         return new Queue(QUEUE_REAL, true); //队列持久
@@ -166,38 +173,46 @@ public class RabbitMQConfig {
         return new Queue(HISTORY_QUEUE_HOUR, true); //队列持久
     }
 
-    /**
+    */
+/**
      * 将实时队列绑定到topic交换机上
      * @return
-     */
+     *//*
+
     @Bean
     public Binding bindingReal() {
         //binding_key为topic.#,模糊匹配
         return BindingBuilder.bind(queuReal()).to(defaultExchange()).with(RabbitMQConfig.ROUTINGKEY_REAL);
     }
 
-    /**
+    */
+/**
      * 将日队列绑定到topic交换机
      * @return
-     */
+     *//*
+
     @Bean
     public Binding bindingDay() {
         return BindingBuilder.bind(queueDay()).to(defaultExchange()).with(RabbitMQConfig.ROUTINGKEY_DAY);
     }
 
-    /**
+    */
+/**
      * 将TSDB队列绑定到topic交换机
      * @return
-     */
+     *//*
+
     @Bean
     public Binding bindingTSDB() {
         return BindingBuilder.bind(queueTSDB()).to(defaultExchange()).with(RabbitMQConfig.ROUTINGKEY_TSDB);
     }
 
-    /**
+    */
+/**
      * 将hour队列绑定到topic交换机
      * @return
-     */
+     *//*
+
     @Bean
     public Binding bindingHour() {
         return BindingBuilder.bind(queueHour()).to(defaultExchange()).with(RabbitMQConfig.ROUTINGKEY_HOUR);
@@ -218,12 +233,14 @@ public class RabbitMQConfig {
     public Binding bindinghisTSDB() {
         return BindingBuilder.bind(hisqueueTSDB()).to(hisExchange()).with(RabbitMQConfig.HISTORY_ROUTINGKEY_TSDB);
     }
-    /**
+    */
+/**
      * i->replyCode
      * s->replyText
      * s1->exchange
      * s2->routingKey
-     * **/
+     * **//*
+
     //消息从交换器发送到队列失败时触发
     RabbitTemplate.ReturnCallback msgReturnCallback=new RabbitTemplate.ReturnCallback() {
 
@@ -246,3 +263,4 @@ public class RabbitMQConfig {
         }
     };
 }
+*/

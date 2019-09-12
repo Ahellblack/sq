@@ -51,7 +51,7 @@ public class ReportManageApplicationBroken {
     private String brokenAskToResolveTime;
 
     @ApiModelProperty(value = "防汛要求抢修情况上报时间，与前一列一致，且可改（手动）")
-    private String brokenrRequestReportTime;
+    private String brokenRequestReportTime;
 
     @ApiModelProperty(value = "故障开始处理时间（自动）")
     private String brokenOnResolveTime;
@@ -86,11 +86,11 @@ public class ReportManageApplicationBroken {
     }
 
     public String getBrokenrRequestReportTime() {
-        return brokenrRequestReportTime;
+        return brokenRequestReportTime;
     }
 
-    public void setBrokenrRequestReportTime(String brokenrRequestReportTime) {
-        this.brokenrRequestReportTime = brokenrRequestReportTime;
+    public void setBrokenrRequestReportTime(String brokenRequestReportTime) {
+        this.brokenRequestReportTime = brokenRequestReportTime;
     }
 
     public int getRequestDesignatingStatus() {
@@ -213,6 +213,6 @@ public class ReportManageApplicationBroken {
 
     @Override
     public String toString() {
-        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenrRequestReportTime='" + brokenrRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
+        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenRequestReportTime='" + brokenRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
     }
 }

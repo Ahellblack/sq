@@ -38,9 +38,14 @@ public class StationCheckMantainController {
 
     @ApiOperation(value = "表五测站检查维护记录表查询，根据日期及测站id进行筛选，每次导出一条数据", httpMethod = "GET", notes = "表五测站检查维护记录表查询")
     @GetMapping("/getAll")
-    public ReportStationCheckMantain getAll(String mantainDate, String stationId) {
+    public ReportStationCheckMantain getAll(String mantainDate, Integer stationId) {
 
-        return stationCheckMantainMapper.getByStationId(mantainDate, stationId);
+        ReportStationCheckMantain byStationId = stationCheckMantainMapper.getByStationId(mantainDate, stationId);
+        if (byStationId!=null){
+            return byStationId;
+        }else {
+            return new ReportStationCheckMantain(mantainDate,stationId);
+        }
     }
 
     @PostMapping("/insert")
@@ -61,7 +66,7 @@ public class StationCheckMantainController {
     @ApiOperation(value = "表五测站检查维护记录表，根据日期及测站id进行筛选，每次导出一条数据,模板导出", httpMethod = "GET", notes = "表五测站检查维护记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String mantainDate, String stationId) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String mantainDate, Integer stationId) throws UnsupportedEncodingException {
         // 获取workbook对象
         Workbook workbook = exportSheetByTemplate(mantainDate, stationId);
         // 判断数据
@@ -102,7 +107,7 @@ public class StationCheckMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(@Param("mantainDate") String mantainDate, @Param("stationId") String stationId) {
+    public Workbook exportSheetByTemplate(@Param("mantainDate") String mantainDate, @Param("stationId") Integer stationId) {
         // 查询数据,此处省略
         ReportStationCheckMantain entity = stationCheckMantainMapper.getByStationId(mantainDate, stationId);
         /*for (int i = 0; i < list.size(); i++) {
@@ -127,7 +132,6 @@ public class StationCheckMantainController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("data", entity);
         map.put("date", mantainDate);
-        System.out.println(map.get("data").toString());
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         // 导出excel
         return workbook;

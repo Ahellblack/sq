@@ -88,7 +88,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (reportManageDataMantain.getConfirValue() != null) {
             reportManageDataMantain.setErrorDataReRun(1);
         }
-        if (reportManageDataMantain.getMissDataType() != null && reportManageDataMantain.getMissTimeSpace() != null) {
+        if (reportManageDataMantain.getMissDataType() != null && (!"".equals(reportManageDataMantain.getMissDataType()))) {
             reportManageDataMantain.setMissDataReRun(1);
         }
         String createTime = reportManageDataMantain.getCreateTime();
@@ -100,7 +100,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             reportManageDataMantain.setErrorTimeSpace(createTime);
         }
 
-        System.out.println("修改后的ReportManageDataMantain：" + reportManageDataMantain);
+        System.out.println("修改后的ReportManageDataMantain:" + reportManageDataMantain);
 
         try{
             int result = reportManageDataMantainMapper.update(reportManageDataMantain);

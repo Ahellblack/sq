@@ -9,10 +9,7 @@ import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -56,9 +53,8 @@ public class StationRainConstrastController {
     /**
      * 客户可修改基本站数值
      */
-    @GetMapping("/update")
-    public int update(ReportStationRainConstrastVo vo) {
-
+    @PostMapping("/update")
+    public int update(@RequestBody ReportStationRainConstrastVo vo) {
         return stationRainConstrastService.update(vo);
     }
 

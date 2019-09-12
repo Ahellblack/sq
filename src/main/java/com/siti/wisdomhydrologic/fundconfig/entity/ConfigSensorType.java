@@ -3,20 +3,21 @@ package com.siti.wisdomhydrologic.fundconfig.entity;
 
 public class ConfigSensorType {
 
-  private long sensorTypeId;
+  private String sensorTypeId;
   private String sensorTypeName;
   private String sensorDataUnit;
-  private long createBy;
+  private String otherName;
+  private int createBy;
   private java.sql.Timestamp createTime;
-  private long updateBy;
+  private int updateBy;
   private java.sql.Timestamp updateTime;
 
 
-  public long getSensorTypeId() {
+  public String getSensorTypeId() {
     return sensorTypeId;
   }
 
-  public void setSensorTypeId(long sensorTypeId) {
+  public void setSensorTypeId(String sensorTypeId) {
     this.sensorTypeId = sensorTypeId;
   }
 
@@ -39,11 +40,20 @@ public class ConfigSensorType {
   }
 
 
-  public long getCreateBy() {
+  public String getOtherName() {
+    return otherName;
+  }
+
+  public void setOtherName(String otherName) {
+    this.otherName = otherName;
+  }
+
+
+  public int getCreateBy() {
     return createBy;
   }
 
-  public void setCreateBy(long createBy) {
+  public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
 
@@ -57,11 +67,11 @@ public class ConfigSensorType {
   }
 
 
-  public long getUpdateBy() {
+  public int getUpdateBy() {
     return updateBy;
   }
 
-  public void setUpdateBy(long updateBy) {
+  public void setUpdateBy(int updateBy) {
     this.updateBy = updateBy;
   }
 

@@ -11,7 +11,7 @@ public class ReportStationCheckMantain {
   private String mantainDate;
 
   @Excel(name = "stationCode", height = 11, width = 10)
-  private String stationCode;
+  private int stationCode;
 
   @Excel(name = "stationName", height = 11, width = 10)
   private String stationName;
@@ -127,27 +127,27 @@ public class ReportStationCheckMantain {
   @Excel(name = "createTime", height = 11, width = 10)
   private String createTime;
 
-  private String waterLevelZeroheight;
-  private String waterLevelStaffvalue;
+  private String waterLevelZeroHeight;
+  private String waterLevelStaffValue;
   private String waterLevelTime;
-  private String waterLevelIndicatorvalue;
+  private String waterLevelIndicatorValue;
   private String waterLevelValue;
 
 
-  public String getWaterLevelZeroheight() {
-    return waterLevelZeroheight;
+  public String getWaterLevelZeroHeight() {
+    return waterLevelZeroHeight;
   }
 
-  public void setWaterLevelZeroheight(String waterLevelZeroheight) {
-    this.waterLevelZeroheight = waterLevelZeroheight;
+  public void setWaterLevelZeroHeight(String waterLevelZeroHeight) {
+    this.waterLevelZeroHeight = waterLevelZeroHeight;
   }
 
-  public String getWaterLevelStaffvalue() {
-    return waterLevelStaffvalue;
+  public String getWaterLevelStaffValue() {
+    return waterLevelStaffValue;
   }
 
-  public void setWaterLevelStaffvalue(String waterLevelStaffvalue) {
-    this.waterLevelStaffvalue = waterLevelStaffvalue;
+  public void setWaterLevelStaffValue(String waterLevelStaffValue) {
+    this.waterLevelStaffValue = waterLevelStaffValue;
   }
 
   public String getWaterLevelTime() {
@@ -158,12 +158,12 @@ public class ReportStationCheckMantain {
     this.waterLevelTime = waterLevelTime;
   }
 
-  public String getWaterLevelIndicatorvalue() {
-    return waterLevelIndicatorvalue;
+  public String getWaterLevelIndicatorValue() {
+    return waterLevelIndicatorValue;
   }
 
-  public void setWaterLevelIndicatorvalue(String waterLevelIndicatorvalue) {
-    this.waterLevelIndicatorvalue = waterLevelIndicatorvalue;
+  public void setWaterLevelIndicatorValue(String waterLevelIndicatorValue) {
+    this.waterLevelIndicatorValue = waterLevelIndicatorValue;
   }
 
   public String getWaterLevelValue() {
@@ -192,14 +192,13 @@ public class ReportStationCheckMantain {
   }
 
 
-  public String getStationCode() {
+  public int getStationCode() {
     return stationCode;
   }
 
-  public void setStationCode(String stationCode) {
+  public void setStationCode(int stationCode) {
     this.stationCode = stationCode;
   }
-
 
   public String getStationName() {
     return stationName;
@@ -539,5 +538,14 @@ public class ReportStationCheckMantain {
 
   public void setCreateTime(String createTime) {
     this.createTime = createTime;
+  }
+
+
+  public ReportStationCheckMantain() {
+  }
+
+  public ReportStationCheckMantain(String mantainDate, int stationCode) {
+    this.mantainDate = mantainDate;
+    this.stationCode = stationCode;
   }
 }

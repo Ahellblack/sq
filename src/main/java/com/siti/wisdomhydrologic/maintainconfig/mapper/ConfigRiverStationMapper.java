@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.maintainconfig.mapper;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -11,17 +12,51 @@ import java.util.List;
  */
 public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
+//    -- ----------------------------
+//            -- Table structure for `config_river_station`
+//            -- ----------------------------
+//    DROP TABLE IF EXISTS `config_river_station`;
+//    CREATE TABLE `config_river_station` (
+//            `station_code` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '测站编号',
+//            `station_telemetry_code` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '默认同station_code',
+//            `station_id` int(15) DEFAULT NULL,
+//  `station_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '测站名称',
+//            `org_id` int(11) DEFAULT NULL COMMENT '所属镇、街道ID',
+//            `org_name` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '所属镇、街道名称',
+//            `river_id` int(11) DEFAULT NULL COMMENT '所属河道ID',
+//            `river_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '所属河道名称',
+//            `region_id` int(11) DEFAULT NULL COMMENT '测站所属片区ID',
+//            `region_name` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '测站所属片区名称',
+//            `station_wiski_code` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '测站码(wiski)',
+//            `station_level` tinyint(4) DEFAULT '2' COMMENT '0 基本站；1国家站；2一般站',
+//            `station_gaode_longitude` decimal(11,6) DEFAULT NULL COMMENT '测站经度',
+//            `station_gaode_latitude` decimal(11,6) DEFAULT NULL COMMENT '测站纬度',
+//            `is_sluice_gate` tinyint(1) DEFAULT '0' COMMENT '0 无闸门；1有闸门',
+//            `station_address` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '测站地址',
+//            `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '建站时间',
+//            `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+//            `flow_rate` decimal(10,2) NOT NULL DEFAULT '95.00' COMMENT '测站畅通率',
+//            `sys_org` int(11) NOT NULL COMMENT '所属分中心站。（区分测站所属组织）',
+//    PRIMARY KEY (`station_code`)
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
     @Select("select * from config_river_station")
     List<ConfigRiverStation> getAll();
-
-    @Select("select * from config_river_station where sys_org<>0 group by sys_org ")
-    List<ConfigRiverStation> getBySysOrg();
 
     @Select("select * from config_river_station where station_id = #{stationId}")
     ConfigRiverStation getAllByCode(@Param("stationId") Integer stationId);
 
-    @Select("select * from config_river_station where station_name =#{stationname}")
-    ConfigRiverStation getByName(@Param("stationname") String name);
+    // 修改为模糊查询
+    @Select("select * from config_river_station where station_name like CONCAT(CONCAT('%', #{stationName}), '%')")
+    ConfigRiverStation getByName(@Param("stationName") String name);
+
+    // 修改为模糊查询
+    @Select("select * from config_river_station where station_name = #{stationName}")
+    ConfigRiverStation getByAllName(@Param("stationName") String name);
+
+
+    @Select("select * from config_river_station where sys_org<>0 group by sys_org ")
+    List<ConfigRiverStation> getBySysOrg();
 
     @Insert("INSERT INTO `config_river_station` (`station_code`, `station_telemetry_code`, `station_id`, " +
             "`station_name`, `org_id`, `org_name`, `river_id`, `river_name`, `region_id`,`region_name`, " +
@@ -81,6 +116,13 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     // 根据测站级别进行查询
     @Select("select * from config_river_station where station_level = #{stationLevel}")
     List<ConfigRiverStation> getAllByStationLevel(@Param("stationLevel") Integer stationLevel);
+
+    // 根据测站级别进行查询
+    @Select("select * from config_river_station where station_id = #{stationID}")
+    ConfigRiverStation getByStationID(@Param("stationID") Integer stationID);
+
+    @Select("select station_name from config_river_station where station_id = #{stationID}")
+    String getStationNameByStationID(@Param("stationID") Integer stationID);
 
     // 根据测站名称模糊进行查询
     @Select("select * from config_river_station where station_name like CONCAT(CONCAT('%', #{stationName}), '%')")

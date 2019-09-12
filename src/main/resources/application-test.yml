@@ -13,26 +13,9 @@ spring:
         max-wait: 2000
         min-idle: 1
         max-idle: 100
-#rabbitmq相关配置
-  rabbitmq:
-     host: 114.80.231.178 #10.1.30.24
-     port: 5671
-     username: shuiwen
-     password: siti@sw
-     publisher-confirms: true
-     publisher-returns: true
-     virtual-host: shuiwen
-     listener:
-        simple:
-          acknowledge-mode: manual #采用手动应答
-          concurrency: 2
-          max-concurrency: 2
-          retry:
-            enabled: true #是否支持重试
-          prefetch: 1
 
 logback:
-  logHome: wh/log/
+  logHome: C:/wh/log/
   logName: wh
 wh:
   #海康Appkey

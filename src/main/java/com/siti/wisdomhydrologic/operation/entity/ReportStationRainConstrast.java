@@ -8,7 +8,7 @@ public class ReportStationRainConstrast {
   private int reportId;
 
   @Excel(name = "stationCode", height = 11, width = 10)
-  private String stationCode;
+  private int stationCode;
 
   @Excel(name = "stationName", height = 11, width = 10)
   private String stationName;
@@ -144,14 +144,13 @@ public class ReportStationRainConstrast {
   }
 
 
-  public String getStationCode() {
+  public int getStationCode() {
     return stationCode;
   }
 
-  public void setStationCode(String stationCode) {
+  public void setStationCode(int stationCode) {
     this.stationCode = stationCode;
   }
-
 
   public String getStationName() {
     return stationName;

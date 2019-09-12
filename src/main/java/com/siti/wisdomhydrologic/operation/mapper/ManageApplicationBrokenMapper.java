@@ -77,7 +77,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "#{data.brokenResponseTime},#{data.brokenOnResolveTime}, #{data.requestDesignatingTime}," +
             " #{data.brokenResolveTime}, #{data.resolveMethod}, #{data.resolveUserId}," +
             " #{data.remark}, #{data.requestDesignatingStatus},#{data.brokenAskToResolveTime}," +
-            "#{data.brokenrRequestReportTime},#{data.errorLastestAppearTime})")
+            "#{data.brokenRequestReportTime},#{data.errorLastestAppearTime})")
     int insert(@Param("data") ReportManageApplicationBroken broken);
 
 
@@ -87,7 +87,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "`request_designating_time` = #{data.requestDesignatingTime}, `broken_resolve_time` = #{data.brokenResolveTime}, " +
             "`resolve_method` =  #{data.resolveMethod}, `resolve_user_id` = #{data.resolveUserId}, `remark` = #{data.remark}, " +
             "`request_designating_status` = #{data.requestDesignatingStatus}, `broken_ask_to_resolve_time` = #{data.brokenAskToResolveTime}, " +
-            "`broken_request_report_time` = #{data.brokenrRequestReportTime} WHERE report_id = #{data.reportId}")
+            "`broken_request_report_time` = #{data.brokenRequestReportTime} WHERE report_id = #{data.reportId}")
     int update(@Param("data") ReportManageApplicationBroken broken);
 
 

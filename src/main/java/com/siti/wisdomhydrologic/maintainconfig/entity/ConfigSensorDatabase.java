@@ -1,37 +1,55 @@
 package com.siti.wisdomhydrologic.maintainconfig.entity;
 
-import java.util.Date;
 
 public class ConfigSensorDatabase {
 
-  private int propertyCode;
+  private String propertyCode;
   private String sensorCode;
-  private int sensorTypeId;
+  private String sensorTypeId;
   private String sensorTypeName;
-  private String sensorDataUnit;
   private int sensorUseStatus;
+  private String sensorLocation;
   private int createBy;
-  private Date createTime;
+  private String createByName;
+  private java.sql.Timestamp createTime;
   private int updateBy;
-  private Date updateTime;
+  private String updateByName;
+  private java.sql.Timestamp updateTime;
   private int manageOrgId;
   private String manageOrgName;
   private String sensorModelType;
   private String subordinateCompany;
+  private String remarks;
 
-  public String getSubordinateCompany() {
-    return subordinateCompany;
+  public String getRemarks() {
+    return remarks;
   }
 
-  public void setSubordinateCompany(String subordinateCompany) {
-    this.subordinateCompany = subordinateCompany;
+  public void setRemarks(String remarks) {
+    this.remarks = remarks;
   }
 
-  public int getPropertyCode() {
+  public String getCreateByName() {
+    return createByName;
+  }
+
+  public void setCreateByName(String createByName) {
+    this.createByName = createByName;
+  }
+
+  public String getUpdateByName() {
+    return updateByName;
+  }
+
+  public void setUpdateByName(String updateByName) {
+    this.updateByName = updateByName;
+  }
+
+  public String getPropertyCode() {
     return propertyCode;
   }
 
-  public void setPropertyCode(int propertyCode) {
+  public void setPropertyCode(String propertyCode) {
     this.propertyCode = propertyCode;
   }
 
@@ -45,11 +63,11 @@ public class ConfigSensorDatabase {
   }
 
 
-  public int getSensorTypeId() {
+  public String getSensorTypeId() {
     return sensorTypeId;
   }
 
-  public void setSensorTypeId(int sensorTypeId) {
+  public void setSensorTypeId(String sensorTypeId) {
     this.sensorTypeId = sensorTypeId;
   }
 
@@ -63,21 +81,21 @@ public class ConfigSensorDatabase {
   }
 
 
-  public String getSensorDataUnit() {
-    return sensorDataUnit;
-  }
-
-  public void setSensorDataUnit(String sensorDataUnit) {
-    this.sensorDataUnit = sensorDataUnit;
-  }
-
-
   public int getSensorUseStatus() {
     return sensorUseStatus;
   }
 
   public void setSensorUseStatus(int sensorUseStatus) {
     this.sensorUseStatus = sensorUseStatus;
+  }
+
+
+  public String getSensorLocation() {
+    return sensorLocation;
+  }
+
+  public void setSensorLocation(String sensorLocation) {
+    this.sensorLocation = sensorLocation;
   }
 
 
@@ -90,11 +108,11 @@ public class ConfigSensorDatabase {
   }
 
 
-  public Date getCreateTime() {
+  public java.sql.Timestamp getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(Date createTime) {
+  public void setCreateTime(java.sql.Timestamp createTime) {
     this.createTime = createTime;
   }
 
@@ -108,11 +126,11 @@ public class ConfigSensorDatabase {
   }
 
 
-  public Date getUpdateTime() {
+  public java.sql.Timestamp getUpdateTime() {
     return updateTime;
   }
 
-  public void setUpdateTime(Date updateTime) {
+  public void setUpdateTime(java.sql.Timestamp updateTime) {
     this.updateTime = updateTime;
   }
 
@@ -141,6 +159,15 @@ public class ConfigSensorDatabase {
 
   public void setSensorModelType(String sensorModelType) {
     this.sensorModelType = sensorModelType;
+  }
+
+
+  public String getSubordinateCompany() {
+    return subordinateCompany;
+  }
+
+  public void setSubordinateCompany(String subordinateCompany) {
+    this.subordinateCompany = subordinateCompany;
   }
 
 }

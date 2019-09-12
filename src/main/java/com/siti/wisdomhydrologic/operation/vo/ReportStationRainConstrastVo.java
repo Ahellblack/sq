@@ -4,6 +4,7 @@ package com.siti.wisdomhydrologic.operation.vo;
  * Created by dell on 2019/8/2.
  */
 public class ReportStationRainConstrastVo {
+
     private int reportId;
     private String stationCode;
     private String stationName;

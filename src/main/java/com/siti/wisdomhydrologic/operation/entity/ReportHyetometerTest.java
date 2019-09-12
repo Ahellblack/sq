@@ -10,7 +10,7 @@ public class ReportHyetometerTest {
     @Excel(name = "reportId", height = 11, width = 20)
     private Integer reportId;
     @Excel(name = "stationCode", height = 11, width = 20)
-    private String stationCode;
+    private int stationCode;
     @Excel(name = "stationName", height = 11, width = 20)
     private String stationName;
     @Excel(name = "manageOrgId", height = 11, width = 20)
@@ -51,11 +51,11 @@ public class ReportHyetometerTest {
         this.reportId = reportId;
     }
 
-    public String getStationCode() {
+    public int getStationCode() {
         return stationCode;
     }
 
-    public void setStationCode(String stationCode) {
+    public void setStationCode(int stationCode) {
         this.stationCode = stationCode;
     }
 
