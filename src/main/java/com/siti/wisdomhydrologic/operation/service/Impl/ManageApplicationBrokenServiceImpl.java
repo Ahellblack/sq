@@ -116,6 +116,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
         ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
         reportManageApplicationBroken.setRequestDesignatingStatus(2);
+        reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
 
         ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());

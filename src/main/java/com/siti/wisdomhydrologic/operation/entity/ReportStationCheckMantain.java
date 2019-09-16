@@ -79,14 +79,14 @@ public class ReportStationCheckMantain {
     @Excel(name = "waterLevelCheckNormal", height = 11, width = 10)
     private int waterLevelCheckNormal;
 
-    @Excel(name = "waterLeverCheckShaft", height = 11, width = 10)
-    private int waterLeverCheckShaft;
+    @Excel(name = "waterLevelCheckShaft", height = 11, width = 10)
+    private int waterLevelCheckShaft;
 
-    @Excel(name = "waterLeverCleanCheck", height = 11, width = 10)
-    private int waterLeverCleanCheck;
+    @Excel(name = "waterLevelCleanCheck", height = 11, width = 10)
+    private int waterLevelCleanCheck;
 
-    @Excel(name = "waterLeverAdjust", height = 11, width = 10)
-    private int waterLeverAdjust;
+    @Excel(name = "waterLevelAdjust", height = 11, width = 10)
+    private int waterLevelAdjust;
 
     @Excel(name = "speedDirectionCheckNormal", height = 11, width = 10)
     private int speedDirectionCheckNormal;
@@ -398,30 +398,30 @@ public class ReportStationCheckMantain {
     }
 
 
-    public int getWaterLeverCheckShaft() {
-        return waterLeverCheckShaft;
+    public int getWaterLevelCheckShaft() {
+        return waterLevelCheckShaft;
     }
 
-    public void setWaterLeverCheckShaft(int waterLeverCheckShaft) {
-        this.waterLeverCheckShaft = waterLeverCheckShaft;
-    }
-
-
-    public int getWaterLeverCleanCheck() {
-        return waterLeverCleanCheck;
-    }
-
-    public void setWaterLeverCleanCheck(int waterLeverCleanCheck) {
-        this.waterLeverCleanCheck = waterLeverCleanCheck;
+    public void setWaterLevelCheckShaft(int waterLevelCheckShaft) {
+        this.waterLevelCheckShaft = waterLevelCheckShaft;
     }
 
 
-    public int getWaterLeverAdjust() {
-        return waterLeverAdjust;
+    public int getWaterLevelCleanCheck() {
+        return waterLevelCleanCheck;
     }
 
-    public void setWaterLeverAdjust(int waterLeverAdjust) {
-        this.waterLeverAdjust = waterLeverAdjust;
+    public void setWaterLevelCleanCheck(int waterLevelCleanCheck) {
+        this.waterLevelCleanCheck = waterLevelCleanCheck;
+    }
+
+
+    public int getWaterLevelAdjust() {
+        return waterLevelAdjust;
+    }
+
+    public void setWaterLevelAdjust(int waterLevelAdjust) {
+        this.waterLevelAdjust = waterLevelAdjust;
     }
 
 

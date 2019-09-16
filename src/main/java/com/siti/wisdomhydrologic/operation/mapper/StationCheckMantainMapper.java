@@ -30,8 +30,10 @@ public interface StationCheckMantainMapper extends Mapper<ReportStationCheckMant
             "`storage_battery_voltage_check` = #{data.storageBatteryVoltageCheck}, `storage_battery_value` = #{data.storageBatteryValue}, " +
             "`rainfall_sensor_normal` = #{data.rainfallSensorNormal}, `rainfall_sensor_clean_check` = #{data.rainfallSensorCleanCheck}, " +
             "`rainfall_sensor_range_check` = #{data.rainfallSensorRangeCheck}, `water_level_check_normal` = #{data.waterLevelCheckNormal}, " +
-            "`water_lever_check_shaft` = #{data.waterLeverCheckShaft}, `water_lever_clean_check` = #{data.waterLeverCleanCheck}, " +
-            "`water_lever_adjust` = #{data.waterLeverAdjust}, `speed_direction_check_normal` = #{data.speedDirectionCheckNormal}, " +
+            "`water_level_check_shaft` = #{data.waterLevelCheckShaft},`water_level_zero_height`=#{data.waterLevelZeroHeight}," +
+            "`water_level_staff_value` =#{data.waterLevelStaffValue},`water_level_time` = #{waterLevelTime}, `water_level_indicator_value` =#{data.waterLevelIndicatorValue}," +
+            "`water_level_value` = #{data.waterLevelValue}, `water_level_clean_check` = #{data.waterLevelCleanCheck}, " +
+            "`water_level_adjust` = #{data.waterLevelAdjust}, `speed_direction_check_normal` = #{data.speedDirectionCheckNormal}, " +
             "`speed_direction_check_lighting_protection` = #{data.speedDirectionCheckLightingProtection}, `flowmeter_data_check_normal` = #{data.flowmeterDataCheckNormal}," +
             " `flowmeter_pitch_gesture` = #{data.flowmeterPitchGesture}, `flowmeter_rolling_gesture` = #{data.flowmeterRollingGesture}, `flowmeter_signal_strength` = #{data.flowmeterSignalStrength}, " +
             "`flowmeter_record_time_warp` = #{data.flowmeterRecordTimeWarp}, `line_pipe_check_normal` = #{data.linePipeCheckNormal}, `station_enviroment` = #{data.stationEnviroment}, " +

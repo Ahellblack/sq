@@ -55,7 +55,7 @@ public class ManageApplicationBrokenController {
     }
 
     @ApiOperation(value = "表四应用程序及设备异常表查派单状态修改", httpMethod = "POST", notes = "表四应用程序及设备异常表派单状况修改,参数为2绑定派单，参数为4绑定已处理")
-    @PostMapping("/updateStatus")
+    @GetMapping("/updateStatus")
     public int updateMalStatus(Integer reportId) {
         return manageApplicationBrokenService.updateMalStatus(reportId);
     }
