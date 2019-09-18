@@ -25,6 +25,14 @@ public interface ManageMantainMapper extends Mapper<ReportManageMantain> {
             " and manage_org_id = #{sysOrg} ")
     List<ReportManageMantain> getDataByMonth(@Param("yearMonth") String yearMonth, @Param("sysOrg") int sysOrg);
 
+    @Select("select * from report_manage_mantain where " +
+            " SUBSTR(mantain_month,1,10) = #{yearMonthDay} " +
+            " and mantain_hour = #{hour} " +
+            " and manage_org_id = #{sysOrg} ")
+    ReportManageMantain getOneData(@Param("yearMonthDay") String yearMonthDay,@Param("hour") String hour, @Param("sysOrg") int sysOrg);
+
+
+
     @Update("UPDATE `report_manage_mantain` SET " +
             "`temp_huimidity_exception` = #{entity.tempHuimidityException}, `server_time_exception` = #{entity.serverTimeException}, " +
             "`database_server_exception` = #{entity.databaseServerException}, `communicate_server_exception` = #{entity.communicateServerException}, " +

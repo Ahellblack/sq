@@ -85,7 +85,7 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             "`create_by` = #{entity.createBy}, " +
             "`update_time` = #{entity.updateTime}," +
             " `update_by` = #{entity.updateBy} " +
-            "WHERE `station_code` = #{entity.stationCode} " +
+            "WHERE `station_name` = #{entity.stationName} " +
             "AND `data_year_month` = #{entity.dataYearMonth}")
     int updateData(@Param("entity") ReportStationRainConstrast entity);
 

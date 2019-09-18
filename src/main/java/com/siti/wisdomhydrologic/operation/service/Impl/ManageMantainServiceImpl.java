@@ -5,10 +5,13 @@ import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageMantainService;
+import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
@@ -34,22 +37,25 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     /**
      * 根据sys-org和日期获取数据表
      * 若表中暂无当日月份数据时，自动添加并生成
-     * */
+     */
     public List<ReportManageMantain> getAll(String date) {
         //查询数据前进行数据获取
         //insertOrUpdate(date);
-        int sysOrg=1002;
-        return reportManageMantainMapper.getDataByMonth(date,sysOrg);
+        int sysOrg = 1002;
+        return reportManageMantainMapper.getDataByMonth(date, sysOrg);
     }
 
     /**
      * 每个月获取等于上个月的天数条数据
+     *
      * @param yearMonth 需要添加或判断的月份 yyyy-MM
      */
     public void insertOrUpdate(String yearMonth) {
         //reportManageMantainMapper.selectMonthData();
         Calendar cal = Calendar.getInstance();
-        Date date = DateTransform.String2Date(yearMonth,"yyyy-MM");
+        Date date = DateTransform.String2Date(yearMonth, "yyyy-MM");
+        Calendar calHour = Calendar.getInstance();
+
         cal.setTime(date);
         //cal.add(Calendar.MONTH, -1);
         List<ConfigRiverStation> all = configRiverStationMapper.getBySysOrg();
@@ -77,60 +83,52 @@ public class ManageMantainServiceImpl implements ManageMantainService {
 
             updateList.forEach(mantain -> {
                 reportManageApplicationBrokenMapper.getLastMonthList(LastMonthDate, sysOrg).forEach(table4 -> {
-                    if (table4.getCreateTime().substring(0, 10).equals(mantain.getMantainMonth())) {
-                        if (map.containsKey(table4.getBrokenAccordingId())) {
-                            switch (map.get(table4.getBrokenAccordingId())) {
-                                case 9:
-                                    mantain.setVoltageException(-1);
-                                    break;
-                                case 10:
-                                    mantain.setVoltageProcessLineException(-1);
-                                    break;
-                                case 11:
-                                    mantain.setDayRainReportException(-1);
-                                    break;
-                                case 12:
-                                    mantain.setRainBarException(-1);
-                                    break;
-                                case 13:
-                                    mantain.setDaySeaLevelReportException(-1);
-                                    break;
-                                case 14:
-                                    mantain.setSeaLeveProcessLineException(-1);
-                                    break;
-                                case 15:
-                                    mantain.setOtherReportException(-1);
-                                    break;
+
+                    String yearMonthDay = table4.getCreateTime().substring(0, 10);
+                    String hourMinuteSecond = table4.getCreateTime().substring(11, 13);
+                    int hour = Integer.parseInt(hourMinuteSecond);
+                    //当表四的时间与表一数据的 年月日相匹配时,判断是否属于当天还是昨天
+                    if (yearMonthDay.equals(mantain.getMantainMonth())) {
+                        if (hour >= 9 && hour <= 16 ) {
+                            if("16:00".equals(mantain.getMantainHour())){
+                                //hour属于9-16的时候设置同天的16:00数据
+                                setTable4Status(map, table4, mantain);
                             }
+                        } else if (hour < 9 && hour >= 0 ) {
+                            if("09:00".equals(mantain.getMantainHour())){
+                                //hour小于9的时候设置同天的9:00数据
+                                setTable4Status(map, table4, mantain);
+                            }
+                        } else {
+                            //设置第二天的数据状态
+                            calHour.setTime(DateTransform.String2Date(yearMonthDay, "yyyy-MM-dd"));
+                            calHour.add(Calendar.DAY_OF_MONTH, 1);
+                            yearMonthDay = DateTransform.Date2String(calHour.getTime(), "yyyy-MM-dd");
+                            ReportManageMantain oneData = reportManageMantainMapper.getOneData(yearMonthDay, "09:00", sysOrg);
+                            setTable4Status(map, table4, oneData);
                         }
                     }
                 });
                 reportStationBrokenMapper.getLastMonthAll(DateTransform.Date2String(cal.getTime(), "yyyy-MM")).forEach(table3 -> {
-                    if (table3.getBrokenHappenTime().substring(0, 10).equals(mantain.getMantainMonth())) {
-                        if (map.containsKey(table3.getApplicationEquipTypeId())) {
-                            switch (map.get(table3.getApplicationEquipTypeId())) {
-                                case 1:
-                                    mantain.setTempHuimidityException(-1);
-                                    break;
-                                case 2:
-                                    mantain.setServerTimeException(-1);
-                                    break;
-                                case 3:
-                                    mantain.setDatabaseServerException(-1);
-                                    break;
-                                case 4:
-                                    mantain.setCommunicateServerException(-1);
-                                    break;
-                                case 5:
-                                    mantain.setApplicationServerException(-1);
-                                    break;
-                                case 6:
-                                    mantain.setWebServerException(-1);
-                                    break;
-                                case 7:
-                                    mantain.setWorkStation(-1);
-                                    break;
+                    String yearMonthDay = table3.getBrokenHappenTime().substring(0, 10);
+                    String hourMinuteSecond = table3.getCreateTime().substring(11, 13);
+                    int hour = Integer.parseInt(hourMinuteSecond);
+
+                    if (yearMonthDay.equals(mantain.getMantainMonth())) {
+                        if (hour >= 9 && hour <= 16 ) {
+                            if("16:00".equals(mantain.getMantainHour())){
+                                setTable3Status(map, table3, mantain);
                             }
+                        } else if (hour < 9 && hour >=0 ) {
+                            if( "09:00".equals(mantain.getMantainHour())){
+                                setTable3Status(map, table3, mantain);
+                            }
+                        } else {
+                            calHour.setTime(DateTransform.String2Date(yearMonthDay, "yyyy-MM-dd"));
+                            calHour.add(Calendar.DAY_OF_MONTH, 1);
+                            yearMonthDay = DateTransform.Date2String(calHour.getTime(), "yyyy-MM-dd");
+                            ReportManageMantain oneData = reportManageMantainMapper.getOneData(yearMonthDay, "09:00", sysOrg);
+                            setTable3Status(map, table3, oneData);
                         }
                     }
                 });
@@ -144,10 +142,10 @@ public class ManageMantainServiceImpl implements ManageMantainService {
 
     @Override
     public int update(ReportManageMantain reportManageMantain) {
-        System.out.println("待修改的表一数据："+reportManageMantain);
-        try{
+        System.out.println("待修改的表一数据：" + reportManageMantain);
+        try {
             return reportManageMantainMapper.update(reportManageMantain);
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -157,4 +155,59 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     }
 
 
+    public static void setTable4Status(Map<String, Integer> map, ManageMantainVo vo, ReportManageMantain entity) {
+        if (map.containsKey(vo.getBrokenAccordingId())) {
+            switch (map.get(vo.getBrokenAccordingId())) {
+                case 9:
+                    entity.setVoltageException(-1);
+                    break;
+                case 10:
+                    entity.setVoltageProcessLineException(-1);
+                    break;
+                case 11:
+                    entity.setDayRainReportException(-1);
+                    break;
+                case 12:
+                    entity.setRainBarException(-1);
+                    break;
+                case 13:
+                    entity.setDaySeaLevelReportException(-1);
+                    break;
+                case 14:
+                    entity.setSeaLeveProcessLineException(-1);
+                    break;
+                case 15:
+                    entity.setOtherReportException(-1);
+                    break;
+            }
+        }
+    }
+
+    public static void setTable3Status(Map<String, Integer> map, ReportStationBroken vo, ReportManageMantain entity) {
+        if (map.containsKey(vo.getApplicationEquipTypeId())) {
+            switch (map.get(vo.getApplicationEquipTypeId())) {
+                case 1:
+                    entity.setTempHuimidityException(-1);
+                    break;
+                case 2:
+                    entity.setServerTimeException(-1);
+                    break;
+                case 3:
+                    entity.setDatabaseServerException(-1);
+                    break;
+                case 4:
+                    entity.setCommunicateServerException(-1);
+                    break;
+                case 5:
+                    entity.setApplicationServerException(-1);
+                    break;
+                case 6:
+                    entity.setWebServerException(-1);
+                    break;
+                case 7:
+                    entity.setWorkStation(-1);
+                    break;
+            }
+        }
+    }
 }
