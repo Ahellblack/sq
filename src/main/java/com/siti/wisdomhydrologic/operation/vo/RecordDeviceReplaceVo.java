@@ -21,7 +21,7 @@ public class RecordDeviceReplaceVo {
     private String replaceDate;
     @ApiModelProperty(value = "原设备型号")
     private String originDeviceTypeCode;
-    @ApiModelProperty(value = "原设备编号")
+    @ApiModelProperty(value = "原设备编号" )
     private String originDeviceCode;
     @ApiModelProperty(value = "原资产归属单位ID")
     private int originOrgId;
@@ -49,11 +49,78 @@ public class RecordDeviceReplaceVo {
     private String originDeviceName;
 
     @ApiModelProperty(value = "原设备资产id")
-    private long originDatabaseId;
+    private String originDatabaseId;
+
     @ApiModelProperty(value = "原设备替换状态")
-    private int originDatabaseStatus;
+    private String originDatabaseStatus;
     @ApiModelProperty(value = "新设备资产id")
-    private long newDatabaseId;
+    private String newDatabaseId;
+
+
+    public String getReplaceDate() {
+        return replaceDate;
+    }
+
+    public void setReplaceDate(String replaceDate) {
+        this.replaceDate = replaceDate;
+    }
+
+    public String getReplaceReason() {
+        return replaceReason;
+    }
+
+    public void setReplaceReason(String replaceReason) {
+        this.replaceReason = replaceReason;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getNewDatabaseId() {
+        return newDatabaseId;
+    }
+
+    public void setNewDatabaseId(String newDatabaseId) {
+        this.newDatabaseId = newDatabaseId;
+    }
+
+    public String getOriginDatabaseId() {
+
+        return originDatabaseId;
+    }
+
+    public void setOriginDatabaseId(String originDatabaseId) {
+        this.originDatabaseId = originDatabaseId;
+    }
+
+    public String getOriginDatabaseStatus() {
+        return originDatabaseStatus;
+    }
+
+    public void setOriginDatabaseStatus(String originDatabaseStatus) {
+        this.originDatabaseStatus = originDatabaseStatus;
+    }
 
     public int getReportId() {
         return reportId;
@@ -93,14 +160,6 @@ public class RecordDeviceReplaceVo {
 
     public void setManageOrgName(String manageOrgName) {
         this.manageOrgName = manageOrgName;
-    }
-
-    public String getReplaceDate() {
-        return replaceDate;
-    }
-
-    public void setReplaceDate(String replaceDate) {
-        this.replaceDate = replaceDate;
     }
 
     public String getOriginDeviceTypeCode() {
@@ -167,38 +226,6 @@ public class RecordDeviceReplaceVo {
         this.newOrgName = newOrgName;
     }
 
-    public String getReplaceReason() {
-        return replaceReason;
-    }
-
-    public void setReplaceReason(String replaceReason) {
-        this.replaceReason = replaceReason;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public int getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(int updateBy) {
-        this.updateBy = updateBy;
-    }
-
     public String getNewDeviceName() {
         return newDeviceName;
     }
@@ -213,30 +240,5 @@ public class RecordDeviceReplaceVo {
 
     public void setOriginDeviceName(String originDeviceName) {
         this.originDeviceName = originDeviceName;
-    }
-
-
-    public int getOriginDatabaseStatus() {
-        return originDatabaseStatus;
-    }
-
-    public void setOriginDatabaseStatus(int originDatabaseStatus) {
-        this.originDatabaseStatus = originDatabaseStatus;
-    }
-
-    public long getOriginDatabaseId() {
-        return originDatabaseId;
-    }
-
-    public void setOriginDatabaseId(long originDatabaseId) {
-        this.originDatabaseId = originDatabaseId;
-    }
-
-    public long getNewDatabaseId() {
-        return newDatabaseId;
-    }
-
-    public void setNewDatabaseId(long newDatabaseId) {
-        this.newDatabaseId = newDatabaseId;
     }
 }

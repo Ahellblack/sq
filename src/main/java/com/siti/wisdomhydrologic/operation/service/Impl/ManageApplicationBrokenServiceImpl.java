@@ -115,13 +115,15 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     public int updateMalStatus(Integer reportId) {
 
         ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
-        reportManageApplicationBroken.setRequestDesignatingStatus(2);
-        reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
+
 
         ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
 
         if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
+
+            reportManageApplicationBroken.setRequestDesignatingStatus(2);
+            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
             String numberStr = "";
             for (int i = 0; i < phoneNumber.size(); i++) {
                 numberStr = numberStr + "," + phoneNumber.get(i);

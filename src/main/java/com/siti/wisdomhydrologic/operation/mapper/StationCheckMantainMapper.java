@@ -31,7 +31,7 @@ public interface StationCheckMantainMapper extends Mapper<ReportStationCheckMant
             "`rainfall_sensor_normal` = #{data.rainfallSensorNormal}, `rainfall_sensor_clean_check` = #{data.rainfallSensorCleanCheck}, " +
             "`rainfall_sensor_range_check` = #{data.rainfallSensorRangeCheck}, `water_level_check_normal` = #{data.waterLevelCheckNormal}, " +
             "`water_level_check_shaft` = #{data.waterLevelCheckShaft},`water_level_zero_height`=#{data.waterLevelZeroHeight}," +
-            "`water_level_staff_value` =#{data.waterLevelStaffValue},`water_level_time` = #{waterLevelTime}, `water_level_indicator_value` =#{data.waterLevelIndicatorValue}," +
+            "`water_level_staff_value` =#{data.waterLevelStaffValue},`water_level_time` = #{data.waterLevelTime}, `water_level_indicator_value` =#{data.waterLevelIndicatorValue}," +
             "`water_level_value` = #{data.waterLevelValue}, `water_level_clean_check` = #{data.waterLevelCleanCheck}, " +
             "`water_level_adjust` = #{data.waterLevelAdjust}, `speed_direction_check_normal` = #{data.speedDirectionCheckNormal}, " +
             "`speed_direction_check_lighting_protection` = #{data.speedDirectionCheckLightingProtection}, `flowmeter_data_check_normal` = #{data.flowmeterDataCheckNormal}," +

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -37,7 +38,7 @@ public class HyetometerController {
 
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
-    public List<ReportHyetometerTest> getAll(String createTime,String stationName){
+    public List<ReportHyetometerTest> getAll(String createTime, String stationName){
         return reportHyetometerService.getAll(createTime,stationName);
     }
 

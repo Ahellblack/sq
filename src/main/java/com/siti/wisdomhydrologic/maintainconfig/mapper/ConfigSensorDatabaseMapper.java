@@ -47,7 +47,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
 
     // 根据资产ID查询
     @Select("SELECT * FROM `config_sensor_database` WHERE property_code=#{propertyCode}")
-    ConfigSensorDatabase findAllByPropertyCode(@Param("propertyCode") Long propertyCode);
+    ConfigSensorDatabase findAllByPropertyCode(@Param("propertyCode") String propertyCode);
 
     // 根据传感器编号查询
     @Select("select a.*,b.real_name as create_by_name,c.real_name as update_by_name from config_sensor_database as a \n" +
@@ -133,7 +133,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     /**
      * z
      * */
-    @Select("<script>select manage_org_name from config_sensor_database " +
+    @Select("<script>select manage_org_name from config_sensor_database where manage_org_name is not null " +
             " GROUP BY manage_org_name </script>")
     List<String> getStationName();
 
@@ -150,7 +150,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
      * z
      * */
     @Select("select * from config_sensor_database " +
-            "where sensor_use_status = 0" )//sensor_type_name =#{senserTypeName} and
+            "where sensor_use_status = '0'" )//sensor_type_name =#{senserTypeName} and
     List<ConfigSensorDatabase> getNewData(/*@Param("sensorTypeName") String sensorTypeName*/);
 
 }

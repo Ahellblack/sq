@@ -7,7 +7,7 @@ public class ConfigSensorDatabase {
   private String sensorCode;
   private String sensorTypeId;
   private String sensorTypeName;
-  private int sensorUseStatus;
+  private String sensorUseStatus;
   private String sensorLocation;
   private int createBy;
   private String createByName;
@@ -81,11 +81,11 @@ public class ConfigSensorDatabase {
   }
 
 
-  public int getSensorUseStatus() {
+  public String getSensorUseStatus() {
     return sensorUseStatus;
   }
 
-  public void setSensorUseStatus(int sensorUseStatus) {
+  public void setSensorUseStatus(String sensorUseStatus) {
     this.sensorUseStatus = sensorUseStatus;
   }
 

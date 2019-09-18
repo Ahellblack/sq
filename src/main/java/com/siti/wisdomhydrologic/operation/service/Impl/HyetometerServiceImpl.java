@@ -6,10 +6,14 @@ import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.HyetometerService;
+import com.siti.wisdomhydrologic.user.controller.Usertrol;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -17,14 +21,18 @@ import java.util.List;
  * Created by dell on 2019/7/26.
  */
 @Service
-public class HyetometerServiceImpl implements HyetometerService {
+public class HyetometerServiceImpl  {
 
     @Resource
     ConfigRiverStationMapper configRiverStationMapper;
     @Resource
     private HyetometerMapper reportHyetometerMapper;
 
+    @Resource
+    private RedisBiz redisBiz;
+
     public List<ReportHyetometerTest> getAll(String createTime, String stationName) {
+
         return reportHyetometerMapper.getAll(createTime, stationName);
     }
 

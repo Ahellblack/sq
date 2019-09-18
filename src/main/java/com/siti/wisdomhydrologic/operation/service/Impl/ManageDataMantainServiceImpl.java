@@ -84,13 +84,13 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         //数据发生修改时,altertime数据更新为当前时间
         Date date = new Date();
         //格式为YYYY-MM-dd
-        reportManageDataMantain.setAlterDate(DateOrTimeTrans.Date2TimeString(date));
+        /*reportManageDataMantain.setAlterDate(DateOrTimeTrans.Date2TimeString(date));
         if (reportManageDataMantain.getConfirValue() != null && (!"".equals(reportManageDataMantain.getConfirValue()))) {
             reportManageDataMantain.setErrorDataReRun(1);
         }
         if (reportManageDataMantain.getMissDataType() != null && (!"".equals(reportManageDataMantain.getMissDataType()))) {
             reportManageDataMantain.setMissDataReRun(1);
-        }
+        }*/
         String createTime = reportManageDataMantain.getCreateTime();
         String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
 

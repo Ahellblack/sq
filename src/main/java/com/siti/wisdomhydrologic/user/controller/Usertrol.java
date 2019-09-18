@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,4 +107,17 @@ public class Usertrol {
             backToFront(next, e, all);
         });
     }
+
+
+  /*  *
+     * 获取当前登录用户
+     *
+     * @return
+
+    @PostMapping
+    public static User getLoginUserInfo(HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession(true).getId();
+        return (LoginUserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }*/
 }

@@ -47,7 +47,7 @@ public class RecordDeviceReplaceController {
 
     @ApiOperation(value = "表八测站设备变更记录表查询", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
-    public List<RecordDeviceReplace> getAll(String stationName, String createDate) {
+    public List<RecordDeviceReplaceVo> getAll(String stationName, String createDate) {
         return mapper.getAll(stationName, createDate);
     }
 
@@ -57,9 +57,47 @@ public class RecordDeviceReplaceController {
     }
 
     @PostMapping("/update")
-    public int update(RecordDeviceReplace recordDeviceReplace) {
+    public int update(RecordDeviceReplaceVo vo) {
+        //ConfigSensorDatabase database = configSensorDatabaseMapper.getData(vo.getOriginDeviceName(),vo.getManageOrgName());
+        //旧设备状态更新
+        ConfigSensorDatabase oldDatabase = configSensorDatabaseMapper.findAllByPropertyCode(vo.getOriginDatabaseId());
+        //设置状态为 0备用,1已使用,2维修中,3已报废
+        if (oldDatabase != null) {
+            oldDatabase.setSensorUseStatus(vo.getOriginDatabaseStatus());
+            configSensorDatabaseMapper.update(oldDatabase);
+        } else {
+            return 0;
+        }
+        //新设备备用状态选择测站,状态更新为1:已安装
+        ConfigSensorDatabase newDatabase = configSensorDatabaseMapper.findAllByPropertyCode(vo.getNewDatabaseId());
+        if (newDatabase != null) {
+            newDatabase.setSensorUseStatus("1");
+            newDatabase.setManageOrgId(oldDatabase.getManageOrgId());
+            newDatabase.setManageOrgName(oldDatabase.getManageOrgName());
+        }else {
+            return 0;
+        }
+        configSensorDatabaseMapper.update(newDatabase);
+        //为设备更替记录赋值
+        RecordDeviceReplace entity = new RecordDeviceReplace();
+        entity.setReplaceDate(vo.getReplaceDate());
+        entity.setCreateBy(vo.getCreateBy());
+        entity.setCreateTime(vo.getCreateTime());
+        //根据旧资产表赋值
+        entity.setStationCode(oldDatabase.getManageOrgId()+"");
+        entity.setStationName(oldDatabase.getManageOrgName());
+        entity.setOriginDeviceCode(oldDatabase.getSensorCode());
+        entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
+        entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
+        entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
+        //根据替换资产赋值
+        entity.setNewDeviceCode(newDatabase.getSensorCode());
+        entity.setNewDeviceName(newDatabase.getSensorTypeName());
+        entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
+        entity.setNewOrgName(newDatabase.getSubordinateCompany());
+
         try {
-            return mapper.updateByPrimaryKey(recordDeviceReplace);
+            return mapper.updateByPrimaryKey(entity);
         } catch (Exception e) {
             return 0;
         }
@@ -76,7 +114,7 @@ public class RecordDeviceReplaceController {
     }
 
     @PostMapping("/insert")
-    public int insert(RecordDeviceReplaceVo vo) {
+    public int insert(@RequestBody RecordDeviceReplaceVo vo) {
 
         //ConfigSensorDatabase database = configSensorDatabaseMapper.getData(vo.getOriginDeviceName(),vo.getManageOrgName());
         //旧设备状态更新
@@ -91,7 +129,7 @@ public class RecordDeviceReplaceController {
         //新设备备用状态选择测站,状态更新为1:已安装
         ConfigSensorDatabase newDatabase = configSensorDatabaseMapper.findAllByPropertyCode(vo.getNewDatabaseId());
         if (newDatabase != null) {
-            newDatabase.setSensorUseStatus(1);
+            newDatabase.setSensorUseStatus("1");
             newDatabase.setManageOrgId(oldDatabase.getManageOrgId());
             newDatabase.setManageOrgName(oldDatabase.getManageOrgName());
         }else {
@@ -103,12 +141,15 @@ public class RecordDeviceReplaceController {
         entity.setReplaceDate(vo.getReplaceDate());
         entity.setCreateBy(vo.getCreateBy());
         entity.setCreateTime(vo.getCreateTime());
-        entity.setManageOrgId(oldDatabase.getManageOrgId());
-        entity.setManageOrgName(oldDatabase.getManageOrgName());
+        entity.setReplaceReason(vo.getReplaceReason());
+        //根据旧资产表赋值
+        entity.setStationCode(oldDatabase.getManageOrgId()+"");
+        entity.setStationName(oldDatabase.getManageOrgName());
         entity.setOriginDeviceCode(oldDatabase.getSensorCode());
         entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
         entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
         entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
+        //根据替换资产赋值
         entity.setNewDeviceCode(newDatabase.getSensorCode());
         entity.setNewDeviceName(newDatabase.getSensorTypeName());
         entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
@@ -172,9 +213,9 @@ public class RecordDeviceReplaceController {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         // 查询数据,此处省略
-        List<RecordDeviceReplace> list = mapper.getAll(stationName, createDate);
+        List<RecordDeviceReplaceVo> list = mapper.getAll(stationName, createDate);
         for (int i = 0; i < list.size(); i++) {
-            RecordDeviceReplace data = list.get(i);
+            RecordDeviceReplaceVo data = list.get(i);
             data.setReportId(i + 1);
             if (data.getCreateTime() != null)
                 data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
