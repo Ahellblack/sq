@@ -13,6 +13,7 @@ import com.siti.wisdomhydrologic.util.Md5Utils;
 import javafx.beans.binding.ObjectExpression;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
@@ -53,6 +54,12 @@ public class Usertrol {
         return null;
     }
 
+    @GetMapping("getUser")
+    public User getUsername (HttpSession session){
+        User user = (User)redisBiz.get(session.getId());
+        return user;
+    }
+
     @PostMapping("login")
     public Map<String,Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
         RequestAttributes ra=RequestContextHolder.getRequestAttributes();
@@ -62,13 +69,19 @@ public class Usertrol {
         System.out.println(session.getId());
         try {
             if(password==""||"".equals(password)){
-                return null;
+                Map<String,Object> map = new HashMap();
+                map.put("msg","密码错误");
+                map.put("status",0);
+                return map;
             }
             //redisBiz.get(session.getId());
             String logPwd = BASE64Util.decode(password);
             password = Md5Utils.encryptString(logPwd);
             if (logPwd == null) {
-                throw new RuntimeException("登录失败，请重新登录！");
+                Map<String,Object> map = new HashMap();
+                map.put("msg","密码错误");
+                map.put("status",0);
+                return map;
             }
             User user = userMapper.findByUserName(username);
             if (user.getPassword().equals(password)) {
@@ -95,7 +108,10 @@ public class Usertrol {
             map.put("status",0);
             return map;
         }
-        return null;
+        Map<String,Object> map = new HashMap();
+        map.put("msg","输入的账户或密码有误");
+        map.put("status",0);
+        return map;
     }
 
     public static void backToFront(int root, Permission finalP, List<Permission> all) {
