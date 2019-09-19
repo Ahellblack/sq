@@ -14,6 +14,8 @@ import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenServic
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.PushMsg;
@@ -22,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.*;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,17 +46,25 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private AbnormalDetailMapper abnormalDetailMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
+
+    @Resource
+    private RedisBiz redisBiz;
+
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(int page, int pageSize, String createDate, String stationName) {
+    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session,int page, int pageSize, String createDate, String stationName) {
+
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
+
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName,uid);
         /*all.forEach(data -> {
             try {
                 if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
@@ -78,11 +88,32 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
     @Override
-    public int insert(ReportManageApplicationBroken reportManageApplicationBroken) {
-        reportManageApplicationBroken.setRequestDesignatingStatus(1);
-        reportManageApplicationBroken.setErrorLastestAppearTime(reportManageApplicationBroken.getCreateTime());
+    public int insert(ReportManageApplicationBroken entity) {
+        ConfigAbnormalDictionary according = configAbnormalDictionaryMapper.getOneByAccording(entity.getBrokenAccording());
+        entity.setBrokenAccordingId(according.getBrokenAccordingId());
+        entity.setRequestDesignatingStatus(1);
+        entity.setErrorLastestAppearTime(entity.getCreateTime());
+        Calendar calendar = Calendar.getInstance();
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
+        /*try {
+            riverStationList.forEach(river -> {
+                if (entity.getStationId() == river.getStationId()) {
+                    calendar.setTime(DateTransform.String2Date(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+                    if (river.getStationLevel() == 2) {
+                        //一般站往后3小时内
+                        calendar.add(calendar.HOUR, 3);
+                    } else {
+                        //基本站往后1小时内
+                        calendar.add(calendar.HOUR, 1);
+                    }
+                    entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                }
+            });
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }*/
         try {
-            reportManageApplicationBrokenMapper.insert(reportManageApplicationBroken);
+            reportManageApplicationBrokenMapper.insert(entity);
         } catch (Exception e) {
             return 0;
         }
@@ -90,21 +121,32 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
     @Override
-    public int update(ReportManageApplicationBroken reportManageApplicationBroken) {
-
-        /*reportManageApplicationBroken.setRequestDesignatingStatus(1);
-        if (reportManageApplicationBroken.getRequestDesignatingStatus() == STATUS) {
-            //派单处理
-            LocalTime localTime = LocalTime.now();
-            LocalDate localDate = LocalDate.now();
-            LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-            ZoneId zone = ZoneId.systemDefault();
-            Instant instant = localDateTime.atZone(zone).toInstant();
-            Date date = Date.from(instant);
-            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(date, "YYYY-MM-dd HH:mm:ss"));
+    public int update(ReportManageApplicationBroken entity) {
+        ConfigAbnormalDictionary according = configAbnormalDictionaryMapper.getOneByAccording(entity.getBrokenAccording());
+        entity.setBrokenAccordingId(according.getBrokenAccordingId());
+        entity.setRequestDesignatingStatus(1);
+        entity.setErrorLastestAppearTime(entity.getCreateTime());
+        Calendar calendar = Calendar.getInstance();
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
+        /*try {
+            riverStationList.forEach(river -> {
+                if (entity.getStationId() == river.getStationId()) {
+                    calendar.setTime(DateTransform.String2Date(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+                    if (river.getStationLevel() == 2) {
+                        //一般站往后3小时内
+                        calendar.add(calendar.HOUR, 3);
+                    } else {
+                        //基本站往后1小时内
+                        calendar.add(calendar.HOUR, 1);
+                    }
+                    entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                }
+            });
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }*/
         try {
-            reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
+            reportManageApplicationBrokenMapper.update(entity);
         } catch (Exception e) {
             return 0;
         }
@@ -115,7 +157,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     public int updateMalStatus(Integer reportId) {
 
         ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
-
 
         ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
@@ -206,7 +247,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                                     }
                                     applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
                                 }
-                                river.getStationId();
                             });
                         } catch (Exception e) {
                             logger.error(e.getMessage());

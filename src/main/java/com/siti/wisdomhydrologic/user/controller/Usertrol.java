@@ -10,6 +10,7 @@ import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.BASE64Util;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.Md5Utils;
+import javafx.beans.binding.ObjectExpression;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -50,11 +54,12 @@ public class Usertrol {
     }
 
     @PostMapping("login")
-    public Object getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
+    public Map<String,Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
         RequestAttributes ra=RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();
         request.getSession(true).setAttribute("keytest","testvalue");
 
+        System.out.println(session.getId());
         try {
             if(password==""||"".equals(password)){
                 return null;
@@ -77,11 +82,18 @@ public class Usertrol {
                 user.setRoles(roles);
                 if (session.getId() != "" && !"".equals(session.getId())) {
                     redisBiz.set(session.getId(), user, timeLong);
-                    return user;
+                    //System.out.println(redisBiz.get(session.getId()));
+                    Map<String,Object> map = new HashMap();
+                    map.put("user",user);
+                    map.put("status",1);
+                    return map;
                 }
             }
         } catch (Exception e) {
-            return "输入的账户或密码有误";
+            Map<String,Object> map = new HashMap();
+            map.put("msg","输入的账户或密码有误");
+            map.put("status",0);
+            return map;
         }
         return null;
     }

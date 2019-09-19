@@ -5,6 +5,8 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -34,12 +36,15 @@ public class HyetometerController {
     private HyetometerServiceImpl reportHyetometerService;
 
     @Resource
+    private RedisBiz redisBiz;
+
+    @Resource
     private HyetometerMapper reportHyetometerMapper;
 
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
-    public List<ReportHyetometerTest> getAll(String createTime, String stationName){
-        return reportHyetometerService.getAll(createTime,stationName);
+    public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationName){
+        return reportHyetometerService.getAll(session,createTime,stationName);
     }
 
     @GetMapping("/deleteBy")
@@ -65,9 +70,10 @@ public class HyetometerController {
     @ApiOperation(value = "雨滴表excel导出接口", httpMethod = "GET", notes = "雨滴表excel导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response,String createTime,String stationName) throws UnsupportedEncodingException {
-        // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime,stationName);
+    public String exportExcelTest(HttpSession session,HttpServletResponse response,String createTime,String stationName) throws UnsupportedEncodingException {
+
+        // 获取workbook对象   easypoi   easyexcell
+        Workbook workbook = exportSheetByTemplate(session,createTime,stationName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -105,9 +111,12 @@ public class HyetometerController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime,String stationName) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime,String stationName) {
+
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
         // 查询数据,此处省略
-        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime,stationName);
+        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime,stationName,uid);
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i+1);

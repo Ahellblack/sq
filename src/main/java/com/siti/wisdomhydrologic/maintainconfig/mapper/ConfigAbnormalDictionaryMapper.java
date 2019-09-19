@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.maintainconfig.mapper;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface ConfigAbnormalDictionaryMapper {
     @Select("select * from config_abnormal_dictionary " +
             "where broken_according_id like 'se%'")
     List<ConfigAbnormalDictionary> getSeErrorNameList();
+
+    @Select("select * from config_abnormal_dictionary where broken_according = #{according}")
+    ConfigAbnormalDictionary getOneByAccording(@Param("according") String according);
 }

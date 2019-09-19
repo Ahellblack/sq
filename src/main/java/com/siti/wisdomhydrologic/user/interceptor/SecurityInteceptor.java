@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Component
 public class SecurityInteceptor implements HandlerInterceptor,ApplicationContextAware {
@@ -21,19 +22,21 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
     }
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-       /* redisBiz = getBean(RedisBiz.class);
+        redisBiz = getBean(RedisBiz.class);
         httpServletResponse.setContentType("text/html;charset=UTF-8");
         HttpSession session = httpServletRequest.getSession();
+        //System.out.println(session.getId());
         if(!redisBiz.exists(session.getId())){
-            httpServletResponse.sendRedirect("/login");
+            //httpServletResponse.sendRedirect("/login");
             httpServletResponse.getWriter().write("请先完成登陆！");
             return false;
-        }*/
+        }
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+
     }
 
     @Override

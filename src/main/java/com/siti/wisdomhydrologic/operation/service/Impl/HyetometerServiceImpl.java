@@ -31,9 +31,10 @@ public class HyetometerServiceImpl  {
     @Resource
     private RedisBiz redisBiz;
 
-    public List<ReportHyetometerTest> getAll(String createTime, String stationName) {
-
-        return reportHyetometerMapper.getAll(createTime, stationName);
+    public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationName) {
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
+        return reportHyetometerMapper.getAll(createTime, stationName,uid);
     }
 
     public int delByReportId(Integer reportId) {

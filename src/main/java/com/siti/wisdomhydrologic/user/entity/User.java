@@ -38,6 +38,8 @@ public class User {
     private String remark;
 
     private String lastTime;
+
+    private String userRole;
     @Transient
     List<Role> roles;
     @Transient
@@ -181,6 +183,14 @@ public class User {
         this.updateTime = updateTime;
         this.remark = remark;
         this.lastTime = lastTime;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public User() {

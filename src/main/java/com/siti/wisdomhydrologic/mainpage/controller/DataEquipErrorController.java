@@ -3,6 +3,8 @@ package com.siti.wisdomhydrologic.mainpage.controller;
 import com.siti.wisdomhydrologic.mainpage.vo.DataEquipErrorVo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -23,19 +26,24 @@ import java.util.List;
 public class DataEquipErrorController {
 
     @Resource
+    private RedisBiz redisBiz;
+
+    @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
     @GetMapping("/get")
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
-    public DataEquipErrorVo getDataEquipErrorVo() {
+    public DataEquipErrorVo getDataEquipErrorVo(HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
 
         DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0, 0, 0);
-
         //默认查询本月
         String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
         List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAllData();
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate, null);
+        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,uid);
         monthData.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
                 String[] splitStr = data.getBrokenAccordingId().split("_");

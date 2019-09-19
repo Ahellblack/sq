@@ -6,6 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -34,14 +37,16 @@ import java.util.Map;
 public class ManageApplicationBrokenController {
 
     @Resource
+    private RedisBiz redisBiz;
+    @Resource
     ManageApplicationBrokenMapper manageApplicationBrokenMapper;
     @Resource
     private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(int page, int pageSize, String createDate, String stationName) {
-        return manageApplicationBrokenService.getAll(page, pageSize, createDate, stationName);
+    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationName) {
+        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationName);
     }
 
     @PostMapping("/insert")
@@ -75,9 +80,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createTime, String stationName) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createTime, stationName);
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationName);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -115,9 +120,12 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createTime, String stationName) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName) {
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
+
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,uid);
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
             data.setReportId(i + 1);
