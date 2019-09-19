@@ -127,6 +127,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
      * */
     @Select("<script>select sensor_type_name from config_sensor_database " +
             "<if test=\"stationName!=null\">where manage_org_name =#{stationName} </if> " +
+            "and sensor_use_status = 1 " +
             "GROUP BY sensor_type_name</script> ")
     List<String> getSensorTypeNameList(@Param("stationName") String stationName);
 

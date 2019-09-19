@@ -8,6 +8,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import ytx.org.apache.http.client.HttpResponseException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,7 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
         //System.out.println(session.getId());
         if(!redisBiz.exists(session.getId())){
             //httpServletResponse.sendRedirect("/login");
+            //throw new HttpResponseException(HttpStatusCode.Unauthorized);
             httpServletResponse.getWriter().write("请先完成登陆！");
             return false;
         }

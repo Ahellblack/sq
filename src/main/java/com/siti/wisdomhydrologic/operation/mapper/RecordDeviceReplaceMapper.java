@@ -5,6 +5,7 @@ import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
 
     @Delete("delete from record_device_replace where report_id = #{reportId}")
     int deleteData(@Param("reportId") Integer reportId);
+
+    @Update("update record_device_replace set replace_reason = #{RecordDeviceReplace.replaceReason}," +
+            "create_by  = #{RecordDeviceReplace.createBy} where report_id = #{RecordDeviceReplace.reportId}")
+    int updateData( @Param("RecordDeviceReplace")RecordDeviceReplace entity);
 }
