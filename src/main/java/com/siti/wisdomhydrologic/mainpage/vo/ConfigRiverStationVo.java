@@ -28,16 +28,16 @@ public class ConfigRiverStationVo {
 
     private String time;
     private String stationName;
-    private double waterLevel;
-    private double rainfall;
-    private double tideLevel;
-    private double electric;
-    private double windSpeed;
+    private String waterLevel;
+    private String rainfall;
+    private String tideLevel;
+    private String electric;
+    private String windSpeed;
     private String windDirection;
-    private double flowVelocityX;
-    private double flowVelocityY;
-    private double airPressure;
-    private double airTemperature;
+    private String flowVelocityX;
+    private String flowVelocityY;
+    private String airPressure;
+    private String airTemperature;
     //测站状态
     private int status;
 
@@ -193,43 +193,43 @@ public class ConfigRiverStationVo {
         this.stationName = stationName;
     }
 
-    public double getWaterLevel() {
+    public String getWaterLevel() {
         return waterLevel;
     }
 
-    public void setWaterLevel(double waterLevel) {
+    public void setWaterLevel(String waterLevel) {
         this.waterLevel = waterLevel;
     }
 
-    public double getRainfall() {
+    public String getRainfall() {
         return rainfall;
     }
 
-    public void setRainfall(double rainfall) {
+    public void setRainfall(String rainfall) {
         this.rainfall = rainfall;
     }
 
-    public double getTideLevel() {
+    public String getTideLevel() {
         return tideLevel;
     }
 
-    public void setTideLevel(double tideLevel) {
+    public void setTideLevel(String tideLevel) {
         this.tideLevel = tideLevel;
     }
 
-    public double getElectric() {
+    public String getElectric() {
         return electric;
     }
 
-    public void setElectric(double electric) {
+    public void setElectric(String electric) {
         this.electric = electric;
     }
 
-    public double getWindSpeed() {
+    public String getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(double windSpeed) {
+    public void setWindSpeed(String windSpeed) {
         this.windSpeed = windSpeed;
     }
 
@@ -241,35 +241,35 @@ public class ConfigRiverStationVo {
         this.windDirection = windDirection;
     }
 
-    public double getFlowVelocityX() {
+    public String getFlowVelocityX() {
         return flowVelocityX;
     }
 
-    public void setFlowVelocityX(double flowVelocityX) {
+    public void setFlowVelocityX(String flowVelocityX) {
         this.flowVelocityX = flowVelocityX;
     }
 
-    public double getFlowVelocityY() {
+    public String getFlowVelocityY() {
         return flowVelocityY;
     }
 
-    public void setFlowVelocityY(double flowVelocityY) {
+    public void setFlowVelocityY(String flowVelocityY) {
         this.flowVelocityY = flowVelocityY;
     }
 
-    public double getAirPressure() {
+    public String getAirPressure() {
         return airPressure;
     }
 
-    public void setAirPressure(double airPressure) {
+    public void setAirPressure(String airPressure) {
         this.airPressure = airPressure;
     }
 
-    public double getAirTemperature() {
+    public String getAirTemperature() {
         return airTemperature;
     }
 
-    public void setAirTemperature(double airTemperature) {
+    public void setAirTemperature(String airTemperature) {
         this.airTemperature = airTemperature;
     }
 

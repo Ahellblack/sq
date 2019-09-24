@@ -5,6 +5,7 @@ package com.siti.wisdomhydrologic.statistics.entity;
  */
 public class Patency {
 
+    String stationName;
     Integer stationId;
     Double Number;
     Double patencyRate;
@@ -33,8 +34,16 @@ public class Patency {
         Number = number;
     }
 
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
     @Override
     public String toString() {
-        return "Patency{" + "stationId=" + stationId + ", Number=" + Number + ", patencyRate=" + patencyRate + '}';
+        return "Patency{" + "stationName='" + stationName + '\'' + ", stationId=" + stationId + ", Number=" + Number + ", patencyRate=" + patencyRate + '}';
     }
 }

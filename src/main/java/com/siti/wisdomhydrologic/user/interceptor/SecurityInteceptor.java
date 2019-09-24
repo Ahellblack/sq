@@ -5,14 +5,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import ytx.org.apache.http.client.HttpResponseException;
-
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 
 @Component
 public class SecurityInteceptor implements HandlerInterceptor,ApplicationContextAware {
@@ -30,8 +32,18 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
         //System.out.println(session.getId());
         if(!redisBiz.exists(session.getId())){
             //httpServletResponse.sendRedirect("/login");
-            //throw new HttpResponseException(HttpStatusCode.Unauthorized);
+
+            /*httpServletResponse.setStatus(200);
+            httpServletResponse.setCharacterEncoding("UTF-8");
+            httpServletResponse.setContentType("application/json; charset=utf-8");
+            PrintWriter printWriter = httpServletResponse.getWriter();
+            //在这返回401
+            String body = "{\"status\":\"failure\",\"msg\":" + HttpStatus.UNAUTHORIZED + "}";
+            printWriter.write(body);
+            printWriter.flush();*/
+           // httpServletResponse.sendError(401);
             httpServletResponse.getWriter().write("请先完成登陆！");
+            //throw new System.ServiceModel.Web.WebFaultException<String>("\"mes\":\"认证信息失效\"", System.Net.HttpStatusCode.Unauthorized);
             return false;
         }
         return true;

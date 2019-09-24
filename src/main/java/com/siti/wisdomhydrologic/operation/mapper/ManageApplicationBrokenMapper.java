@@ -17,7 +17,9 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_name = b.station_name " +
             "where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
             "<if test=\"createDate!=null\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate}</if> " +
-            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'</if></script>")
+            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'</if>" +
+            "order by a.create_time desc" +
+            "</script>")
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationName")String stationName,@Param("uid") Integer uid);
 
 
@@ -43,6 +45,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             " on a.station_id = b.station_id " +
             " <if test=\'regionId != null \'>where region_id = #{regionId}</if> " +
             " GROUP BY a.station_id " +
+            " order by a.create_time desc " +
             " LIMIT 10 </script> ")
     List<ReportManageApplicationBrokenVo> getLatest10(@Param("regionId") Integer regionId);
 
@@ -90,6 +93,11 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "`request_designating_status` = #{data.requestDesignatingStatus}, `broken_ask_to_resolve_time` = #{data.brokenAskToResolveTime}, " +
             "`broken_request_report_time` = #{data.brokenRequestReportTime} WHERE report_id = #{data.reportId}")
     int update(@Param("data") ReportManageApplicationBroken broken);
+
+    @Update("UPDATE `report_station_broken` SET  "+
+            "`request_designating_status` = #{data.requestDesignatingStatus} WHERE report_id = #{data.reportId}")
+    int updateStatus(@Param("data") ReportManageApplicationBroken broken);
+
 
 
     @Select("select * from report_station_broken where station_id = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")

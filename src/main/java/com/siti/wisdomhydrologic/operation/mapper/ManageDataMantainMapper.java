@@ -18,6 +18,7 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "<if test=\"createDate!=null\">  DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
             "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>"+
             "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%${alterType}%' </if>"+
+            "order by a.create_time desc" +
             "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
 

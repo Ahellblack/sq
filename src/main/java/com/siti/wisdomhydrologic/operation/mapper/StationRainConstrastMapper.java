@@ -56,8 +56,9 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             "AND `data_year_month` = #{yearMonth} ")
     String getTotal(@Param("stationCode") Integer stationCode, @Param("yearMonth") String yearMonth);
 
+    //查询当天的雨量数据
     @Select("select * from ${datebase} " +
-            "where SUBSTR(sensor_data_upload_time,1,10) = date_add(curdate(), interval -1 day) " +
+            "where SUBSTR(sensor_data_upload_time,1,10) = CURDATE() " +
             "and sensor_code =#{sensorCode} ")
     DayData getDayData(@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
 

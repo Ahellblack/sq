@@ -6,6 +6,7 @@ import com.siti.wisdomhydrologic.statistics.entity.Patency;
 import com.siti.wisdomhydrologic.statistics.mapper.PatencyMapper;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import com.siti.wisdomhydrologic.util.DateDistance;
@@ -33,10 +34,12 @@ public class PatencyController {
 
     @RequestMapping("/getAll")
     public List<Patency> getPatency(String startTime, String endTime,String stationName) {
-
+        List<ConfigRiverStation> stationList = configRiverStationMapper.getAllByStationName(stationName);
+        Map<Integer,String> stationMap = new HashMap<>();
         List<String> stationIdList  = new ArrayList();
-        configRiverStationMapper.getAllByStationName(stationName).forEach(data->{
+        stationList.forEach(data->{
             stationIdList.add(data.getStationId()+"89");
+            stationMap.put(data.getStationId(),data.getStationName());
         });
         //获取起始时间和结束时间的5分钟应有几个
         long[] times = DateDistance.getDistanceTimes(startTime,endTime);
@@ -45,12 +48,17 @@ public class PatencyController {
                 +times[2]/5;
 
         List<Patency> patency = patencyMapper.getPatency(stationIdList, startTime, endTime);
-        patency.forEach(data->{
-            data.setPatencyRate(Double.parseDouble(data.getNumber()/timeDiff+"")*100);
-
-            BigDecimal b = new BigDecimal(data.getPatencyRate());
-            data.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-        });
+        try {
+            patency.forEach(data -> {
+                data.setStationId(data.getStationId() / 100);
+                data.setPatencyRate(Double.parseDouble(data.getNumber() / timeDiff + "") * 100);
+                BigDecimal b = new BigDecimal(data.getPatencyRate());
+                data.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                data.setStationName(stationMap.get(data.getStationId()));
+            });
+        }catch (Exception e){
+            System.out.println("查询出错");
+        }
         return patency;
     }
 

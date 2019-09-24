@@ -21,6 +21,7 @@ public class ManageMantainTask {
 
     /**
      * 定时每月初执行
+     * 获取上个月的数据
      */
     @Scheduled(cron = "0 0 0 1 1/1 ?")
     public void insertData() throws Exception {

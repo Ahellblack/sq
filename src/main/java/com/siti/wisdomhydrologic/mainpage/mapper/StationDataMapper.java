@@ -27,8 +27,11 @@ public interface StationDataMapper {
             "on a.station_id = b.station_id where a.station_id is not null "+
             "<if test=\"level!=null\"> and station_level = #{level} </if>" +
             "<if test=\"status!=null\"> and b.status = #{status} </if>" +
+            "<if test=\"snId!=null\"> and a.region_id = #{snId} </if>" +
             "</script>")
-    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time);
+    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId);
+
+
 
     @Select("select station_id from config_river_station where station_id is not null")
     List<Integer> getStationId();

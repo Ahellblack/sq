@@ -128,6 +128,7 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     String getStationNameByStationID(@Param("stationID") Integer stationID);
 
     // 根据测站名称模糊进行查询
-    @Select("select * from config_river_station where station_name like CONCAT(CONCAT('%', #{stationName}), '%')")
+    @Select("<script>select * from config_river_station " +
+            "<if test=\'stationName != null\'>where station_name like CONCAT(CONCAT('%', #{stationName}), '%')</if></script>")
     List<ConfigRiverStation> getAllByStationName(@Param("stationName") String stationName);
 }

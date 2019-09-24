@@ -27,22 +27,26 @@ public interface RealStationDataMapper {
 
     @Update("UPDATE `real_station_data` SET  " +
             "`time` = #{stationData.time}," +
-            "`water_level` = #{stationData.realDataWaterLevel}, `rainfall` = #{stationData.realDataRainFall}, " +
-            "`tide_level` = #{stationData.realDataTideLevel} , `electric` = #{stationData.realDataElectric}," +
-            "`wind_speed` = #{stationData.realDataWindSpeed}, `wind_direction` =#{stationData.realDataWindDirection}, " +
-            "`flow_velocity_x` = #{stationData.realDataFlowX} ,`flow_velocity_y` = #{stationData.realDataFlowY} , " +
-            " `air_pressure` =#{stationData.realDataAirPressure}, `air_temperature`=#{stationData.realDataAirTemperature}, " +
-            "`status` = #{stationData.status} , `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationCode} ")
-    int updateStationData(@Param("stationData") RealStationVo realStationVo);
+            "`water_level` = #{stationData.waterLevel}, `rainfall` = #{stationData.rainfall}, " +
+            "`tide_level` = #{stationData.tideLevel} , `electric` = #{stationData.electric}," +
+            "`wind_speed` = #{stationData.windSpeed}, `wind_direction` =#{stationData.windDirection}, " +
+            "`flow_velocity_x` = #{stationData.flowVelocityX} ,`flow_velocity_y` = #{stationData.flowVelocityY} , " +
+            " `air_pressure` =#{stationData.airPressure}, `air_temperature`=#{stationData.airTemperature}, " +
+            "`status` = #{stationData.status}  WHERE station_id = #{stationData.stationId} ")
+    int updateStationData(@Param("stationData") RealStationData realStationVo);
 
     @Update("UPDATE `real_station_data` SET " +
-            " `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationCode} ")
-    int updateStationPatency(@Param("stationData") RealStationVo realStationVo);
+            " `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationId} ")
+    int updateStationPatency(@Param("stationData") RealStationData realStationVo);
 
 
     @Select("<script>select * from real_station_data " +
             "<if test=\"stationCode!=null\">where station_id = #{stationCode}</if></script>")
     RealStationData getData(@Param("stationCode") Integer stationCode);
+
+    @Select("select * from real_station_data ")
+    RealStationData getAllData();
+
 
     @Select("<script>select * from real_station_data a left join config_river_station b on a.station_id = b.station_id" +
             "<if test=\"regionName!=null\">where b.region_name = #{regionName}</if></script>")
@@ -56,8 +60,9 @@ public interface RealStationDataMapper {
             "<if test=\"regionName!=null\"> and b.region_name = #{regionName}</if></script>")
     List<RealStationData> getPatencyDataList(@Param("regionName") String regionName);
 
-    @Select("<script>select * FROM `real` WHERE  date(time) = date_sub(curdate(),interval 1 day) " +
-            "<if test=\"sensorCode!=null\">and sensor_code = #{sensorCode} </if></script>\n")
-    List<RealVo> getLastDayList(@Param("sensorCode") String sensorCode);
+    @Select("<script>select * FROM `real` " +
+            " WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
+            " and sensor_code = #{sensorCode}</script> ")
+    List<RealVo> getLastDayList(@Param("sensorCode") String sensorCode,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
 }

@@ -15,7 +15,9 @@ public interface ReportStationBrokenMapper extends Mapper<ReportStationBroken>{
 
     @Select("<script> select * from report_manage_application_broken " +
             "where DATE_FORMAT(broken_happen_time,'%Y-%m') = #{createDate}" +
-            "<if test=\"applicationEquipName!=null\"> and application_equip_name like '%${applicationEquipName}%' </if></script>")
+            "<if test=\"applicationEquipName!=null\"> and application_equip_name like '%${applicationEquipName}%' </if>" +
+            "order by create_time desc" +
+            "</script>")
     List<ReportStationBroken> getAll(@Param("createDate")String createDate,@Param("applicationEquipName") String applicationEquipName);
 
     @Select("select * from report_manage_application_broken " +

@@ -17,7 +17,9 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
 
     @Select("<script>select * from record_device_replace " +
             "<if test=\"createDate!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if></script>")
+            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>" +
+            "order by create_time desc" +
+            "</script>")
     List<RecordDeviceReplaceVo> getAll(@Param("stationName") String stationName, @Param("createDate")String createDate);
 
     @Delete("delete from record_device_replace where report_id = #{reportId}")

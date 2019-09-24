@@ -6,6 +6,7 @@ package com.siti.wisdomhydrologic.mainpage.vo;
 public class StationMalFunction {
 //北站
     private Integer NstationNumber;//北测站数
+    private Integer NfindNumber;//北发现数
     private Integer NmalNumber;//北派单数
     private Integer NonResolveNumber;//北在处理中数
     private Integer NendResolveNumber;//北处理完数
@@ -14,6 +15,7 @@ public class StationMalFunction {
     private Integer NdownStationNumber;//北离线测站数
 //南站
     private Integer SstationNumber;
+    private Integer SfindNumber;
     private Integer SmalNumber;
     private Integer SonResolveNumber;
     private Integer SendResolveNumber;
@@ -25,6 +27,21 @@ public class StationMalFunction {
     private Integer requestDesignatingStatus;
     private String regionName;
 
+    public Integer getSfindNumber() {
+        return SfindNumber;
+    }
+
+    public void setSfindNumber(Integer sfindNumber) {
+        SfindNumber = sfindNumber;
+    }
+
+    public Integer getNfindNumber() {
+        return NfindNumber;
+    }
+
+    public void setNfindNumber(Integer nfindNumber) {
+        NfindNumber = nfindNumber;
+    }
 
     public Integer getRequestDesignatingStatus() {
         return requestDesignatingStatus;
@@ -176,7 +193,27 @@ public class StationMalFunction {
         SdownStationNumber = sdownStationNumber;
     }
 
+    public StationMalFunction(Integer nstationNumber, Integer nfindNumber, Integer nmalNumber, Integer nonResolveNumber, Integer nendResolveNumber, Integer nnormalStationNumber, Integer nabnormalStationNumber, Integer ndownStationNumber, Integer sstationNumber, Integer sfindNumber, Integer smalNumber, Integer sonResolveNumber, Integer sendResolveNumber, Integer snormalStationNumber, Integer sabnormalStationNumber, Integer sdownStationNumber) {
+        NstationNumber = nstationNumber;
+        NfindNumber = nfindNumber;
+        NmalNumber = nmalNumber;
+        NonResolveNumber = nonResolveNumber;
+        NendResolveNumber = nendResolveNumber;
+        NnormalStationNumber = nnormalStationNumber;
+        NabnormalStationNumber = nabnormalStationNumber;
+        NdownStationNumber = ndownStationNumber;
+        SstationNumber = sstationNumber;
+        SfindNumber = sfindNumber;
+        SmalNumber = smalNumber;
+        SonResolveNumber = sonResolveNumber;
+        SendResolveNumber = sendResolveNumber;
+        SnormalStationNumber = snormalStationNumber;
+        SabnormalStationNumber = sabnormalStationNumber;
+        SdownStationNumber = sdownStationNumber;
+    }
 
     public StationMalFunction() {
     }
+
+
 }

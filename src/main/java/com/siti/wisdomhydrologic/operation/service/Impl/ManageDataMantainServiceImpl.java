@@ -126,10 +126,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                      * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
                      * */
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(DateTransform.String2Date(abData.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+                    cal.setTime(DateTransform.String2Date(abData.getDate(), "yyyy-MM-dd HH:mm:ss"));
                     cal.add(cal.MINUTE, -5);
                     String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                   // List<ReportManageDataMantain> lastOne = reportManageDataMantainMapper.getLastOne(abData.getStationCode(), last5MinuteTime);
 
                     /**
                      * 查询上个五分钟的异常表数据。
@@ -140,19 +139,22 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     abData.setStationCode(abData.getSensorCode() / 100);
                     abData.setCreateTime(abData.getDate());
 
+                    /**
+                     * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
+                     * 若有，更新最后一次生成时间
+                     * */
                     if (latestData.size() > 0) {
-                        /**
-                         * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
-                         * 若有，更新最后一次生成时间
-                         * */
-                        ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
-
-                        abData.setErrorLastestAppearTime(abData.getCreateTime());
-                        abData.setErrorTimeSpace(lastestData.getCreateTime().substring(0,13) + "," + abData.getCreateTime().substring(0,13));
-                        abData.setReportId(lastestData.getReportId());
-                        reportManageDataMantainMapper.updateTime(abData);
-                        System.out.println(abData.getStationName()+"的异常"+abData.getBrokenAccordingId()+"表二数据错误时间更替" + abData.getErrorLastestAppearTime());
-                    } else {
+                        try {
+                            ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
+                            abData.setErrorLastestAppearTime(abData.getCreateTime());
+                            abData.setErrorTimeSpace(lastestData.getCreateTime() + "," + abData.getCreateTime());
+                            abData.setReportId(lastestData.getReportId());
+                            reportManageDataMantainMapper.updateTime(abData);
+                            System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                        }catch (Exception e){
+                            System.out.println("");
+                        }
+                        } else {
                         //根据字典获取异常名
                         dictionarylist.forEach(param -> {
                             if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {

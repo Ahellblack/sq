@@ -19,6 +19,7 @@ public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
             " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
             "<if test=\"createTime!=null\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createTime}</if>" +
             "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%' </if>" +
+            "order by a.create_time desc" +
             " </script>")
     List<ReportHyetometerTest> getAll(@Param("createTime") String createTime,@Param("stationName")String stationName,@Param("uid")Integer uid);
 

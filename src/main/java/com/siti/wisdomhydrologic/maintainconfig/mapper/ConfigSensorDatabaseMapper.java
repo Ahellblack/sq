@@ -143,7 +143,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
      * */
     @Select("select * from config_sensor_database " +
             "where sensor_type_name =#{originDeviceName} " +
-            "and manage_org_name =#{manageOrgName} and sensor_use_status = '1' " )
+            "and manage_org_name =#{manageOrgName} and sensor_use_status = 1 " )
     List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName,
                                        @Param("manageOrgName")String manageOrgName);
 

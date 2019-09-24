@@ -173,7 +173,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 //发送短信
                 PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
             }
-            return reportManageApplicationBrokenMapper.update(reportManageApplicationBroken);
+            return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
         }
         return 0;
     }
@@ -200,15 +200,23 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         //获取异常配置参数
         if (all.size() > 0) {
             all.forEach(data -> {
+
+                /**
+                 * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
+                 * */
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
                 cal.add(cal.MINUTE, -5);
                 String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                 List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, data.getSensorCode());
+                /**
+                 * 查询数据表四,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
+                 * 若有，更新最后一次生成时间
+                 * */
                 if (latestData.size() > 0) {
                     try {
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
-                        if (lastData != null) {
+                        if (lastData.size()>0) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
                             System.out.println("表四数据错误时间更替" + lastData);
                         }
