@@ -46,7 +46,7 @@ public class StationDataServiceImpl implements StationDataService {
 
 
     @Override
-    public void updateData(/*Integer stationCode*/) throws Exception {
+    public void updateData() throws Exception {
         //待开发可添加根据riverStation的id先生成添加数据
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -81,7 +81,7 @@ public class StationDataServiceImpl implements StationDataService {
             list.add(data.getSectionCode());
         });
         String finalRealtime = realtime;
-        stationData.forEach(data -> {
+        stationData.forEach((RealStationVo data) -> {
             try {
                 RealStationData realStationVo = realStationDataMapper.getData(Integer.parseInt(data.getStationCode()));
                 //RealStationVo realStationVo = new RealStationVo();
@@ -91,35 +91,49 @@ public class StationDataServiceImpl implements StationDataService {
                 String sensorTypeId = String.valueOf(data.getSensorCode() % 100);
                 //if (list.contains(data.getSensorCode())) {
                 if (sensorTypeId.equals(ConstantConfig.ES)) {
-                    realStationVo.setElectric(data.getRealVal()+"");
+                    realStationVo.setElectric(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WFVY)) {
-                    realStationVo.setFlowVelocityY(data.getRealVal()+"");
+                    realStationVo.setFlowVelocityY(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WFV)) {
-                    realStationVo.setFlowVelocityX(data.getRealVal()+"");
+                    realStationVo.setFlowVelocityX(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.TS)) {
-                    realStationVo.setTideLevel(data.getRealVal()+"");
+                    realStationVo.setTideLevel(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.RS)) {
-                    Double value = (data.getRealVal()-Double.parseDouble(realStationVo.getRainfall()));
-                    realStationVo.setRainfall(value+"");
+                    try {
+                        //雨量取上次数据与这次数据的差值
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(DateTransform.String2Date(data.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                        cal.add(Calendar.MINUTE, -5);
+                        String lasttime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                        List<RealStationVo> latest5minData = stationDataMapper.getLatest5minData(data.getSensorCode() + "", lasttime);
+                        if (latest5minData.size() > 0) {
+                            double oldRain = latest5minData.get(0).getRealVal();
+                            double realRain = data.getRealVal();
+                            Double value = (realRain - oldRain);
+                            realStationVo.setRainfall(value + "");
+                        }
+                    } catch (NullPointerException e) {
+                        System.out.println("实时雨量更新报错");
+                    }
                 }
                 if (sensorTypeId.equals(ConstantConfig.WS)) {
-                    realStationVo.setWaterLevel(data.getRealVal()+"");
+                    realStationVo.setWaterLevel(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WSS)) {
-                    realStationVo.setWindSpeed(data.getRealVal()+"");
+                    realStationVo.setWindSpeed(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WDS)) {
-                    realStationVo.setWindDirection("" + data.getRealVal());
+                    realStationVo.setWindDirection(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WAT)) {
-                    realStationVo.setAirTemperature(data.getRealVal()+"");
+                    realStationVo.setAirTemperature(data.getRealVal() + "");
                 }
                 if (sensorTypeId.equals(ConstantConfig.WAP)) {
-                    realStationVo.setAirPressure(data.getRealVal()+"");
+                    realStationVo.setAirPressure(data.getRealVal() + "");
                 }
                 if (stationList.contains(realStationVo.getStationId())) {
                     //测站状态 1为正常,2为故障
@@ -129,18 +143,33 @@ public class StationDataServiceImpl implements StationDataService {
                 }
 
                 /**
-                 * 获取当前时间往前3小时的real数据
+                 * 分别在 12:10:00 08:10:00 15:10:00修改畅通率数据
                  * */
                 String endTime = finalRealtime;
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                cal.add(Calendar.HOUR, -3);
-                String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-
-                List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
-                //通畅率变化
-                realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 36f));
-                realStationDataMapper.updateStationPatency(realStationVo);
+                if (finalRealtime.substring(11, 19) == "08:10:00") {
+                    cal.add(Calendar.HOUR, -24);
+                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
+                    //通畅率变化
+                    realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 188f));
+                    realStationDataMapper.updateStationPatency(realStationVo);
+                } else if (finalRealtime.substring(11, 19) == "12:10:00") {
+                    cal.add(Calendar.HOUR, -4);
+                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
+                    //通畅率变化
+                    realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 48f));
+                    realStationDataMapper.updateStationPatency(realStationVo);
+                } else if (finalRealtime.substring(11, 19) == "15:10:00") {
+                    cal.add(Calendar.HOUR, -3);
+                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
+                    //通畅率变化
+                    realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 36f));
+                    realStationDataMapper.updateStationPatency(realStationVo);
+                }
                 // 数据更新
                 realStationDataMapper.updateStationData(realStationVo);
             } catch (NullPointerException e) {
@@ -191,7 +220,8 @@ public class StationDataServiceImpl implements StationDataService {
         calendar2.set(Calendar.SECOND, 0);
         Date date9 = calendar2.getTime();
 
-        System.out.println(DateTransform.Date2String(date9, "yyyy-MM-dd HH:mm:ss"));
+        System.out.println(DateTransform.Date2String(date9, "yyyy-MM-dd HH:mm:ss").substring(11, 19));
     }
+
 
 }

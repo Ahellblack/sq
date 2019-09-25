@@ -2,7 +2,8 @@ package com.siti.wisdomhydrologic.statistics.controller;
 
 import com.siti.wisdomhydrologic.statistics.entity.DeviceChange;
 import com.siti.wisdomhydrologic.statistics.mapper.DeviceMapper;
-import com.sun.tools.javac.util.List;
+
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ public class DeviceController {
 
     @RequestMapping("/getAll")
     public List<DeviceChange> getList(String stationName){
+
         return deviceMapper.getList(stationName);
     }
 

@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.statistics.mapper;
 
 import com.siti.wisdomhydrologic.statistics.entity.DeviceChange;
-import com.sun.tools.javac.util.List;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

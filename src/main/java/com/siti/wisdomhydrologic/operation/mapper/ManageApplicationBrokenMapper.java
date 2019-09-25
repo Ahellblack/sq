@@ -23,6 +23,9 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationName")String stationName,@Param("uid") Integer uid);
 
 
+    @Select("select * from report_station_broken where request_designating_status &gt;&lt; 4")
+    List<ReportManageApplicationBroken> getNotResolve();
+
     @Select("<script>select * from report_station_broken" +
             "<if test=\"createDate!=null\">where create_time = #{createDate} </if> " +
             "<if test=\"stationId!=null\"> and  station_id = #{stationId}</if></script>")

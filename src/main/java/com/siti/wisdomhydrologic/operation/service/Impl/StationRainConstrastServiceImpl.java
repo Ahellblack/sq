@@ -219,7 +219,9 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             }
             //System.out.println(databaseName);
             //获取每个测站的日雨量数据
-            DayData dayVo = stationRainConstrastMapper.getDayData(data + "84", databaseName);
+            String sensorCode = data+"84";
+           //System.out.println(sensorCode);
+            List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName);
             //新建雨量对比对象
             ReportStationRainConstrast entity = new ReportStationRainConstrast();
             //赋值测站信息
@@ -247,17 +249,17 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 }
             }
             //当获取日雨量成功时
-            if (dayVo != null) {
-                entity.setCreateTime(dayVo.getSensorDataUploadTime());
-                entity.setUpdateTime(dayVo.getSensorDataUploadTime());
-                entity.setDataYearMonth(dayVo.getSensorDataUploadTime().substring(0, 7));
+            if (dayVo.size()>0) {
+                entity.setCreateTime(dayVo.get(0).getSensorDataUploadTime());
+                entity.setUpdateTime(dayVo.get(0).getSensorDataUploadTime());
+                entity.setDataYearMonth(dayVo.get(0).getSensorDataUploadTime().substring(0, 7));
                 //nowaday每月的第几天
                 int nowaday = cal.get(Calendar.DAY_OF_MONTH);
                 Method marray = null;
                 try {
                     //反射到entity对象，对当前天的数据进行更改
                     marray = entity.getClass().getMethod("setDay" + nowaday, String.class);
-                    marray.invoke(entity, dayVo.getSensorDataValue() + ",0,0");
+                    marray.invoke(entity, dayVo.get(0).getSensorDataValue() + ",0,0");
                 } catch (Exception e) {
                     logger.error("赋值每日降雨量数据异常");
                 }
@@ -267,9 +269,9 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 String daynumber = "day" + nowaday;
 
                 //update时赋值 total的值为原数据+dayVo数据
-                entity.setTotal(((Double.parseDouble(total.split(",")[0]) + dayVo.getSensorDataValue()) + "," + total.split(",")[1]) + "," + Double.parseDouble(total.split(",")[2]));
+                entity.setTotal(((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1]) + "," + Double.parseDouble(total.split(",")[2]));
                 //修改当前月 当天的日数据
-                stationRainConstrastMapper.update(daynumber, dayVo.getSensorDataValue() + ",0,0", entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
+                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0,0", entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
             }
         });
     }

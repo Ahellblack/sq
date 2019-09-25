@@ -34,12 +34,23 @@ public class ConfigRiverStationVo {
     private String electric;
     private String windSpeed;
     private String windDirection;
+
+    private String windDirectionName;
     private String flowVelocityX;
     private String flowVelocityY;
     private String airPressure;
     private String airTemperature;
     //测站状态
     private int status;
+
+
+    public String getWindDirectionName() {
+        return windDirectionName;
+    }
+
+    public void setWindDirectionName(String windDirectionName) {
+        this.windDirectionName = windDirectionName;
+    }
 
     public String getStationCode() {
         return stationCode;

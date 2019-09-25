@@ -80,7 +80,7 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName,List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
         Workbook workbook = exportSheetByTemplate(session,createTime, stationName);
         // 判断数据

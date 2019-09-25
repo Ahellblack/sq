@@ -20,6 +20,10 @@ public interface StationDataMapper {
             " WHERE a.time = b.LatestTime  and  c.sensor_code is not null  order by time desc")
     List<RealStationVo> getStationData();
 
+    @Select("select * from `real` where sensor_code = #{sensorCode} and time = #{time} ")
+    List<RealStationVo> getLatest5minData(@Param("sensorCode") String sensorCode,@Param("time") String time);
+
+
     @Select("<script>" +
             "select * " +
             "from config_river_station a " +

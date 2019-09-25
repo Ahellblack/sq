@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,7 +56,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session,int page, int pageSize, String createDate, String stationName) {
+    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName) {
 
         User user = (User) redisBiz.get(session.getId());
         Integer uid = user.getId();
@@ -64,7 +66,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName,uid);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, uid);
         /*all.forEach(data -> {
             try {
                 if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
@@ -164,7 +166,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
 
             reportManageApplicationBroken.setRequestDesignatingStatus(2);
-            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
+            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
             String numberStr = "";
             for (int i = 0; i < phoneNumber.size(); i++) {
                 numberStr = numberStr + "," + phoneNumber.get(i);
@@ -174,6 +176,31 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
             }
             return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
+        }
+        return 0;
+    }
+
+    public int updateBrokenStatus() {
+        List<ReportManageApplicationBroken> notResolveList = reportManageApplicationBrokenMapper.getNotResolve();
+
+        Date today = new Date();
+        try {
+            String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(DateTransform.String2Date(date,"yyyy-MM-dd HH:mm:ss"));
+            cal.add(Calendar.MINUTE ,-30);
+
+            String latest30minute = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+            notResolveList.forEach(data->{
+
+                List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(),date,latest30minute);
+                if (latest30minuteDate.size() == 0){
+                    data.setRequestDesignatingStatus(4);
+                    reportManageApplicationBrokenMapper.updateStatus(data);
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("系统自动恢复异常");
         }
         return 0;
     }
@@ -216,7 +243,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 if (latestData.size() > 0) {
                     try {
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
-                        if (lastData.size()>0) {
+                        if (lastData.size() > 0) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
                             System.out.println("表四数据错误时间更替" + lastData);
                         }
@@ -287,5 +314,37 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             return 0;
         }
     }
+
+
+    /**
+     * 取当前日期的年月日
+     *
+     * @return
+     * @throws ParseException
+     */
+    public static Date getMinDate(Date date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date newDate = sdf.parse(sdf.format(date));
+        return newDate;
+    }
+
+    /**
+     * 获取最近的整5分时间点real表数据
+     *
+     * @Param dateFormat dateFormat的格式 如 YYYY-MM-dd
+     * @Param date 当前时间
+     * @Param min 相隔时间
+     */
+    public static String getCloseDate(String dateFormat, Date date, long min) throws Exception {
+        long dateTime = date.getTime();
+        long needTime = 0;
+        if (min >= 8 * 60) {
+            return new SimpleDateFormat(dateFormat).format(getMinDate(date));
+        } else {
+            needTime = dateTime - dateTime % (min * 60L * 1000L);
+        }
+        return new SimpleDateFormat(dateFormat).format(new Date(needTime));
+    }
+
 }
 
