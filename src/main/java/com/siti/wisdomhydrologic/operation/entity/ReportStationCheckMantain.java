@@ -127,12 +127,49 @@ public class ReportStationCheckMantain {
     @Excel(name = "createTime", height = 11, width = 10)
     private String createTime;
 
+    private String solarEnergyVoltageCheckRightName;
+    private String storageBatteryVoltageCheckRightName;
+    private String solarEnergyVoltageCheckWrongName;
+    private String storageBatteryVoltageCheckWrongName;
+
     private String waterLevelZeroHeight;
     private String waterLevelStaffValue;
     private String waterLevelTime;
     private String waterLevelIndicatorValue;
     private String waterLevelValue;
 
+
+    public String getSolarEnergyVoltageCheckRightName() {
+        return solarEnergyVoltageCheckRightName;
+    }
+
+    public void setSolarEnergyVoltageCheckRightName(String solarEnergyVoltageCheckRightName) {
+        this.solarEnergyVoltageCheckRightName = solarEnergyVoltageCheckRightName;
+    }
+
+    public String getStorageBatteryVoltageCheckRightName() {
+        return storageBatteryVoltageCheckRightName;
+    }
+
+    public void setStorageBatteryVoltageCheckRightName(String storageBatteryVoltageCheckRightName) {
+        this.storageBatteryVoltageCheckRightName = storageBatteryVoltageCheckRightName;
+    }
+
+    public String getSolarEnergyVoltageCheckWrongName() {
+        return solarEnergyVoltageCheckWrongName;
+    }
+
+    public void setSolarEnergyVoltageCheckWrongName(String solarEnergyVoltageCheckWrongName) {
+        this.solarEnergyVoltageCheckWrongName = solarEnergyVoltageCheckWrongName;
+    }
+
+    public String getStorageBatteryVoltageCheckWrongName() {
+        return storageBatteryVoltageCheckWrongName;
+    }
+
+    public void setStorageBatteryVoltageCheckWrongName(String storageBatteryVoltageCheckWrongName) {
+        this.storageBatteryVoltageCheckWrongName = storageBatteryVoltageCheckWrongName;
+    }
 
     public String getWaterLevelZeroHeight() {
         return waterLevelZeroHeight;

@@ -17,6 +17,8 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -151,7 +153,50 @@ public class StationRainConstrastController {
             //对查询的List进行遍历 把对象存于map
             for (int i = 0; i < list.size(); i++) {
                 String dataname = "data" + (i + 1);
-                map.put(dataname, list.get(i));
+                ReportStationRainConstrastVo vo = list.get(i);
+                for (int j = 1; j <= 31; j++) {
+                    try {
+                        Method methodautoget = vo.getClass().getMethod("getDay" + j + "Auto");
+                        Method methodbaseget = vo.getClass().getMethod("getDay" + j + "Base");
+                        Method methoddiffget = vo.getClass().getMethod("getDay" + j + "Diff");
+                        Method methodautoset = vo.getClass().getMethod("setDay" + j + "Auto",String.class);
+                        Method methodbaseset = vo.getClass().getMethod("setDay" + j + "Base",String.class);
+                        Method methoddiffset = vo.getClass().getMethod("setDay" + j + "Diff",String.class);
+
+
+                        /**
+                         * 导出时设置 值为0的部分 为 空字符串
+                         * */
+                        try {
+                            if (Double.parseDouble(methodautoget.invoke(vo).toString()) == 0) {
+                                methodautoset.invoke(vo, "");
+                            }
+                            if (Double.parseDouble(methodbaseget.invoke(vo).toString()) == 0) {
+                                methodbaseset.invoke(vo, "");
+                            }
+                            if (Double.parseDouble(methoddiffget.invoke(vo).toString()) == 0) {
+                                methoddiffset.invoke(vo, "");
+                            }
+                            if(Double.parseDouble(vo.getAutoTotal()) == 0){
+                                vo.setAutoTotal("");
+                            }
+                            if(Double.parseDouble(vo.getBaseTotal()) == 0){
+                                vo.setBaseTotal("");
+                            }
+                            if(Double.parseDouble(vo.getDiffTotal()) == 0){
+                                vo.setDiffTotal("");
+                            }
+
+                        } catch (Exception e){
+                            //System.out.println("导出异常");
+                        }
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                map.put(dataname, vo);
+
             }
             map.put("date", createTime);
             Workbook workbook = ExcelExportUtil.exportExcel(params, map);

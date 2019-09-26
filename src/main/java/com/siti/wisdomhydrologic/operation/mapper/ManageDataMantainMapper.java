@@ -14,20 +14,23 @@ import java.util.List;
  */
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
     @Select("<script>Select * from report_manage_data_mantain a " +
-            "left join config_abnormal_dictionary b on a.broken_according_id = b.broken_according_id where " +
-            "<if test=\"createDate!=null\">  DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>"+
-            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%${alterType}%' </if>"+
+            "left join config_abnormal_dictionary b on a.broken_according_id = b.broken_according_id " +
+            "left join config_river_station c on a.station_name = c.station_name " +
+            " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
+            "<if test=\"createDate!=null\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and a.alter_sensor_type_name like '%${alterType}%' </if>" +
             "order by a.create_time desc" +
             "</script>")
-    List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
+    List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("uid") Integer uid);
 
-    @Select("<script>Select * from report_manage_data_mantain where " +
-            "<if test=\"createDate!=null\"> DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>"+
-            "<if test=\"alterType!=null\"> and alter_sensor_type_name like '%${alterType}%' </if>"+
+    @Select("<script>Select * from report_manage_data_mantain a left join config_river_station c on a.station_name = c.station_name " +
+            " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
+            "<if test=\"createDate!=null\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'  </if>"+
+            "<if test=\"alterType!=null\"> and a.alter_sensor_type_name like '%${alterType}%' </if>"+
             "</script>")
-    List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate);
+    List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("uid") Integer uid);
 
 
     @Delete("delete from report_manage_data_mantain where report_id = #{reportId}")

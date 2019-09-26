@@ -12,6 +12,8 @@ import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,14 +44,19 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Resource
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     //LogOperation log;
+    @Resource
+    private RedisBiz redisBiz;
 
-    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate) {
+    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate, HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate);
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate,uid);
 
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 

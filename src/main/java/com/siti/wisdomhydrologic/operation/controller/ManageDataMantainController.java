@@ -8,6 +8,8 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -46,7 +49,8 @@ public class ManageDataMantainController {
     private DayDataMapper dayDataMapper;
     @Resource
     private ManageDataMantainMapper reportManageDataMantainMapper;
-
+    @Resource
+    private RedisBiz redisBiz;
     /**
      * 根据修改日期查询
      *
@@ -59,8 +63,8 @@ public class ManageDataMantainController {
      */
     @ApiOperation(value = "表二查询", httpMethod = "GET", notes = "表二查询表二查询根据修改日期查询" + "*stationId 测站id alterType 监控类型     *createBy  修改人\\n\" + \"     * createDate 数据生成日期")
     @GetMapping("/getByCreateDate")
-    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate) {
-        return reportManageDataMantainService.getByCreateDate(page, pageSize, stationName, alterType, createDate);
+    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate,HttpSession session) {
+        return reportManageDataMantainService.getByCreateDate(page, pageSize, stationName, alterType, createDate,session);
     }
 
     @ApiOperation(value = "表二删除", httpMethod = "GET", notes = "表二删除")
@@ -105,9 +109,9 @@ public class ManageDataMantainController {
     @ApiOperation(value = "表二模板导出", httpMethod = "GET", notes = "表二模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime);
+        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -145,13 +149,15 @@ public class ManageDataMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime) {
+    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session) {
         //默认查询本月
         if (createTime == null) {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
         }
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
         // 查询数据,此处省略
-        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationName, alterType, createTime);
+        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationName, alterType, createTime,uid);
         for (int i = 0; i < list.size(); i++) {
             try {
                 ReportManageDataMantainVo data = list.get(i);

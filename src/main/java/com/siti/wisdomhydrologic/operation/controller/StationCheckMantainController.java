@@ -139,6 +139,24 @@ public class StationCheckMantainController {
         // params.setHeadingRows(2);
         // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
         params.setSheetName("表五");
+
+
+        if(entity.getSolarEnergyVoltageCheck() ==1){
+            entity.setSolarEnergyVoltageCheckRightName("■正常"+entity.getSolarEnergyVoltageValue()+"V");
+            entity.setSolarEnergyVoltageCheckWrongName("□不正常");
+        }else{
+            entity.setSolarEnergyVoltageCheckRightName("□正常");
+            entity.setSolarEnergyVoltageCheckWrongName("■不正常"+entity.getSolarEnergyVoltageValue()+"V");
+        }
+        if(entity.getStorageBatteryVoltageCheck() ==1){
+            entity.setStorageBatteryVoltageCheckRightName("■正常"+entity.getStorageBatteryValue()+"V");
+            entity.setStorageBatteryVoltageCheckWrongName("□不正常");
+        }else{
+            entity.setStorageBatteryVoltageCheckRightName("□正常");
+            entity.setStorageBatteryVoltageCheckWrongName("■不正常"+entity.getStorageBatteryValue()+"V");
+        }
+
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("data", entity);
         map.put("date", mantainDate);
