@@ -1,37 +1,40 @@
 package com.siti.wisdomhydrologic.statistics.controller;
 
 import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
-import com.siti.wisdomhydrologic.statistics.mapper.BrokenNumberMapper;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.siti.wisdomhydrologic.statistics.entity.DataError;
+import com.siti.wisdomhydrologic.statistics.mapper.DataErrorNumberMapper;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by dell on 2019/9/23.
+ * Created by dell on 2019/9/26.
  */
-@RequestMapping("/brokenNumber")
+@RequestMapping("/dataError")
 @RestController
-public class BrokenNumberController {
+public class DataErrorNumberController {
 
     @Resource
-    private BrokenNumberMapper brokenNumberMapper;
+    private DataErrorNumberMapper dataErrorNumberMapper;
 
     @GetMapping("getAll")
-    public Map<String, Object>  getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month){
+    public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
         Map<String, Object> map = new HashMap<>();
         try {
+
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
-            List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list);
+
+            List<DataError> dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime);
+
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
@@ -45,7 +48,7 @@ public class BrokenNumberController {
                 map.put("quarter", quarter);
                 map.put("month", month);
                 map.put("count", sum);
-                map.put("stationBrokenInfo", dataList);
+                map.put("dataErrorInfo", dataList);
             } else {
                 map.put("status", -1);
                 map.put("message", "暂无数据");
@@ -55,16 +58,15 @@ public class BrokenNumberController {
                 map.put("quarter", quarter);
                 map.put("month", month);
                 map.put("count", sum);
-                map.put("stationBrokenInfo", null);
+                map.put("dataErrorInfo", null);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             map.put("status", 1);
-            map.put("message", "查询错误");
+            map.put("message", "查询失败");
         }
         return map;
 
 
     }
-
 
 }

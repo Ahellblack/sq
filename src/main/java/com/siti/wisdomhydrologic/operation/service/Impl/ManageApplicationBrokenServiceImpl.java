@@ -194,9 +194,11 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             notResolveList.forEach(data->{
 
                 List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(),date,latest30minute);
+                //系统异常表30分钟无该数据异常,表示恢复
                 if (latest30minuteDate.size() == 0){
                     data.setRequestDesignatingStatus(4);
                     reportManageApplicationBrokenMapper.updateStatus(data);
+                    System.out.println(data.getStationName()+"的异常恢复");
                 }
             });
         } catch (Exception e) {

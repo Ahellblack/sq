@@ -169,11 +169,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         Method methodbase;
         for (int i = 1; i <= 31; i++) {
             try {
-                methodauto = vo.getClass().getMethod("getDay" + i + "Auto");
+                methodauto = station.getClass().getMethod("getDay" + i + "Auto");
                 methodbase = vo.getClass().getMethod("getDay" + i + "Base");
 
-                if (methodauto.invoke(vo) != null) {
-                    autototal += Double.parseDouble(methodauto.invoke(vo).toString());
+                if (methodauto.invoke(station) != null) {
+                    autototal += Double.parseDouble(methodauto.invoke(station).toString());
                 }
                 if (methodbase.invoke(vo) != null) {
                     basetotal += Double.parseDouble(methodbase.invoke(vo).toString());

@@ -46,6 +46,8 @@ public class ManageApplicationBrokenTask {
 
         int i = manageApplicationBrokenService.insertDataMantain(date);
         if(i>0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
+        //异常状态恢复方法
+        manageApplicationBrokenService.updateBrokenStatus();
         return i;
     }
 

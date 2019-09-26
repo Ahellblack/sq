@@ -10,15 +10,27 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface BrokenNumberMapper {
 
-    @Select("<script>select count(*) as number,d.broken_according_id,d.broken_according from (" +
-            "select c.broken_according,c.broken_according_id,a.station_id from report_station_broken a " +
-            "right join config_river_station b on a.station_id = b.station_id   " +
-            "right join config_abnormal_dictionary c on c.broken_according_id = a.broken_according_id  " +
-            "where 1=1 " +
-            "<if test = \'stationName != null \'> and a.station_name like '%${stationName}%' </if> " +
-            "<if test = \'yearMonth != null \'> and DATE_FORMAT(a.create_time,'%Y-%m') = #{yearMonth}</if> ) d" +
-            " where d.station_id is not null" +
-            " GROUP BY d.broken_according_id  </script>")
-    List<BrokenType> getList(@Param("stationName") String stationName,@Param("yearMonth") String yearMonth);
+    @Select("<script> SELECT " +
+            " count( * ) AS number,d.broken_according_id,d.broken_according FROM " +
+            " (" +
+            " SELECT " +
+            " c.broken_according,c.broken_according_id,a.station_id " +
+            " FROM " +
+            " report_station_broken a " +
+            " RIGHT JOIN config_river_station b ON a.station_id = b.station_id " +
+            " RIGHT JOIN config_abnormal_dictionary c ON c.broken_according_id = a.broken_according_id " +
+            " WHERE " +
+            "1 = 1 " + 
+            " <if test=\"stationId!=null\">AND a.station_id = #{stationId} </if> " +
+            " AND SUBSTR( a.create_time, 1, 4 ) = #{year} " +
+            " AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>) " +
+            " ) d " +
+            " WHERE " +
+            " d.station_id IS NOT NULL " +
+            " GROUP BY " +
+            " d.broken_according_id </script>")
+    List<BrokenType> getList(@Param("stationId") Integer stationId,
+                             @Param("year")Integer year,
+                             @Param("list")List<String> list);
 
 }
