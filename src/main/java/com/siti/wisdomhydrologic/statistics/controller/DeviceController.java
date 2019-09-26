@@ -27,12 +27,8 @@ public class DeviceController {
     public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
         try {
-
-
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
-
             List<DeviceChange> dataList = deviceMapper.getList(stationId, year, list);
-
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();

@@ -90,7 +90,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Update("UPDATE `report_station_broken` SET  `station_id` = #{data.stationId}, `station_name` = #{data.stationName}, " +
             "`broken_name` = #{data.brokenName}, `broken_according_id` = #{data.brokenAccordingId}, `broken_according` = #{data.brokenAccording}," +
-            " `create_time` = #{data.createTime}, `broken_response_time` = #{data.brokenResponseTime}, " +
+            " `create_time` = #{data.createTime},`broken_on_resolve_time` = #{data.brokenOnResolveTime}, `broken_response_time` = #{data.brokenResponseTime}, " +
             "`request_designating_time` = #{data.requestDesignatingTime}, `broken_resolve_time` = #{data.brokenResolveTime}, " +
             "`resolve_method` =  #{data.resolveMethod}, `resolve_user_id` = #{data.resolveUserId}, `remark` = #{data.remark}, " +
             "`request_designating_status` = #{data.requestDesignatingStatus}, `broken_ask_to_resolve_time` = #{data.brokenAskToResolveTime}, " +
@@ -98,7 +98,12 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     int update(@Param("data") ReportManageApplicationBroken broken);
 
     @Update("UPDATE `report_station_broken` SET  "+
-            "`request_designating_status` = #{data.requestDesignatingStatus} WHERE report_id = #{data.reportId}")
+            "`request_designating_status` = #{data.requestDesignatingStatus} ," +
+            "`broken_response_time` = #{data.brokenResponseTime}, " +
+            "`request_designating_time` = #{data.requestDesignatingTime}, " +
+            "`broken_resolve_time` = #{data.brokenResolveTime}," +
+            "`broken_on_resolve_time` = #{data.brokenOnResolveTime}" +
+            " WHERE report_id = #{data.reportId}")
     int updateStatus(@Param("data") ReportManageApplicationBroken broken);
 
 

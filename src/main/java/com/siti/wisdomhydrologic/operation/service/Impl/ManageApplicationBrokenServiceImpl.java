@@ -197,6 +197,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 //系统异常表30分钟无该数据异常,表示恢复
                 if (latest30minuteDate.size() == 0){
                     data.setRequestDesignatingStatus(4);
+                   String now = DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss");
+                    if(data.getRequestDesignatingTime()!=null){
+                        data.setRequestDesignatingTime(now);
+                    }
+                    if(data.getBrokenOnResolveTime()!=null){
+                        data.setBrokenOnResolveTime(now);
+                    }
+                    data.setBrokenResolveTime(now);
                     reportManageApplicationBrokenMapper.updateStatus(data);
                     System.out.println(data.getStationName()+"的异常恢复");
                 }

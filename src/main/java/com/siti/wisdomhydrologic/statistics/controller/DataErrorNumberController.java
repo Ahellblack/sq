@@ -5,6 +5,7 @@ import com.siti.wisdomhydrologic.statistics.entity.DataError;
 import com.siti.wisdomhydrologic.statistics.mapper.DataErrorNumberMapper;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +31,13 @@ public class DataErrorNumberController {
 
         Map<String, Object> map = new HashMap<>();
         try {
-
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
-
-            List<DataError> dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime);
-
+            List<DataError> dataList =new ArrayList<>();
+            if(list.size() >0) {
+                dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime);
+            }else{
+                dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime);
+            }
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
