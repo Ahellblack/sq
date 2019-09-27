@@ -7,6 +7,7 @@ import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain;
 import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationCheckMantainServiceImpl;
+import com.siti.wisdomhydrologic.operation.vo.RainVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
@@ -119,7 +120,7 @@ public class StationCheckMantainController {
      */
     public Workbook exportSheetByTemplate(@Param("mantainDate") String mantainDate, @Param("stationId") Integer stationId) {
         // 查询数据,此处省略
-        ReportStationCheckMantain entity = stationCheckMantainMapper.getByStationId(mantainDate, stationId);
+        RainVo entity = stationCheckMantainMapper.getByStationIdVo(mantainDate, stationId);
         /*for (int i = 0; i < list.size(); i++) {
             ReportInspectionMaintenance data = list.get(i);
             data.setReportId(i+1);

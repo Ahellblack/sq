@@ -1,8 +1,11 @@
-package com.siti.wisdomhydrologic.operation.entity;
+package com.siti.wisdomhydrologic.operation.vo;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
-public class ReportStationCheckMantain {
+/**
+ * Created by dell on 2019/9/26.
+ */
+public class RainVo {
 
     @Excel(name = "reportId", height = 11, width = 10)
     private int reportId;
@@ -127,6 +130,10 @@ public class ReportStationCheckMantain {
     @Excel(name = "createTime", height = 11, width = 10)
     private String createTime;
 
+    private String solarEnergyVoltageCheckRightName;
+    private String storageBatteryVoltageCheckRightName;
+    private String solarEnergyVoltageCheckWrongName;
+    private String storageBatteryVoltageCheckWrongName;
 
     private String waterLevelZeroHeight;
     private String waterLevelStaffValue;
@@ -134,7 +141,365 @@ public class ReportStationCheckMantain {
     private String waterLevelIndicatorValue;
     private String waterLevelValue;
 
+    public int getReportId() {
+        return reportId;
+    }
 
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
+    }
+
+    public String getMantainDate() {
+        return mantainDate;
+    }
+
+    public void setMantainDate(String mantainDate) {
+        this.mantainDate = mantainDate;
+    }
+
+    public int getStationCode() {
+        return stationCode;
+    }
+
+    public void setStationCode(int stationCode) {
+        this.stationCode = stationCode;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
+    public int getStationManangeOrgId() {
+        return stationManangeOrgId;
+    }
+
+    public void setStationManangeOrgId(int stationManangeOrgId) {
+        this.stationManangeOrgId = stationManangeOrgId;
+    }
+
+    public String getStationManageOrgName() {
+        return stationManageOrgName;
+    }
+
+    public void setStationManageOrgName(String stationManageOrgName) {
+        this.stationManageOrgName = stationManageOrgName;
+    }
+
+    public String getRtuType() {
+        return rtuType;
+    }
+
+    public void setRtuType(String rtuType) {
+        this.rtuType = rtuType;
+    }
+
+    public int getCheckRainSensor() {
+        return checkRainSensor;
+    }
+
+    public void setCheckRainSensor(int checkRainSensor) {
+        this.checkRainSensor = checkRainSensor;
+    }
+
+    public int getCheckWaterLevelSensor() {
+        return checkWaterLevelSensor;
+    }
+
+    public void setCheckWaterLevelSensor(int checkWaterLevelSensor) {
+        this.checkWaterLevelSensor = checkWaterLevelSensor;
+    }
+
+    public int getCheckSpeedDirectionSensor() {
+        return checkSpeedDirectionSensor;
+    }
+
+    public void setCheckSpeedDirectionSensor(int checkSpeedDirectionSensor) {
+        this.checkSpeedDirectionSensor = checkSpeedDirectionSensor;
+    }
+
+    public int getCheckFlowSensor() {
+        return checkFlowSensor;
+    }
+
+    public void setCheckFlowSensor(int checkFlowSensor) {
+        this.checkFlowSensor = checkFlowSensor;
+    }
+
+    public String getCheckOtherSensor() {
+        return checkOtherSensor;
+    }
+
+    public void setCheckOtherSensor(String checkOtherSensor) {
+        this.checkOtherSensor = checkOtherSensor;
+    }
+
+    public int getDataCollectionCorrect() {
+        return dataCollectionCorrect;
+    }
+
+    public void setDataCollectionCorrect(int dataCollectionCorrect) {
+        this.dataCollectionCorrect = dataCollectionCorrect;
+    }
+
+    public int getDataCollectionParameterCheck() {
+        return dataCollectionParameterCheck;
+    }
+
+    public void setDataCollectionParameterCheck(int dataCollectionParameterCheck) {
+        this.dataCollectionParameterCheck = dataCollectionParameterCheck;
+    }
+
+    public int getDataCollectionNormal() {
+        return dataCollectionNormal;
+    }
+
+    public void setDataCollectionNormal(int dataCollectionNormal) {
+        this.dataCollectionNormal = dataCollectionNormal;
+    }
+
+    public int getDataCommunicateParameterCheck() {
+        return dataCommunicateParameterCheck;
+    }
+
+    public void setDataCommunicateParameterCheck(int dataCommunicateParameterCheck) {
+        this.dataCommunicateParameterCheck = dataCommunicateParameterCheck;
+    }
+
+    public int getDataCommunicateChannel() {
+        return dataCommunicateChannel;
+    }
+
+    public void setDataCommunicateChannel(int dataCommunicateChannel) {
+        this.dataCommunicateChannel = dataCommunicateChannel;
+    }
+
+    public int getSolarEnergyVoltageCheck() {
+        return solarEnergyVoltageCheck;
+    }
+
+    public void setSolarEnergyVoltageCheck(int solarEnergyVoltageCheck) {
+        this.solarEnergyVoltageCheck = solarEnergyVoltageCheck;
+    }
+
+    public double getSolarEnergyVoltageValue() {
+        return solarEnergyVoltageValue;
+    }
+
+    public void setSolarEnergyVoltageValue(double solarEnergyVoltageValue) {
+        this.solarEnergyVoltageValue = solarEnergyVoltageValue;
+    }
+
+    public int getStorageBatteryVoltageCheck() {
+        return storageBatteryVoltageCheck;
+    }
+
+    public void setStorageBatteryVoltageCheck(int storageBatteryVoltageCheck) {
+        this.storageBatteryVoltageCheck = storageBatteryVoltageCheck;
+    }
+
+    public double getStorageBatteryValue() {
+        return storageBatteryValue;
+    }
+
+    public void setStorageBatteryValue(double storageBatteryValue) {
+        this.storageBatteryValue = storageBatteryValue;
+    }
+
+    public int getRainfallSensorNormal() {
+        return rainfallSensorNormal;
+    }
+
+    public void setRainfallSensorNormal(int rainfallSensorNormal) {
+        this.rainfallSensorNormal = rainfallSensorNormal;
+    }
+
+    public int getRainfallSensorCleanCheck() {
+        return rainfallSensorCleanCheck;
+    }
+
+    public void setRainfallSensorCleanCheck(int rainfallSensorCleanCheck) {
+        this.rainfallSensorCleanCheck = rainfallSensorCleanCheck;
+    }
+
+    public int getRainfallSensorRangeCheck() {
+        return rainfallSensorRangeCheck;
+    }
+
+    public void setRainfallSensorRangeCheck(int rainfallSensorRangeCheck) {
+        this.rainfallSensorRangeCheck = rainfallSensorRangeCheck;
+    }
+
+    public int getWaterLevelCheckNormal() {
+        return waterLevelCheckNormal;
+    }
+
+    public void setWaterLevelCheckNormal(int waterLevelCheckNormal) {
+        this.waterLevelCheckNormal = waterLevelCheckNormal;
+    }
+
+    public int getWaterLevelCheckShaft() {
+        return waterLevelCheckShaft;
+    }
+
+    public void setWaterLevelCheckShaft(int waterLevelCheckShaft) {
+        this.waterLevelCheckShaft = waterLevelCheckShaft;
+    }
+
+    public int getWaterLevelCleanCheck() {
+        return waterLevelCleanCheck;
+    }
+
+    public void setWaterLevelCleanCheck(int waterLevelCleanCheck) {
+        this.waterLevelCleanCheck = waterLevelCleanCheck;
+    }
+
+    public int getWaterLevelAdjust() {
+        return waterLevelAdjust;
+    }
+
+    public void setWaterLevelAdjust(int waterLevelAdjust) {
+        this.waterLevelAdjust = waterLevelAdjust;
+    }
+
+    public int getSpeedDirectionCheckNormal() {
+        return speedDirectionCheckNormal;
+    }
+
+    public void setSpeedDirectionCheckNormal(int speedDirectionCheckNormal) {
+        this.speedDirectionCheckNormal = speedDirectionCheckNormal;
+    }
+
+    public int getSpeedDirectionCheckLightingProtection() {
+        return speedDirectionCheckLightingProtection;
+    }
+
+    public void setSpeedDirectionCheckLightingProtection(int speedDirectionCheckLightingProtection) {
+        this.speedDirectionCheckLightingProtection = speedDirectionCheckLightingProtection;
+    }
+
+    public int getFlowmeterDataCheckNormal() {
+        return flowmeterDataCheckNormal;
+    }
+
+    public void setFlowmeterDataCheckNormal(int flowmeterDataCheckNormal) {
+        this.flowmeterDataCheckNormal = flowmeterDataCheckNormal;
+    }
+
+    public double getFlowmeterPitchGesture() {
+        return flowmeterPitchGesture;
+    }
+
+    public void setFlowmeterPitchGesture(double flowmeterPitchGesture) {
+        this.flowmeterPitchGesture = flowmeterPitchGesture;
+    }
+
+    public double getFlowmeterRollingGesture() {
+        return flowmeterRollingGesture;
+    }
+
+    public void setFlowmeterRollingGesture(double flowmeterRollingGesture) {
+        this.flowmeterRollingGesture = flowmeterRollingGesture;
+    }
+
+    public int getFlowmeterSignalStrength() {
+        return flowmeterSignalStrength;
+    }
+
+    public void setFlowmeterSignalStrength(int flowmeterSignalStrength) {
+        this.flowmeterSignalStrength = flowmeterSignalStrength;
+    }
+
+    public int getFlowmeterRecordTimeWarp() {
+        return flowmeterRecordTimeWarp;
+    }
+
+    public void setFlowmeterRecordTimeWarp(int flowmeterRecordTimeWarp) {
+        this.flowmeterRecordTimeWarp = flowmeterRecordTimeWarp;
+    }
+
+    public int getLinePipeCheckNormal() {
+        return linePipeCheckNormal;
+    }
+
+    public void setLinePipeCheckNormal(int linePipeCheckNormal) {
+        this.linePipeCheckNormal = linePipeCheckNormal;
+    }
+
+    public int getStationEnviroment() {
+        return stationEnviroment;
+    }
+
+    public void setStationEnviroment(int stationEnviroment) {
+        this.stationEnviroment = stationEnviroment;
+    }
+
+    public int getStationCleanCheck() {
+        return stationCleanCheck;
+    }
+
+    public void setStationCleanCheck(int stationCleanCheck) {
+        this.stationCleanCheck = stationCleanCheck;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getSolarEnergyVoltageCheckRightName() {
+        return solarEnergyVoltageCheckRightName;
+    }
+
+    public void setSolarEnergyVoltageCheckRightName(String solarEnergyVoltageCheckRightName) {
+        this.solarEnergyVoltageCheckRightName = solarEnergyVoltageCheckRightName;
+    }
+
+    public String getStorageBatteryVoltageCheckRightName() {
+        return storageBatteryVoltageCheckRightName;
+    }
+
+    public void setStorageBatteryVoltageCheckRightName(String storageBatteryVoltageCheckRightName) {
+        this.storageBatteryVoltageCheckRightName = storageBatteryVoltageCheckRightName;
+    }
+
+    public String getSolarEnergyVoltageCheckWrongName() {
+        return solarEnergyVoltageCheckWrongName;
+    }
+
+    public void setSolarEnergyVoltageCheckWrongName(String solarEnergyVoltageCheckWrongName) {
+        this.solarEnergyVoltageCheckWrongName = solarEnergyVoltageCheckWrongName;
+    }
+
+    public String getStorageBatteryVoltageCheckWrongName() {
+        return storageBatteryVoltageCheckWrongName;
+    }
+
+    public void setStorageBatteryVoltageCheckWrongName(String storageBatteryVoltageCheckWrongName) {
+        this.storageBatteryVoltageCheckWrongName = storageBatteryVoltageCheckWrongName;
+    }
 
     public String getWaterLevelZeroHeight() {
         return waterLevelZeroHeight;
@@ -174,381 +539,5 @@ public class ReportStationCheckMantain {
 
     public void setWaterLevelValue(String waterLevelValue) {
         this.waterLevelValue = waterLevelValue;
-    }
-
-    public int getReportId() {
-        return reportId;
-    }
-
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
-    }
-
-
-    public String getMantainDate() {
-        return mantainDate;
-    }
-
-    public void setMantainDate(String mantainDate) {
-        this.mantainDate = mantainDate;
-    }
-
-
-    public int getStationCode() {
-        return stationCode;
-    }
-
-    public void setStationCode(int stationCode) {
-        this.stationCode = stationCode;
-    }
-
-    public String getStationName() {
-        return stationName;
-    }
-
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
-    }
-
-
-    public int getStationManangeOrgId() {
-        return stationManangeOrgId;
-    }
-
-    public void setStationManangeOrgId(int stationManangeOrgId) {
-        this.stationManangeOrgId = stationManangeOrgId;
-    }
-
-
-    public String getStationManageOrgName() {
-        return stationManageOrgName;
-    }
-
-    public void setStationManageOrgName(String stationManageOrgName) {
-        this.stationManageOrgName = stationManageOrgName;
-    }
-
-
-    public String getRtuType() {
-        return rtuType;
-    }
-
-    public void setRtuType(String rtuType) {
-        this.rtuType = rtuType;
-    }
-
-
-    public int getCheckRainSensor() {
-        return checkRainSensor;
-    }
-
-    public void setCheckRainSensor(int checkRainSensor) {
-        this.checkRainSensor = checkRainSensor;
-    }
-
-
-    public int getCheckWaterLevelSensor() {
-        return checkWaterLevelSensor;
-    }
-
-    public void setCheckWaterLevelSensor(int checkWaterLevelSensor) {
-        this.checkWaterLevelSensor = checkWaterLevelSensor;
-    }
-
-
-    public int getCheckSpeedDirectionSensor() {
-        return checkSpeedDirectionSensor;
-    }
-
-    public void setCheckSpeedDirectionSensor(int checkSpeedDirectionSensor) {
-        this.checkSpeedDirectionSensor = checkSpeedDirectionSensor;
-    }
-
-
-    public int getCheckFlowSensor() {
-        return checkFlowSensor;
-    }
-
-    public void setCheckFlowSensor(int checkFlowSensor) {
-        this.checkFlowSensor = checkFlowSensor;
-    }
-
-
-    public String getCheckOtherSensor() {
-        return checkOtherSensor;
-    }
-
-    public void setCheckOtherSensor(String checkOtherSensor) {
-        this.checkOtherSensor = checkOtherSensor;
-    }
-
-
-    public int getDataCollectionCorrect() {
-        return dataCollectionCorrect;
-    }
-
-    public void setDataCollectionCorrect(int dataCollectionCorrect) {
-        this.dataCollectionCorrect = dataCollectionCorrect;
-    }
-
-
-    public int getDataCollectionParameterCheck() {
-        return dataCollectionParameterCheck;
-    }
-
-    public void setDataCollectionParameterCheck(int dataCollectionParameterCheck) {
-        this.dataCollectionParameterCheck = dataCollectionParameterCheck;
-    }
-
-
-    public int getDataCollectionNormal() {
-        return dataCollectionNormal;
-    }
-
-    public void setDataCollectionNormal(int dataCollectionNormal) {
-        this.dataCollectionNormal = dataCollectionNormal;
-    }
-
-
-    public int getDataCommunicateParameterCheck() {
-        return dataCommunicateParameterCheck;
-    }
-
-    public void setDataCommunicateParameterCheck(int dataCommunicateParameterCheck) {
-        this.dataCommunicateParameterCheck = dataCommunicateParameterCheck;
-    }
-
-
-    public int getDataCommunicateChannel() {
-        return dataCommunicateChannel;
-    }
-
-    public void setDataCommunicateChannel(int dataCommunicateChannel) {
-        this.dataCommunicateChannel = dataCommunicateChannel;
-    }
-
-
-    public int getSolarEnergyVoltageCheck() {
-        return solarEnergyVoltageCheck;
-    }
-
-    public void setSolarEnergyVoltageCheck(int solarEnergyVoltageCheck) {
-        this.solarEnergyVoltageCheck = solarEnergyVoltageCheck;
-    }
-
-
-    public double getSolarEnergyVoltageValue() {
-        return solarEnergyVoltageValue;
-    }
-
-    public void setSolarEnergyVoltageValue(double solarEnergyVoltageValue) {
-        this.solarEnergyVoltageValue = solarEnergyVoltageValue;
-    }
-
-
-    public int getStorageBatteryVoltageCheck() {
-        return storageBatteryVoltageCheck;
-    }
-
-    public void setStorageBatteryVoltageCheck(int storageBatteryVoltageCheck) {
-        this.storageBatteryVoltageCheck = storageBatteryVoltageCheck;
-    }
-
-
-    public double getStorageBatteryValue() {
-        return storageBatteryValue;
-    }
-
-    public void setStorageBatteryValue(double storageBatteryValue) {
-        this.storageBatteryValue = storageBatteryValue;
-    }
-
-
-    public int getRainfallSensorNormal() {
-        return rainfallSensorNormal;
-    }
-
-    public void setRainfallSensorNormal(int rainfallSensorNormal) {
-        this.rainfallSensorNormal = rainfallSensorNormal;
-    }
-
-
-    public int getRainfallSensorCleanCheck() {
-        return rainfallSensorCleanCheck;
-    }
-
-    public void setRainfallSensorCleanCheck(int rainfallSensorCleanCheck) {
-        this.rainfallSensorCleanCheck = rainfallSensorCleanCheck;
-    }
-
-
-    public int getRainfallSensorRangeCheck() {
-        return rainfallSensorRangeCheck;
-    }
-
-    public void setRainfallSensorRangeCheck(int rainfallSensorRangeCheck) {
-        this.rainfallSensorRangeCheck = rainfallSensorRangeCheck;
-    }
-
-
-    public int getWaterLevelCheckNormal() {
-        return waterLevelCheckNormal;
-    }
-
-    public void setWaterLevelCheckNormal(int waterLevelCheckNormal) {
-        this.waterLevelCheckNormal = waterLevelCheckNormal;
-    }
-
-
-    public int getWaterLevelCheckShaft() {
-        return waterLevelCheckShaft;
-    }
-
-    public void setWaterLevelCheckShaft(int waterLevelCheckShaft) {
-        this.waterLevelCheckShaft = waterLevelCheckShaft;
-    }
-
-
-    public int getWaterLevelCleanCheck() {
-        return waterLevelCleanCheck;
-    }
-
-    public void setWaterLevelCleanCheck(int waterLevelCleanCheck) {
-        this.waterLevelCleanCheck = waterLevelCleanCheck;
-    }
-
-
-    public int getWaterLevelAdjust() {
-        return waterLevelAdjust;
-    }
-
-    public void setWaterLevelAdjust(int waterLevelAdjust) {
-        this.waterLevelAdjust = waterLevelAdjust;
-    }
-
-
-    public int getSpeedDirectionCheckNormal() {
-        return speedDirectionCheckNormal;
-    }
-
-    public void setSpeedDirectionCheckNormal(int speedDirectionCheckNormal) {
-        this.speedDirectionCheckNormal = speedDirectionCheckNormal;
-    }
-
-
-    public int getSpeedDirectionCheckLightingProtection() {
-        return speedDirectionCheckLightingProtection;
-    }
-
-    public void setSpeedDirectionCheckLightingProtection(int speedDirectionCheckLightingProtection) {
-        this.speedDirectionCheckLightingProtection = speedDirectionCheckLightingProtection;
-    }
-
-
-    public int getFlowmeterDataCheckNormal() {
-        return flowmeterDataCheckNormal;
-    }
-
-    public void setFlowmeterDataCheckNormal(int flowmeterDataCheckNormal) {
-        this.flowmeterDataCheckNormal = flowmeterDataCheckNormal;
-    }
-
-
-    public double getFlowmeterPitchGesture() {
-        return flowmeterPitchGesture;
-    }
-
-    public void setFlowmeterPitchGesture(double flowmeterPitchGesture) {
-        this.flowmeterPitchGesture = flowmeterPitchGesture;
-    }
-
-
-    public double getFlowmeterRollingGesture() {
-        return flowmeterRollingGesture;
-    }
-
-    public void setFlowmeterRollingGesture(double flowmeterRollingGesture) {
-        this.flowmeterRollingGesture = flowmeterRollingGesture;
-    }
-
-
-    public int getFlowmeterSignalStrength() {
-        return flowmeterSignalStrength;
-    }
-
-    public void setFlowmeterSignalStrength(int flowmeterSignalStrength) {
-        this.flowmeterSignalStrength = flowmeterSignalStrength;
-    }
-
-
-    public int getFlowmeterRecordTimeWarp() {
-        return flowmeterRecordTimeWarp;
-    }
-
-    public void setFlowmeterRecordTimeWarp(int flowmeterRecordTimeWarp) {
-        this.flowmeterRecordTimeWarp = flowmeterRecordTimeWarp;
-    }
-
-
-    public int getLinePipeCheckNormal() {
-        return linePipeCheckNormal;
-    }
-
-    public void setLinePipeCheckNormal(int linePipeCheckNormal) {
-        this.linePipeCheckNormal = linePipeCheckNormal;
-    }
-
-
-    public int getStationEnviroment() {
-        return stationEnviroment;
-    }
-
-    public void setStationEnviroment(int stationEnviroment) {
-        this.stationEnviroment = stationEnviroment;
-    }
-
-
-    public int getStationCleanCheck() {
-        return stationCleanCheck;
-    }
-
-    public void setStationCleanCheck(int stationCleanCheck) {
-        this.stationCleanCheck = stationCleanCheck;
-    }
-
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-
-    public ReportStationCheckMantain() {
-    }
-
-    public ReportStationCheckMantain(String mantainDate, int stationCode, String stationName) {
-        this.mantainDate = mantainDate;
-        this.stationCode = stationCode;
-        this.stationName = stationName;
     }
 }

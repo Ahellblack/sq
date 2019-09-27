@@ -96,7 +96,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         entity.setRequestDesignatingStatus(1);
         entity.setErrorLastestAppearTime(entity.getCreateTime());
         Calendar calendar = Calendar.getInstance();
-        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
         /*try {
             riverStationList.forEach(river -> {
                 if (entity.getStationId() == river.getStationId()) {
@@ -129,7 +129,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         entity.setRequestDesignatingStatus(1);
         entity.setErrorLastestAppearTime(entity.getCreateTime());
         Calendar calendar = Calendar.getInstance();
-        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
+        //List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
         /*try {
             riverStationList.forEach(river -> {
                 if (entity.getStationId() == river.getStationId()) {
@@ -232,7 +232,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         //根据日期获取异常信息
         List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
-        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAll();
+        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         //获取异常配置参数
         if (all.size() > 0) {

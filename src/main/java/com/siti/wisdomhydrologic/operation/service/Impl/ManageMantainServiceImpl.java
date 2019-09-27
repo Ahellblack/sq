@@ -1,8 +1,9 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalError;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalErrorMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
@@ -11,7 +12,6 @@ import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +34,8 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
 
+    @Resource
+    private ConfigAbnormalErrorMapper configAbnormalErrorMapper;
     /**
      * 根据sys-org和日期获取数据表
      * 若表中暂无当日月份数据时，自动添加并生成
@@ -55,16 +57,17 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         Calendar cal = Calendar.getInstance();
         Date date = DateTransform.String2Date(yearMonth, "yyyy-MM");
         Calendar calHour = Calendar.getInstance();
-
         cal.setTime(date);
         //cal.add(Calendar.MONTH, -1);
         List<ConfigRiverStation> all = configRiverStationMapper.getBySysOrg();
-        List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getTableList();
-        Map<String, Integer> map = new HashMap<>();
         String LastMonthDate = DateTransform.Date2String(cal.getTime(), "yyyy-MM");
         //依据区域号修改
         int sysOrg = 1002;
-        list.forEach((ConfigAbnormalDictionary data) -> map.put(data.getBrokenAccordingId(), data.getTable1_relate()));
+
+        //建立异常名字典表的map
+        Map<String, Integer> map = new HashMap<>();
+        List<ConfigAbnormalError> list = configAbnormalErrorMapper.getErrorNameList();
+        list.forEach((ConfigAbnormalError data) -> map.put(data.getErrorName(), data.getTable1Relate()));
         all.forEach(data -> {
             if (reportManageMantainMapper.getDataByMonth(LastMonthDate, sysOrg).size() == 0) {
                 //添加上月天数条数据，默认所有check字段都为1，遍历测站的中心站id赋值
@@ -156,8 +159,8 @@ public class ManageMantainServiceImpl implements ManageMantainService {
 
 
     public static void setTable4Status(Map<String, Integer> map, ManageMantainVo vo, ReportManageMantain entity) {
-        if (map.containsKey(vo.getBrokenAccordingId())) {
-            switch (map.get(vo.getBrokenAccordingId())) {
+        if (map.containsKey(vo.getBrokenName())) {
+            switch (map.get(vo.getBrokenName())) {
                 case 9:
                     entity.setVoltageException(-1);
                     break;
@@ -184,8 +187,8 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     }
 
     public static void setTable3Status(Map<String, Integer> map, ReportStationBroken vo, ReportManageMantain entity) {
-        if (map.containsKey(vo.getApplicationEquipTypeId())) {
-            switch (map.get(vo.getApplicationEquipTypeId())) {
+        if (map.containsKey(vo.getApplicationEquipName())) {
+            switch (map.get(vo.getApplicationEquipName())) {
                 case 1:
                     entity.setTempHuimidityException(-1);
                     break;

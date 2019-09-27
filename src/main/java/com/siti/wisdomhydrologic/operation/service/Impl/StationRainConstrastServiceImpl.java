@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -96,7 +97,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 }
             }
 
-            map.put("id",data.getReportId());
+            map.put("id", data.getReportId());
             map.put("自动测报", autoList);
             map.put("基本站", baseList);
             map.put("差值", diffList);
@@ -110,6 +111,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
     public int update(ReportStationRainConstrastVo vo) {
 
+        DecimalFormat df = new DecimalFormat("0.0");
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
 
         ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationName(), vo.getDataYearMonth());
@@ -134,7 +136,10 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 method2 = vo.getClass().getMethod("getDay" + i + "Base");
                 method3 = entity.getClass().getMethod("getDay" + i);
                 if (method2.invoke(vo) != null && (!"".equals(method2.invoke(vo)))) {
-                    method.invoke(entity, (method1.invoke(station) + "," + (method2.invoke(vo)) + "," + ((Double.parseDouble(method1.invoke(station).toString()) - (Double.parseDouble(method2.invoke(vo).toString()))))));
+                    Double auto = Double.parseDouble(method1.invoke(station).toString());
+                    Double base = Double.parseDouble((method2.invoke(vo).toString()));
+                    Double diff = ((Double.parseDouble(method1.invoke(station).toString()) - (Double.parseDouble(method2.invoke(vo).toString()))));
+                    method.invoke(entity, df.format(auto) + "," + df.format(base) + "," + df.format((diff)));
                 } else {
                     /**
                      * 若没有base数据 entity赋值原来的数据
@@ -174,9 +179,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
                 if (methodauto.invoke(station) != null) {
                     autototal += Double.parseDouble(methodauto.invoke(station).toString());
+                    df.format(autototal);
                 }
                 if (methodbase.invoke(vo) != null) {
                     basetotal += Double.parseDouble(methodbase.invoke(vo).toString());
+                    df.format(basetotal);
                 }
                 difftotal = autototal - basetotal;
             } catch (Exception e) {
@@ -184,7 +191,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 System.out.println("修改异常");
             }
         }
-        entity.setTotal(autototal + "," + basetotal + "," + difftotal);
+        entity.setTotal(df.format(autototal) + "," + df.format(basetotal) + "," + df.format(difftotal));
 
         try {
             return stationRainConstrastMapper.updateData(entity);
@@ -219,8 +226,8 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             }
             //System.out.println(databaseName);
             //获取每个测站的日雨量数据
-            String sensorCode = data+"84";
-           //System.out.println(sensorCode);
+            String sensorCode = data + "84";
+            //System.out.println(sensorCode);
             List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName);
             //新建雨量对比对象
             ReportStationRainConstrast entity = new ReportStationRainConstrast();
@@ -249,7 +256,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 }
             }
             //当获取日雨量成功时
-            if (dayVo.size()>0) {
+            if (dayVo.size() > 0) {
                 entity.setCreateTime(dayVo.get(0).getSensorDataUploadTime());
                 entity.setUpdateTime(dayVo.get(0).getSensorDataUploadTime());
                 entity.setDataYearMonth(dayVo.get(0).getSensorDataUploadTime().substring(0, 7));

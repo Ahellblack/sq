@@ -5,12 +5,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +26,24 @@ public class ConfigRiverStationController {
 
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
-
+    @Resource
+    private RedisBiz redisBiz;
     @RequestMapping("/getAll")
-    public List<ConfigRiverStation> getAll() {
-        return configRiverStationMapper.getAll();
+    public List<ConfigRiverStation> getAll(HttpSession session) {
+        User user = (User) redisBiz.get(session.getId());
+        Integer uid = user.getId();
+        return configRiverStationMapper.getAll(uid);
     }
 
 
     @RequestMapping("/getAllIDAndName")
-    public List<JSONObject> getAllIDAndName() {
+    public List<JSONObject> getAllIDAndName(HttpSession session) {
         try {
             List<JSONObject> jsonList = new ArrayList<JSONObject>();
+            User user = (User) redisBiz.get(session.getId());
+            Integer uid = user.getId();
             // 从ConfigRiverStation取出stationID与stationName，构建json数组传送给前端
-            for (ConfigRiverStation rs:configRiverStationMapper.getAll()) {
+            for (ConfigRiverStation rs:configRiverStationMapper.getAll(uid)) {
                 JSONObject json = new JSONObject();
                 json.put("stationID", rs.getStationId());
                 json.put("stationName", rs.getStationName());

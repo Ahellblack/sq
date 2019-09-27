@@ -134,9 +134,12 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     /**
      * z
      * */
-    @Select("<script>select manage_org_name from config_sensor_database where manage_org_name is not null " +
-            " GROUP BY manage_org_name </script>")
-    List<String> getStationName();
+    @Select("<script>select manage_org_name from config_sensor_database a " +
+            " left join config_river_station b on a.manage_org_id = b.station_id " +
+            " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
+            " and a.manage_org_name is not null " +
+            " GROUP BY a.manage_org_name </script>")
+    List<String> getStationName(@Param("uid") Integer uid);
 
     /**
      * z

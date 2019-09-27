@@ -6,7 +6,7 @@ package com.siti.wisdomhydrologic.operation.vo;
 public class ManageMantainVo {
 
     private int sysOrg;
-    private String brokenAccordingId;
+    private String brokenName;
     private String createTime;
 
     public String getCreateTime() {
@@ -25,11 +25,11 @@ public class ManageMantainVo {
         this.sysOrg = sysOrg;
     }
 
-    public String getBrokenAccordingId() {
-        return brokenAccordingId;
+    public String getBrokenName() {
+        return brokenName;
     }
 
-    public void setBrokenAccordingId(String brokenAccordingId) {
-        this.brokenAccordingId = brokenAccordingId;
+    public void setBrokenName(String brokenName) {
+        this.brokenName = brokenName;
     }
 }

@@ -1,7 +1,6 @@
 package com.siti.wisdomhydrologic.maintainconfig.mapper;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -40,8 +39,14 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 //    PRIMARY KEY (`station_code`)
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-    @Select("select * from config_river_station")
-    List<ConfigRiverStation> getAll();
+    @Select("select * from config_river_station  " +
+            "where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid}))")
+    List<ConfigRiverStation> getAll(@Param("uid") Integer uid);
+
+    @Select("select * from config_river_station ")
+    List<ConfigRiverStation> getAllstation();
+
+
 
     /*@Select("")
     List<ConfigRiverStation> getCheckAll();*/

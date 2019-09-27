@@ -65,10 +65,11 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "YEAR(b.create_time)=YEAR(NOW());\n")
     List<StationMalFunction> getRegAndStatusListYear();
 
-    @Select("select a.sys_org,b.broken_according_id,b.create_time from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
-            "where request_designating_status is not null and " +
+    @Select("<script>select a.sys_org,b.broken_name,b.create_time from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
+            "where b.broken_name is not null and " +
             "SUBSTR(b.create_time,1,7) = #{createTime} " +
-            "and a.sys_org = #{sysOrg}")
+            "and a.sys_org = #{sysOrg} " +
+            "and b.request_designating_status &lt; 4</script>")
     List<ManageMantainVo> getLastMonthList(@Param("createTime") String createTime, @Param("sysOrg") int sysOrg);
 
 

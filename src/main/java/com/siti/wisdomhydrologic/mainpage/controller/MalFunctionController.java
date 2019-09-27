@@ -75,7 +75,7 @@ public class MalFunctionController {
             regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListYear();
         }
         StationMalFunction stationMalFunction = new StationMalFunction(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
-        List<ConfigRiverStation> list = configRiverStationMapper.getAll();
+        List<ConfigRiverStation> list = configRiverStationMapper.getAllstation();
         list.forEach(data -> {
             if ("北片".equals(data.getRegionName()))
                 stationMalFunction.setNstationNumber(stationMalFunction.getNstationNumber() + 1);
@@ -125,7 +125,7 @@ public class MalFunctionController {
             regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListYear();
         }
         StationMalFunction stationMalFunction = new StationMalFunction(0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        List<ConfigRiverStation> list = configRiverStationMapper.getAll();
+        List<ConfigRiverStation> list = configRiverStationMapper.getAllstation();
         list.forEach(data -> {
             if ("南片".equals(data.getRegionName()))
                 stationMalFunction.setSstationNumber(stationMalFunction.getSstationNumber() + 1);
