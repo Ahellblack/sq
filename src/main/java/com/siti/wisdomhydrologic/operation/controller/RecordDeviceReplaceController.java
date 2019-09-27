@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.operation.entity.RecordDeviceReplace;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
@@ -25,10 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/8/23.
@@ -129,9 +127,9 @@ public class RecordDeviceReplaceController {
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate, List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, createDate);
+        Workbook workbook = exportSheetByTemplate(stationName, createDate,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -169,13 +167,27 @@ public class RecordDeviceReplaceController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String createDate) {
+    public Workbook exportSheetByTemplate(String stationName, String createDate,@RequestBody List<Integer> reportIdList) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         // 查询数据,此处省略
         List<RecordDeviceReplaceVo> list = mapper.getAll(stationName, createDate);
+
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<RecordDeviceReplaceVo> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
+                }
+            }
+            list = reportlist;
+        }
+
         for (int i = 0; i < list.size(); i++) {
             RecordDeviceReplaceVo data = list.get(i);
             data.setReportId(i + 1);

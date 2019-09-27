@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.operation.controller;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
 import com.siti.wisdomhydrologic.user.entity.User;
@@ -19,17 +20,14 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/7/26.
  */
 @RequestMapping("/hyetometer")
 @RestController
-@Api(value="雨滴表controller",tags={"雨量计滴水实验记录表"})
+@Api(value = "雨滴表controller", tags = {"雨量计滴水实验记录表"})
 public class HyetometerController {
 
     @Resource
@@ -43,37 +41,39 @@ public class HyetometerController {
 
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
-    public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationName){
-        return reportHyetometerService.getAll(session,createTime,stationName);
+    public List<ReportHyetometerTest> getAll(HttpSession session, String createTime, String stationName) {
+        return reportHyetometerService.getAll(session, createTime, stationName);
     }
 
     @GetMapping("/deleteBy")
-    public int deleteBy(Integer reportId){
+    public int deleteBy(Integer reportId) {
         int i = reportHyetometerService.delByReportId(reportId);
         return i;
     }
 
     @GetMapping("/deleteChosen")
-    public int deleteByList(@RequestBody List<Integer> reportIdList){
+    public int deleteByList(@RequestBody List<Integer> reportIdList) {
         return reportHyetometerService.delByReportIdList(reportIdList);
     }
+
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportHyetometerTest reportHyetometer){
+    public int insert(@RequestBody ReportHyetometerTest reportHyetometer) {
 
         return reportHyetometerService.insert(reportHyetometer);
     }
+
     @PostMapping("/update")
-    public int update(@RequestBody ReportHyetometerTest reportHyetometer){
+    public int update(@RequestBody ReportHyetometerTest reportHyetometer) {
         return reportHyetometerService.update(reportHyetometer);
     }
 
     @ApiOperation(value = "雨滴表excel导出接口", httpMethod = "GET", notes = "雨滴表excel导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response,String createTime,String stationName) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationName, @RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
 
         // 获取workbook对象   easypoi   easyexcell
-        Workbook workbook = exportSheetByTemplate(session,createTime,stationName);
+        Workbook workbook = exportSheetByTemplate(session, createTime, stationName, reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -111,25 +111,41 @@ public class HyetometerController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session,String createTime,String stationName) {
+    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName, List<Integer> reportIdList) {
 
         User user = (User) redisBiz.get(session.getId());
         Integer uid = user.getId();
         // 查询数据,此处省略
-        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime,stationName,uid);
+        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationName, uid);
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<ReportHyetometerTest> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
+                }
+            }
+            list = reportlist;
+        }
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
-            data.setReportId(i+1);
+            data.setReportId(i + 1);
             data.getTimeDuration();
             data.getStartTime();
             data.getEndTime();
-            if (data.getTimeDuration()!=null)data.setTimeDuration(data.getTimeDuration().substring(11,13)+"时"+data.getTimeDuration().substring(14,16)+"分"+data.getTimeDuration().substring(17,19)+"秒");
-            if (data.getStartTime()!=null)data.setStartTime(data.getStartTime().substring(11,13)+"时"+data.getStartTime().substring(14,16)+"分"+data.getStartTime().substring(17,19)+"秒");
-            if (data.getEndTime()!=null)data.setEndTime(data.getEndTime().substring(11,13)+"时"+data.getEndTime().substring(14,16)+"分"+data.getEndTime().substring(17,19)+"秒");
-            if (data.getCreateTime()!=null)data.setCreateTime(data.getCreateTime().substring(0,4)+"年"+data.getCreateTime().substring(5,7)+"月"+data.getCreateTime().substring(8,10)+"日");
+            if (data.getTimeDuration() != null)
+                data.setTimeDuration(data.getTimeDuration().substring(11, 13) + "时" + data.getTimeDuration().substring(14, 16) + "分" + data.getTimeDuration().substring(17, 19) + "秒");
+            if (data.getStartTime() != null)
+                data.setStartTime(data.getStartTime().substring(11, 13) + "时" + data.getStartTime().substring(14, 16) + "分" + data.getStartTime().substring(17, 19) + "秒");
+            if (data.getEndTime() != null)
+                data.setEndTime(data.getEndTime().substring(11, 13) + "时" + data.getEndTime().substring(14, 16) + "分" + data.getEndTime().substring(17, 19) + "秒");
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(0, 4) + "年" + data.getCreateTime().substring(5, 7) + "月" + data.getCreateTime().substring(8, 10) + "日");
 
             // if (data.getCreateTime()!= null)data.setCreateTime(data.getCreateTime().substring(8,10)+"日"+data.getCreateTime().substring(11,13)+"时");
-       }
+        }
         int count1 = 0;
         // 设置导出配置
 
@@ -141,9 +157,9 @@ public class HyetometerController {
         String filepath = "resources/sqexcelmodel/model4.xls";
 */
         URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath() ;
+        String logFilePath = url.getPath();
         // 获取导出excel指定模版
-         TemplateExportParams params = new TemplateExportParams(logFilePath+"sqexcelmodel/model6.xls");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model6.xls");
         // 标题开始行
         // params.setHeadingStartRow(0);
         // 标题行数

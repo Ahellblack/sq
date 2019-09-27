@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
+import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
@@ -23,10 +24,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/7/31.
@@ -80,9 +78,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName,List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName,@RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(session,createTime, stationName);
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationName,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -120,12 +118,26 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName,List<Integer> reportIdList) {
         User user = (User) redisBiz.get(session.getId());
         Integer uid = user.getId();
 
         // 查询数据,此处省略
         List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,uid);
+
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<ReportManageApplicationBroken> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
+                }
+            }
+            list = reportlist;
+        }
+
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
             data.setReportId(i + 1);

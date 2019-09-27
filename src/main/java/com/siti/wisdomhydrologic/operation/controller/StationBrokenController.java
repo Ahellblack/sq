@@ -15,10 +15,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/7/31.
@@ -26,7 +23,7 @@ import java.util.Map;
  */
 @RequestMapping("/stationBroken")
 @RestController
-@Api(value="应用程序及设备故障登记表controller",tags={"表三应用程序及设备故障登记表"})
+@Api(value = "应用程序及设备故障登记表controller", tags = {"表三应用程序及设备故障登记表"})
 public class StationBrokenController {
 
     @Resource
@@ -34,19 +31,22 @@ public class StationBrokenController {
 
     @ApiOperation(value = "表三应用程序及设备故障登记表查询", httpMethod = "GET", notes = "表三应用程序及设备故障登记表查询")
     @RequestMapping("/getAll")
-    public List<ReportStationBroken> getAll(String createDate,String applicationEquipName){
-        return stationBrokenService.getAll(createDate,applicationEquipName);
+    public List<ReportStationBroken> getAll(String createDate, String applicationEquipName) {
+        return stationBrokenService.getAll(createDate, applicationEquipName);
     }
+
     @GetMapping("/delete")
-    public int delete(Integer reportId){
+    public int delete(Integer reportId) {
         return stationBrokenService.delete(reportId);
     }
+
     @PostMapping("/update")
-    public int update(@RequestBody ReportStationBroken reportStationBroken){
+    public int update(@RequestBody ReportStationBroken reportStationBroken) {
         return stationBrokenService.update(reportStationBroken);
     }
+
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportStationBroken reportStationBroken){
+    public int insert(@RequestBody ReportStationBroken reportStationBroken) {
         System.out.println(reportStationBroken);
         return stationBrokenService.insert(reportStationBroken);
     }
@@ -54,9 +54,9 @@ public class StationBrokenController {
     @ApiOperation(value = "表三应用程序及设备故障登记表模板导出", httpMethod = "GET", notes = "表三应用程序及设备故障登记表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createDate,String applicationEquipName) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String createDate, String applicationEquipName, List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createDate,applicationEquipName);
+        Workbook workbook = exportSheetByTemplate(createDate, applicationEquipName, reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -94,17 +94,35 @@ public class StationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createDate,String applicationEquipName) {
+    public Workbook exportSheetByTemplate(String createDate, String applicationEquipName,@RequestBody List<Integer> reportIdList) {
         // 查询数据,此处省略
-        List<ReportStationBroken> list = stationBrokenService.getAll(createDate,applicationEquipName);
+        List<ReportStationBroken> list = stationBrokenService.getAll(createDate, applicationEquipName);
+
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<ReportStationBroken> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
+                }
+            }
+            list = reportlist;
+        }
         for (int i = 0; i < list.size(); i++) {
             ReportStationBroken data = list.get(i);
-            data.setReportId(i+1);
-            if (data.getCreateTime()!= null && data.getCreateTime().length()>13)data.setCreateTime(data.getCreateTime().substring(8,10)+"日"+data.getCreateTime().substring(11,13)+"时");
-            if (data.getBrokenResponseTime()!= null && data.getBrokenResponseTime().length()>13 )data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8,10)+"日"+data.getBrokenResponseTime().substring(11,13)+"时");
-            if (data.getBrokenHappenTime()!= null && data.getBrokenHappenTime().length()>13 )data.setBrokenHappenTime(data.getBrokenHappenTime().substring(8,10)+"日"+data.getBrokenHappenTime().substring(11,13)+"时");
-            if (data.getBrokenResolveCreateTime()!= null && data.getBrokenResolveCreateTime().length()>13 )data.setBrokenResolveCreateTime(data.getBrokenResolveCreateTime().substring(8,10)+"日"+data.getBrokenResolveCreateTime().substring(11,13)+"时");
-            if (data.getBrokenResolveTime()!= null && data.getBrokenResolveTime().length()>13 )data.setBrokenResolveTime(data.getBrokenResolveTime().substring(8,10)+"日"+data.getBrokenResolveTime().substring(11,13)+"时");
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null && data.getCreateTime().length() > 13)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResponseTime() != null && data.getBrokenResponseTime().length() > 13)
+                data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8, 10) + "日" + data.getBrokenResponseTime().substring(11, 13) + "时");
+            if (data.getBrokenHappenTime() != null && data.getBrokenHappenTime().length() > 13)
+                data.setBrokenHappenTime(data.getBrokenHappenTime().substring(8, 10) + "日" + data.getBrokenHappenTime().substring(11, 13) + "时");
+            if (data.getBrokenResolveCreateTime() != null && data.getBrokenResolveCreateTime().length() > 13)
+                data.setBrokenResolveCreateTime(data.getBrokenResolveCreateTime().substring(8, 10) + "日" + data.getBrokenResolveCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResolveTime() != null && data.getBrokenResolveTime().length() > 13)
+                data.setBrokenResolveTime(data.getBrokenResolveTime().substring(8, 10) + "日" + data.getBrokenResolveTime().substring(11, 13) + "时");
         }
         int count1 = 0;
         // 设置导出配置
@@ -126,8 +144,6 @@ public class StationBrokenController {
         // 导出excel
         return workbook;
     }
-
-
 
 
 }

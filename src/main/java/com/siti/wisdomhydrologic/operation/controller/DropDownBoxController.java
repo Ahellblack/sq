@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,23 +59,29 @@ public class DropDownBoxController {
         return configAbnormalDictionaryMapper.getErrorName();
     }
 
-    @ApiOperation(value = "数据异常下拉框", httpMethod = "GET", notes = "设备异常下拉框获取,运维表4下拉框")
+    @ApiOperation(value = "数据异常下拉框", httpMethod = "GET", notes = "数据异常下拉框获取,运维表4下拉框")
     @GetMapping("/getDataError")
-    public List<ConfigAbnormalDictionary> getDataErrorNameList(){
-        return configAbnormalDictionaryMapper.getDataErrorNameList();
+    public List<ConfigAbnormalError> getDataErrorNameList(){
+        List<Integer> tableNumberList = new ArrayList<>();
+        tableNumberList.add(2);
+        return configAbnormalDictionaryMapper.getErrorNameList(tableNumberList);
     }
-    @ApiOperation(value = "设备异常下拉框", httpMethod = "GET", notes = "服务器异常下拉框获取,运维表3下拉框")
+    @ApiOperation(value = "设备异常下拉框", httpMethod = "GET", notes = "设备异常下拉框获取,运维表3下拉框")
     @GetMapping("/getEqError")
-    public List<ConfigAbnormalDictionary> getEqErrorNameList(){
-        return configAbnormalDictionaryMapper.getEqErrorNameList();
+    public List<ConfigAbnormalError> getEqErrorNameList(){
+        List<Integer> tableNumberList = new ArrayList<>();
+        tableNumberList.add(2);
+        tableNumberList.add(4);
+        return configAbnormalDictionaryMapper.getErrorNameList(tableNumberList);
     }
 
     @ApiOperation(value = "服务器异常下拉框", httpMethod = "GET", notes = "服务器异常下拉框获取,运维表3下拉框")
     @GetMapping("/getSeError")
     public List<ConfigAbnormalError> getSeList(){
-        return configAbnormalDictionaryMapper.getSeErrorNameList();
+        List<Integer> tableNumberList = new ArrayList<>();
+        tableNumberList.add(3);
+        return configAbnormalDictionaryMapper.getErrorNameList(tableNumberList);
     }
-
 
     public List<ConfigSensorDatabase> getDataBaseList(){
         return configSensorDatabaseMapper.getAll();

@@ -8,6 +8,27 @@ public class ConfigAbnormalError {
     private String errorId;
     private String errorName;
     private String belongWhichTable;
+    private Integer table1Relate;
+
+    private String brokenAccordingId;
+    private String brokenAccording;
+
+    public String getBrokenAccording() {
+        return brokenAccording;
+    }
+
+    public void setBrokenAccording(String brokenAccording) {
+        this.brokenAccording = brokenAccording;
+    }
+
+    public String getBrokenAccordingId() {
+
+        return brokenAccordingId;
+    }
+
+    public void setBrokenAccordingId(String brokenAccordingId) {
+        this.brokenAccordingId = brokenAccordingId;
+    }
 
     public String getErrorId() {
         return errorId;
@@ -40,8 +61,6 @@ public class ConfigAbnormalError {
     public void setTable1Relate(Integer table1Relate) {
         this.table1Relate = table1Relate;
     }
-
-    private Integer table1Relate;
 
 
 }

@@ -32,9 +32,10 @@ public interface ConfigAbnormalDictionaryMapper {
             "'eq%' or broken_according_id like 'ty%'")
     List<ConfigAbnormalDictionary> getEqErrorNameList();
 
-    @Select("select * from config_abnormal_error " +
-            "where error_id like '6%'")
-    List<ConfigAbnormalError> getSeErrorNameList();
+
+    @Select("<script>select * from config_abnormal_error " +
+            "where belong_which_table in (<foreach collection=\"tableNumber\" item=\"item\" separator=\",\">#{item}</foreach>)</script>")
+    List<ConfigAbnormalError> getErrorNameList(@Param("tableNumber") List<Integer> tableNumber);
 
 
     @Select("select * from config_abnormal_dictionary where broken_according = #{according}")

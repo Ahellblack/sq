@@ -7,6 +7,7 @@ import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
+import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
@@ -29,10 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/7/30.
@@ -109,9 +107,9 @@ public class ManageDataMantainController {
     @ApiOperation(value = "表二模板导出", httpMethod = "GET", notes = "表二模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session, @RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session);
+        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -149,7 +147,7 @@ public class ManageDataMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session) {
+    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session,List<Integer> reportIdList) {
         //默认查询本月
         if (createTime == null) {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
@@ -158,6 +156,20 @@ public class ManageDataMantainController {
         Integer uid = user.getId();
         // 查询数据,此处省略
         List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationName, alterType, createTime,uid);
+
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<ReportManageDataMantainVo> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
+                }
+            }
+            list = reportlist;
+        }
+
         for (int i = 0; i < list.size(); i++) {
             try {
                 ReportManageDataMantainVo data = list.get(i);
