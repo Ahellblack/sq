@@ -24,8 +24,8 @@ public interface ConfigAbnormalErrorMapper {
 
 
 
-//    @Select("select * from config_abnormal_error ")
-//    List<ConfigAbnormalError> getErrorNameList();
+    @Select("select * from config_abnormal_error ")
+    List<ConfigAbnormalError> getErrorNameList();
 
     @Select("select * from config_abnormal_error where belong_which_table=#{tableIndex}")
     List<ConfigAbnormalError> getAllByTableIndex(@Param("tableIndex") Integer tableIndex);
