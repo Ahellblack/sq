@@ -40,8 +40,8 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
     @Select("select * from config_river_station  " +
-            " where sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " )
-    List<ConfigRiverStation> getAll(@Param("orgId") Integer orgId);
+            "where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid}))")
+    List<ConfigRiverStation> getAll(@Param("uid") Integer uid);
 
     @Select("select * from config_river_station ")
     List<ConfigRiverStation> getAllstation();
@@ -106,7 +106,7 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "`station_gaode_latitude`=#{obj.stationGaodeLatitude}," +
             "`is_sluice_gate`=#{obj.isSluiceGate}," +
             "`station_address`=#{obj.stationAddress}," +
-            "`flow_rate`=#{obj.flowRate}, WHERE (`station_code`=#{obj.stationCode});")
+            "`flow_rate`=#{obj.flowRate} WHERE (`station_code`=#{obj.stationCode});")
     int update(@Param("obj") ConfigRiverStation configRiverStation);
 
     // 根据stationCode删除

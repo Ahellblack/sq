@@ -1,66 +1,53 @@
 package com.siti.wisdomhydrologic.maintainconfig.entity;
 
-/**
- * Created by dell on 2019/9/27.
- */
 public class ConfigAbnormalError {
 
-    private String errorId;
-    private String errorName;
-    private String belongWhichTable;
-    private Integer table1Relate;
 
-    private String brokenAccordingId;
-    private String brokenAccording;
+  private String errorId;
+  private String errorName;
+  private Integer belongWhichTable;
+  private String table1Relate;
+  private String description;
 
-    public String getBrokenAccording() {
-        return brokenAccording;
-    }
 
-    public void setBrokenAccording(String brokenAccording) {
-        this.brokenAccording = brokenAccording;
-    }
+  public String getErrorId() {
+    return errorId;
+  }
 
-    public String getBrokenAccordingId() {
+  public void setErrorId(String errorId) {
+    this.errorId = errorId;
+  }
 
-        return brokenAccordingId;
-    }
+  public String getErrorName() {
+    return errorName;
+  }
 
-    public void setBrokenAccordingId(String brokenAccordingId) {
-        this.brokenAccordingId = brokenAccordingId;
-    }
+  public void setErrorName(String errorName) {
+    this.errorName = errorName;
+  }
 
-    public String getErrorId() {
-        return errorId;
-    }
+  public Integer getBelongWhichTable() {
+    return belongWhichTable;
+  }
 
-    public void setErrorId(String errorId) {
-        this.errorId = errorId;
-    }
+  public void setBelongWhichTable(Integer belongWhichTable) {
+    this.belongWhichTable = belongWhichTable;
+  }
 
-    public String getErrorName() {
-        return errorName;
-    }
+  public String getTable1Relate() {
+    return table1Relate;
+  }
 
-    public void setErrorName(String errorName) {
-        this.errorName = errorName;
-    }
+  public void setTable1Relate(String table1Relate) {
+    this.table1Relate = table1Relate;
+  }
 
-    public String getBelongWhichTable() {
-        return belongWhichTable;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setBelongWhichTable(String belongWhichTable) {
-        this.belongWhichTable = belongWhichTable;
-    }
-
-    public Integer getTable1Relate() {
-        return table1Relate;
-    }
-
-    public void setTable1Relate(Integer table1Relate) {
-        this.table1Relate = table1Relate;
-    }
-
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
 }

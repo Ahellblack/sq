@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by dell on 2019/8/9.
  */
-public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>{
+public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase> {
 
 //    CREATE TABLE `config_sensor_database` (
 //            `property_code` varchar(50) NOT NULL COMMENT '毫秒时间戳',
@@ -136,7 +136,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
      * */
     @Select("<script>select manage_org_name from config_sensor_database a " +
             " left join config_river_station b on a.manage_org_id = b.station_id " +
-            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
             " and a.manage_org_name is not null " +
             " GROUP BY a.manage_org_name </script>")
     List<String> getStationName(@Param("uid") Integer uid);
@@ -147,8 +147,7 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     @Select("select * from config_sensor_database " +
             "where sensor_type_name =#{originDeviceName} " +
             "and manage_org_name =#{manageOrgName} and sensor_use_status = 1 " )
-    List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName,
-                                       @Param("manageOrgName")String manageOrgName);
+    List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName, @Param("manageOrgName") String manageOrgName);
 
     /**
      * z

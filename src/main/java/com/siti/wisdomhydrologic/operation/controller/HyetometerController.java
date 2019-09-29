@@ -75,10 +75,10 @@ public class HyetometerController {
     @ApiOperation(value = "雨滴表excel导出接口", httpMethod = "GET", notes = "雨滴表excel导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationName, @RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationName/*, @RequestBody List<Integer> reportIdList*/) throws UnsupportedEncodingException {
 
         // 获取workbook对象   easypoi   easyexcell
-        Workbook workbook = exportSheetByTemplate(session, createTime, stationName, reportIdList);
+        Workbook workbook = exportSheetByTemplate(session, createTime, stationName/*, reportIdList*/);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -116,7 +116,7 @@ public class HyetometerController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName, List<Integer> reportIdList) {
+    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName/*, @RequestBody List<Integer> reportIdList*/) {
 
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());        // 查询数据,此处省略
@@ -124,7 +124,7 @@ public class HyetometerController {
         /**
          * 选择导出reportList替换全部list
          * */
-        if (reportIdList.size() > 0) {
+        /*if (reportIdList.size() > 0) {
             List<ReportHyetometerTest> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -132,7 +132,7 @@ public class HyetometerController {
                 }
             }
             list = reportlist;
-        }
+        }*/
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i + 1);

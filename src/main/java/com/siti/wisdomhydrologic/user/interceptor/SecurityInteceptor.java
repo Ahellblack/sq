@@ -32,19 +32,9 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
         HttpSession session = httpServletRequest.getSession();
         //System.out.println(session.getId());
         if(!redisBiz.exists(session.getId())){
-            //httpServletResponse.sendRedirect("/login");
 
-            /*httpServletResponse.setStatus(200);
-            httpServletResponse.setCharacterEncoding("UTF-8");
-            httpServletResponse.setContentType("application/json; charset=utf-8");
-            PrintWriter printWriter = httpServletResponse.getWriter();
-            //在这返回401
-            String body = "{\"status\":\"failure\",\"msg\":" + HttpStatus.UNAUTHORIZED + "}";
-            printWriter.write(body);
-            printWriter.flush();*/
-           // httpServletResponse.sendError(401);
             httpServletResponse.getWriter().write("请先完成登陆！");
-            httpServletResponse.sendRedirect(ConstantConfig.LOGINLOCATIONTEST);
+            //httpServletResponse.sendRedirect(ConstantConfig.LOGINLOCATIONTEST);
             //throw new System.ServiceModel.Web.WebFaultException<String>("\"mes\":\"认证信息失效\"", System.Net.HttpStatusCode.Unauthorized);
             return false;
         }

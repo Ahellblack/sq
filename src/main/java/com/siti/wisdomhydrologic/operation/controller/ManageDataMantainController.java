@@ -113,7 +113,7 @@ public class ManageDataMantainController {
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session, @RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session,reportIdList);
+        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session/*,reportIdList*/);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -151,7 +151,7 @@ public class ManageDataMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session,List<Integer> reportIdList) {
+    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session/*,@RequestBody List<Integer> reportIdList*/) {
         //默认查询本月
         if (createTime == null) {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
@@ -164,7 +164,7 @@ public class ManageDataMantainController {
         /**
          * 选择导出reportList替换全部list
          * */
-        if (reportIdList.size() > 0) {
+        /*if (reportIdList.size() > 0) {
             List<ReportManageDataMantainVo> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -172,7 +172,7 @@ public class ManageDataMantainController {
                 }
             }
             list = reportlist;
-        }
+        }*/
 
         for (int i = 0; i < list.size(); i++) {
             try {

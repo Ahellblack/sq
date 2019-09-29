@@ -82,9 +82,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName,@RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName/*,@RequestBody List<Integer> reportIdList*/) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(session,createTime, stationName,reportIdList);
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationName/*,reportIdList*/);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -122,7 +122,7 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName,List<Integer> reportIdList) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName/*,List<Integer> reportIdList*/) {
         if(createTime == null){
             createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
         }
@@ -136,7 +136,7 @@ public class ManageApplicationBrokenController {
         /**
          * 选择导出reportList替换全部list
          * */
-        if (reportIdList.size() > 0) {
+        /*if (reportIdList.size() > 0) {
             List<ReportManageApplicationBroken> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -144,7 +144,7 @@ public class ManageApplicationBrokenController {
                 }
             }
             list = reportlist;
-        }
+        }*/
 
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
