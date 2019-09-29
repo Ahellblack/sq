@@ -62,6 +62,13 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             "and sensor_code =#{sensorCode} ")
     List<DayData> getDayData(@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
 
+    //测试某天的的雨量数据
+    @Select("select * from ${datebase} " +
+            "where SUBSTR(sensor_data_upload_time,1,10) = #{day} " +  //SUBSTR(sensor_data_upload_time,1,10) = CURDATE()
+            "and sensor_code =#{sensorCode} ")
+    List<DayData> getChosenDayData(@Param("day")String day,@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
+
+
     @Update("UPDATE `report_station_rain_constrast` " +
             "SET ${dayNumber} = #{value} , total =#{total}" +
             "WHERE `station_code` = #{stationCode} " +

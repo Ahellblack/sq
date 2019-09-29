@@ -7,8 +7,11 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.util.DateTransform;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -33,7 +36,8 @@ import java.util.*;
 @RequestMapping("/applicationBroken")
 @Api(value = "应用程序及设备异常表controller", tags = {"表四应用程序及设备异常表"})
 public class ManageApplicationBrokenController {
-
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private RedisBiz redisBiz;
     @Resource
@@ -119,11 +123,15 @@ public class ManageApplicationBrokenController {
      * @return
      */
     public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName,List<Integer> reportIdList) {
+        if(createTime == null){
+            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        }
+
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,uid);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,orgList.get(0).getId());
 
         /**
          * 选择导出reportList替换全部list

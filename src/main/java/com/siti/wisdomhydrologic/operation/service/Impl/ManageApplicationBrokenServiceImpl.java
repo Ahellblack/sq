@@ -14,7 +14,9 @@ import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenServic
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
@@ -48,7 +50,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private AbnormalDetailMapper abnormalDetailMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
-
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private RedisBiz redisBiz;
 
@@ -59,14 +62,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName) {
 
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
 
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, uid);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, orgList.get(0).getId());
         /*all.forEach(data -> {
             try {
                 if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)

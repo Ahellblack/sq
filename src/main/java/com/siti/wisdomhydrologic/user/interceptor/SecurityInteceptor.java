@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.user.interceptor;
 
+import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
             printWriter.flush();*/
            // httpServletResponse.sendError(401);
             httpServletResponse.getWriter().write("请先完成登陆！");
+            httpServletResponse.sendRedirect(ConstantConfig.LOGINLOCATIONTEST);
             //throw new System.ServiceModel.Web.WebFaultException<String>("\"mes\":\"认证信息失效\"", System.Net.HttpStatusCode.Unauthorized);
             return false;
         }

@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.StationBrokenService;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +17,8 @@ public class StationBrokenServiceImpl implements StationBrokenService {
 
     @Resource
     private ReportStationBrokenMapper reportStationBrokenMapper;
-
+    @Resource
+    private UserMapper userMapper;
     @Override
     public List<ReportStationBroken> getAll(String createDate,String applicationEquipName) {
         return reportStationBrokenMapper.getAll(createDate, applicationEquipName);

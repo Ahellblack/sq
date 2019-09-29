@@ -20,7 +20,8 @@ public interface BrokenNumberMapper {
             " RIGHT JOIN config_river_station b ON a.station_id = b.station_id " +
             " RIGHT JOIN config_abnormal_dictionary c ON c.broken_according_id = a.broken_according_id " +
             " WHERE " +
-            "1 = 1 " + 
+            "1 = 1 " +
+            " and b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             " <if test=\"stationId!=null\">AND a.station_id = #{stationId} </if> " +
             " AND SUBSTR( a.create_time, 1, 4 ) = #{year} " +
             " AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>) " +
@@ -31,6 +32,7 @@ public interface BrokenNumberMapper {
             " d.broken_according_id </script>")
     List<BrokenType> getList(@Param("stationId") Integer stationId,
                              @Param("year")Integer year,
-                             @Param("list")List<String> list);
+                             @Param("list")List<String> list,
+                             @Param("orgId")Integer orgId);
 
 }

@@ -7,7 +7,9 @@ import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.HyetometerService;
 import com.siti.wisdomhydrologic.user.controller.Usertrol;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
@@ -27,14 +29,19 @@ public class HyetometerServiceImpl  {
     ConfigRiverStationMapper configRiverStationMapper;
     @Resource
     private HyetometerMapper reportHyetometerMapper;
-
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private RedisBiz redisBiz;
 
     public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationName) {
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
-        return reportHyetometerMapper.getAll(createTime, stationName,uid);
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        if (orgList.size()>0){
+            return reportHyetometerMapper.getAll(createTime, stationName,orgList.get(0).getId());
+        }else {
+            return null;
+        }
     }
 
     public int delByReportId(Integer reportId) {

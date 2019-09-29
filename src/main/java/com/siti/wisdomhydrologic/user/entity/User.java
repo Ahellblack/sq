@@ -40,12 +40,23 @@ public class User {
     private String lastTime;
 
     private String userRole;
+
+    private String userOrg;
     @Transient
     List<Role> roles;
     @Transient
     List<Permission> menuList ;   //  获取角色的目录权限
     @Transient
     List<Org> orgList;
+
+
+    public String getUserOrg() {
+        return userOrg;
+    }
+
+    public void setUserOrg(String userOrg) {
+        this.userOrg = userOrg;
+    }
 
     public List<Role> getRoles() {
         return roles;

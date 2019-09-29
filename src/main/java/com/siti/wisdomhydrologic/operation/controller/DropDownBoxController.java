@@ -7,7 +7,9 @@ import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +38,8 @@ public class DropDownBoxController {
     private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
     @Resource
     private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
 
     @ApiOperation(value = "字典表数据下拉框", httpMethod = "GET", notes = "字典表数据下拉框")
     @GetMapping("/getDictionary")
@@ -48,9 +52,9 @@ public class DropDownBoxController {
     {
 
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
 
-        return configRiverStationMapper.getAll(uid);
+        return configRiverStationMapper.getAll(orgList.get(0).getId());
     }
 
     @ApiOperation(value = "错误名称", httpMethod = "GET", notes = "数据异常下拉框获取,运维表2下拉框")
@@ -98,8 +102,8 @@ public class DropDownBoxController {
     @GetMapping("/getDatabaseStationName")
     public List<String> getSensorTypeId(HttpSession session){
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
-        return configSensorDatabaseMapper.getStationName(uid);
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        return configSensorDatabaseMapper.getStationName(orgList.get(0).getId());
     }
 
 

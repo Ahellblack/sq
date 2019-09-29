@@ -26,7 +26,7 @@ public class DataErrorNumberController {
     @Resource
     private DataErrorNumberMapper dataErrorNumberMapper;
 
-    @GetMapping("getAll")
+    @GetMapping("errorList")
     public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
         Map<String, Object> map = new HashMap<>();

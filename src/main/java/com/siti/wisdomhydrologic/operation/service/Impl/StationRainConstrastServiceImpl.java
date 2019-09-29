@@ -204,16 +204,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        List<Integer> idList = new ArrayList<>();
-
-        //表7需要的测站id的LIst
-        StationIdUtils.getTable7StationList().forEach(data -> {
-            int stationId = 0;
-            if (configRiverStationMapper.getByAllName(data) != null) {
-                stationId = configRiverStationMapper.getByAllName(data).getStationId();
-                idList.add(stationId);
-            }
-        });
+        List<Integer> idList = StationIdUtils.getTable7StationList();
 
         //每个测站id对应的day数据获取
         idList.forEach(data -> {

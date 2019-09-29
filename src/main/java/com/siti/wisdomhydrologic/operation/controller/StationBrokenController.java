@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationBrokenServiceImpl;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -25,7 +26,8 @@ import java.util.*;
 @RestController
 @Api(value = "应用程序及设备故障登记表controller", tags = {"表三应用程序及设备故障登记表"})
 public class StationBrokenController {
-
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private StationBrokenServiceImpl stationBrokenService;
 

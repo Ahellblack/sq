@@ -6,7 +6,9 @@ import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +37,9 @@ public class HyetometerController {
 
     @Resource
     private RedisBiz redisBiz;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Resource
     private HyetometerMapper reportHyetometerMapper;
@@ -114,9 +119,8 @@ public class HyetometerController {
     public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName, List<Integer> reportIdList) {
 
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
-        // 查询数据,此处省略
-        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationName, uid);
+        List<Org> orgList = userMapper.findOrg(user.getId());        // 查询数据,此处省略
+        List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationName, orgList.get(0).getId());
         /**
          * 选择导出reportList替换全部list
          * */

@@ -40,8 +40,8 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
     @Select("select * from config_river_station  " +
-            "where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid}))")
-    List<ConfigRiverStation> getAll(@Param("uid") Integer uid);
+            " where sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " )
+    List<ConfigRiverStation> getAll(@Param("orgId") Integer orgId);
 
     @Select("select * from config_river_station ")
     List<ConfigRiverStation> getAllstation();

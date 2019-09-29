@@ -9,7 +9,9 @@ import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
@@ -49,6 +51,8 @@ public class ManageDataMantainController {
     private ManageDataMantainMapper reportManageDataMantainMapper;
     @Resource
     private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
     /**
      * 根据修改日期查询
      *
@@ -153,9 +157,9 @@ public class ManageDataMantainController {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
         // 查询数据,此处省略
-        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationName, alterType, createTime,uid);
+        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationName, alterType, createTime,orgList.get(0).getId());
 
         /**
          * 选择导出reportList替换全部list
