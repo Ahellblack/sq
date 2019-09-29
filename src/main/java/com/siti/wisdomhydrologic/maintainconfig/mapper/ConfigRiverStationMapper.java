@@ -106,7 +106,7 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "`station_gaode_latitude`=#{obj.stationGaodeLatitude}," +
             "`is_sluice_gate`=#{obj.isSluiceGate}," +
             "`station_address`=#{obj.stationAddress}," +
-            "`flow_rate`=#{obj.flowRate}, WHERE (`station_code`=#{obj.stationCode});")
+            "`flow_rate`=#{obj.flowRate} WHERE (`station_code`=#{obj.stationCode});")
     int update(@Param("obj") ConfigRiverStation configRiverStation);
 
     // 根据stationCode删除
