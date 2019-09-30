@@ -106,6 +106,17 @@ public class DropDownBoxController {
         return configSensorDatabaseMapper.getStationName(orgList.get(0).getId());
     }
 
+    @ApiOperation(value = "维护人员下拉框", httpMethod = "GET", notes = "维护人员下拉框")
+    @GetMapping("/getMaintainer")
+    public List<String> getMaintainer(HttpSession session){
+        User user = (User) redisBiz.get(session.getId());
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        return userMapper.findMaintainer(orgList.get(0).getId());
+
+    }
+
+
+
 
 
 }

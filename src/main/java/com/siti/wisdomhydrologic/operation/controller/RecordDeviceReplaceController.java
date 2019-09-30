@@ -127,9 +127,9 @@ public class RecordDeviceReplaceController {
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate/*,@RequestBody List<Integer> reportIdList*/) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, createDate/*,reportIdList*/);
+        Workbook workbook = exportSheetByTemplate(stationName, createDate,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -167,7 +167,7 @@ public class RecordDeviceReplaceController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String createDate/*,@RequestBody List<Integer> reportIdList*/) {
+    public Workbook exportSheetByTemplate(String stationName, String createDate, @RequestParam List<Integer> reportIdList) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
@@ -178,7 +178,7 @@ public class RecordDeviceReplaceController {
         /**
          * 选择导出reportList替换全部list
          * */
-       /* if (reportIdList.size() > 0) {
+        if (reportIdList.size() > 0) {
             List<RecordDeviceReplaceVo> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -186,7 +186,7 @@ public class RecordDeviceReplaceController {
                 }
             }
             list = reportlist;
-        }*/
+        }
 
         for (int i = 0; i < list.size(); i++) {
             RecordDeviceReplaceVo data = list.get(i);

@@ -34,6 +34,7 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
         if(!redisBiz.exists(session.getId())){
 
             httpServletResponse.getWriter().write("请先完成登陆！");
+            //System.out.println(ConstantConfig.LOGINLOCATIONTEST);
             //httpServletResponse.sendRedirect(ConstantConfig.LOGINLOCATIONTEST);
             //throw new System.ServiceModel.Web.WebFaultException<String>("\"mes\":\"认证信息失效\"", System.Net.HttpStatusCode.Unauthorized);
             return false;

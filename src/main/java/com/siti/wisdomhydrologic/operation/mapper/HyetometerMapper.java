@@ -17,8 +17,8 @@ public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
     @Select("<script>select * from report_hyetometer_test a " +
             " left join config_river_station b on a.station_name = b.station_name " +
             " where b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createTime!=null\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createTime}</if>" +
-            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%' </if>" +
+            "<if test=\"createTime!=null and createTime!=''\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createTime}</if>" +
+            "<if test=\"stationName!=null and stationName!=''\"> and a.station_name like '%${stationName}%' </if>" +
             "order by a.create_time desc" +
             " </script>")
     List<ReportHyetometerTest> getAll(@Param("createTime") String createTime,@Param("stationName")String stationName,@Param("orgId")Integer orgId);

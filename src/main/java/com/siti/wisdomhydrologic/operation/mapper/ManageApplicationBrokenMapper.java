@@ -16,8 +16,8 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_name = b.station_name " +
             " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate}</if> " +
-            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'</if>" +
+            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate}</if> " +
+            "<if test=\"stationName!=null and stationName!=''\"> and a.station_name like '%${stationName}%'</if>" +
             "order by a.create_time desc" +
             "</script>")
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationName")String stationName,@Param("orgId") Integer orgId);

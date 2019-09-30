@@ -6,6 +6,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
+import com.siti.wisdomhydrologic.operation.vo.ReportListVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
@@ -75,10 +76,10 @@ public class HyetometerController {
     @ApiOperation(value = "雨滴表excel导出接口", httpMethod = "GET", notes = "雨滴表excel导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationName/*, @RequestBody List<Integer> reportIdList*/) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationName, @RequestParam  List<Integer> reportIdList) throws UnsupportedEncodingException {
 
         // 获取workbook对象   easypoi   easyexcell
-        Workbook workbook = exportSheetByTemplate(session, createTime, stationName/*, reportIdList*/);
+        Workbook workbook = exportSheetByTemplate(session, createTime, stationName, reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -116,15 +117,16 @@ public class HyetometerController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName/*, @RequestBody List<Integer> reportIdList*/) {
+    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationName,  List<Integer> reportIdList) {
 
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());        // 查询数据,此处省略
+
         List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationName, orgList.get(0).getId());
         /**
          * 选择导出reportList替换全部list
          * */
-        /*if (reportIdList.size() > 0) {
+        if (reportIdList.size() > 0) {
             List<ReportHyetometerTest> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -132,7 +134,7 @@ public class HyetometerController {
                 }
             }
             list = reportlist;
-        }*/
+        }
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i + 1);

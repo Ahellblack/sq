@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ManageMantainMapper extends Mapper<ReportManageMantain> {
     @Select("<script>select * from report_manage_mantain " +
-            "<if test=\"date!=null\"> where mantain_month = #{date}</if></script>")
+            "<if test=\"date!=null and date!=''\"> where mantain_month = #{date}</if></script>")
     List<ReportManageMantain> getByDate(@Param("date") String date);
 
     @Delete("delete from report_manage_mantain where report_id = #{reportId}")

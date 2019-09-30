@@ -122,36 +122,27 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     @Delete("DELETE FROM `config_sensor_database` WHERE `property_code`=#{propertyCode}")
     int deleteByPropertyCode(@Param("propertyCode") String propertyCode);
 
-    /**
-     * z
-     * */
+
     @Select("<script>select sensor_type_name from config_sensor_database " +
             "<if test=\"stationName!=null\">where manage_org_name =#{stationName} </if> " +
             "and sensor_use_status = 1 " +
             "GROUP BY sensor_type_name</script> ")
     List<String> getSensorTypeNameList(@Param("stationName") String stationName);
 
-    /**
-     * z
-     * */
+
     @Select("<script>select manage_org_name from config_sensor_database a " +
             " left join config_river_station b on a.manage_org_id = b.station_id " +
-            " where FIND_IN_SET(region_id,(SELECT user_role from sys_user so WHERE id = #{uid})) " +
+            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             " and a.manage_org_name is not null " +
             " GROUP BY a.manage_org_name </script>")
-    List<String> getStationName(@Param("uid") Integer uid);
+    List<String> getStationName(@Param("orgId") Integer orgId);
 
-    /**
-     * z
-     * */
     @Select("select * from config_sensor_database " +
             "where sensor_type_name =#{originDeviceName} " +
             "and manage_org_name =#{manageOrgName} and sensor_use_status = 1 " )
     List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName, @Param("manageOrgName") String manageOrgName);
 
-    /**
-     * z
-     * */
+
     @Select("select * from config_sensor_database " +
             "where sensor_use_status = '0'" )//sensor_type_name =#{senserTypeName} and
     List<ConfigSensorDatabase> getNewData(/*@Param("sensorTypeName") String sensorTypeName*/);

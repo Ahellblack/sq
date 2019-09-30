@@ -111,9 +111,9 @@ public class ManageDataMantainController {
     @ApiOperation(value = "表二模板导出", httpMethod = "GET", notes = "表二模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session, @RequestBody List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationName, String alterType, String createTime,HttpSession session, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session/*,reportIdList*/);
+        Workbook workbook = exportSheetByTemplate(stationName, alterType, createTime,session,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -151,11 +151,12 @@ public class ManageDataMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session/*,@RequestBody List<Integer> reportIdList*/) {
+    public Workbook exportSheetByTemplate(String stationName, String alterType, String createTime,HttpSession session,@RequestParam  List<Integer> reportIdList) {
         //默认查询本月
         if (createTime == null) {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
         }
+
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
         // 查询数据,此处省略
@@ -164,7 +165,7 @@ public class ManageDataMantainController {
         /**
          * 选择导出reportList替换全部list
          * */
-        /*if (reportIdList.size() > 0) {
+        if (reportIdList.size() > 0) {
             List<ReportManageDataMantainVo> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -172,7 +173,7 @@ public class ManageDataMantainController {
                 }
             }
             list = reportlist;
-        }*/
+        }
 
         for (int i = 0; i < list.size(); i++) {
             try {

@@ -83,10 +83,10 @@ public class MalFunctionController {
         regAndStatusList.forEach(data -> {
             int status = data.getRequestDesignatingStatus();
             if ("北片".equals(data.getRegionName())) {
-                if (status == 1) stationMalFunction.setNfindNumber(stationMalFunction.getNfindNumber() + 1);
-                if (status == 2) stationMalFunction.setNmalNumber(stationMalFunction.getNmalNumber() + 1);
-                if (status == 3) stationMalFunction.setNonResolveNumber(stationMalFunction.getNonResolveNumber() + 1);
-                if (status == 4) stationMalFunction.setNendResolveNumber(stationMalFunction.getNendResolveNumber() + 1);
+                if (status >= 1) stationMalFunction.setNfindNumber(stationMalFunction.getNfindNumber() + 1);
+                if (status >= 2) stationMalFunction.setNmalNumber(stationMalFunction.getNmalNumber() + 1);
+                if (status >= 3) stationMalFunction.setNonResolveNumber(stationMalFunction.getNonResolveNumber() + 1);
+                if (status >= 4) stationMalFunction.setNendResolveNumber(stationMalFunction.getNendResolveNumber() + 1);
             }
         });
         List<RealStationData> realStationData = realStationDataMapper.getDataList("北片");
@@ -133,10 +133,10 @@ public class MalFunctionController {
         regAndStatusList.forEach(data -> {
             int status = data.getRequestDesignatingStatus();
             if ("南片".equals(data.getRegionName())) {
-                if (status == 1) stationMalFunction.setSfindNumber(stationMalFunction.getSfindNumber() + 1);
-                if (status == 2) stationMalFunction.setSmalNumber(stationMalFunction.getSmalNumber() + 1);
-                if (status == 3) stationMalFunction.setSonResolveNumber(stationMalFunction.getSonResolveNumber() + 1);
-                if (status == 4) stationMalFunction.setSendResolveNumber(stationMalFunction.getSendResolveNumber() + 1);
+                if (status >= 1) stationMalFunction.setSfindNumber(stationMalFunction.getSfindNumber() + 1);
+                if (status >= 2) stationMalFunction.setSmalNumber(stationMalFunction.getSmalNumber() + 1);
+                if (status >= 3) stationMalFunction.setSonResolveNumber(stationMalFunction.getSonResolveNumber() + 1);
+                if (status >= 4) stationMalFunction.setSendResolveNumber(stationMalFunction.getSendResolveNumber() + 1);
             }
         });
         List<RealStationData> realStationData = realStationDataMapper.getDataList("南片");

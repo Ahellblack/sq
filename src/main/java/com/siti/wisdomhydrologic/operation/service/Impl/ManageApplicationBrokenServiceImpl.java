@@ -201,15 +201,15 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 if (latest30minuteDate.size() == 0){
                     data.setRequestDesignatingStatus(4);
                    String now = DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss");
-                    if(data.getRequestDesignatingTime()!=null){
+                    if(data.getRequestDesignatingTime()==null){
                         data.setRequestDesignatingTime(now);
                     }
-                    if(data.getBrokenOnResolveTime()!=null){
+                    if(data.getBrokenOnResolveTime()==null){
                         data.setBrokenOnResolveTime(now);
                     }
                     data.setBrokenResolveTime(now);
                     reportManageApplicationBrokenMapper.updateStatus(data);
-                    System.out.println(data.getStationName()+"的异常恢复");
+                    //System.out.println(data.getStationName()+"的异常恢复");
                 }
             });
         } catch (Exception e) {

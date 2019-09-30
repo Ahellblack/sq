@@ -56,9 +56,9 @@ public class StationBrokenController {
     @ApiOperation(value = "表三应用程序及设备故障登记表模板导出", httpMethod = "GET", notes = "表三应用程序及设备故障登记表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String createDate, String applicationEquipName/*, List<Integer> reportIdList*/) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String createDate, String applicationEquipName, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(createDate, applicationEquipName/*, reportIdList*/);
+        Workbook workbook = exportSheetByTemplate(createDate, applicationEquipName, reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -96,14 +96,14 @@ public class StationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String createDate, String applicationEquipName/*,@RequestBody List<Integer> reportIdList*/) {
+    public Workbook exportSheetByTemplate(String createDate, String applicationEquipName, @RequestParam List<Integer> reportIdList) {
         // 查询数据,此处省略
         List<ReportStationBroken> list = stationBrokenService.getAll(createDate, applicationEquipName);
 
         /**
          * 选择导出reportList替换全部list
          * */
-        /*if (reportIdList.size() > 0) {
+        if (reportIdList.size() > 0) {
             List<ReportStationBroken> reportlist = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (reportIdList.contains(list.get(i).getReportId())) {
@@ -111,7 +111,7 @@ public class StationBrokenController {
                 }
             }
             list = reportlist;
-        }*/
+        }
         for (int i = 0; i < list.size(); i++) {
             ReportStationBroken data = list.get(i);
             data.setReportId(i + 1);
@@ -146,6 +146,9 @@ public class StationBrokenController {
         // 导出excel
         return workbook;
     }
+
+
+
 
 
 }
