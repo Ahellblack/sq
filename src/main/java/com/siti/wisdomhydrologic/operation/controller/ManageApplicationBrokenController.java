@@ -47,8 +47,8 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationName) {
-        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationName);
+    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationName,Integer status) {
+        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationName,status);
     }
 
     @PostMapping("/insert")
@@ -61,30 +61,30 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
 
-    @ApiOperation(value = "表四应用程序及设备异常表查派单状态修改", httpMethod = "POST", notes = "表四应用程序及设备异常表派单状况修改,参数为2绑定派单，参数为4绑定已处理")
+    @ApiOperation(value = "表四故障情况记录表查派单状态修改", httpMethod = "POST", notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
     @GetMapping("/updateStatus")
     public int updateMalStatus(Integer reportId) {
         return manageApplicationBrokenService.updateMalStatus(reportId);
     }
 
-    @ApiOperation(value = "表四应用程序及设备异常表删除", httpMethod = "GET", notes = "表四应用程序及设备异常表删除")
+    @ApiOperation(value = "表四故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
     @GetMapping("/delete")
     public int delete(Integer reportId) {
         return manageApplicationBrokenService.delete(reportId);
     }
 
-    @ApiOperation(value = "表四应用程序及设备异常表自动添加入库接口,后台人员使用", httpMethod = "GET", notes = "自动添加入库接口")
+    @ApiOperation(value = "表四故障情况记录表自动添加入库接口,后台人员使用", httpMethod = "GET", notes = "表四故障情况记录表自动添加入库接口")
     @GetMapping("/insertDataMantain")
     public int insertDataMantain(String date) {
         return manageApplicationBrokenService.insertDataMantain(date);
     }
 
-    @ApiOperation(value = "表四应用程序及设备异常表EXCEL模板导出", httpMethod = "GET", notes = "表四应用程序及设备异常表EXCEL模板导出")
+    @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName, @RequestParam List<Integer> reportIdList,Integer status) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(session,createTime, stationName,reportIdList);
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationName,reportIdList,status);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -122,7 +122,7 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName, @RequestParam List<Integer> reportIdList) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName, @RequestParam List<Integer> reportIdList,Integer status) {
         if(createTime == null){
             createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
         }
@@ -131,7 +131,7 @@ public class ManageApplicationBrokenController {
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,orgList.get(0).getId());
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,orgList.get(0).getId(),status);
 
         /**
          * 选择导出reportList替换全部list

@@ -70,9 +70,9 @@ public class ManageMantainController {
     @ApiOperation(value = "表一日常维护记录表模板导出", httpMethod = "GET", notes = "表一日常维护记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String date, Integer sysOrg) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String date) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(date, sysOrg);
+        Workbook workbook = exportSheetByTemplate(date);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -110,7 +110,7 @@ public class ManageMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String date, Integer sysOrg) {
+    public Workbook exportSheetByTemplate(String date) {
         //默认查询本月
         if (date == null) {
             date = DateOrTimeTrans.Date2TimeString3(new Date());

@@ -59,7 +59,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName) {
+    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName,Integer status) {
 
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
@@ -69,7 +69,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, orgList.get(0).getId());
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, orgList.get(0).getId(),status);
         /*all.forEach(data -> {
             try {
                 if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)

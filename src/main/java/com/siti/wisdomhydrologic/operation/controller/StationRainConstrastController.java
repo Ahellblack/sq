@@ -116,7 +116,7 @@ public class StationRainConstrastController {
             if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
                 //月初赋值
                 entity.setTotal("0,0,0");
-                for (int i = 1; i <= 31; i++) {
+                for (int i = 1; i <=  cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                     try {
                         Method method = entity.getClass().getMethod("setDay" + i, String.class);
                         method.invoke(entity, "0,0,0");

@@ -60,7 +60,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate,orgList.get(0).getId());
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate, orgList.get(0).getId());
 
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 
@@ -106,18 +106,18 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         String createTime = reportManageDataMantain.getCreateTime();
         String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
 
-        if (errorLastestAppearTime!=null){
-            reportManageDataMantain.setErrorTimeSpace(createTime+","+errorLastestAppearTime);
-        }else {
+        if (errorLastestAppearTime != null) {
+            reportManageDataMantain.setErrorTimeSpace(createTime + "," + errorLastestAppearTime);
+        } else {
             reportManageDataMantain.setErrorTimeSpace(createTime);
         }
 
         System.out.println("修改后的ReportManageDataMantain:" + reportManageDataMantain);
 
-        try{
+        try {
             int result = reportManageDataMantainMapper.update(reportManageDataMantain);
             return result;
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -131,7 +131,8 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (all.size() > 0) {
             //获取异常配置参数
             all.forEach(abData -> {
-                if (abData.getDataError() != null) {
+                String errorType = abData.getDataError().split("_")[0];
+                if ("data".equals(errorType)) {
                     abData.setBrokenAccordingId(abData.getDataError());
 
                     /**
@@ -158,50 +159,53 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     if (latestData.size() > 0) {
                         try {
                             ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
-                            abData.setErrorLastestAppearTime(abData.getCreateTime());
-                            abData.setErrorTimeSpace(lastestData.getCreateTime() + "," + abData.getCreateTime());
-                            abData.setReportId(lastestData.getReportId());
-                            reportManageDataMantainMapper.updateTime(abData);
-                            System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
-                        }catch (Exception e){
-                            System.out.println("");
-                        }
-                        } else {
-                        //根据字典获取异常名
-                        dictionarylist.forEach(param -> {
-                            if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {
-                                abData.setErrorDataReason(param.getErrorName());
-                                abData.setBrokenAccordingId(param.getBrokenAccordingId());
-                                abData.setErrorDataType(param.getErrorDataId());
-                                //修改日期添加时精确到某日
-                                abData.setAlterDate(abData.getCreateTime().substring(0, 10));
+                            if (lastestData != null) {
                                 abData.setErrorLastestAppearTime(abData.getCreateTime());
-                                //状态为实时或小时时,错误时段为时间段
-                                //实时时段精度到时分秒
-                                if (abData.getErrorDataType() == 1 ) {
-                                    abData.setErrorTimeSpace(abData.getCreateTime() + "," + abData.getCreateTime());
-                                }//小时时段精度到时
-                                else if(abData.getErrorDataType() == 3){
-                                    abData.setErrorTimeSpace(abData.getCreateTime().substring(0, 13) + "," + abData.getCreateTime().substring(0, 13));
-                                }else {
-                                    //5分钟,一天异常为单个时间
-                                    abData.setErrorTimeSpace(abData.getCreateTime());
-                                }
-                                abData.setErrorDataReRun(0);
-                                abData.setMissDataReRun(0);
+                                abData.setErrorTimeSpace(latestData.get(0).getDate() + "," + abData.getCreateTime());
+                                abData.setReportId(lastestData.getReportId());
+                                reportManageDataMantainMapper.updateTime(abData);
+                                System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                            } else {
+                                //根据字典获取异常名
+                                dictionarylist.forEach(param -> {
+                                    if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {
+                                        abData.setErrorDataReason(param.getErrorName());
+                                        abData.setBrokenAccordingId(param.getBrokenAccordingId());
+                                        abData.setErrorDataType(param.getErrorDataId());
+                                        //修改日期添加时精确到某日
+                                        abData.setAlterDate(abData.getCreateTime().substring(0, 10));
+                                        abData.setErrorLastestAppearTime(abData.getCreateTime());
+                                        //状态为实时或小时时,错误时段为时间段
+                                        //实时时段精度到时分秒
+                                        if (abData.getErrorDataType() == 1) {
+                                            abData.setErrorTimeSpace(abData.getCreateTime() + "," + abData.getCreateTime());
+                                        }//小时时段精度到时
+                                        else if (abData.getErrorDataType() == 3) {
+                                            abData.setErrorTimeSpace(abData.getCreateTime().substring(0, 13) + "," + abData.getCreateTime().substring(0, 13));
+                                        } else {
+                                            //5分钟,一天异常为单个时间
+                                            abData.setErrorTimeSpace(abData.getCreateTime());
+                                        }
+                                        abData.setErrorDataReRun(0);
+                                        abData.setMissDataReRun(0);
+                                    }
+                                });
+                                //结合module表添加测站参数
+                                moduleList.forEach(module -> {
+                                    if (module.getSectionCode() == abData.getSectionCode()) {
+                                        abData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
+                                        abData.setAlterSensorTypeId(module.getSectionCode() % 100);
+                                        abData.setStationName(module.getStationName());
+                                    }
+                                });
+                                abnormalall.add(abData);
                             }
-                        });
-                        //结合module表添加测站参数
-                        moduleList.forEach(module -> {
-                            if (module.getSectionCode() == abData.getSectionCode()) {
-                                abData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
-                                abData.setAlterSensorTypeId(module.getSectionCode() % 100);
-                                abData.setStationName(module.getStationName());
-                            }
-                        });
-                        abnormalall.add(abData);
+                        } catch (Exception e) {
+                            System.out.println("表二数据添加异常");
+                        }
                     }
                 }
+
             });
             int size = 1000;
             int allsize = abnormalall.size();
@@ -217,9 +221,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
 
     public int insert(ReportManageDataMantain reportManageDataMantain) {
         System.out.println(reportManageDataMantain);
-        try{
+        try {
             return reportManageDataMantainMapper.insert(reportManageDataMantain);
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }

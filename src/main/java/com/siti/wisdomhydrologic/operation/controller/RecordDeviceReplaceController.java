@@ -43,7 +43,7 @@ public class RecordDeviceReplaceController {
     @Resource
     private RecordDeviceReplaceMapper mapper;
 
-    @ApiOperation(value = "表八测站设备变更记录表查询", httpMethod = "GET", notes = "测站设备变更记录表")
+    @ApiOperation(value = "", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
     public List<RecordDeviceReplaceVo> getAll(String stationName, String createDate) {
         return mapper.getAll(stationName, createDate);
