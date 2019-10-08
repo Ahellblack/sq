@@ -15,7 +15,7 @@ public class StationIdUtils {
         Integer[] idArray = {18806,
                 18404,
                 18402,
-                18329,
+                18319,
                 18315,
                 16853,
                 16702,

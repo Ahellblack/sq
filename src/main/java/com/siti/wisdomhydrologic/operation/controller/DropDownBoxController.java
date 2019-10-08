@@ -50,7 +50,6 @@ public class DropDownBoxController {
     @GetMapping("/getStation")
     public List<ConfigRiverStation> getStationList(HttpSession session)
     {
-
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
 
