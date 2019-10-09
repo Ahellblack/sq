@@ -18,19 +18,19 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "left join config_river_station c on a.station_name = c.station_name " +
             " where c.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             "<if test=\"createDate!=null and createDate!=''\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null and stationName!=''\"> and a.station_name like '%${stationName}%'  </if>"+
+            "<if test=\"stationId!=null and stationId!=''\"> and a.station_code = #{stationId}  </if>"+
             "<if test=\"alterType!=null and alterType!=''\"> and a.alter_sensor_type_name like '%${alterType}%' </if>" +
             "order by a.create_time desc" +
             "</script>")
-    List<ReportManageDataMantain> getByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
+    List<ReportManageDataMantain> getByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
 
     @Select("<script>Select * from report_manage_data_mantain a left join config_river_station c on a.station_name = c.station_name " +
             " where c.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and a.station_name like '%${stationName}%'  </if>"+
-            "<if test=\"alterType!=null\"> and a.alter_sensor_type_name like '%${alterType}%' </if>"+
+            "<if test=\"createDate!=null and createDate!=''\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationId!=null and stationId!='' \"> and a.station_code = #{stationId}  </if>"+
+            "<if test=\"alterType!=null and alterType!=''\"> and a.alter_sensor_type_name like '%${alterType}%' </if>"+
             "</script>")
-    List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationName") String stationName, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
+    List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
 
 
     @Delete("delete from report_manage_data_mantain where report_id = #{reportId}")
@@ -74,8 +74,13 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
     @Select("select * from report_manage_data_mantain where station_code = #{stationCode} and create_time = #{last5MinuteTime}")
     List<ReportManageDataMantain> getLastOne(@Param("stationCode") Integer stationCode, @Param("last5MinuteTime") String last5MinuteTime);
 
-    @Select("select * from report_manage_data_mantain where station_code = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")
-    ReportManageDataMantain getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
+    @Select("<script>" +
+            "select * from report_manage_data_mantain  " +
+            "where station_code = #{stationId}  " +
+            "and alter_sensor_type_id = #{sensorTypeId} " +
+            "and error_lastest_appear_time = #{last5MinuteTime} " +
+            "</script>")
+    List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("sensorTypeId")int sensorTypeId,  @Param("last5MinuteTime") String last5MinuteTime);
 
 
 }

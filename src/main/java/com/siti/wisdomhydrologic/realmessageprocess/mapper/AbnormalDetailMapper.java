@@ -173,6 +173,25 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "<if test=\"date!=null\" >where date = #{date}</if></script>")
     List<ReportManageDataMantainVo> getALL(@Param("date") String date);
 
+    /**
+     * 查询异常表四状态 未被展示异常
+     * */
+    @Select("<script>select * from abnormal_detail a " +
+            "left join config_sensor_section_module b " +
+            "on a.sensor_code = b.section_code " +
+            "where table4_display_status = 0 </script>")
+    List<ReportManageDataMantainVo> getALLTable4Data();
+
+    /**
+     * 查询异常表二状态 未被展示异常
+     * */
+    @Select("<script>select * from abnormal_detail a " +
+            "left join config_sensor_section_module b " +
+            "on a.sensor_code = b.section_code " +
+            "where table2_display_status = 0 </script>")
+    List<ReportManageDataMantainVo> getALLTable2Data();
+
+
     @Select("<script>select * from abnormal_detail"+
             "<if test=\"date!=null\" >where date = #{date}</if></script>")
     List<AbnormalDetailEntity> getAbnormal(@Param("date") String date);
@@ -188,4 +207,17 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "and data_error = #{accordingId} " +
             "or equipment_error = #{accordingId} ")
     List<AbnormalDetailEntity> get30MinuteDate(@Param("stationId")String stationId,@Param("accordingId")String accordingId,@Param("date")String date,@Param("latest30minute") String latest30minute);
+
+    @Update("<script>update abnormal_detail set table4_display_status = 1 " +
+            "where id in " +
+            "(<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}" +
+            "</foreach>) </script>")
+    int updateTable4Status(@Param("idList") List<Integer> idList);
+
+    @Update("<script>update abnormal_detail set table2_display_status = 1 " +
+            "where id in " +
+            "(<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}" +
+            "</foreach>) </script>")
+    int updateTable2Status(@Param("idList") List<Integer> idList);
+
 }

@@ -37,6 +37,7 @@ public class ReportManageDataMantainVo {
     /**
      * 异常数据表字段
      */
+    Integer id;
     @Id
     String date;
     @Id
@@ -51,6 +52,14 @@ public class ReportManageDataMantainVo {
     private String sensorName;
     private String sectionDataUnit;
     private String sectionStatus;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getErrorLastestAppearTime() {
         return errorLastestAppearTime;

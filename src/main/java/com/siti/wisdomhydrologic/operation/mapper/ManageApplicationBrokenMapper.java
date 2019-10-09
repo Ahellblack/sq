@@ -16,12 +16,12 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_name = b.station_name " +
             " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate}</if> " +
-            "<if test=\"stationName!=null and stationName!=''\"> and a.station_name like '%${stationName}%'</if>" +
+            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if> " +
+            "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
             "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
             "order by a.create_time desc" +
             "</script>")
-    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationName")String stationName,@Param("orgId") Integer orgId,@Param("status") Integer status);
+    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status);
 
 
     @Select("<script>select * from report_station_broken where request_designating_status  &lt; 4</script> ")

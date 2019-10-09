@@ -34,11 +34,11 @@ public class HyetometerServiceImpl  {
     @Resource
     private RedisBiz redisBiz;
 
-    public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationName) {
+    public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationId) {
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
         if (orgList.size()>0){
-            return reportHyetometerMapper.getAll(createTime, stationName,orgList.get(0).getId());
+            return reportHyetometerMapper.getAll(createTime, stationId,orgList.get(0).getId());
         }else {
             return null;
         }

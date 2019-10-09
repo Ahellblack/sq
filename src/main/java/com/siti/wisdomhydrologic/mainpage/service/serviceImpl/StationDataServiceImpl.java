@@ -148,8 +148,11 @@ public class StationDataServiceImpl implements StationDataService {
                 String endTime = finalRealtime;
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                if (finalRealtime.substring(11, 19) == "08:10:00") {
-                    cal.add(Calendar.HOUR, -24);
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //#########################################@@@@@@@@@@@@
+                if (finalRealtime.substring(11, 19) == "14:15:00") {
+                    cal.add(Calendar.HOUR, -12);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
                     //通畅率变化

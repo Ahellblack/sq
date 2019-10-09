@@ -51,7 +51,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Resource
     private UserMapper userMapper;
 
-    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate, HttpSession session) {
+    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationId, String alterType, String createDate, HttpSession session) {
 
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
@@ -60,8 +60,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate, orgList.get(0).getId());
-
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId());
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 
         /**
@@ -125,9 +124,10 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Override
     public int insertAbnormalData(String date) {
         List<ConfigAbnormalDictionary> dictionarylist = configAbnormalDictionaryMapper.getList();
-        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
+        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALLTable2Data();
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         if (all.size() > 0) {
             //获取异常配置参数
             all.forEach(abData -> {
@@ -210,8 +210,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                         }
                     }
                 }
-
+                list.add(abData.getId());
             });
+            abnormalDetailMapper.updateTable2Status(list);
             int size = 1000;
             int allsize = abnormalall.size();
             int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);

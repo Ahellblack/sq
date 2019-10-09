@@ -47,8 +47,8 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationName,Integer status) {
-        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationName,status);
+    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationId,Integer status) {
+        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationId,status);
     }
 
     @PostMapping("/insert")
@@ -82,9 +82,9 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationName, @RequestParam List<Integer> reportIdList,Integer status) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationId, @RequestParam List<Integer> reportIdList,Integer status) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(session,createTime, stationName,reportIdList,status);
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationId,reportIdList,status);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -122,7 +122,7 @@ public class ManageApplicationBrokenController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationName, @RequestParam List<Integer> reportIdList,Integer status) {
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationId, @RequestParam List<Integer> reportIdList,Integer status) {
         if(createTime == null){
             createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
         }
@@ -131,7 +131,7 @@ public class ManageApplicationBrokenController {
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationName,orgList.get(0).getId(),status);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status);
 
         /**
          * 选择导出reportList替换全部list
@@ -145,6 +145,96 @@ public class ManageApplicationBrokenController {
             }
             list = reportlist;
         }
+
+        for (int i = 0; i < list.size(); i++) {
+            ReportManageApplicationBroken data = list.get(i);
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResponseTime() != null)
+                data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8, 10) + "日" + data.getBrokenResponseTime().substring(11, 13) + "时");
+            if (data.getBrokenAskToResolveTime() != null)
+                data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(8, 10) + "日" + data.getBrokenAskToResolveTime().substring(11, 13) + "时");
+            if (data.getBrokenrRequestReportTime() != null)
+                data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(8, 10) + "日" + data.getBrokenrRequestReportTime().substring(11, 13) + "时");
+        }
+        int count1 = 0;
+        // 设置导出配置
+        // 获取导出excel指定模版
+        URL url = this.getClass().getClassLoader().getResource("");
+        String logFilePath = url.getPath();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model4.xls");
+        File f = new File(this.getClass().getResource("/").getPath());
+        // 标题开始行
+        // params.setHeadingStartRow(0);
+        // 标题行数
+        // params.setHeadingRows(2);
+        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        params.setSheetName("表四");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        map.put("date", createTime);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        // 导出excel
+        return workbook;
+    }
+
+
+
+    @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
+    @GetMapping("/getExcelAll")
+    @ResponseBody
+    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationId,Integer status) throws UnsupportedEncodingException {
+        // 获取workbook对象
+        Workbook workbook = exportSheetByTemplate(session,createTime, stationId,status);
+        // 判断数据
+        if (workbook == null) {
+            return "fail";
+        }
+        // 设置excel的文件名称
+        String excelName = "故障情况记录表";
+        // 重置响应对象
+        response.reset();
+        // 当前日期，用于导出文件名称
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dateStr = excelName + "_" + sdf.format(new Date());
+        String DownName = URLEncoder.encode(dateStr, "UTF-8");
+        // 指定下载的文件名--设置响应头
+        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
+        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        // 写出数据输出流到页面
+        try {
+            OutputStream output = response.getOutputStream();
+            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
+            workbook.write(bufferedOutPut);
+            bufferedOutPut.flush();
+            bufferedOutPut.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(HttpSession session,String createTime, String stationId,Integer status) {
+        if(createTime == null){
+            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        }
+        User user = (User) redisBiz.get(session.getId());
+        List<Org> orgList = userMapper.findOrg(user.getId());
+
+        // 查询数据,此处省略
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status);
 
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);

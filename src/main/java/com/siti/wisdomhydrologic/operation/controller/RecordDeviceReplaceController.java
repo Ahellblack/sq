@@ -45,8 +45,8 @@ public class RecordDeviceReplaceController {
 
     @ApiOperation(value = "", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
-    public List<RecordDeviceReplaceVo> getAll(String stationName, String createDate) {
-        return mapper.getAll(stationName, createDate);
+    public List<RecordDeviceReplaceVo> getAll(String stationId, String createDate) {
+        return mapper.getAll(stationId, createDate);
     }
 
     @GetMapping("/delete")
@@ -127,9 +127,9 @@ public class RecordDeviceReplaceController {
     @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationName, String createDate, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String stationId, String createDate, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationName, createDate,reportIdList);
+        Workbook workbook = exportSheetByTemplate(stationId, createDate,reportIdList);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -167,13 +167,13 @@ public class RecordDeviceReplaceController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String stationName, String createDate, @RequestParam List<Integer> reportIdList) {
+    public Workbook exportSheetByTemplate(String stationId, String createDate, @RequestParam List<Integer> reportIdList) {
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         // 查询数据,此处省略
-        List<RecordDeviceReplaceVo> list = mapper.getAll(stationName, createDate);
+        List<RecordDeviceReplaceVo> list = mapper.getAll(stationId, createDate);
 
         /**
          * 选择导出reportList替换全部list
@@ -217,5 +217,86 @@ public class RecordDeviceReplaceController {
         return workbook;
     }
 
+
+    @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
+    @GetMapping("/getExcelAll")
+    @ResponseBody
+    public String exportExcelTest(HttpServletResponse response, String stationId, String createDate) throws UnsupportedEncodingException {
+        // 获取workbook对象
+        Workbook workbook = exportSheetByTemplate(stationId, createDate);
+        // 判断数据
+        if (workbook == null) {
+            return "fail";
+        }
+        // 设置excel的文件名称
+        String excelName = "测站设备变更记录表";
+        // 重置响应对象
+        response.reset();
+        // 当前日期，用于导出文件名称
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dateStr = excelName + "_" + sdf.format(new Date());
+        String DownName = URLEncoder.encode(dateStr, "UTF-8");
+        // 指定下载的文件名--设置响应头
+        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
+        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        // 写出数据输出流到页面
+        try {
+            OutputStream output = response.getOutputStream();
+            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
+            workbook.write(bufferedOutPut);
+            bufferedOutPut.flush();
+            bufferedOutPut.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(String stationId, String createDate) {
+        //默认查询本月
+        if (createDate == null) {
+            createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        // 查询数据,此处省略
+        List<RecordDeviceReplaceVo> list = mapper.getAll(stationId, createDate);
+
+
+        for (int i = 0; i < list.size(); i++) {
+            RecordDeviceReplaceVo data = list.get(i);
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getReplaceDate() != null) data.setReplaceDate(data.getReplaceDate().substring(8, 10) + "日");
+        }
+        int count1 = 0;
+        // 设置导出配置
+        // 获取导出excel指定模版
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        URL url = this.getClass().getClassLoader().getResource("");
+        String logFilePath = url.getPath();
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model8.xls");
+
+        // 标题开始行
+        // params.setHeadingStartRow(0);
+        // 标题行数
+        // params.setHeadingRows(2);
+        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        params.setSheetName("表八");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        map.put("date", createDate);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        // 导出excel
+        return workbook;
+    }
 
 }
