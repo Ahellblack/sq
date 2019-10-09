@@ -24,7 +24,7 @@ public class RealStationDataTask {
         System.out.println("real station data update...");
         /*stationId.forEach(id -> {
             try {*/
-                stationDataService.updateData();
+        stationDataService.updateData();
         /*    } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -148,24 +148,23 @@ public class StationDataServiceImpl implements StationDataService {
                 String endTime = finalRealtime;
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //#########################################@@@@@@@@@@@@
-                if (finalRealtime.substring(11, 19) == "14:15:00") {
+                if ("08:10:00".equals(finalRealtime.substring(11, 19))){
                     cal.add(Calendar.HOUR, -12);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
                     //通畅率变化
                     realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 188f));
                     realStationDataMapper.updateStationPatency(realStationVo);
-                } else if (finalRealtime.substring(11, 19) == "12:10:00") {
+                }
+                if ("12:10:00".equals(finalRealtime.substring(11, 19))) {
                     cal.add(Calendar.HOUR, -4);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
                     //通畅率变化
                     realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 48f));
                     realStationDataMapper.updateStationPatency(realStationVo);
-                } else if (finalRealtime.substring(11, 19) == "15:10:00") {
+                }
+                if ("15:10:00".equals(finalRealtime.substring(11, 19))) {
                     cal.add(Calendar.HOUR, -3);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);

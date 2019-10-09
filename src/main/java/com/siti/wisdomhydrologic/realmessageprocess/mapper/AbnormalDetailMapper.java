@@ -185,11 +185,12 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     /**
      * 查询异常表二状态 未被展示异常
      * */
-    @Select("<script>select * from abnormal_detail a " +
+    @Select("<script>" +
+            "select * from abnormal_detail a " +
             "left join config_sensor_section_module b " +
             "on a.sensor_code = b.section_code " +
             "where table2_display_status = 0 </script>")
-    List<ReportManageDataMantainVo> getALLTable2Data();
+    List<ReportManageDataMantainVo> getAllTable2Data();
 
 
     @Select("<script>select * from abnormal_detail"+

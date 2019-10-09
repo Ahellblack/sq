@@ -260,7 +260,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
                         if (lastData.size() > 0) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
-                            System.out.println("表四数据错误时间更替" + lastData);
+                            //System.out.println("表四数据错误时间更替" + lastData);
                         } else {
                             Calendar calendar = Calendar.getInstance();
                             ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();

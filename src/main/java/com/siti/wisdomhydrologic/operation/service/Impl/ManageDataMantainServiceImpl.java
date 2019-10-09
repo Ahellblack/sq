@@ -124,7 +124,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Override
     public int insertAbnormalData(String date) {
         List<ConfigAbnormalDictionary> dictionarylist = configAbnormalDictionaryMapper.getList();
-        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALLTable2Data();
+        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getAllTable2Data();
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
@@ -169,7 +169,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 abData.setErrorTimeSpace(latestAbnormalData.get(0).getDate() + "," + abData.getCreateTime());
                                 abData.setReportId(latestData.get(0).getReportId());
                                 reportManageDataMantainMapper.updateTime(abData);
-                                System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                                //System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
                             } else {
                                 //根据字典获取异常名
                                 dictionarylist.forEach(param -> {
