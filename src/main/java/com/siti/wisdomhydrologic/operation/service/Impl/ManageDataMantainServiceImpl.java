@@ -146,23 +146,28 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     /**
                      * 查询上个五分钟的异常表数据。
                      * */
-                    List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
+                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
 
                     //赋值测站号和修改日期
                     abData.setStationCode(abData.getSensorCode() / 100);
+                    abData.setAlterSensorTypeId(abData.getSectionCode() % 100);
                     abData.setCreateTime(abData.getDate());
 
                     /**
                      * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
                      * 若有，更新最后一次生成时间
                      * */
-                    if (latestData.size() > 0) {
+                    if (latestAbnormalData.size() > 0) {
                         try {
-                            ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
-                            if (lastestData != null) {
+                            int stationId = abData.getStationCode();
+                            int sensorTypeId = abData.getAlterSensorTypeId();
+                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData( stationId,sensorTypeId,last5MinuteTime);
+                            if (latestData.size() > 0) {
+                                //修改最后出现时间
                                 abData.setErrorLastestAppearTime(abData.getCreateTime());
-                                abData.setErrorTimeSpace(latestData.get(0).getDate() + "," + abData.getCreateTime());
-                                abData.setReportId(lastestData.getReportId());
+                                //修改错误时间段
+                                abData.setErrorTimeSpace(latestAbnormalData.get(0).getDate() + "," + abData.getCreateTime());
+                                abData.setReportId(latestData.get(0).getReportId());
                                 reportManageDataMantainMapper.updateTime(abData);
                                 System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
                             } else {
