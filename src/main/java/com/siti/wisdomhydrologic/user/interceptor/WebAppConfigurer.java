@@ -17,6 +17,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new SecurityInteceptor())
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/swagger-ui.html")
+                .excludePathPatterns("/module/getAllNid")
                 /*.excludePathPatterns("*//**//*getExcel")*/;
         super.addInterceptors(registry);
     }

@@ -15,6 +15,9 @@ public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSect
     @Select("Select * from config_sensor_section_module")
     List<ConfigSensorSectionModule> getStation();
 
+    @Select("Select section_code from config_sensor_section_module")
+    List<String> getNidStation();
+
     // 根据测站ID查询下属所有元素
     @Select("Select * from config_sensor_section_module where station_code =#{station_code}")
     List<ConfigSensorSectionModule> findModuleByStationCode(@Param("station_code") Integer station_code);

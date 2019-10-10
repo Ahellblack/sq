@@ -48,21 +48,9 @@ public class StationDataServiceImpl implements StationDataService {
     @Override
     public void updateData() throws Exception {
         //待开发可添加根据riverStation的id先生成添加数据
-        Date today = new Date();
         Calendar calendar = Calendar.getInstance();
-        /**
-         * 查询上一个整5分 如在 00：43分时 取到 00:40分
-         * */
-        String realtime = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
+        String realtime = realStationDataMapper.getStationLatestData();
         calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
-        calendar.add(calendar.MINUTE, -10);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTime(today);
-        calendar2.set(Calendar.HOUR_OF_DAY, 9);
-        calendar2.set(Calendar.MINUTE, 0);
-        calendar2.set(Calendar.SECOND, 0);
-
-        realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         /**
          * 查询上一个整5分再往前5分钟的real表数据
          * */
@@ -80,7 +68,7 @@ public class StationDataServiceImpl implements StationDataService {
         station.forEach(data -> {
             list.add(data.getSectionCode());
         });
-        String finalRealtime = realtime;
+
         stationData.forEach((RealStationVo data) -> {
             try {
                 RealStationData realStationVo = realStationDataMapper.getData(Integer.parseInt(data.getStationCode()));
@@ -141,22 +129,21 @@ public class StationDataServiceImpl implements StationDataService {
                 } else {
                     realStationVo.setStatus(1);
                 }
-
                 /**
                  * 分别在 12:10:00 08:10:00 15:10:00修改畅通率数据
                  * */
-                String endTime = finalRealtime;
+                String endTime = realtime;
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                if ("08:10:00".equals(finalRealtime.substring(11, 19))){
+                if ("08:10:00".equals(realtime.substring(11, 19))){
                     cal.add(Calendar.HOUR, -12);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
                     //通畅率变化
-                    realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 188f));
+                    realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 144f));
                     realStationDataMapper.updateStationPatency(realStationVo);
                 }
-                if ("12:10:00".equals(finalRealtime.substring(11, 19))) {
+                if ("12:10:00".equals(realtime.substring(11, 19))) {
                     cal.add(Calendar.HOUR, -4);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
@@ -164,7 +151,7 @@ public class StationDataServiceImpl implements StationDataService {
                     realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 48f));
                     realStationDataMapper.updateStationPatency(realStationVo);
                 }
-                if ("15:10:00".equals(finalRealtime.substring(11, 19))) {
+                if ("15:10:00".equals(realtime.substring(11, 19))) {
                     cal.add(Calendar.HOUR, -3);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);

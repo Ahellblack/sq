@@ -16,6 +16,8 @@ public class RealVo {
     private Integer STATE;
     private Integer TS;
 
+    private Integer sensorCode;
+
     /**
      * 为mq传入是做判断丢包添加的字段
      * maxBatch;currentBatch;status;sumSize;currentSize;
@@ -25,6 +27,14 @@ public class RealVo {
     private int status;
     private int sumSize;
     private int currentSize;
+
+    public Integer getSensorCode() {
+        return sensorCode;
+    }
+
+    public void setSensorCode(Integer sensorCode) {
+        this.sensorCode = sensorCode;
+    }
 
     public Integer getSenId() {
         return senId;
