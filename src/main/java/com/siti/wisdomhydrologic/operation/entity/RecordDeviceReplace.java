@@ -225,4 +225,9 @@ public class RecordDeviceReplace {
         this.updateBy = updateBy;
     }
 
+
+    @Override
+    public String toString() {
+        return "RecordDeviceReplace{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", replaceDate='" + replaceDate + '\'' + ", originDeviceTypeCode='" + originDeviceTypeCode + '\'' + ", originDeviceCode='" + originDeviceCode + '\'' + ", originOrgId=" + originOrgId + ", originOrgName='" + originOrgName + '\'' + ", newDeviceTypeCode='" + newDeviceTypeCode + '\'' + ", newDeviceCode='" + newDeviceCode + '\'' + ", newOrgId=" + newOrgId + ", newOrgName='" + newOrgName + '\'' + ", replaceReason='" + replaceReason + '\'' + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + ", updateBy=" + updateBy + ", newDeviceName='" + newDeviceName + '\'' + ", originDeviceName='" + originDeviceName + '\'' + '}';
+    }
 }

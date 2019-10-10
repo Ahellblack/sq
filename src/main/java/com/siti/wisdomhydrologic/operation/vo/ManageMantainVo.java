@@ -32,4 +32,9 @@ public class ManageMantainVo {
     public void setBrokenName(String brokenName) {
         this.brokenName = brokenName;
     }
+
+    @Override
+    public String toString() {
+        return "ManageMantainVo{" + "sysOrg=" + sysOrg + ", brokenName='" + brokenName + '\'' + ", createTime='" + createTime + '\'' + '}';
+    }
 }

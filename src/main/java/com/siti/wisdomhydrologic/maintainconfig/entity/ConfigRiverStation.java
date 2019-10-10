@@ -28,6 +28,10 @@ public class ConfigRiverStation {
     //分中心id
     private int sysOrg;
 
+    @Override
+    public String toString() {
+        return "ConfigRiverStation{" + "stationCode='" + stationCode + '\'' + ", stationTelemetryCode='" + stationTelemetryCode + '\'' + ", stationName='" + stationName + '\'' + ", orgId=" + orgId + ", orgName='" + orgName + '\'' + ", riverId=" + riverId + ", riverName='" + riverName + '\'' + ", regionId=" + regionId + ", regionName='" + regionName + '\'' + ", stationWiskiCode='" + stationWiskiCode + '\'' + ", stationLevel=" + stationLevel + ", stationGaodeLongitude=" + stationGaodeLongitude + ", stationGaodeLatitude=" + stationGaodeLatitude + ", isSluiceGate=" + isSluiceGate + ", stationAddress='" + stationAddress + '\'' + ", createTime='" + createTime + '\'' + ", updateTime='" + updateTime + '\'' + ", stationId=" + stationId + ", status=" + status + ", sysOrg=" + sysOrg + '}';
+    }
 
     public int getSysOrg() {
         return sysOrg;

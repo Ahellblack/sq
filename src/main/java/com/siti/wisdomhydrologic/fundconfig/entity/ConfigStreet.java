@@ -15,6 +15,10 @@ public class ConfigStreet {
   private long sysOrgId;
   private String sysOrgName;
 
+  @Override
+  public String toString() {
+    return "ConfigStreet{" + "streetId=" + streetId + ", streetName='" + streetName + '\'' + ", streetPolygeom='" + streetPolygeom + '\'' + ", streetCenterGaodeLongitude=" + streetCenterGaodeLongitude + ", streetCenterGaodeLatitude=" + streetCenterGaodeLatitude + ", createBy=" + createBy + ", createTime=" + createTime + ", updateBy=" + updateBy + ", updateTime=" + updateTime + ", sysOrgId=" + sysOrgId + ", sysOrgName='" + sysOrgName + '\'' + '}';
+  }
 
   public long getStreetId() {
     return streetId;

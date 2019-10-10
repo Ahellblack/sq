@@ -16,4 +16,9 @@ public class ReportListVo {
     public void setReportList(List<Integer> reportList) {
         this.reportList = reportList;
     }
+
+    @Override
+    public String toString() {
+        return "ReportListVo{" + "reportList=" + reportList + '}';
+    }
 }

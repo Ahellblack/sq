@@ -4,6 +4,11 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 
 public class ReportManageMantain {
 
+    @Override
+    public String toString() {
+        return "ReportManageMantain{" + "reportId=" + reportId + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", mantainMonth='" + mantainMonth + '\'' + ", mantainHour='" + mantainHour + '\'' + ", tempHuimidityException=" + tempHuimidityException + ", serverTimeException=" + serverTimeException + ", databaseServerException=" + databaseServerException + ", communicateServerException=" + communicateServerException + ", applicationServerException=" + applicationServerException + ", webServerException=" + webServerException + ", workStation=" + workStation + ", changtongRateException=" + changtongRateException + ", voltageException=" + voltageException + ", voltageProcessLineException=" + voltageProcessLineException + ", dayRainReportException=" + dayRainReportException + ", rainBarException=" + rainBarException + ", daySeaLevelReportException=" + daySeaLevelReportException + ", seaLeveProcessLineException=" + seaLeveProcessLineException + ", otherReportException=" + otherReportException + ", remark='" + remark + '\'' + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + '}';
+    }
+
     @Excel(name = "reportId", height = 11, width = 10)
     private int reportId;
 
@@ -274,11 +279,6 @@ public class ReportManageMantain {
 
     public String getCreateTime() {
         return createTime;
-    }
-
-    @Override
-    public String toString() {
-        return "ReportManageMantain{" + "reportId=" + reportId + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", mantainMonth='" + mantainMonth + '\'' + ", mantainHour='" + mantainHour + '\'' + ", tempHuimidityException=" + tempHuimidityException + ", serverTimeException=" + serverTimeException + ", databaseServerException=" + databaseServerException + ", communicateServerException=" + communicateServerException + ", applicationServerException=" + applicationServerException + ", webServerException=" + webServerException + ", changtongRateException=" + changtongRateException + ", voltageException=" + voltageException + ", voltageProcessLineException=" + voltageProcessLineException + ", dayRainReportException=" + dayRainReportException + ", rainBarException=" + rainBarException + ", daySeaLevelReportException=" + daySeaLevelReportException + ", seaLeveProcessLineException=" + seaLeveProcessLineException + ", otherReportException=" + otherReportException + ", remark='" + remark + '\'' + ", createBy=" + createBy + ", createTime=" + createTime + '}';
     }
 
     public ReportManageMantain(int manageOrgId, String manageOrgName, String mantainMonth, String mantainHour, int tempHuimidityException, int serverTimeException, int databaseServerException, int communicateServerException, int applicationServerException, int webServerException, int workStation, int changtongRateException, int voltageException, int voltageProcessLineException, int dayRainReportException, int rainBarException, int daySeaLevelReportException, int seaLeveProcessLineException, int otherReportException, String remark, String createBy, String createTime) {

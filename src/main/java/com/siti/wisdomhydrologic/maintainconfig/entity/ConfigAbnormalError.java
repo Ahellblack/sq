@@ -9,6 +9,10 @@ public class ConfigAbnormalError {
   private String table1Relate;
   private String description;
 
+  @Override
+  public String toString() {
+    return "ConfigAbnormalError{" + "errorId='" + errorId + '\'' + ", errorName='" + errorName + '\'' + ", belongWhichTable=" + belongWhichTable + ", table1Relate='" + table1Relate + '\'' + ", description='" + description + '\'' + '}';
+  }
 
   public String getErrorId() {
     return errorId;

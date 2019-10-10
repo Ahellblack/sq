@@ -10,6 +10,10 @@ import io.swagger.annotations.ApiModel;
  * */
 @ApiModel
 public class ReportStationBroken {
+  @Override
+  public String toString() {
+    return "ReportStationBroken{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", brokenHappenTime='" + brokenHappenTime + '\'' + ", brokenSituation='" + brokenSituation + '\'' + ", brokenResolveCreateTime='" + brokenResolveCreateTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserIds='" + resolveUserIds + '\'' + ", remark='" + remark + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", createTime='" + createTime + '\'' + ", applicationEquipName='" + applicationEquipName + '\'' + ", applicationEquipTypeId='" + applicationEquipTypeId + '\'' + '}';
+  }
 
   @Excel(name = "reportId", height = 11, width = 10)
   private int reportId;
@@ -196,8 +200,4 @@ public class ReportStationBroken {
     this.createTime = createTime;
   }
 
-  @Override
-  public String toString() {
-    return "ReportStationBroken{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", brokenHappenTime='" + brokenHappenTime + '\'' + ", brokenSituation='" + brokenSituation + '\'' + ", brokenResolveCreateTime='" + brokenResolveCreateTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserIds='" + resolveUserIds + '\'' + ", remark='" + remark + '\'' + ", createBy=" + createBy + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", createTime='" + createTime + '\'' + '}';
-  }
 }

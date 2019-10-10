@@ -21,6 +21,11 @@ public class ConfigSensorDatabase {
   private String subordinateCompany;
   private String remarks;
 
+  @Override
+  public String toString() {
+    return "ConfigSensorDatabase{" + "propertyCode='" + propertyCode + '\'' + ", sensorCode='" + sensorCode + '\'' + ", sensorTypeId='" + sensorTypeId + '\'' + ", sensorTypeName='" + sensorTypeName + '\'' + ", sensorUseStatus='" + sensorUseStatus + '\'' + ", sensorLocation='" + sensorLocation + '\'' + ", createBy=" + createBy + ", createByName='" + createByName + '\'' + ", createTime=" + createTime + ", updateBy=" + updateBy + ", updateByName='" + updateByName + '\'' + ", updateTime=" + updateTime + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", sensorModelType='" + sensorModelType + '\'' + ", subordinateCompany='" + subordinateCompany + '\'' + ", remarks='" + remarks + '\'' + '}';
+  }
+
   public String getRemarks() {
     return remarks;
   }

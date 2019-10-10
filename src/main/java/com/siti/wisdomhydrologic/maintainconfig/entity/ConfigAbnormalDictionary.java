@@ -9,6 +9,10 @@ public class ConfigAbnormalDictionary {
     private int errorDataId;
     private int table1Relate;
 
+    @Override
+    public String toString() {
+        return "ConfigAbnormalDictionary{" + "brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", errorName='" + errorName + '\'' + ", errorDataId=" + errorDataId + ", table1Relate=" + table1Relate + '}';
+    }
 
     public int getTable1_relate() {
         return table1Relate;

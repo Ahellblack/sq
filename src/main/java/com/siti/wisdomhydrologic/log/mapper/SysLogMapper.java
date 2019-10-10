@@ -12,7 +12,7 @@ import tk.mybatis.mapper.common.Mapper;
  */
 public interface SysLogMapper extends Mapper<SysLog>{
     @Insert("<script>insert into sys_log(username,action,previous_val," +
-            "fresh_val,operate_des)values(sysLog.username,sysLog.action,sysLog.previousVal" +
-            ",sysLog.freshVal,sysLog.operateDes);</script>")
-    int insertUserOprLog(@Param("SysLog") SysLog sysLog);
+            "fresh_val,operate_des)values(#{sysLog.username},#{sysLog.action},#{sysLog.previousVal}" +
+            ",#{sysLog.freshVal},#{sysLog.operateDes})</script>")
+    int insertUserOprLog(@Param("sysLog") SysLog sysLog);
 }
