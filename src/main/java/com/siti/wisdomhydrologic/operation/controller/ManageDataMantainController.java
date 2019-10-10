@@ -4,6 +4,8 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
@@ -53,6 +55,8 @@ public class ManageDataMantainController {
     private RedisBiz redisBiz;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private SysLogMapper sysLogMapper;
     /**
      * 根据修改日期查询
      *
@@ -71,21 +75,45 @@ public class ManageDataMantainController {
 
     @ApiOperation(value = "表二删除", httpMethod = "GET", notes = "表二删除")
     @GetMapping("/delete")
-    public int delete(Integer reportId) {
+    public int delete(Integer reportId,HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表2删除")
+                .setFreshVal(reportId+"")
+                .setAction("删除")
+                .setPreviousVal("")
+                .build());
+
         return reportManageDataMantainService.delete(reportId);
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageDataMantain reportManageDataMantain) {
-        /*
-       ManageDataMantainServiceImpl impl= (ManageDataMantainServiceImpl)Proxy.getProxy(ManageDataMantainServiceImpl.class);
-       impl.update(reportManageDataMantain);
-       */
+    public int update(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表2修改")
+                .setFreshVal(reportManageDataMantain.toString())
+                .setAction("修改")
+                .setPreviousVal("")
+                .build());
         return reportManageDataMantainService.update(reportManageDataMantain);
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain) {
+    public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表2添加")
+                .setFreshVal(reportManageDataMantain.toString())
+                .setAction("添加")
+                .setPreviousVal("")
+                .build());
         return reportManageDataMantainService.insert(reportManageDataMantain);
     }
 

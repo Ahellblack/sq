@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
@@ -55,6 +57,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Resource
     private RedisBiz redisBiz;
 
+    @Resource
+    private SysLogMapper sysLogMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
     private static final int STATUS = 2;
@@ -70,24 +75,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         }
         PageHelper.startPage(page, pageSize);
         List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status);
-        /*all.forEach(data -> {
-            try {
-                if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
-                    data.setCreateTime(data.getCreateTime().substring(0, 13));
-                if (data.getBrokenrRequestReportTime() != null && data.getBrokenrRequestReportTime().length() >= 13)
-                    data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
-                if (data.getBrokenAskToResolveTime() != null && data.getBrokenAskToResolveTime().length() >= 13)
-                    data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
-                if (data.getBrokenResolveTime() != null && data.getBrokenResolveTime().length() >= 13)
-                    data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
-                if (data.getRequestDesignatingTime() != null && data.getRequestDesignatingTime().length() >= 13)
-                    data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
-                if (data.getBrokenResponseTime() != null && data.getBrokenResponseTime().length() >= 13)
-                    data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));
-        });*/
+
 
         return new PageInfo<>(all);
     }

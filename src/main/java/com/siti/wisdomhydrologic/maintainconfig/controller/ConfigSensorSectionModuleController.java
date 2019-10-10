@@ -1,12 +1,17 @@
 package com.siti.wisdomhydrologic.maintainconfig.controller;
 
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -19,6 +24,10 @@ public class ConfigSensorSectionModuleController {
 
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     @ApiOperation(value = "传感器", httpMethod = "GET", notes = "传感器根")
     @GetMapping("/getAll")
@@ -49,9 +58,17 @@ public class ConfigSensorSectionModuleController {
 
     // 插入
     @PostMapping("/insert")
-    public int insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule) {
+    public int insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule, HttpSession session) {
         try {
             System.out.println(configSensorSectionModule.toString());
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("传感器表添加")
+                    .setFreshVal(configSensorSectionModule.toString())
+                    .setAction("添加")
+                    .setPreviousVal("")
+                    .build());
             return configSensorSectionModuleMapper.insert(configSensorSectionModule);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,8 +78,16 @@ public class ConfigSensorSectionModuleController {
 
     // 修改数据，部分字段不修改
     @PostMapping("/update")
-    public int update(@RequestBody ConfigSensorSectionModule configSensorSectionModule) {
+    public int update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("传感器表修改")
+                    .setFreshVal(configSensorSectionModule.toString())
+                    .setAction("修改")
+                    .setPreviousVal("")
+                    .build());
             return configSensorSectionModuleMapper.update(configSensorSectionModule);
         } catch (Exception e) {
             e.printStackTrace();

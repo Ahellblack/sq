@@ -1,14 +1,19 @@
 package com.siti.wisdomhydrologic.maintainconfig.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalError;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalErrorMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -17,7 +22,10 @@ public class ConfigAbnormalErrorController {
 
     @Resource
     private ConfigAbnormalErrorMapper configAbnormalErrorMapper;
-
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     // 根据表序号查找异常字典
     @RequestMapping("/findAllByTypeID")
@@ -47,7 +55,7 @@ public class ConfigAbnormalErrorController {
     }
 
     @RequestMapping("/insert")
-    public JSONObject insert(@RequestBody ConfigAbnormalError configAbnormalError) {
+    public JSONObject insert(@RequestBody ConfigAbnormalError configAbnormalError, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
             if (null == configAbnormalError.getErrorName() || "".equals(configAbnormalError.getErrorName())) {
@@ -64,6 +72,16 @@ public class ConfigAbnormalErrorController {
                 if (0 != configAbnormalErrorMapper.insert(configAbnormalError)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "添加成功！");
+                    User user = (User) redisBiz.get(session.getId());
+                    sysLogMapper.insertUserOprLog( new SysLog.builder()
+                            .setUsername(user.getUserName())
+                            .setOperateDes("异常字典表"+jsonObject)
+                            .setFreshVal(configAbnormalError+"")
+                            .setAction("添加")
+                            .setPreviousVal("")
+                            .build());
+
+
                     return jsonObject;
                 } else {
                     jsonObject.put("status", 2);
@@ -80,7 +98,7 @@ public class ConfigAbnormalErrorController {
     }
 
     @RequestMapping("/update")
-    public JSONObject update(@RequestBody ConfigAbnormalError configAbnormalError) {
+    public JSONObject update(@RequestBody ConfigAbnormalError configAbnormalError,HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
             if (null == configAbnormalError.getErrorId() || "".equals(configAbnormalError.getErrorId())) {
@@ -103,6 +121,16 @@ public class ConfigAbnormalErrorController {
                 if (0 != configAbnormalErrorMapper.update(configAbnormalError)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "修改成功！");
+
+                    User user = (User) redisBiz.get(session.getId());
+                    sysLogMapper.insertUserOprLog( new SysLog.builder()
+                            .setUsername(user.getUserName())
+                            .setOperateDes("异常字典表"+jsonObject)
+                            .setFreshVal(configAbnormalError+"")
+                            .setAction("添加")
+                            .setPreviousVal("")
+                            .build());
+
                     return jsonObject;
                 } else {
                     jsonObject.put("status", 2);
@@ -119,7 +147,7 @@ public class ConfigAbnormalErrorController {
     }
 
     @RequestMapping("/delete")
-    public JSONObject delete(@RequestParam(value = "errorId") String errorId) {
+    public JSONObject delete(@RequestParam(value = "errorId") String errorId,HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
             if (null == errorId ) {
@@ -138,6 +166,14 @@ public class ConfigAbnormalErrorController {
                 if (0 != configAbnormalErrorMapper.delete(errorId)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "删除成功！");
+                    User user = (User) redisBiz.get(session.getId());
+                    sysLogMapper.insertUserOprLog( new SysLog.builder()
+                            .setUsername(user.getUserName())
+                            .setOperateDes("异常字典表"+jsonObject)
+                            .setFreshVal(errorId+"")
+                            .setAction("添加")
+                            .setPreviousVal("")
+                            .build());
                     return jsonObject;
                 } else {
                     jsonObject.put("status", 2);

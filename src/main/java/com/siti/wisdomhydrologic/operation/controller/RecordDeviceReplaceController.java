@@ -2,12 +2,17 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.operation.entity.RecordDeviceReplace;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -36,12 +42,16 @@ import java.util.*;
 @RestController
 @Api(value = "测站设备变更记录表controller", tags = {"测站设备变更记录表"})
 public class RecordDeviceReplaceController {
-
     @Resource
     private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
-
     @Resource
     private RecordDeviceReplaceMapper mapper;
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     @ApiOperation(value = "", httpMethod = "GET", notes = "测站设备变更记录表")
     @GetMapping("/getAll")
@@ -50,13 +60,29 @@ public class RecordDeviceReplaceController {
     }
 
     @GetMapping("/delete")
-    public int delete(Integer reportId) {
+    public int delete(Integer reportId, HttpSession session) {
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表8删除")
+                .setFreshVal(reportId+"")
+                .setAction("删除")
+                .setPreviousVal("")
+                .build());
         return mapper.deleteData(reportId);
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody RecordDeviceReplace entity) {
+    public int update(@RequestBody RecordDeviceReplace entity,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("数据表8修改")
+                    .setFreshVal(entity.toString())
+                    .setAction("修改")
+                    .setPreviousVal("")
+                    .build());
             return mapper.updateData(entity);
         } catch (Exception e) {
             return 0;
@@ -74,7 +100,7 @@ public class RecordDeviceReplaceController {
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody RecordDeviceReplaceVo vo) {
+    public int insert(@RequestBody RecordDeviceReplaceVo vo,HttpSession session) {
 
         //ConfigSensorDatabase database = configSensorDatabaseMapper.getData(vo.getOriginDeviceName(),vo.getManageOrgName());
         //旧设备状态更新
@@ -117,6 +143,15 @@ public class RecordDeviceReplaceController {
 
         //修改设备记录在资产表
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("替换旧设备"+oldDatabase.toString()+"为新设备"+newDatabase.toString())
+                    .setFreshVal(entity.toString())
+                    .setAction("修改")
+                    .setPreviousVal("")
+                    .build());
+
             return mapper.insert(entity);
 
         } catch (Exception e) {

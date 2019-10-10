@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import ytx.org.apache.http.client.HttpResponseException;
 import java.util.List;
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,9 +35,8 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
         if(!redisBiz.exists(session.getId())){
 
             httpServletResponse.getWriter().write("请先完成登陆！");
-            //System.out.println(ConstantConfig.LOGINLOCATIONTEST);
-            //httpServletResponse.sendRedirect(ConstantConfig.LOGINLOCATIONTEST);
-            //throw new System.ServiceModel.Web.WebFaultException<String>("\"mes\":\"认证信息失效\"", System.Net.HttpStatusCode.Unauthorized);
+            //返回401 给前台, 跳转默认地址
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             return false;
         }
         return true;

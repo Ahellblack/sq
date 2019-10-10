@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
@@ -45,6 +47,9 @@ public class HyetometerController {
     @Resource
     private HyetometerMapper reportHyetometerMapper;
 
+    @Resource
+    private SysLogMapper sysLogMapper;
+
     @ApiOperation(value = "雨滴表查询", httpMethod = "GET", notes = "雨滴表查询")
     @GetMapping("/getAll")
     public List<ReportHyetometerTest> getAll(HttpSession session, String createTime, String stationId) {
@@ -52,8 +57,17 @@ public class HyetometerController {
     }
 
     @GetMapping("/deleteBy")
-    public int deleteBy(Integer reportId) {
+    public int deleteBy(Integer reportId,HttpSession session) {
         int i = reportHyetometerService.delByReportId(reportId);
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("从数据表6删除"+reportId)
+                .setFreshVal("")
+                .setAction("删除")
+                .setPreviousVal("")
+                .build());
         return i;
     }
 
@@ -63,13 +77,30 @@ public class HyetometerController {
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportHyetometerTest reportHyetometer) {
+    public int insert(@RequestBody ReportHyetometerTest reportHyetometer,HttpSession session) {
 
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("添加数据")
+                .setFreshVal(reportHyetometer.toString())
+                .setAction("添加")
+                .setPreviousVal("")
+                .build());
         return reportHyetometerService.insert(reportHyetometer);
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportHyetometerTest reportHyetometer) {
+    public int update(@RequestBody ReportHyetometerTest reportHyetometer,HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("修改数据")
+                .setFreshVal(reportHyetometer.toString())
+                .setAction("添加")
+                .setPreviousVal("")
+                .build());
         return reportHyetometerService.update(reportHyetometer);
     }
 

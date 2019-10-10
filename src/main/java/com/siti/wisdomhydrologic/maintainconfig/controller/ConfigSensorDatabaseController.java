@@ -1,15 +1,20 @@
 package com.siti.wisdomhydrologic.maintainconfig.controller;
 
 import com.siti.wisdomhydrologic.fundconfig.mapper.ConfigSensorTypeMapper;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -28,7 +33,10 @@ public class ConfigSensorDatabaseController {
 
     @Resource
     private ConfigSensorTypeMapper configSensorTypeMapper;
-
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
     @RequestMapping("/getAll")
     public List<ConfigSensorDatabase> getAll(){
         try {
@@ -52,7 +60,7 @@ public class ConfigSensorDatabaseController {
 
 
     @RequestMapping("/insert")
-    public int insert(@RequestBody ConfigSensorDatabase configSensorDatabase){
+    public int insert(@RequestBody ConfigSensorDatabase configSensorDatabase, HttpSession session){
         try {
             // 设置创建人ID以及创建时间
             configSensorDatabase.setCreateBy(3);
@@ -71,6 +79,15 @@ public class ConfigSensorDatabaseController {
             if (null != configSensorDatabaseMapper.findByPropertyCode(configSensorDatabase.getPropertyCode())) {
                 return -1;
             } else if (1 == configSensorDatabaseMapper.insert(configSensorDatabase)){
+
+                User user = (User) redisBiz.get(session.getId());
+                sysLogMapper.insertUserOprLog( new SysLog.builder()
+                        .setUsername(user.getUserName())
+                        .setOperateDes("仓库表添加")
+                        .setFreshVal(configSensorDatabase.toString())
+                        .setAction("添加")
+                        .setPreviousVal("")
+                        .build());
                 return 1;
             } else{
                 return -2;
@@ -83,7 +100,7 @@ public class ConfigSensorDatabaseController {
 
     // 并不是所有内容都更新，注意查看sql语句
     @RequestMapping("/update")
-    public int update(@RequestBody ConfigSensorDatabase configSensorDatabase){
+    public int update(@RequestBody ConfigSensorDatabase configSensorDatabase,HttpSession session){
         // 1为“更新成功”；其它均为“更新失败！”
         try {
             // 设置修改人ID以及修改时间
@@ -99,6 +116,14 @@ public class ConfigSensorDatabaseController {
             configSensorDatabase.setSensorTypeName(configSensorTypeMapper.getSensorTypeNameBySensorTypeID(sensorTypeId));
 
             if (1 == configSensorDatabaseMapper.update(configSensorDatabase)){
+                User user = (User) redisBiz.get(session.getId());
+                sysLogMapper.insertUserOprLog( new SysLog.builder()
+                        .setUsername(user.getUserName())
+                        .setOperateDes("仓库表修改")
+                        .setFreshVal(configSensorDatabase.toString())
+                        .setAction("修改")
+                        .setPreviousVal("")
+                        .build());
                 return 1;
             } else {
                 return 0;

@@ -2,12 +2,16 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain;
 import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationCheckMantainServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.RainVo;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -40,7 +45,10 @@ public class StationCheckMantainController {
     private StationCheckMantainMapper stationCheckMantainMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
-
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
     @ApiOperation(value = "表五测站检查维护记录表查询，根据日期及测站id进行筛选，每次导出一条数据", httpMethod = "GET", notes = "表五测站检查维护记录表查询")
     @GetMapping("/getAll")
     public ReportStationCheckMantain getAll(String mantainDate, Integer stationId) {
@@ -70,7 +78,15 @@ public class StationCheckMantainController {
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain) {
+    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain, HttpSession session) {
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表5修改")
+                .setFreshVal(reportStationCheckMantain.toString())
+                .setAction("修改")
+                .setPreviousVal("")
+                .build());
         return stationCheckMantainService.update(reportStationCheckMantain);
     }
 

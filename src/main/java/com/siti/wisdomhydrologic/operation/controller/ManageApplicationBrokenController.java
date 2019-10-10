@@ -3,6 +3,8 @@ package com.siti.wisdomhydrologic.operation.controller;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.github.pagehelper.PageInfo;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
@@ -44,6 +46,8 @@ public class ManageApplicationBrokenController {
     ManageApplicationBrokenMapper manageApplicationBrokenMapper;
     @Resource
     private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
@@ -52,12 +56,30 @@ public class ManageApplicationBrokenController {
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
+    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表4添加")
+                .setFreshVal(reportManageApplicationBroken.toString())
+                .setAction("添加")
+                .setPreviousVal("")
+                .build());
+
         return manageApplicationBrokenService.insert(reportManageApplicationBroken);
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken) {
+    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表4修改")
+                .setFreshVal(reportManageApplicationBroken.toString())
+                .setAction("修改")
+                .setPreviousVal("")
+                .build());
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
 
@@ -69,7 +91,15 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "表四故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
     @GetMapping("/delete")
-    public int delete(Integer reportId) {
+    public int delete(Integer reportId,HttpSession session) {
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表4删除"+reportId)
+                .setFreshVal(reportId+"")
+                .setAction("删除")
+                .setPreviousVal("")
+                .build());
         return manageApplicationBrokenService.delete(reportId);
     }
 

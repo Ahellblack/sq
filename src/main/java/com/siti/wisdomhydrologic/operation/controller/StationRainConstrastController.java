@@ -2,6 +2,9 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
+import com.siti.wisdomhydrologic.mainpage.vo.HaiKangVo;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.DayData;
@@ -9,6 +12,8 @@ import com.siti.wisdomhydrologic.operation.entity.ReportStationRainConstrast;
 import com.siti.wisdomhydrologic.operation.mapper.StationRainConstrastMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationRainConstrastServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.StationIdUtils;
 import io.swagger.annotations.Api;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,8 +48,10 @@ public class StationRainConstrastController {
     private StationRainConstrastMapper stationRainConstrastMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
-
-
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
     /**
      * 获取某个月的全部站点数据对表
      * 当没有选择具体某个月时,默认返回上个月的数据
@@ -61,7 +69,16 @@ public class StationRainConstrastController {
      * 客户可修改基本站数值
      */
     @PostMapping("/update")
-    public int update(@RequestBody ReportStationRainConstrastVo vo) {
+    public int update(@RequestBody ReportStationRainConstrastVo vo, HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表7修改")
+                .setFreshVal(vo.toString())
+                .setAction("修改")
+                .setPreviousVal("")
+                .build());
         return stationRainConstrastService.update(vo);
     }
 

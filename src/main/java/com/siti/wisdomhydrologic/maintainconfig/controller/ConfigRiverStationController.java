@@ -1,6 +1,8 @@
 package com.siti.wisdomhydrologic.maintainconfig.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
@@ -26,6 +28,8 @@ public class ConfigRiverStationController {
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
     private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
     @RequestMapping("/getAll")
     public List<ConfigRiverStation> getAll(HttpSession session) {
         User user = (User) redisBiz.get(session.getId());
@@ -94,6 +98,7 @@ public class ConfigRiverStationController {
     public List<ConfigRiverStation> getAllByStationName(@RequestParam(value = "stationName") String stationName) {
         try {
             return configRiverStationMapper.getAllByStationName(stationName);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,8 +106,17 @@ public class ConfigRiverStationController {
     }
 
     @RequestMapping("/insert")
-    public int insert(@RequestBody ConfigRiverStation configRiverStation) {
+    public int insert(@RequestBody ConfigRiverStation configRiverStation,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("测站配置表添加")
+                    .setFreshVal(configRiverStation+"")
+                    .setAction("添加")
+                    .setPreviousVal("")
+                    .build());
+
             return configRiverStationMapper.insert(configRiverStation);
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,8 +126,16 @@ public class ConfigRiverStationController {
 
     // 并不是所有内容都更新，注意查看sql语句
     @RequestMapping("/update")
-    public int update(@RequestBody ConfigRiverStation configRiverStation) {
+    public int update(@RequestBody ConfigRiverStation configRiverStation,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("测站配置表修改")
+                    .setFreshVal(configRiverStation+"")
+                    .setAction("修改")
+                    .setPreviousVal("")
+                    .build());
             return configRiverStationMapper.update(configRiverStation);
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,8 +145,16 @@ public class ConfigRiverStationController {
 
     // 后续不建议开放删除接口，仅供内部使用
     @RequestMapping(value = "/delete")
-    public int delete(@RequestParam(value = "stationCode") String stationCode) {
+    public int delete(@RequestParam(value = "stationCode") String stationCode,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("测站配置表删除")
+                    .setFreshVal(stationCode+"")
+                    .setAction("删除")
+                    .setPreviousVal("")
+                    .build());
             return configRiverStationMapper.deleteByStationCode(stationCode);
         } catch (Exception e) {
             e.printStackTrace();
