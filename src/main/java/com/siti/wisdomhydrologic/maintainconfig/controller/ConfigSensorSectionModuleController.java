@@ -1,12 +1,17 @@
 package com.siti.wisdomhydrologic.maintainconfig.controller;
 
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -14,15 +19,19 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/module")
-@Api(value="传感器配置表controller",tags={"传感器配置表"})
+@Api(value = "传感器配置表controller", tags = {"传感器配置表"})
 public class ConfigSensorSectionModuleController {
 
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     @ApiOperation(value = "传感器", httpMethod = "GET", notes = "传感器根")
     @GetMapping("/getAll")
-    private List<ConfigSensorSectionModule> getList(){
+    private List<ConfigSensorSectionModule> getList() {
         try {
             return configSensorSectionModuleMapper.getStation();
         } catch (Exception e) {
@@ -31,12 +40,36 @@ public class ConfigSensorSectionModuleController {
         return null;
     }
 
+
+    @GetMapping("/getAllNid")
+    private String getNidList() {
+        try {
+            List<String> list = configSensorSectionModuleMapper.getNidStation();
+            String str = "";
+            for (String nid : list) {
+                str = str + nid + ",";
+            }
+            return str;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // 插入
     @PostMapping("/insert")
-    public int insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule){
+    public int insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule, HttpSession session) {
         try {
             System.out.println(configSensorSectionModule.toString());
-         return configSensorSectionModuleMapper.insert(configSensorSectionModule);
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("传感器表添加")
+                    .setFreshVal(configSensorSectionModule.toString())
+                    .setAction("添加")
+                    .setPreviousVal("")
+                    .build());
+            return configSensorSectionModuleMapper.insert(configSensorSectionModule);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +78,16 @@ public class ConfigSensorSectionModuleController {
 
     // 修改数据，部分字段不修改
     @PostMapping("/update")
-    public int update(@RequestBody ConfigSensorSectionModule configSensorSectionModule){
+    public int update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
         try {
+            User user = (User) redisBiz.get(session.getId());
+            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                    .setUsername(user.getUserName())
+                    .setOperateDes("传感器表修改")
+                    .setFreshVal(configSensorSectionModule.toString())
+                    .setAction("修改")
+                    .setPreviousVal("")
+                    .build());
             return configSensorSectionModuleMapper.update(configSensorSectionModule);
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,11 +97,10 @@ public class ConfigSensorSectionModuleController {
 
     // 后续不建议开放删除接口，仅供内部使用
     @GetMapping("/delete")
-    public int delete(@RequestParam(value = "sectionCode")  Integer sectionCode) {
+    public int delete(@RequestParam(value = "sectionCode") Integer sectionCode) {
         try {
             return configSensorSectionModuleMapper.deleteBySectionCode(sectionCode);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
@@ -69,21 +109,21 @@ public class ConfigSensorSectionModuleController {
     // 根据测站ID，查询某测站下所有元素数据
     @ApiOperation(value = "传感器根据测站ID，查询某测站下所有元素数据", httpMethod = "GET", notes = "传感器根根据测站ID")
     @GetMapping("/findModulesByStationCode")
-    public List<ConfigSensorSectionModule> findModulesByStationCode(@RequestParam(value = "stationCode") Integer stationCode){
+    public List<ConfigSensorSectionModule> findModulesByStationCode(@RequestParam(value = "stationCode") Integer stationCode) {
         return configSensorSectionModuleMapper.findModuleByStationCode(stationCode);
     }
 
     // 根据测站名，查询某测站下所有元素数据
     @GetMapping("/findModulesByStationName")
     @ApiOperation(value = "传感器根据测站名，查询某测站下所有元素数据", httpMethod = "GET", notes = "传感器根据测站名")
-    public List<ConfigSensorSectionModule> findModulesByStationName(@RequestParam(value = "stationName") String stationName){
+    public List<ConfigSensorSectionModule> findModulesByStationName(@RequestParam(value = "stationName") String stationName) {
         return configSensorSectionModuleMapper.findModuleByStationName(stationName);
     }
 
     // 根据分中心站ID查找下属所有传感器数据
     @ApiOperation(value = "传感器根据分中心站ID查找下属所有传感器数据", httpMethod = "GET", notes = "传感器根据分中心站ID")
     @GetMapping("/findModuleByOrgID")
-    public List<ConfigSensorSectionModule> findModuleByOrgID(@RequestParam(value = "orgId") Integer orgId){
+    public List<ConfigSensorSectionModule> findModuleByOrgID(@RequestParam(value = "orgId") Integer orgId) {
         return configSensorSectionModuleMapper.findModuleBySysOrg(orgId);
     }
 }

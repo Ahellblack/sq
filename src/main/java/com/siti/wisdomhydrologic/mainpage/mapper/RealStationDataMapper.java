@@ -44,6 +44,9 @@ public interface RealStationDataMapper {
             "<if test=\"stationCode!=null\">where station_id = #{stationCode}</if></script>")
     RealStationData getData(@Param("stationCode") Integer stationCode);
 
+    @Select("select Max(time) as time from `real` ")
+    String getStationLatestData();
+
     @Select("select * from real_station_data ")
     RealStationData getAllData();
 

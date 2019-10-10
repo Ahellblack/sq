@@ -21,10 +21,12 @@ public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(ConstantConfig.BASEPACKAGE))
-                .paths(PathSelectors.any()).build();
+                .paths(PathSelectors.any())
+                .build();
     }
 
     private ApiInfo apiInfo() {
@@ -34,6 +36,7 @@ public class SwaggerConfig {
                 .description(ConstantConfig.DESCRIPTION)
                 .termsOfServiceUrl(ConstantConfig.SWAGGER_URL)
                 .version(ConstantConfig.SWAGGER_VERSION)
+                .licenseUrl(ConstantConfig.SWAGGER_URL2)
                 .build();
     }
 

@@ -34,6 +34,9 @@ public class ReportManageApplicationBrokenVo {
     @ApiModelProperty(value = "故障解决时间（自动）", name = "reportId")
     private String brokenResolveTime;
 
+    @ApiModelProperty(value = "故障开始解决时间（自动）", name = "reportId")
+    private String brokenOnResolveTime;
+
     @ApiModelProperty(value = "故障生成时间（自动）", name = "reportId")
     private String createTime;
 
@@ -61,6 +64,15 @@ public class ReportManageApplicationBrokenVo {
 
     @ApiModelProperty(value = "站址", name = "reportId")
     private String stationAddress;
+
+
+    public String getBrokenOnResolveTime() {
+        return brokenOnResolveTime;
+    }
+
+    public void setBrokenOnResolveTime(String brokenOnResolveTime) {
+        this.brokenOnResolveTime = brokenOnResolveTime;
+    }
 
     public int getReportId() {
         return reportId;

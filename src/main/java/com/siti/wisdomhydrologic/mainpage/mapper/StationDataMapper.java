@@ -28,12 +28,14 @@ public interface StationDataMapper {
             "select * " +
             "from config_river_station a " +
             "left join real_station_data b " +
-            "on a.station_id = b.station_id where a.station_id is not null "+
+            "on a.station_id = b.station_id " +
+            " where  a.sys_org in (SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " and a.station_id is not null "+
             "<if test=\"level!=null\"> and station_level = #{level} </if>" +
             "<if test=\"status!=null\"> and b.status = #{status} </if>" +
             "<if test=\"snId!=null\"> and a.region_id = #{snId} </if>" +
             "</script>")
-    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId);
+    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId,@Param("orgId") Integer orgId);
 
 
 

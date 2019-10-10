@@ -9,6 +9,10 @@ import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +38,10 @@ import java.util.List;
 @RequestMapping("/station")
 @Api(value = "首页测站实时数据controller", tags = {"首页测站实时数据"})
 public class StationDataController {
-
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private RedisBiz redisBiz;
     @Resource
     private StationDataMapper stationDataMapper;
 
@@ -66,39 +74,7 @@ public class StationDataController {
         station.forEach(data -> {
             list.add(data.getSectionCode() + "");
         });
-        /*list.forEach(data -> {
-            if (!list.contains(returndata.getStationId() + ConstantConfig.ES)) {
-                returndata.setElectric("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WFVY))) {
-                returndata.setFlowVelocityY("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WFV))) {
-                returndata.setFlowVelocityX("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.TS))) {
-                returndata.setTideLevel("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.RS))) {
-                //Double value = (data.getRealVal() - Double.parseDouble(realStationVo.getRainfall()));
-                returndata.setRainfall("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WS))) {
-                returndata.setWaterLevel("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WSS))) {
-                returndata.setWindSpeed("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WDS))) {
-                returndata.setWindDirection("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WAT))) {
-                returndata.setAirTemperature("");
-            }
-            if (!list.contains(returndata.getStationId() + (ConstantConfig.WAP))) {
-                returndata.setAirPressure("");
-            }
-        });*/
+
         return returndata;
     }
 
@@ -131,7 +107,11 @@ public class StationDataController {
     @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选" + "测站状态 0位离线； 1为正常；2为故障" + "站点类型：0 基本站；1国家站；2一般站 " + "南北片：42 北片 ； 43 南片")
     @ApiParam(name = "level", value = "测站级别")
     @GetMapping("/getLocation")
-    public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId) throws Exception {
+    public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId, HttpSession session) throws Exception {
+
+        User user = (User) redisBiz.get(session.getId());
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        orgList.get(0).getPath();
 
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -142,7 +122,7 @@ public class StationDataController {
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
-        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId);
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId,1002 );//暂展示浦东点位
 
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
         List<String> list = new ArrayList<>();

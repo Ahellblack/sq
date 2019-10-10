@@ -29,7 +29,7 @@ public class ManageApplicationBrokenTask {
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
-    @Scheduled(cron = "0 4/5 * * * ? ")
+    @Scheduled(cron = "0 1/5 * * * ? ")
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
@@ -41,7 +41,7 @@ public class ManageApplicationBrokenTask {
         /**
          * 查询上一个整5分再往前5分钟数据
          * */
-        cal.add(cal.MINUTE, -5);
+        cal.add(cal.MINUTE, -25);
         date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
 
         int i = manageApplicationBrokenService.insertDataMantain(date);

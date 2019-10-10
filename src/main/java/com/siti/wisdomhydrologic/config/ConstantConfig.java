@@ -41,6 +41,8 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
 
     public static final String SWAGGER_URL = "http://localhost:8080/sq/swagger-ui.html";
 
+    public static final String SWAGGER_URL2 = "http://localhost:8080/";
+
     public static final String ACCOUNT_SID = "8a216da855826478015599e3f66e1411";
 
     public static final String AUTH_TOKEN = "71a6619327734d81957e60f2eeaa2626";
@@ -72,6 +74,12 @@ public class ConstantConfig extends WebMvcConfigurerAdapter {
     public static final String DEVIDURL = "http://114.80.231.178:18080/sq_dataWareHouse/deviceStatus/getByDevId";
 
     public static final String DEVID = "ZOIC59M6";
+
+    public static final String LOGINLOCATIONTEST = "10.1.30.210:50081/wh/";
+
+    public static final String LOGINLOCATIONPROD = "172.20.50.115:8080/wh/";
+
+
     /*
 
     */

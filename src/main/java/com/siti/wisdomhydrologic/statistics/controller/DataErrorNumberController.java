@@ -3,6 +3,10 @@ package com.siti.wisdomhydrologic.statistics.controller;
 import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
 import com.siti.wisdomhydrologic.statistics.entity.DataError;
 import com.siti.wisdomhydrologic.statistics.mapper.DataErrorNumberMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,18 +30,25 @@ public class DataErrorNumberController {
 
     @Resource
     private DataErrorNumberMapper dataErrorNumberMapper;
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
 
-    @GetMapping("getAll")
-    public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
+    @GetMapping("errorList")
+    public Map<String, Object> getList(HttpSession session, Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
         Map<String, Object> map = new HashMap<>();
+        User user = (User) redisBiz.get(session.getId());
+        List<Org> orgList = userMapper.findOrg(user.getId());
+
         try {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
             List<DataError> dataList =new ArrayList<>();
             if(list.size() >0) {
-                dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime);
+                dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime,orgList.get(0).getId());
             }else{
-                dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime);
+                dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime,orgList.get(0).getId());
             }
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {

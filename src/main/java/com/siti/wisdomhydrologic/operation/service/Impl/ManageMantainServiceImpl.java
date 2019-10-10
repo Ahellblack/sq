@@ -65,7 +65,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         int sysOrg = 1002;
 
         //建立异常名字典表的map
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         List<ConfigAbnormalError> list = configAbnormalErrorMapper.getErrorNameList();
         list.forEach((ConfigAbnormalError data) -> map.put(data.getErrorName(), data.getTable1Relate()));
         all.forEach(data -> {
@@ -158,56 +158,56 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     }
 
 
-    public static void setTable4Status(Map<String, Integer> map, ManageMantainVo vo, ReportManageMantain entity) {
+    public static void setTable4Status(Map<String, String> map, ManageMantainVo vo, ReportManageMantain entity) {
         if (map.containsKey(vo.getBrokenName())) {
             switch (map.get(vo.getBrokenName())) {
-                case 9:
+                case "9":
                     entity.setVoltageException(-1);
                     break;
-                case 10:
+                case "10":
                     entity.setVoltageProcessLineException(-1);
                     break;
-                case 11:
+                case "11" :
                     entity.setDayRainReportException(-1);
                     break;
-                case 12:
+                case "12":
                     entity.setRainBarException(-1);
                     break;
-                case 13:
+                case "13":
                     entity.setDaySeaLevelReportException(-1);
                     break;
-                case 14:
+                case "14":
                     entity.setSeaLeveProcessLineException(-1);
                     break;
-                case 15:
+                case "15":
                     entity.setOtherReportException(-1);
                     break;
             }
         }
     }
 
-    public static void setTable3Status(Map<String, Integer> map, ReportStationBroken vo, ReportManageMantain entity) {
+    public static void setTable3Status(Map<String, String> map, ReportStationBroken vo, ReportManageMantain entity) {
         if (map.containsKey(vo.getApplicationEquipName())) {
             switch (map.get(vo.getApplicationEquipName())) {
-                case 1:
+                case "1":
                     entity.setTempHuimidityException(-1);
                     break;
-                case 2:
+                case "2":
                     entity.setServerTimeException(-1);
                     break;
-                case 3:
+                case "3":
                     entity.setDatabaseServerException(-1);
                     break;
-                case 4:
+                case "4":
                     entity.setCommunicateServerException(-1);
                     break;
-                case 5:
+                case "5":
                     entity.setApplicationServerException(-1);
                     break;
-                case 6:
+                case "6":
                     entity.setWebServerException(-1);
                     break;
-                case 7:
+                case "7":
                     entity.setWorkStation(-1);
                     break;
             }

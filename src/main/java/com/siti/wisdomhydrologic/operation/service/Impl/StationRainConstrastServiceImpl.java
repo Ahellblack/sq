@@ -204,16 +204,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        List<Integer> idList = new ArrayList<>();
-
-        //表7需要的测站id的LIst
-        StationIdUtils.getTable7StationList().forEach(data -> {
-            int stationId = 0;
-            if (configRiverStationMapper.getByAllName(data) != null) {
-                stationId = configRiverStationMapper.getByAllName(data).getStationId();
-                idList.add(stationId);
-            }
-        });
+        List<Integer> idList = StationIdUtils.getTable7StationList();
 
         //每个测站id对应的day数据获取
         idList.forEach(data -> {
@@ -241,19 +232,19 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             entity.setCreateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
             entity.setUpdateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
             if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
-                //月初赋值
+                //月初赋值 对每个月的每天分别循环改值
                 entity.setTotal("0,0,0");
                 for (int i = 1; i <= 31; i++) {
                     try {
                         Method method = entity.getClass().getMethod("setDay" + i, String.class);
                         method.invoke(entity, "0,0,0");
-
-                        stationRainConstrastMapper.insert(entity);
                     } catch (Exception e) {
                         System.out.println("月初表7数据自动添加出错");
                         logger.error("错误信息{}", e);
                     }
                 }
+                // 月初数据添加 day1 至 day31,total修改为 0,0,0
+                stationRainConstrastMapper.insert(entity);
             }
             //当获取日雨量成功时
             if (dayVo.size() > 0) {
@@ -262,11 +253,15 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 entity.setDataYearMonth(dayVo.get(0).getSensorDataUploadTime().substring(0, 7));
                 //nowaday每月的第几天
                 int nowaday = cal.get(Calendar.DAY_OF_MONTH);
+
                 Method marray = null;
                 try {
                     //反射到entity对象，对当前天的数据进行更改
                     marray = entity.getClass().getMethod("setDay" + nowaday, String.class);
-                    marray.invoke(entity, dayVo.get(0).getSensorDataValue() + ",0,0");
+                    //生成数据时，差值与自动生成值相同
+                    Double autoDate = dayVo.get(0).getSensorDataValue();
+                    Double diffDate = dayVo.get(0).getSensorDataValue();
+                    marray.invoke(entity, autoDate + ",0," + diffDate);
                 } catch (Exception e) {
                     logger.error("赋值每日降雨量数据异常");
                 }
@@ -276,10 +271,40 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 String daynumber = "day" + nowaday;
 
                 //update时赋值 total的值为原数据+dayVo数据
-                entity.setTotal(((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1]) + "," + Double.parseDouble(total.split(",")[2]));
-                //修改当前月 当天的日数据
-                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0,0", entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
+                entity.setTotal(
+                        (Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue())
+                                + ","
+                                + total.split(",")[1]
+                                + ","
+                                + (Double.parseDouble(total.split(",")[2])+ dayVo.get(0).getSensorDataValue())
+                );                //修改当前月 当天的日数据
+                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
             }
         });
     }
+
+   /* public static void main(String[] args) {
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+        ReportStationRainConstrast entity = new ReportStationRainConstrast();
+
+        if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
+            //月初赋值
+            entity.setTotal("0,0,0");
+            for (int i = 1; i <= 31; i++) {
+                try {
+                    Method method = entity.getClass().getMethod("setDay" + i, String.class);
+                    method.invoke(entity, "0,0,0");
+
+                    System.out.println(entity);
+                } catch (Exception e) {
+                    System.out.println("月初表7数据自动添加出错");
+                }
+            }
+        }
+    }*/
 }
+
+

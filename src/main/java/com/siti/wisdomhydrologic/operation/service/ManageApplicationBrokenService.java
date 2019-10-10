@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
  * Created by dell on 2019/7/31.
  */
 public interface ManageApplicationBrokenService {
-    PageInfo<ReportManageApplicationBroken> getAll(HttpSession session,int page, int pageSize, String createDate, String stationName);
+    PageInfo<ReportManageApplicationBroken> getAll(HttpSession session,int page, int pageSize, String createDate, String stationName,Integer status);
 
     int insert(ReportManageApplicationBroken reportManageApplicationBroken);
 

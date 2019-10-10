@@ -18,7 +18,7 @@ import java.util.List;
 public interface StationRainConstrastMapper extends Mapper<ReportStationRainConstrast>{
     @Select("<script>SELECT report_id,station_code,station_name,manage_org_id,manage_org_name,data_year_month," +
             "SUBSTRING_INDEX( s.day1, ',', 1 ) AS day1_auto, SUBSTRING_INDEX( s.day2, ',', 1 ) AS day2_auto,  SUBSTRING_INDEX( s.day3, ',', 1 ) AS day3_auto,  SUBSTRING_INDEX( s.day4, ',', 1 ) AS day4_auto, SUBSTRING_INDEX( s.day5, ',', 1 ) AS day5_auto, SUBSTRING_INDEX( s.day6, ',', 1 ) AS day6_auto,  SUBSTRING_INDEX( s.day7, ',', 1 ) AS day7_auto, SUBSTRING_INDEX( s.day8, ',', 1 ) AS day8_auto, SUBSTRING_INDEX( s.day9, ',', 1 ) AS day9_auto,  SUBSTRING_INDEX( s.day10, ',', 1 ) AS day10_auto,  SUBSTRING_INDEX( s.day11, ',', 1 ) AS day11_auto,SUBSTRING_INDEX( s.day12, ',', 1 ) AS day12_auto, SUBSTRING_INDEX( s.day13, ',', 1 ) AS day13_auto,SUBSTRING_INDEX( s.day14, ',', 1 ) AS day14_auto, SUBSTRING_INDEX( s.day15, ',', 1 ) AS day15_auto, SUBSTRING_INDEX( s.day16, ',', 1 ) AS day16_auto, SUBSTRING_INDEX( s.day17, ',', 1 ) AS day17_auto, SUBSTRING_INDEX( s.day18, ',', 1 ) AS day18_auto, SUBSTRING_INDEX( s.day19, ',', 1 ) AS day19_auto, SUBSTRING_INDEX( s.day20, ',', 1 ) AS day20_auto, SUBSTRING_INDEX( s.day21, ',', 1 ) AS day21_auto,  SUBSTRING_INDEX( s.day22, ',', 1 ) AS day22_auto, SUBSTRING_INDEX( s.day23, ',', 1 ) AS day23_auto,  SUBSTRING_INDEX( s.day24, ',', 1 ) AS day24_auto,  SUBSTRING_INDEX( s.day25, ',', 1 ) AS day25_auto, SUBSTRING_INDEX( s.day26, ',', 1 ) AS day26_auto, SUBSTRING_INDEX( s.day27, ',', 1 ) AS day27_auto, SUBSTRING_INDEX( s.day28, ',', 1 ) AS day28_auto, SUBSTRING_INDEX( s.day29, ',', 1 ) AS day29_auto, SUBSTRING_INDEX( s.day30, ',', 1 ) AS day30_auto, SUBSTRING_INDEX( s.day31, ',', 1 ) AS day31_auto " +
-            "from report_station_rain_constrast s <if test=\"date!=null\"> where data_year_month = #{date}</if></script>")
+            "from report_station_rain_constrast s <if test=\"date!=null  and date!=''\"> where data_year_month = #{date}</if></script>")
     List<ReportStationRainConstrastVo> getAutoByMonth(@Param("date") Date date);
 
     @Select("<script>SELECT report_id,station_code,station_name,manage_org_id,manage_org_name,data_year_month," +
@@ -61,6 +61,13 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             "where SUBSTR(sensor_data_upload_time,1,10) = CURDATE() " +  //SUBSTR(sensor_data_upload_time,1,10) = CURDATE()
             "and sensor_code =#{sensorCode} ")
     List<DayData> getDayData(@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
+
+    //测试某天的的雨量数据
+    @Select("select * from ${datebase} " +
+            "where SUBSTR(sensor_data_upload_time,1,10) = #{day} " +  //SUBSTR(sensor_data_upload_time,1,10) = CURDATE()
+            "and sensor_code =#{sensorCode} ")
+    List<DayData> getChosenDayData(@Param("day")String day,@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
+
 
     @Update("UPDATE `report_station_rain_constrast` " +
             "SET ${dayNumber} = #{value} , total =#{total}" +

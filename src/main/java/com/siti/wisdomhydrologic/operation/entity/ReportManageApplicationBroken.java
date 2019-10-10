@@ -4,6 +4,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 public class ReportManageApplicationBroken {
+    @Override
+    public String toString() {
+        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenRequestReportTime='" + brokenRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
+    }
 
     @ApiModelProperty(value = "用户名", name = "reportId")
     private int reportId;
@@ -211,8 +215,4 @@ public class ReportManageApplicationBroken {
     }
 
 
-    @Override
-    public String toString() {
-        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenRequestReportTime='" + brokenRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
-    }
 }

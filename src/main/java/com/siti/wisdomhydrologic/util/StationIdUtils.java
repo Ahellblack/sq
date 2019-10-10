@@ -10,8 +10,27 @@ public class StationIdUtils {
     /**
      * 获取写入的基本站StationName
      */
-    public static List<String> getTable7StationList() {
-        String[] NidArray = {
+    public static List<Integer> getTable7StationList() {
+        /*** idList*/
+        Integer[] idArray = {18806,
+                18404,
+                18402,
+                18319,
+                18315,
+                16853,
+                16702,
+                16401,
+                18323,
+                16308,
+                16101};
+        List<Integer> idList = new ArrayList<>();
+        for (Integer stationId : idArray) {
+            idList.add(stationId);
+        }
+        return idList;
+    }
+}
+/*   String[] NidArray = {
                 "高桥内测亭",
                 "大团闸(闸外)",
                 "大治河东闸(闸内)",
@@ -26,7 +45,4 @@ public class StationIdUtils {
         List<String> NidList = new ArrayList<>();
         for (String stationId : NidArray) {
             NidList.add(stationId);
-        }
-        return NidList;
-    }
-}
+        }*/

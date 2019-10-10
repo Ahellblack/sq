@@ -23,7 +23,7 @@ public class DeviceController {
     @Resource
     private DeviceMapper deviceMapper;
 
-    @RequestMapping("/getAll")
+    @RequestMapping("/devReplace")
     public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
         try {

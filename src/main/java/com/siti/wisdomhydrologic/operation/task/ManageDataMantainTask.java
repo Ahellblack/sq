@@ -20,7 +20,7 @@ public class ManageDataMantainTask {
     @Resource
     private ManageDataMantainServiceImpl reportManageDataMantainService;
 
-    @Scheduled(cron = "0 4/5 * * * ? ")
+    @Scheduled(cron = "0 1/5 * * * ? ")
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
@@ -32,7 +32,7 @@ public class ManageDataMantainTask {
         /**
          * 查询上一个整5分再往前5分钟数据
          * */
-        cal.add(cal.MINUTE, -5);
+        cal.add(cal.MINUTE, -25);
         date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
         int i = reportManageDataMantainService.insertAbnormalData(date);
         if (i > 0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");

@@ -6,6 +6,10 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * Created by dell on 2019/7/26.
  */
 public class ReportHyetometerTest {
+    @Override
+    public String toString() {
+        return "ReportHyetometerTest{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName=" + manageOrgName + ", libraryDate='" + libraryDate + '\'' + ", deviceTypeCode='" + deviceTypeCode + '\'' + ", deviceCode='" + deviceCode + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\'' + ", timeDuration='" + timeDuration + '\'' + ", waterPoll=" + waterPoll + ", waterPollStrength=" + waterPollStrength + ", waterDisplay=" + waterDisplay + ", errorValue=" + errorValue + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + '}';
+    }
 
     @Excel(name = "reportId", height = 11, width = 20)
     private Integer reportId;
@@ -180,8 +184,4 @@ public class ReportHyetometerTest {
         this.createBy = createBy;
     }
 
-    @Override
-    public String toString() {
-        return "ReportHyetometerTest{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName=" + manageOrgName + ", libraryDate='" + libraryDate + '\'' + ", deviceTypeCode='" + deviceTypeCode + '\'' + ", deviceCode='" + deviceCode + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\'' + ", timeDuration='" + timeDuration + '\'' + ", waterPoll=" + waterPoll + ", waterPollStrength=" + waterPollStrength + ", waterDisplay=" + waterDisplay + ", errorValue=" + errorValue + ", createBy='" + createBy + '\'' + ", createTime=" + createTime + '}';
-    }
 }

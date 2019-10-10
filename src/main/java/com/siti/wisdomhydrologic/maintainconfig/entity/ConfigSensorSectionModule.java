@@ -15,6 +15,11 @@ public class ConfigSensorSectionModule {
   private Date createTime;
   private Date updateTime;
 
+  @Override
+  public String toString() {
+    return "ConfigSensorSectionModule{" + "sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorCode='" + sensorCode + '\'' + ", sensorName='" + sensorName + '\'' + ", stationCode=" + stationCode + ", stationName='" + stationName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + ", createTime=" + createTime + ", updateTime=" + updateTime + '}';
+  }
+
   public Date getCreateTime() {
     return createTime;
   }

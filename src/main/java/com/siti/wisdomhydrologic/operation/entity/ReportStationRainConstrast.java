@@ -4,6 +4,11 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 
 
 public class ReportStationRainConstrast {
+  @Override
+  public String toString() {
+    return "ReportStationRainConstrast{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", dataYearMonth='" + dataYearMonth + '\'' + ", day1='" + day1 + '\'' + ", day2='" + day2 + '\'' + ", day3='" + day3 + '\'' + ", day4='" + day4 + '\'' + ", day5='" + day5 + '\'' + ", day6='" + day6 + '\'' + ", day7='" + day7 + '\'' + ", day8='" + day8 + '\'' + ", day9='" + day9 + '\'' + ", day10='" + day10 + '\'' + ", day11='" + day11 + '\'' + ", day12='" + day12 + '\'' + ", day13='" + day13 + '\'' + ", day14='" + day14 + '\'' + ", day15='" + day15 + '\'' + ", day16='" + day16 + '\'' + ", day17='" + day17 + '\'' + ", day18='" + day18 + '\'' + ", day19='" + day19 + '\'' + ", day20='" + day20 + '\'' + ", day21='" + day21 + '\'' + ", day22='" + day22 + '\'' + ", day23='" + day23 + '\'' + ", day24='" + day24 + '\'' + ", day25='" + day25 + '\'' + ", day26='" + day26 + '\'' + ", day27='" + day27 + '\'' + ", day28='" + day28 + '\'' + ", day29='" + day29 + '\'' + ", day30='" + day30 + '\'' + ", day31='" + day31 + '\'' + ", total='" + total + '\'' + ", remark='" + remark + '\'' + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", updateTime='" + updateTime + '\'' + ", updateBy=" + updateBy + '}';
+  }
+
   @Excel(name = "reportId", height = 11, width = 10)
   private int reportId;
 
@@ -516,8 +521,4 @@ public class ReportStationRainConstrast {
     this.updateBy = updateBy;
   }
 
-  @Override
-  public String toString() {
-    return "ReportStationRainConstrast{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", dataYearMonth='" + dataYearMonth + '\'' + ", day1='" + day1 + '\'' + ", day2='" + day2 + '\'' + ", day3='" + day3 + '\'' + ", day4='" + day4 + '\'' + ", day5='" + day5 + '\'' + ", day6='" + day6 + '\'' + ", day7='" + day7 + '\'' + ", day8='" + day8 + '\'' + ", day9='" + day9 + '\'' + ", day10='" + day10 + '\'' + ", day11='" + day11 + '\'' + ", day12='" + day12 + '\'' + ", day13='" + day13 + '\'' + ", day14='" + day14 + '\'' + ", day15='" + day15 + '\'' + ", day16='" + day16 + '\'' + ", day17='" + day17 + '\'' + ", day18='" + day18 + '\'' + ", day19='" + day19 + '\'' + ", day20='" + day20 + '\'' + ", day21='" + day21 + '\'' + ", day22='" + day22 + '\'' + ", day23='" + day23 + '\'' + ", day24='" + day24 + '\'' + ", day25='" + day25 + '\'' + ", day26='" + day26 + '\'' + ", day27='" + day27 + '\'' + ", day28='" + day28 + '\'' + ", day29='" + day29 + '\'' + ", day30='" + day30 + '\'' + ", day31='" + day31 + '\'' + ", total='" + total + '\'' + ", remark='" + remark + '\'' + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", updateTime='" + updateTime + '\'' + ", updateBy=" + updateBy + '}';
-  }
 }

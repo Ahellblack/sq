@@ -2,6 +2,8 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
@@ -14,7 +16,9 @@ import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenServic
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
@@ -48,43 +52,30 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     private AbnormalDetailMapper abnormalDetailMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
-
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private RedisBiz redisBiz;
+
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
     private static final int STATUS = 2;
 
-    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName) {
+    public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationId, Integer status) {
 
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
 
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationName, uid);
-        /*all.forEach(data -> {
-            try {
-                if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
-                    data.setCreateTime(data.getCreateTime().substring(0, 13));
-                if (data.getBrokenrRequestReportTime() != null && data.getBrokenrRequestReportTime().length() >= 13)
-                    data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(0, 13));
-                if (data.getBrokenAskToResolveTime() != null && data.getBrokenAskToResolveTime().length() >= 13)
-                    data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(0, 13));
-                if (data.getBrokenResolveTime() != null && data.getBrokenResolveTime().length() >= 13)
-                    data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0, 13));
-                if (data.getRequestDesignatingTime() != null && data.getRequestDesignatingTime().length() >= 13)
-                    data.setRequestDesignatingTime(data.getRequestDesignatingTime().substring(0, 13));
-                if (data.getBrokenResponseTime() != null && data.getBrokenResponseTime().length() >= 13)
-                    data.setBrokenResponseTime(data.getBrokenResponseTime().substring(0, 13));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }//data.setBrokenResolveTime(data.getBrokenResolveTime().substring(0,13));
-        });*/
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status);
+
 
         return new PageInfo<>(all);
     }
@@ -187,26 +178,26 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         try {
             String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
             Calendar cal = Calendar.getInstance();
-            cal.setTime(DateTransform.String2Date(date,"yyyy-MM-dd HH:mm:ss"));
-            cal.add(Calendar.MINUTE ,-30);
+            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
+            cal.add(Calendar.MINUTE, -30);
 
-            String latest30minute = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
-            notResolveList.forEach(data->{
+            String latest30minute = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+            notResolveList.forEach(data -> {
 
-                List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(),date,latest30minute);
+                List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(), date, latest30minute);
                 //系统异常表30分钟无该数据异常,表示恢复
-                if (latest30minuteDate.size() == 0){
+                if (latest30minuteDate.size() == 0) {
                     data.setRequestDesignatingStatus(4);
-                   String now = DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss");
-                    if(data.getRequestDesignatingTime()!=null){
+                    String now = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
+                    if (data.getRequestDesignatingTime() == null) {
                         data.setRequestDesignatingTime(now);
                     }
-                    if(data.getBrokenOnResolveTime()!=null){
+                    if (data.getBrokenOnResolveTime() == null) {
                         data.setBrokenOnResolveTime(now);
                     }
                     data.setBrokenResolveTime(now);
                     reportManageApplicationBrokenMapper.updateStatus(data);
-                    System.out.println(data.getStationName()+"的异常恢复");
+                    //System.out.println(data.getStationName()+"的异常恢复");
                 }
             });
         } catch (Exception e) {
@@ -229,15 +220,17 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
 
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
-        //根据日期获取异常信息
-        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
+        //根据异常表表四展示状态字段 获取数据
+        //获取到的数据状态更新为1
+        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALLTable4Data();
+
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
+        List<Integer> idList = new ArrayList<>();
         //获取异常配置参数
         if (all.size() > 0) {
             all.forEach(data -> {
-
                 /**
                  * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
                  * */
@@ -255,61 +248,64 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
                         if (lastData.size() > 0) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
-                            System.out.println("表四数据错误时间更替" + lastData);
+                            //System.out.println("表四数据错误时间更替" + lastData);
+                        } else {
+                            Calendar calendar = Calendar.getInstance();
+                            ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
+                            //异常包含设备异常或数据异常的一种
+                            if (data.getDataError() != null) {
+                                applicationBroken.setBrokenAccordingId(data.getDataError());
+                            }
+                            if (applicationBroken.getBrokenAccordingId() != null) {
+                                //结合module表添加测站参数
+                                moduleList.forEach(module -> {
+                                    if (module.getSectionCode() == data.getSectionCode()) {
+                                        applicationBroken.setStationId(module.getStationCode());
+                                        applicationBroken.setStationName(module.getStationName());
+                                    }
+                                });
+                                //给表四数据赋值各类自动时间
+                                try {
+                                    riverStationList.forEach(river -> {
+                                        if (data.getStationCode() == river.getStationId()) {
+                                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+
+                                            if (river.getStationLevel() == 2) {
+                                                //一般站往后3小时内
+                                                calendar.add(calendar.HOUR, 3);
+                                            } else {
+                                                //基本站往后1小时内
+                                                calendar.add(calendar.HOUR, 1);
+                                            }
+                                            applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    logger.error(e.getMessage());
+                                }
+
+                                list.forEach(e -> {
+                                    //根据字典赋值故障判断依据和故障名称
+                                    if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
+                                        applicationBroken.setBrokenAccording(e.getBrokenAccording());
+                                        applicationBroken.setBrokenName(e.getErrorName());
+                                    }
+                                });
+                                applicationBroken.setCreateTime(data.getDate());
+                                applicationBroken.setErrorLastestAppearTime(data.getDate());
+                                brokenList.add(applicationBroken);
+                            }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Calendar calendar = Calendar.getInstance();
-                    ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
-                    //异常包含设备异常或数据异常的一种
-                    if (data.getEquipmentError() != null) {
-                        applicationBroken.setBrokenAccordingId(data.getEquipmentError());
-                    } else if (data.getDataError() != null) {
-                        applicationBroken.setBrokenAccordingId(data.getDataError());
-                    }
-                    if (applicationBroken.getBrokenAccordingId() != null) {
-                        //结合module表添加测站参数
-                        moduleList.forEach(module -> {
-                            if (module.getSectionCode() == data.getSectionCode()) {
-                                applicationBroken.setStationId(module.getStationCode());
-                                applicationBroken.setStationName(module.getStationName());
-                            }
-                        });
-                        //给表四数据赋值各类自动时间
-                        try {
-                            riverStationList.forEach(river -> {
-                                if (data.getStationCode() == river.getStationId()) {
-                                    calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-
-                                    if (river.getStationLevel() == 2) {
-                                        //一般站往后3小时内
-                                        calendar.add(calendar.HOUR, 3);
-                                    } else {
-                                        //基本站往后1小时内
-                                        calendar.add(calendar.HOUR, 1);
-                                    }
-                                    applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
-                                }
-                            });
-                        } catch (Exception e) {
-                            logger.error(e.getMessage());
-                        }
-
-                        list.forEach(e -> {
-                            //根据字典赋值故障判断依据和故障名称
-                            if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
-                                applicationBroken.setBrokenAccording(e.getBrokenAccording());
-                                applicationBroken.setBrokenName(e.getErrorName());
-                            }
-                        });
-                        applicationBroken.setCreateTime(data.getDate());
-                        applicationBroken.setErrorLastestAppearTime(data.getDate());
-                        brokenList.add(applicationBroken);
+                        logger.error(e.getMessage());
                     }
                 }
+                /**
+                 * 修改已被展示的异常表数据 状态
+                 * */
+                idList.add(data.getId());
             });
+            abnormalDetailMapper.updateTable4Status(idList);
 
             int size = 1000;
             int allsize = brokenList.size();
@@ -332,6 +328,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      * @return
      * @throws ParseException
      */
+
     public static Date getMinDate(Date date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date newDate = sdf.parse(sdf.format(date));

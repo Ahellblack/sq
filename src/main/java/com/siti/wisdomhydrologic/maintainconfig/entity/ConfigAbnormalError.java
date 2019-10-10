@@ -2,38 +2,13 @@ package com.siti.wisdomhydrologic.maintainconfig.entity;
 
 public class ConfigAbnormalError {
 
-<<<<<<< HEAD
-    private String errorId;
-    private String errorName;
-    private String belongWhichTable;
-    private Integer table1Relate;
 
-    private String brokenAccordingId;
-    private String brokenAccording;
 
-    public String getBrokenAccording() {
-        return brokenAccording;
-    }
-
-    public void setBrokenAccording(String brokenAccording) {
-        this.brokenAccording = brokenAccording;
-    }
-
-    public String getBrokenAccordingId() {
-
-        return brokenAccordingId;
-    }
-
-    public void setBrokenAccordingId(String brokenAccordingId) {
-        this.brokenAccordingId = brokenAccordingId;
-    }
-=======
   private String errorId;
   private String errorName;
   private Integer belongWhichTable;
   private String table1Relate;
   private String description;
->>>>>>> qzx
 
   public String getErrorId() {
     return errorId;
@@ -67,8 +42,6 @@ public class ConfigAbnormalError {
     this.table1Relate = table1Relate;
   }
 
-<<<<<<< HEAD
-=======
   public String getDescription() {
     return description;
   }
@@ -76,6 +49,12 @@ public class ConfigAbnormalError {
   public void setDescription(String description) {
     this.description = description;
   }
->>>>>>> qzx
 
+  @Override
+  public String toString() {
+    return "ConfigAbnormalError{" + "errorId='" + errorId + '\'' + ", errorName='" + errorName + '\'' + ", belongWhichTable=" + belongWhichTable + ", table1Relate='" + table1Relate + '\'' + ", description='" + description + '\'' + '}';
+  }
+
+  public ConfigAbnormalError() {
+  }
 }

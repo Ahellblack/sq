@@ -16,11 +16,11 @@ import java.util.List;
 public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
 
     @Select("<script>select * from record_device_replace " +
-            "<if test=\"createDate!=null\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
-            "<if test=\"stationName!=null\"> and station_name like '%${stationName}%'  </if>" +
+            "<if test=\"createDate!=null and  createDate!=''\"> where DATE_FORMAT(create_time,'%Y-%m') = #{createDate} </if>" +
+            "<if test=\"stationId!=null  and stationId!=''\"> and station_code = #{stationId}  </if>" +
             "order by create_time desc" +
             "</script>")
-    List<RecordDeviceReplaceVo> getAll(@Param("stationName") String stationName, @Param("createDate")String createDate);
+    List<RecordDeviceReplaceVo> getAll(@Param("stationId") String stationId, @Param("createDate")String createDate);
 
     @Delete("delete from record_device_replace where report_id = #{reportId}")
     int deleteData(@Param("reportId") Integer reportId);

@@ -2,8 +2,13 @@ package com.siti.wisdomhydrologic.operation.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.siti.wisdomhydrologic.log.entity.SysLog;
+import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageMantainServiceImpl;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,7 +41,12 @@ import java.util.*;
 public class ManageMantainController {
     @Resource
     private ManageMantainServiceImpl reportManageMantainService;
-
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private SysLogMapper sysLogMapper;
     /**
      * @Param date xxxx年xx月 格式YYYY-MM
      */
@@ -58,7 +69,16 @@ public class ManageMantainController {
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageMantain reportManageMantain) {
+    public int update(@RequestBody ReportManageMantain reportManageMantain, HttpSession session) {
+
+        User user = (User) redisBiz.get(session.getId());
+        sysLogMapper.insertUserOprLog( new SysLog.builder()
+                .setUsername(user.getUserName())
+                .setOperateDes("数据表1修改")
+                .setFreshVal(reportManageMantain.toString())
+                .setAction("修改")
+                .setPreviousVal("")
+                .build());
         return reportManageMantainService.update(reportManageMantain);
     }
 
@@ -70,9 +90,9 @@ public class ManageMantainController {
     @ApiOperation(value = "表一日常维护记录表模板导出", httpMethod = "GET", notes = "表一日常维护记录表模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String date, Integer sysOrg) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpServletResponse response, String date) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(date, sysOrg);
+        Workbook workbook = exportSheetByTemplate(date);
         // 判断数据
         if (workbook == null) {
             return "fail";
@@ -110,7 +130,7 @@ public class ManageMantainController {
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(String date, Integer sysOrg) {
+    public Workbook exportSheetByTemplate(String date) {
         //默认查询本月
         if (date == null) {
             date = DateOrTimeTrans.Date2TimeString3(new Date());

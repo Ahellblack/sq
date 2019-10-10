@@ -12,7 +12,9 @@ import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
@@ -46,18 +48,19 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     //LogOperation log;
     @Resource
     private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
 
-    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate, HttpSession session) {
+    public PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationId, String alterType, String createDate, HttpSession session) {
 
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
+        List<Org> orgList = userMapper.findOrg(user.getId());
         //默认查询本月
         if (createDate == null) {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationName, alterType, createDate,uid);
-
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId());
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 
         /**
@@ -102,18 +105,18 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         String createTime = reportManageDataMantain.getCreateTime();
         String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
 
-        if (errorLastestAppearTime!=null){
-            reportManageDataMantain.setErrorTimeSpace(createTime+","+errorLastestAppearTime);
-        }else {
+        if (errorLastestAppearTime != null) {
+            reportManageDataMantain.setErrorTimeSpace(createTime + "," + errorLastestAppearTime);
+        } else {
             reportManageDataMantain.setErrorTimeSpace(createTime);
         }
 
         System.out.println("修改后的ReportManageDataMantain:" + reportManageDataMantain);
 
-        try{
+        try {
             int result = reportManageDataMantainMapper.update(reportManageDataMantain);
             return result;
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -121,13 +124,15 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Override
     public int insertAbnormalData(String date) {
         List<ConfigAbnormalDictionary> dictionarylist = configAbnormalDictionaryMapper.getList();
-        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALL(date);
+        List<ReportManageDataMantainVo> all = abnormalDetailMapper.getAllTable2Data();
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         if (all.size() > 0) {
             //获取异常配置参数
             all.forEach(abData -> {
-                if (abData.getDataError() != null) {
+                String errorType = abData.getDataError().split("_")[0];
+                if ("data".equals(errorType)) {
                     abData.setBrokenAccordingId(abData.getDataError());
 
                     /**
@@ -141,64 +146,73 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     /**
                      * 查询上个五分钟的异常表数据。
                      * */
-                    List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
+                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
 
                     //赋值测站号和修改日期
                     abData.setStationCode(abData.getSensorCode() / 100);
+                    abData.setAlterSensorTypeId(abData.getSectionCode() % 100);
                     abData.setCreateTime(abData.getDate());
 
                     /**
                      * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
                      * 若有，更新最后一次生成时间
                      * */
-                    if (latestData.size() > 0) {
+                    if (latestAbnormalData.size() > 0) {
                         try {
-                            ReportManageDataMantain lastestData = reportManageDataMantainMapper.getLastestData(abData.getSectionCode(), last5MinuteTime);
-                            abData.setErrorLastestAppearTime(abData.getCreateTime());
-                            abData.setErrorTimeSpace(lastestData.getCreateTime() + "," + abData.getCreateTime());
-                            abData.setReportId(lastestData.getReportId());
-                            reportManageDataMantainMapper.updateTime(abData);
-                            System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
-                        }catch (Exception e){
-                            System.out.println("");
-                        }
-                        } else {
-                        //根据字典获取异常名
-                        dictionarylist.forEach(param -> {
-                            if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {
-                                abData.setErrorDataReason(param.getErrorName());
-                                abData.setBrokenAccordingId(param.getBrokenAccordingId());
-                                abData.setErrorDataType(param.getErrorDataId());
-                                //修改日期添加时精确到某日
-                                abData.setAlterDate(abData.getCreateTime().substring(0, 10));
+                            int stationId = abData.getStationCode();
+                            int sensorTypeId = abData.getAlterSensorTypeId();
+                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData( stationId,sensorTypeId,last5MinuteTime);
+                            if (latestData.size() > 0) {
+                                //修改最后出现时间
                                 abData.setErrorLastestAppearTime(abData.getCreateTime());
-                                //状态为实时或小时时,错误时段为时间段
-                                //实时时段精度到时分秒
-                                if (abData.getErrorDataType() == 1 ) {
-                                    abData.setErrorTimeSpace(abData.getCreateTime() + "," + abData.getCreateTime());
-                                }//小时时段精度到时
-                                else if(abData.getErrorDataType() == 3){
-                                    abData.setErrorTimeSpace(abData.getCreateTime().substring(0, 13) + "," + abData.getCreateTime().substring(0, 13));
-                                }else {
-                                    //5分钟,一天异常为单个时间
-                                    abData.setErrorTimeSpace(abData.getCreateTime());
-                                }
-                                abData.setErrorDataReRun(0);
-                                abData.setMissDataReRun(0);
+                                //修改错误时间段
+                                abData.setErrorTimeSpace(latestAbnormalData.get(0).getDate() + "," + abData.getCreateTime());
+                                abData.setReportId(latestData.get(0).getReportId());
+                                reportManageDataMantainMapper.updateTime(abData);
+                                //System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                            } else {
+                                //根据字典获取异常名
+                                dictionarylist.forEach(param -> {
+                                    if (param.getBrokenAccordingId().equals(abData.getBrokenAccordingId())) {
+                                        abData.setErrorDataReason(param.getErrorName());
+                                        abData.setBrokenAccordingId(param.getBrokenAccordingId());
+                                        abData.setErrorDataType(param.getErrorDataId());
+                                        //修改日期添加时精确到某日
+                                        abData.setAlterDate(abData.getCreateTime().substring(0, 10));
+                                        abData.setErrorLastestAppearTime(abData.getCreateTime());
+                                        //状态为实时或小时时,错误时段为时间段
+                                        //实时时段精度到时分秒
+                                        if (abData.getErrorDataType() == 1) {
+                                            abData.setErrorTimeSpace(abData.getCreateTime() + "," + abData.getCreateTime());
+                                        }//小时时段精度到时
+                                        else if (abData.getErrorDataType() == 3) {
+                                            abData.setErrorTimeSpace(abData.getCreateTime().substring(0, 13) + "," + abData.getCreateTime().substring(0, 13));
+                                        } else {
+                                            //5分钟,一天异常为单个时间
+                                            abData.setErrorTimeSpace(abData.getCreateTime());
+                                        }
+                                        abData.setErrorDataReRun(0);
+                                        abData.setMissDataReRun(0);
+                                    }
+                                });
+                                //结合module表添加测站参数
+                                moduleList.forEach(module -> {
+                                    if (module.getSectionCode() == abData.getSectionCode()) {
+                                        abData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
+                                        abData.setAlterSensorTypeId(module.getSectionCode() % 100);
+                                        abData.setStationName(module.getStationName());
+                                    }
+                                });
+                                abnormalall.add(abData);
                             }
-                        });
-                        //结合module表添加测站参数
-                        moduleList.forEach(module -> {
-                            if (module.getSectionCode() == abData.getSectionCode()) {
-                                abData.setAlterSensorTypeName(module.getSectionName().substring((module.getSectionName().length() - 2), module.getSectionName().length()));
-                                abData.setAlterSensorTypeId(module.getSectionCode() % 100);
-                                abData.setStationName(module.getStationName());
-                            }
-                        });
-                        abnormalall.add(abData);
+                        } catch (Exception e) {
+                            System.out.println("表二数据添加异常");
+                        }
                     }
                 }
+                list.add(abData.getId());
             });
+            abnormalDetailMapper.updateTable2Status(list);
             int size = 1000;
             int allsize = abnormalall.size();
             int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
@@ -213,9 +227,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
 
     public int insert(ReportManageDataMantain reportManageDataMantain) {
         System.out.println(reportManageDataMantain);
-        try{
+        try {
             return reportManageDataMantainMapper.insert(reportManageDataMantain);
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }

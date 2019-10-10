@@ -1,9 +1,10 @@
 package com.siti.wisdomhydrologic.maintainconfig.mapper;
 
-import java.util.List;
 
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalError;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * Created by dell on 2019/9/27.

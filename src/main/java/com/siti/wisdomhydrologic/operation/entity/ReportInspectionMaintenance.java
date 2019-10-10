@@ -158,6 +158,10 @@ public class ReportInspectionMaintenance {
     this.stationName = stationName;
   }
 
+  @Override
+  public String toString() {
+    return "ReportInspectionMaintenance{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", rtuType='" + rtuType + '\'' + ", monitoringProgram='" + monitoringProgram + '\'' + ", dataCollectionClock=" + dataCollectionClock + ", dataCollectionParamCheck=" + dataCollectionParamCheck + ", dataCollectionNormal=" + dataCollectionNormal + ", dataCommunicationParam=" + dataCommunicationParam + ", dataCommunicationChannel=" + dataCommunicationChannel + ", powerSolarCheck=" + powerSolarCheck + ", powerSolarVolt=" + powerSolarVolt + ", powerStorageVolt=" + powerStorageVolt + ", powerStorageCheck=" + powerStorageCheck + ", rainInstrumentCheck=" + rainInstrumentCheck + ", rainInstrumentCleanCheck=" + rainInstrumentCleanCheck + ", rainEnviromentCheck=" + rainEnviromentCheck + ", waterLevelInstrumentCheck=" + waterLevelInstrumentCheck + ", waterLevelShaftCheck=" + waterLevelShaftCheck + ", waterLevelStaffCheck=" + waterLevelStaffCheck + ", waterLevelStaffIsAdjust=" + waterLevelStaffIsAdjust + ", waterLevelZeroHeight=" + waterLevelZeroHeight + ", waterLevelStaffValue=" + waterLevelStaffValue + ", waterLevelTime=" + waterLevelTime + ", waterLevelIndicatorValue=" + waterLevelIndicatorValue + ", waterLevelValue=" + waterLevelValue + ", windInstrumentCheck=" + windInstrumentCheck + ", windLightningProtect=" + windLightningProtect + ", flowIsCompletion=" + flowIsCompletion + ", flowPitch=" + flowPitch + ", flowRoll=" + flowRoll + ", flowEcho=" + flowEcho + ", flowTestTime=" + flowTestTime + ", pipeline=" + pipeline + ", stationEnviromentInstrument=" + stationEnviromentInstrument + ", stationIsClean=" + stationIsClean + ", remark='" + remark + '\'' + ", maintainer='" + maintainer + '\'' + ", yearMonthTime='" + yearMonthTime + '\'' + '}';
+  }
 
   public String getRtuType() {
     return rtuType;
@@ -471,8 +475,4 @@ public class ReportInspectionMaintenance {
     this.maintainer = maintainer;
   }
 
-  @Override
-  public String toString() {
-    return "ReportInspectionMaintenance{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", rtuType='" + rtuType + '\'' + ", monitoringProgram='" + monitoringProgram + '\'' + ", dataCollectionClock=" + dataCollectionClock + ", dataCollectionParamCheck=" + dataCollectionParamCheck + ", dataCollectionNormal=" + dataCollectionNormal + ", dataCommunicationParam=" + dataCommunicationParam + ", dataCommunicationChannel=" + dataCommunicationChannel + ", powerSolarCheck=" + powerSolarCheck + ", powerSolarVolt=" + powerSolarVolt + ", powerStorageVolt=" + powerStorageVolt + ", powerStorageCheck=" + powerStorageCheck + ", rainInstrumentCheck=" + rainInstrumentCheck + ", rainInstrumentCleanCheck=" + rainInstrumentCleanCheck + ", rainEnviromentCheck=" + rainEnviromentCheck + ", waterLevelInstrumentCheck=" + waterLevelInstrumentCheck + ", waterLevelShaftCheck=" + waterLevelShaftCheck + ", waterLevelStaffCheck=" + waterLevelStaffCheck + ", waterLevelStaffIsAdjust=" + waterLevelStaffIsAdjust + ", waterLevelZeroHeight=" + waterLevelZeroHeight + ", waterLevelStaffValue=" + waterLevelStaffValue + ", waterLevelTime=" + waterLevelTime + ", waterLevelIndicatorValue=" + waterLevelIndicatorValue + ", waterLevelValue=" + waterLevelValue + ", windInstrumentCheck=" + windInstrumentCheck + ", windLightningProtect=" + windLightningProtect + ", flowIsCompletion=" + flowIsCompletion + ", flowPitch=" + flowPitch + ", flowRoll=" + flowRoll + ", flowEcho=" + flowEcho + ", flowTestTime=" + flowTestTime + ", pipeline=" + pipeline + ", stationEnviromentInstrument=" + stationEnviromentInstrument + ", stationIsClean=" + stationIsClean + ", remark='" + remark + '\'' + ", maintainer='" + maintainer + '\'' + ", yearMonthTime='" + yearMonthTime + '\'' + '}';
-  }
 }

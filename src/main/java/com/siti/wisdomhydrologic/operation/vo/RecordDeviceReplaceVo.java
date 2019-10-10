@@ -241,4 +241,9 @@ public class RecordDeviceReplaceVo {
     public void setOriginDeviceName(String originDeviceName) {
         this.originDeviceName = originDeviceName;
     }
+
+    @Override
+    public String toString() {
+        return "RecordDeviceReplaceVo{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", replaceDate='" + replaceDate + '\'' + ", originDeviceTypeCode='" + originDeviceTypeCode + '\'' + ", originDeviceCode='" + originDeviceCode + '\'' + ", originOrgId=" + originOrgId + ", originOrgName='" + originOrgName + '\'' + ", newDeviceTypeCode='" + newDeviceTypeCode + '\'' + ", newDeviceCode='" + newDeviceCode + '\'' + ", newOrgId=" + newOrgId + ", newOrgName='" + newOrgName + '\'' + ", replaceReason='" + replaceReason + '\'' + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + ", updateBy=" + updateBy + ", newDeviceName='" + newDeviceName + '\'' + ", originDeviceName='" + originDeviceName + '\'' + ", originDatabaseId='" + originDatabaseId + '\'' + ", originDatabaseStatus='" + originDatabaseStatus + '\'' + ", newDatabaseId='" + newDatabaseId + '\'' + '}';
+    }
 }

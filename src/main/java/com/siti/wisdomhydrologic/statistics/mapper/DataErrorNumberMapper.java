@@ -21,6 +21,7 @@ public interface DataErrorNumberMapper {
             " RIGHT JOIN config_abnormal_dictionary c ON c.broken_according_id = a.broken_according_id " +
             " WHERE " +
             "1 = 1 " +
+            " and b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             " <if test=\"stationId!=null\">AND a.station_code = #{stationId} </if> " +
             " <if test=\"year!=null\"> AND SUBSTR( a.create_time, 1, 4 ) = #{year} </if> " +
             " <if test=\"list!=null\">AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)</if> " +
@@ -33,6 +34,7 @@ public interface DataErrorNumberMapper {
     List<DataError> getList(@Param("stationId") Integer stationId,
                             @Param("year")Integer year,
                             @Param("list") List<String> list,
-                            @Param("dataTime")String dataTime);
+                            @Param("dataTime")String dataTime,
+                            @Param("orgId")Integer orgId);
 
 }

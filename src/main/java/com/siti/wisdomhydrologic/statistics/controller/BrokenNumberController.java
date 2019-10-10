@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.siti.wisdomhydrologic.user.entity.Org;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by dell on 2019/9/23.
@@ -24,14 +29,21 @@ public class BrokenNumberController {
 
     @Resource
     private BrokenNumberMapper brokenNumberMapper;
+    @Resource
+    private RedisBiz redisBiz;
+    @Resource
+    private UserMapper userMapper;
 
-    @GetMapping("getAll")
-    public Map<String, Object>  getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month){
+    @GetMapping("stationBroken")
+    public Map<String, Object>  getList(HttpSession session,Integer stationId, Integer dateType, Integer year, Integer quarter, String month){
+
+        User user = (User) redisBiz.get(session.getId());
+        List<Org> orgList = userMapper.findOrg(user.getId());
 
         Map<String, Object> map = new HashMap<>();
         try {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
-            List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list);
+            List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list,orgList.get(0).getId());
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
