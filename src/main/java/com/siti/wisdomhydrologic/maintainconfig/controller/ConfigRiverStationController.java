@@ -5,7 +5,9 @@ import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +32,13 @@ public class ConfigRiverStationController {
     private RedisBiz redisBiz;
     @Resource
     private SysLogMapper sysLogMapper;
+    @Resource
+    UserMapper userMapper;
     @RequestMapping("/getAll")
     public List<ConfigRiverStation> getAll(HttpSession session) {
         User user = (User) redisBiz.get(session.getId());
-        Integer uid = user.getId();
-        return configRiverStationMapper.getAll(uid);
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        return configRiverStationMapper.getAll(orgList.get(0).getId());
     }
 
 
@@ -43,9 +47,9 @@ public class ConfigRiverStationController {
         try {
             List<JSONObject> jsonList = new ArrayList<JSONObject>();
             User user = (User) redisBiz.get(session.getId());
-            Integer uid = user.getId();
+            List<Org> orgList = userMapper.findOrg(user.getId());
             // 从ConfigRiverStation取出stationID与stationName，构建json数组传送给前端
-            for (ConfigRiverStation rs:configRiverStationMapper.getAll(uid)) {
+            for (ConfigRiverStation rs:configRiverStationMapper.getAll(orgList.get(0).getId())) {
                 JSONObject json = new JSONObject();
                 json.put("stationID", rs.getStationId());
                 json.put("stationName", rs.getStationName());

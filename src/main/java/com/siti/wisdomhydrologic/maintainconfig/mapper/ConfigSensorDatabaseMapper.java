@@ -124,15 +124,17 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
 
 
     @Select("<script>select sensor_type_name from config_sensor_database " +
-            "<if test=\"stationName!=null\">where manage_org_name =#{stationName} </if> " +
-            "and sensor_use_status = 1 " +
+            "<if test=\"stationId!=null and stationId != ''\">where manage_org_id =#{stationId} </if> " +
+            "and sensor_use_status = \'1\' " +
             "GROUP BY sensor_type_name</script> ")
-    List<String> getSensorTypeNameList(@Param("stationName") String stationName);
+    List<String> getSensorTypeNameList(@Param("stationId") String stationId);
 
 
     @Select("<script>select manage_org_name from config_sensor_database a " +
-            " left join config_river_station b on a.manage_org_id = b.station_id " +
-            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " left join config_river_station b " +
+            "on a.manage_org_id = b.station_id " +
+            " where  b.sys_org in " +
+            "( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             " and a.manage_org_name is not null " +
             " GROUP BY a.manage_org_name </script>")
     List<String> getStationName(@Param("orgId") Integer orgId);

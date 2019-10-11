@@ -5,17 +5,23 @@ import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.Permission;
 import com.siti.wisdomhydrologic.user.entity.Role;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.LoginLogMapper;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.mapper.UserOrgRelaMapper;
+import com.siti.wisdomhydrologic.user.mapper.UserRoleMapper;
 import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserService;
 import com.siti.wisdomhydrologic.util.BASE64Util;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
 import com.siti.wisdomhydrologic.util.Md5Utils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import javafx.beans.binding.ObjectExpression;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -44,6 +50,15 @@ public class Usertrol {
     private RedisBiz redisBiz;
     @Resource
     private UserMapper userMapper;
+    @Autowired
+    LoginLogMapper loginLogMapper;
+    @Resource
+    UserService userService;
+
+    @Autowired
+    UserRoleMapper userRoleMapper;
+    @Autowired
+    UserOrgRelaMapper userOrgRelaMapper;
     /**
      * 获取当前登录用户
      *
@@ -99,6 +114,9 @@ public class Usertrol {
                     Map<String,Object> map = new HashMap();
                     map.put("user",user);
                     map.put("status",1);
+                    String ip_address = getIpAddress(request);
+                    String userAgent = request.getHeader("User-Agent"); // 浏览器信息
+                    loginLogMapper.saveLoginLog(user.getId(),user.getUserName(),ip_address,userAgent,(DateOrTimeTrans.nowTimetoString()));
                     return map;
                 }
             }
@@ -113,6 +131,109 @@ public class Usertrol {
         map.put("status",0);
         return map;
     }
+
+    /***
+     * 新增用户
+     */
+    @ApiOperation(value = "新增用户",notes = "")
+    @RequestMapping(value="user/saveUser",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds,HttpSession session){
+        Map<String,Object> map=new HashMap<String,Object>();
+        try {
+            //获取当前用户
+            User loginUser = (User)redisBiz.get(session.getId());
+            user.setPassword(user.getPassword());
+            //设置添加用户
+            user.setUpdateBy(loginUser.getUserName());
+            //FLAG为0即添加 1为修改
+            userService.saveOrupdateUser(user,organizationIds,roleIds,0);
+            map.put("status",0);
+            map.put("message","添加成功");
+        }catch (Exception e){
+            map.put("status",-1);
+            map.put("message",e.getLocalizedMessage());
+        }
+        return map;
+    }
+
+    /**
+     * 更新用户信息,但不更新用户密码
+     * */
+    @ApiOperation(value = "更新用户信息,但不更新用户密码")
+    @RequestMapping(value = "user/updateUser",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds,HttpSession session){
+        Map<String,Object> map=new HashMap<String,Object>();
+        try {
+            //获取当前用户
+            User loginUser = (User)redisBiz.get(session.getId());
+            user.setPassword(user.getPassword());
+            //设置添加用户
+            user.setUpdateBy(loginUser.getUserName());
+            userService.saveOrupdateUser(user,organizationIds,roleIds,1);
+            map.put("status",0);
+            map.put("message","修改成功");
+        }catch (Exception e){
+            map.put("status",-1);
+            map.put("message",e.getLocalizedMessage());
+        }
+        return map;
+    }
+    /**
+     * 修改密码
+     * */
+    @ApiOperation(value = "修改密码",notes = "xx")
+    @RequestMapping(value="user/modifyPwd",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> modifyPwd(Integer id, String password, HttpSession session){
+        Map<String,Object> map=new HashMap<String,Object>();
+        try {
+            User loginUser = (User)redisBiz.get(session.getId());
+            String updateBy = loginUser.getUserName();
+
+            User user = new User();
+            user.setId(id);
+            //加密
+            password = Md5Utils.encryptString(password);
+            user.setPassword(password);
+            user.setUpdateBy(updateBy);
+            userMapper.updatePwd(user);
+            map.put("status",0);
+            map.put("message","添加成功");
+        }catch (Exception e){
+            map.put("status",-1);
+            map.put("message",e.getLocalizedMessage());
+        }
+        return map;
+    }
+    /**
+     * 删除用户
+     * */
+    @ApiOperation(value = "删除用户",notes = "")
+    @RequestMapping(value="user/deleteUser",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> deleteUser(Integer userid){
+        Map<String,Object> map = new HashMap<String,Object>();
+        try {
+            // 删除角色关系
+            userRoleMapper.deleteUserRoleByUserId(userid);
+            // 删除组织关系
+            userOrgRelaMapper.deleteUserOrgByUserId(userid);
+            // 删除用户信息
+            userMapper.deleteUserInfo(userid);
+            map.put("status",0);
+            map.put("message","删除成功");
+        }catch (Exception e){
+            map.put("status",-1);
+            map.put("message",e.getLocalizedMessage());
+        }
+        return map;
+    }
+
+
+
+
 
     public static void backToFront(int root, Permission finalP, List<Permission> all) {
         int next = root + 1;
@@ -135,17 +256,26 @@ public class Usertrol {
             backToFront(next, e, all);
         });
     }
+    public static String getIpAddress(HttpServletRequest request){
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
 
 
-  /*  *
-     * 获取当前登录用户
-     *
-     * @return
 
-    @PostMapping
-    public static User getLoginUserInfo(HttpServletRequest request, HttpServletResponse response) {
-
-        request.getSession(true).getId();
-        return (LoginUserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }*/
 }

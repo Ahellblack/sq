@@ -30,4 +30,9 @@ public class UserOrg {
     public void setOrgId(int orgId) {
         this.orgId = orgId;
     }
+
+    public UserOrg(int uid, int orgId) {
+        this.uid = uid;
+        this.orgId = orgId;
+    }
 }

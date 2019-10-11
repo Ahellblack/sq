@@ -26,8 +26,18 @@ public class DeviceController {
     @RequestMapping("/devReplace")
     public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
+        if(dateType ==null || "".equals(dateType) || year==null || "".equals(year)){
+            map.put("status", -2);
+            map.put("message", "参数错误");
+            return map;
+        }
         try {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
+            if(list.size() ==0 ){
+                map.put("status", -2);
+                map.put("message", "参数错误");
+                return map;
+            }
             List<DeviceChange> dataList = deviceMapper.getList(stationId, year, list);
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {

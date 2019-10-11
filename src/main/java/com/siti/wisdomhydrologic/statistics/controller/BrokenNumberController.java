@@ -39,17 +39,27 @@ public class BrokenNumberController {
 
         User user = (User) redisBiz.get(session.getId());
         List<Org> orgList = userMapper.findOrg(user.getId());
-
         Map<String, Object> map = new HashMap<>();
+
+        if(dateType ==null || "".equals(dateType) || year==null || "".equals(year)){
+            map.put("status", -2);
+            map.put("message", "参数错误");
+            return map;
+        }
         try {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
+            if(list.size() ==0 ){
+                map.put("status", -2);
+                map.put("message", "参数错误");
+                return map;
+            }
             List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list,orgList.get(0).getId());
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
             }
             if (dataList.size() > 0) {
-                map.put("status", 0);
+                map.put("status", 1);
                 map.put("message", "查询成功");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);
@@ -59,7 +69,7 @@ public class BrokenNumberController {
                 map.put("count", sum);
                 map.put("stationBrokenInfo", dataList);
             } else {
-                map.put("status", -1);
+                map.put("status", 0);
                 map.put("message", "暂无数据");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);
@@ -70,7 +80,7 @@ public class BrokenNumberController {
                 map.put("stationBrokenInfo", null);
             }
         }catch (Exception e){
-            map.put("status", 1);
+            map.put("status", -1);
             map.put("message", "查询错误");
         }
         return map;

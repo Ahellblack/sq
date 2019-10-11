@@ -132,8 +132,13 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("select station_name from config_river_station where station_id = #{stationID}")
     String getStationNameByStationID(@Param("stationID") Integer stationID);
 
+    @Select("select station_name from config_river_station where station_id = #{stationID}")
+    List<ConfigRiverStation> getStationByStationID(@Param("stationID") Integer stationID);
+
     // 根据测站名称模糊进行查询
     @Select("<script>select * from config_river_station " +
             "<if test=\'stationName != null\'>where station_name like CONCAT(CONCAT('%', #{stationName}), '%')</if></script>")
     List<ConfigRiverStation> getAllByStationName(@Param("stationName") String stationName);
+
+
 }

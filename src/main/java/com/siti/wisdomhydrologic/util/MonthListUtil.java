@@ -25,7 +25,7 @@ public class MonthListUtil {
             list.add("10");
             list.add("11");
             list.add("12");
-        } else if (dateType == 2) {
+        } else if (dateType == 2 && quarter != null) {
             if (quarter == 1) {
                 list.add("01");
                 list.add("02");
@@ -43,7 +43,7 @@ public class MonthListUtil {
                 list.add("11");
                 list.add("12");
             }
-        } else if (dateType == 3) {
+        } else if (dateType == 3 && month != null) {
             list.add(month);
         }
         return list;

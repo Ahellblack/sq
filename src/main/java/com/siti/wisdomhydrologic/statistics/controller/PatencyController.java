@@ -33,8 +33,8 @@ public class PatencyController {
     private ConfigRiverStationMapper configRiverStationMapper;
 
     @RequestMapping("/getAll")
-    public List<Patency> getPatency(String startTime, String endTime,String stationName) {
-        List<ConfigRiverStation> stationList = configRiverStationMapper.getAllByStationName(stationName);
+    public List<Patency> getPatency(String startTime, String endTime,Integer stationId) {
+        List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
         Map<Integer,String> stationMap = new HashMap<>();
         List<String> stationIdList  = new ArrayList();
         stationList.forEach(data->{

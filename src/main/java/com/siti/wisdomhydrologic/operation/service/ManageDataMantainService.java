@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public interface
 ManageDataMantainService {
 
-    PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationName, String alterType, String createDate, HttpSession session);
+    PageInfo<ReportManageDataMantain> getByCreateDate(int page, int pageSize, String stationId, String alterType, String createDate, HttpSession session);
     int delete(Integer reportId);
     int update(ReportManageDataMantain reportManageDataMantain);
 

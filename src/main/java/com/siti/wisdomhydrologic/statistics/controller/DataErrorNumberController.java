@@ -48,14 +48,23 @@ public class DataErrorNumberController {
             if(list.size() >0) {
                 dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime,orgList.get(0).getId());
             }else{
-                dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime,orgList.get(0).getId());
+                // list为空,且dateTime不为空时
+                if(dateType == 4 && dataTime != null) {
+                    dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime, orgList.get(0).getId());
+                }else{
+                    // monthlist无值且dateTime为空时
+                    map.put("status", -2);
+                    map.put("message", "参数错误");
+                    return map;
+                }
+
             }
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
             }
             if (dataList.size() > 0) {
-                map.put("status", 0);
+                map.put("status", 1);
                 map.put("message", "查询成功");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);
@@ -65,7 +74,7 @@ public class DataErrorNumberController {
                 map.put("count", sum);
                 map.put("dataErrorInfo", dataList);
             } else {
-                map.put("status", -1);
+                map.put("status", 0);
                 map.put("message", "暂无数据");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);
@@ -76,7 +85,7 @@ public class DataErrorNumberController {
                 map.put("dataErrorInfo", null);
             }
         } catch (Exception e) {
-            map.put("status", 1);
+            map.put("status", -1);
             map.put("message", "查询失败");
         }
         return map;

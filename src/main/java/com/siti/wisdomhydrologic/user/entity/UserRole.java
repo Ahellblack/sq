@@ -12,16 +12,16 @@ import javax.persistence.Table;
 public class UserRole {
 
     @Id
-    private int uid;
+    private Integer uid;
 
     @Id
-    private int rid;
+    private Integer rid;
 
     public int getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
@@ -29,7 +29,12 @@ public class UserRole {
         return rid;
     }
 
-    public void setRid(int rid) {
+    public void setRid(Integer rid) {
+        this.rid = rid;
+    }
+
+    public UserRole(Integer uid, Integer rid) {
+        this.uid = uid;
         this.rid = rid;
     }
 }
