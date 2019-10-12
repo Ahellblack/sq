@@ -1,12 +1,12 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalError;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorDatabase;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorDatabaseMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorDatabase;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;

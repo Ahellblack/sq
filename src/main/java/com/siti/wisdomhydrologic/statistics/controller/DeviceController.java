@@ -44,7 +44,7 @@ public class DeviceController {
                 sum += dataList.get(i).getNumber();
             }
             if (dataList.size() > 0) {
-                map.put("status", 0);
+                map.put("status", 1);
                 map.put("message", "查询成功");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);
@@ -54,7 +54,7 @@ public class DeviceController {
                 map.put("count", sum);
                 map.put("devReplaceInfo", dataList);
             } else {
-                map.put("status", 1);
+                map.put("status", 0);
                 map.put("message", "暂无数据");
                 map.put("stationId", stationId);
                 map.put("dateType", dateType);

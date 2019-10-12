@@ -1,6 +1,6 @@
 package com.siti.wisdomhydrologic.operation.task;
 
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;

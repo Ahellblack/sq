@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.user.mapper;
 
+import com.siti.wisdomhydrologic.user.entity.Org;
+import com.siti.wisdomhydrologic.user.entity.Role;
 import com.siti.wisdomhydrologic.user.entity.UserOrg;
 import org.apache.ibatis.annotations.*;
 
@@ -51,4 +53,11 @@ public interface UserOrgRelaMapper {
                  "</foreach>",
             "</script>"})
     void saveOrupdateBatchUserOrg(@Param("userOrg") List<UserOrg> userOrg);
+
+
+    /***
+     * 获取角色
+     * */
+    @Select("select * from sys_org")
+    List<Org> getRoleList();
 }

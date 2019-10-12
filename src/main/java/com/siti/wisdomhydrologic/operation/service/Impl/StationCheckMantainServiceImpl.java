@@ -1,17 +1,14 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain;
 import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.StationCheckMantainService;
-import com.siti.wisdomhydrologic.quartz.job.DynamicJob;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by dell on 2019/7/31.

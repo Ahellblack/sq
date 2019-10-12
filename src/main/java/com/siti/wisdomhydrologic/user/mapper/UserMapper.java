@@ -68,6 +68,6 @@ public interface UserMapper extends Mapper<User> {
     @Delete("delete from sys_user where id=#{id}")
     void deleteUserInfo(@Param("id")Integer id);
 
-
-
+    @Select("<script>select * from sys_user where user_name like '%${username}%' </script>")
+    List<User> getAll(@Param("username")String username);
 }

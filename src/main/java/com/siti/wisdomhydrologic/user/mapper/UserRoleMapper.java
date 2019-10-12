@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.user.mapper;
 
+import com.siti.wisdomhydrologic.user.entity.Role;
 import com.siti.wisdomhydrologic.user.entity.UserRole;
 import org.apache.ibatis.annotations.*;
 
@@ -60,4 +61,11 @@ public interface UserRoleMapper {
      * */
     @Select("select * from sys_user_role where rid=#{role_id}")
     List<UserRole> getRoleUser(@Param("role_id") Long role_id);
+
+
+    /***
+     * 获取角色
+     * */
+    @Select("select * from sys_role")
+    List<Role> getRoleList();
 }

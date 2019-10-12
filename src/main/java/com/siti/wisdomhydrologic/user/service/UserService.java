@@ -30,12 +30,12 @@ public class UserService {
     @Autowired
     UserOrgRelaMapper userOrgRelaMapper;
 
+    private final String password =  Md5Utils.encryptString("123456");
+
+
 
     public void saveOrupdateUser(User user, Integer[] orgIds, Integer [] roleIds, int flag){
         if (flag == 0) {
-            String password = user.getPassword();
-            //String logPwd = BASE64Util.decode(password);
-            password = Md5Utils.encryptString(password);
             user.setPassword(password);
             userMapper.saveUser(user);
         }else{

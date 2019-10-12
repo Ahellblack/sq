@@ -1,10 +1,10 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalError;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalErrorMapper;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalErrorMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;

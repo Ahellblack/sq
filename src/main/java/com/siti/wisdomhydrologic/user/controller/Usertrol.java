@@ -135,6 +135,27 @@ public class Usertrol {
     /***
      * 新增用户
      */
+    @ApiOperation(value = "查询用户",notes = "")
+    @RequestMapping(value="user/selectUser",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getUser(HttpSession session,String username){
+        Map<String,Object> map=new HashMap<String,Object>();
+        try {
+            List<User> list = userMapper.getAll(username);
+            map.put("list",list);
+            map.put("status",0);
+            map.put("message","添加成功");
+        }catch (Exception e){
+            map.put("status",-1);
+            map.put("message",e.getLocalizedMessage());
+        }
+        return map;
+    }
+
+
+    /***
+     * 新增用户
+     */
     @ApiOperation(value = "新增用户",notes = "")
     @RequestMapping(value="user/saveUser",method = RequestMethod.POST)
     @ResponseBody
@@ -143,6 +164,20 @@ public class Usertrol {
         try {
             //获取当前用户
             User loginUser = (User)redisBiz.get(session.getId());
+
+            //判断添加权限
+            List<Role> roles = userMapper.findRole(loginUser.getId());
+            List<Integer> list = new ArrayList<>();
+            roles.forEach(role->{
+                if(role.getId() == 1){
+                    list.add(role.getId());
+                }
+            });
+            if(list.size() == 0){
+                map.put("status",-1);
+                map.put("message","无添加权限");
+                return map;
+            }
             user.setPassword(user.getPassword());
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
@@ -168,6 +203,19 @@ public class Usertrol {
         try {
             //获取当前用户
             User loginUser = (User)redisBiz.get(session.getId());
+            //判断添加权限
+            List<Role> roles = userMapper.findRole(loginUser.getId());
+            List<Integer> list = new ArrayList<>();
+            roles.forEach(role->{
+                if(role.getId() == 1){
+                    list.add(role.getId());
+                }
+            });
+            if(list.size() == 0){
+                map.put("status",-1);
+                map.put("message","无修改权限");
+                return map;
+            }
             user.setPassword(user.getPassword());
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
@@ -213,8 +261,22 @@ public class Usertrol {
     @ApiOperation(value = "删除用户",notes = "")
     @RequestMapping(value="user/deleteUser",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> deleteUser(Integer userid){
+    public Map<String,Object> deleteUser(Integer userid,HttpSession session){
         Map<String,Object> map = new HashMap<String,Object>();
+        //判断添加权限
+        User loginUser = (User)redisBiz.get(session.getId());
+        List<Role> roles = userMapper.findRole(loginUser.getId());
+        List<Integer> list = new ArrayList<>();
+        roles.forEach(role->{
+            if(role.getId() == 1){
+                list.add(role.getId());
+            }
+        });
+        if(list.size() == 0){
+            map.put("status",-1);
+            map.put("message","无删除权限");
+            return map;
+        }
         try {
             // 删除角色关系
             userRoleMapper.deleteUserRoleByUserId(userid);

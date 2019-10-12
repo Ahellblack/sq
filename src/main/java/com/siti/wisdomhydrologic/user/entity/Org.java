@@ -17,7 +17,7 @@ public class Org {
 
     private String name;
 
-    private String pid;
+    private Integer pid;
 
     private String path;
 
@@ -53,12 +53,12 @@ public class Org {
         this.name = name;
     }
 
-    public String getPid() {
-        return pid;
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
+    public Integer getPid() {
+        return pid;
     }
 
     public String getPath() {

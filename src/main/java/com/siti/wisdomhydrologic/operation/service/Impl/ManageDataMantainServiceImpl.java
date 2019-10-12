@@ -2,10 +2,10 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigSensorSectionModule;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigSensorSectionModuleMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;

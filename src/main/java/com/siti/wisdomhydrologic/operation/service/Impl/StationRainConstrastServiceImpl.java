@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.DayData;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationRainConstrast;
 import com.siti.wisdomhydrologic.operation.mapper.StationRainConstrastMapper;

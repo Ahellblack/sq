@@ -1,8 +1,8 @@
 package com.siti.wisdomhydrologic.operation.utils;/*
 package com.siti.wisdomhydrologic.operation.utils;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigAbnormalDictionary;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigAbnormalDictionaryMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalDictionary;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;

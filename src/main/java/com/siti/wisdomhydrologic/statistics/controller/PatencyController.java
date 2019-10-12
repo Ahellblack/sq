@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.statistics.controller;
 
-import com.siti.wisdomhydrologic.maintainconfig.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.maintainconfig.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.statistics.entity.Patency;
 import com.siti.wisdomhydrologic.statistics.mapper.PatencyMapper;
 
@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.siti.wisdomhydrologic.util.DateDistance;
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
