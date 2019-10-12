@@ -183,7 +183,7 @@ public class Usertrol {
             user.setUpdateBy(loginUser.getUserName());
             //FLAG为0即添加 1为修改
             userService.saveOrupdateUser(user,organizationIds,roleIds,0);
-            map.put("status",0);
+            map.put("status",1);
             map.put("message","添加成功");
         }catch (Exception e){
             map.put("status",-1);
@@ -220,7 +220,7 @@ public class Usertrol {
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
             userService.saveOrupdateUser(user,organizationIds,roleIds,1);
-            map.put("status",0);
+            map.put("status",1);
             map.put("message","修改成功");
         }catch (Exception e){
             map.put("status",-1);
@@ -284,7 +284,7 @@ public class Usertrol {
             userOrgRelaMapper.deleteUserOrgByUserId(userid);
             // 删除用户信息
             userMapper.deleteUserInfo(userid);
-            map.put("status",0);
+            map.put("status",1);
             map.put("message","删除成功");
         }catch (Exception e){
             map.put("status",-1);

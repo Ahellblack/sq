@@ -58,4 +58,13 @@ public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSect
     // 根据 sectionCode 删除
     @Delete("DELETE FROM `config_sensor_section_module` WHERE `section_code`=#{sectionCode}")
     int deleteBySectionCode(@Param("sectionCode") Integer sectionCode);
+
+    // 根据测站ID查询下属所有元素
+    @Select("Select * from config_sensor_section_module where section_code =#{sectionCode}")
+    ConfigSensorSectionModule findModuleBySectionCode(@Param("sectionCode") Integer sectionCode);
+
+    // 根据测站名称模糊查询下属所有元素
+    @Select("Select * from config_sensor_section_module where section_name = #{station_name}")
+    ConfigSensorSectionModule findOneModuleBySectionName(@Param("station_name") String station_name);
+
 }

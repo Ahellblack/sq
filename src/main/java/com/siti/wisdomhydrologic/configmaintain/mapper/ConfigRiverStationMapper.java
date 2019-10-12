@@ -31,6 +31,12 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("select * from config_river_station where station_id = #{stationId}")
     ConfigRiverStation getAllByCode(@Param("stationId") Integer stationId);
 
+    @Select("select * from config_river_station where station_code = #{StationCode}")
+    ConfigRiverStation getAllByCodeId(@Param("StationCode") Integer StationCode);
+
+    @Select("select * from config_river_station where station_telemetry_code = #{teleCode}")
+    ConfigRiverStation getAllByteleCode(@Param("teleCode") Integer teleCode);
+
     // 修改为模糊查询
     @Select("select * from config_river_station where station_name like CONCAT(CONCAT('%', #{stationName}), '%')")
     ConfigRiverStation getByName(@Param("stationName") String name);

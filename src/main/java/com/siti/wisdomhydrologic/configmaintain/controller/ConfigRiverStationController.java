@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.configmaintain.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.siti.wisdomhydrologic.configfund.entity.ConfigRiver;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
@@ -38,15 +39,13 @@ public class ConfigRiverStationController {
         return configRiverStationMapper.getAll(uid);
     }
 
-    @RequestMapping("/getAllIDAndName")
+    @RequestMapping("/getAllByUser")
     public JSONObject getAllByUser(HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
-
             User user = (User) redisBiz.get(session.getId());
-            Integer uid = user.getId();
-
-            List<ConfigRiverStation> list = configRiverStationMapper.getAllByUser(uid);
+            user.getOrgList().get(0);
+            List<ConfigRiverStation> list = configRiverStationMapper.getAll(user.getOrgList().get(0).getId());
             if (null != list) {
                 jsonObject.put("riverStationList", list);
                 jsonObject.put("status", 1);
@@ -65,7 +64,6 @@ public class ConfigRiverStationController {
         return jsonObject;
     }
 
-/*
     @RequestMapping("/getAllIDAndName")
     public List<JSONObject> getAllIDAndName(HttpSession session) {
         try {
@@ -85,7 +83,6 @@ public class ConfigRiverStationController {
         }
         return null;
     }
-*/
 
     @RequestMapping("/getPart")
     public List<ConfigRiverStation> getPart() {
@@ -143,7 +140,17 @@ public class ConfigRiverStationController {
                 jsonObject.put("message", "StationCode缺失！");
                 return jsonObject;
             }else{
+                ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(configRiverStation.getStationId());
+                ConfigRiverStation allByCodeId = configRiverStationMapper.getAllByCodeId(configRiverStation.getStationId());
+                ConfigRiverStation allByteleCode = configRiverStationMapper.getAllByteleCode(configRiverStation.getStationId());
+                ConfigRiverStation byAllName = configRiverStationMapper.getByAllName(configRiverStation.getStationName());
+                if(allByCode != null || byAllName!= null || allByCodeId!=null || allByteleCode !=null){
+                    jsonObject.put("status", 0);
+                    jsonObject.put("message", "StationCode,StationName等数据重复！");
+                    return jsonObject;
+                }
                 configRiverStation.setCreateTime(new Timestamp(System.currentTimeMillis()).toString());
+                configRiverStation.setOrgId(1002);
                 if (0 != configRiverStationMapper.insert(configRiverStation)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "添加成功！");
@@ -162,10 +169,9 @@ public class ConfigRiverStationController {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            jsonObject.put("status", -1);
+            jsonObject.put("message", "异常错误！");
         }
-        jsonObject.put("status", -1);
-        jsonObject.put("message", "异常错误！");
         return jsonObject;
     }
 
@@ -190,6 +196,8 @@ public class ConfigRiverStationController {
                             .setAction("修改")
                             .setPreviousVal("")
                             .build());
+                    jsonObject.put("status", 1);
+                    jsonObject.put("message", "添加成功！");
                 }else{
                     jsonObject.put("status", 2);
                     jsonObject.put("message", "其它原因，修改失败！");
@@ -197,10 +205,9 @@ public class ConfigRiverStationController {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            jsonObject.put("status", -1);
+            jsonObject.put("message", "异常错误！");
         }
-        jsonObject.put("status", -1);
-        jsonObject.put("message", "异常错误！");
         return jsonObject;
     }
 
@@ -239,4 +246,7 @@ public class ConfigRiverStationController {
         jsonObject.put("message", "异常错误！");
         return jsonObject;
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.configmaintain.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
@@ -29,7 +30,7 @@ public class ConfigSensorSectionModuleController {
     @Resource
     private SysLogMapper sysLogMapper;
 
-    @ApiOperation(value = "传感器", httpMethod = "GET", notes = "传感器根")
+    @ApiOperation(value = "传感器", httpMethod = "GET", notes = "传感器")
     @GetMapping("/getAll")
     private List<ConfigSensorSectionModule> getList() {
         try {
@@ -58,7 +59,8 @@ public class ConfigSensorSectionModuleController {
 
     // 插入
     @PostMapping("/insert")
-    public int insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule, HttpSession session) {
+    public JSONObject insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
         try {
             System.out.println(configSensorSectionModule.toString());
             User user = (User) redisBiz.get(session.getId());
@@ -72,16 +74,36 @@ public class ConfigSensorSectionModuleController {
             /***
              * sensorTypeId
              * */
-            return configSensorSectionModuleMapper.insert(configSensorSectionModule);
+            ConfigSensorSectionModule moduleBySectionCode = configSensorSectionModuleMapper.findModuleBySectionCode(configSensorSectionModule.getSectionCode());
+            ConfigSensorSectionModule moduleByStationName = configSensorSectionModuleMapper.findOneModuleBySectionName(configSensorSectionModule.getStationName());
+            if(moduleBySectionCode!=null || moduleByStationName!=null){
+                jsonObject.put("status", 2);
+                jsonObject.put("message", "重复sectionCode！");
+                return jsonObject;
+            }else {
+                int status = configSensorSectionModuleMapper.insert(configSensorSectionModule);
+                if(status==0) {
+                    jsonObject.put("status", status);
+                    jsonObject.put("message", "其它原因，添加失败！");
+                    return jsonObject;
+                }else{
+                    jsonObject.put("status", 1);
+                    jsonObject.put("message", "添加成功！");
+                    return jsonObject;
+                }
+            }
+
         } catch (Exception e) {
-            e.printStackTrace();
+            jsonObject.put("status", -1);
+            jsonObject.put("message", "异常错误！");
         }
-        return 0;
+        return jsonObject;
     }
 
     // 修改数据，部分字段不修改
     @PostMapping("/update")
-    public int update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
+    public JSONObject update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
         try {
             User user = (User) redisBiz.get(session.getId());
             sysLogMapper.insertUserOprLog( new SysLog.builder()
@@ -91,11 +113,21 @@ public class ConfigSensorSectionModuleController {
                     .setAction("修改")
                     .setPreviousVal("")
                     .build());
-            return configSensorSectionModuleMapper.update(configSensorSectionModule);
-        } catch (Exception e) {
-            e.printStackTrace();
+            int status = configSensorSectionModuleMapper.update(configSensorSectionModule);
+            if(status==0) {
+                jsonObject.put("status", status);
+                jsonObject.put("message", "修改失败，检查传感器名称或名称编号！");
+                return jsonObject;
+            }else{
+                jsonObject.put("status", 1);
+                jsonObject.put("message", "修改成功！");
+                return jsonObject;
+            }
+        }catch (Exception e) {
+            jsonObject.put("status", -1);
+            jsonObject.put("message", "异常错误！");
         }
-        return 0;
+        return jsonObject;
     }
 
     // 后续不建议开放删除接口，仅供内部使用
