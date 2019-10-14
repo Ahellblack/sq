@@ -36,16 +36,16 @@ public class ConfigRiverStationController {
     public List<ConfigRiverStation> getAll(HttpSession session) {
         User user = (User) redisBiz.get(session.getId());
         Integer uid = user.getId();
-        return configRiverStationMapper.getAll(uid);
+        return configRiverStationMapper.getAll(user.getOrgList().get(0).getId());
     }
 
     @RequestMapping("/getAllByUser")
-    public JSONObject getAllByUser(HttpSession session) {
+    public JSONObject getAllByUser(HttpSession session,Integer regionId) {
         JSONObject jsonObject = new JSONObject();
         try {
             User user = (User) redisBiz.get(session.getId());
             user.getOrgList().get(0);
-            List<ConfigRiverStation> list = configRiverStationMapper.getAll(user.getOrgList().get(0).getId());
+            List<ConfigRiverStation> list = configRiverStationMapper.getAllByUser(user.getOrgList().get(0).getId(),regionId);
             if (null != list) {
                 jsonObject.put("riverStationList", list);
                 jsonObject.put("status", 1);
@@ -151,6 +151,12 @@ public class ConfigRiverStationController {
                 }
                 configRiverStation.setCreateTime(new Timestamp(System.currentTimeMillis()).toString());
                 configRiverStation.setOrgId(1002);
+                /*if(configRiverStation.getRegionId() == 43){
+                    configRiverStation.setRegionName("南片");
+                }
+                if(configRiverStation.getRegionId() == 42){
+                    configRiverStation.setRegionName("北片");
+                }*/
                 if (0 != configRiverStationMapper.insert(configRiverStation)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "添加成功！");
@@ -187,6 +193,12 @@ public class ConfigRiverStationController {
             }else{
                 configRiverStation.setOrgId(1002);
                 configRiverStation.setUpdateTime(new Timestamp(System.currentTimeMillis()).toString());
+                /*if(configRiverStation.getRegionId() == 43){
+                    configRiverStation.setRegionName("南片");
+                }
+                if(configRiverStation.getRegionId() == 42){
+                    configRiverStation.setRegionName("北片");
+                }*/
                 if (0 != configRiverStationMapper.update(configRiverStation)) {
                     User user = (User) redisBiz.get(session.getId());
                     sysLogMapper.insertUserOprLog( new SysLog.builder()

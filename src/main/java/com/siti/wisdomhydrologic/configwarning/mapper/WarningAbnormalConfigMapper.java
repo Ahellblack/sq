@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public interface WarningAbnormalConfigMapper {
 
-    @Select("select * from abnormal_rainfall")
-    List<AbnormalRainfall> getRainAll();
+    @Select("<script>select * from abnormal_rainfall " +
+            "<if test = \'sensorCode !=null \'>where sensor_code = #{sensorCode} </if>" +
+            "</script>")
+    List<AbnormalRainfall> getRainAll(@Param("sensorCode")String sensorCode);
 
     @Insert("INSERT INTO `abnormal_rainfall`" +
             "(`id`, `sensor_code`, `sensor_name`, `interrupt_limit`, `max_day_level`, `min_day_level`, `max_hour_level`, `min_hour_level`, `max_five_level`, `min_five_level`, `nearby_sensor_code`, `nearby_rate`, `exception_value`) " +
@@ -30,4 +32,6 @@ public interface WarningAbnormalConfigMapper {
     @Delete("delete from abnormal_rainfall where id =#{id} ")
     int deleteAbnormalRainfall(@Param("id") Integer id);
 
+    @Select("select * from abnormal_rainfall where sensor_code = #{sensorCode}")
+    AbnormalRainfall getOneAbnormal(@Param("sensorCode") String sensorCode);
 }

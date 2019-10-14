@@ -32,9 +32,10 @@ public class ConfigSensorSectionModuleController {
 
     @ApiOperation(value = "传感器", httpMethod = "GET", notes = "传感器")
     @GetMapping("/getAll")
-    private List<ConfigSensorSectionModule> getList() {
+    private List<ConfigSensorSectionModule> getList(HttpSession session,Integer stationCode) {
         try {
-            return configSensorSectionModuleMapper.getStation();
+            User user = (User) redisBiz.get(session.getId());
+            return configSensorSectionModuleMapper.getStationByCode(user.getOrgList().get(0).getId(),stationCode);
         } catch (Exception e) {
             e.printStackTrace();
         }

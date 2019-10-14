@@ -131,7 +131,10 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         if (all.size() > 0) {
             //获取异常配置参数
             all.forEach(abData -> {
-                String errorType = abData.getDataError().split("_")[0];
+                String errorType = "";
+                if (abData.getDataError()!=null) {
+                    errorType = abData.getDataError().split("_")[0];
+                }
                 if ("data".equals(errorType)) {
                     abData.setBrokenAccordingId(abData.getDataError());
 

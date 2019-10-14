@@ -1,7 +1,9 @@
 package com.siti.wisdomhydrologic.configwarning.mapper;
 
 import com.siti.wisdomhydrologic.configwarning.entity.*;
-import com.sun.tools.javac.util.List;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -40,6 +42,20 @@ public interface WarningAbnormalUnRainMapper {
     @Select("select * from ${databaseName}")
     List<UnrainAbnormal> getAllAbnormalByType(@Param("databaseName") String databaseName);
 
-    @Update("update ${databaseName} set ")
+    @Select("select * from ${databaseName} where sensor_code = #{sensorCode}")
+    UnrainAbnormal getOneAbnormalByType(@Param("databaseName") String databaseName,@Param("sensorCode")String sensorCode);
+
+    @Update("update ${databaseName} " +
+            "set `sensor_code` = #{data.sensorCode}, `sensor_name` = #{data.sensorName}, " +
+            "`interrupt_limit` = #{data.interruptLimit}, `level_max` = #{data.levelMax}, `level_min` = #{data.levelMin}, " +
+            "`up_max` = #{data.upMax}, `down_max` = #{data.downMax}, `duration` = #{data.duration}, " +
+            "`exception_value` = #{data.exceptionValue} WHERE `id` = #{data.id} ")
     int update(@Param("databaseName")String databaseName, @Param("data") UnrainAbnormal entity);
+
+    @Insert("INSERT INTO ${databaseName} " +
+            "(`sensor_code`, `sensor_name`, `interrupt_limit`, " +
+            "`level_max`, `level_min`, `up_max`, `down_max`, `duration`, `exception_value`) " +
+            "VALUES (#{data.sensorCode}, #{data.sensorName}, #{data.interruptLimit}, #{data.levelMax}," +
+            " #{data.levelMin}, #{data.upMax}, #{data.downMax}, #{data.duration}, #{data.exceptionValue})")
+    int insert(@Param("databaseName")String databaseName, @Param("data") UnrainAbnormal entity);
 }

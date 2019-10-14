@@ -12,8 +12,17 @@ import java.util.List;
  */
 public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSectionModule> {
 
-    @Select("Select * from config_sensor_section_module")
+    @Select("Select * from config_sensor_section_module ")
     List<ConfigSensorSectionModule> getStation();
+
+    @Select("<script>Select * from config_sensor_section_module cssm " +
+            "left join config_river_station crs " +
+            "on cssm.station_code = crs.station_id  " +
+            "where crs.sys_org in " +
+            "( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            "<if test= \'stationCode != null\'> and crs.station_id = #{stationCode}</if></script>")
+    List<ConfigSensorSectionModule> getStationByCode(@Param("orgId")Integer orgId,@Param("stationCode")Integer stationCode);
+
 
     @Select("Select section_code from config_sensor_section_module")
     List<String> getNidStation();

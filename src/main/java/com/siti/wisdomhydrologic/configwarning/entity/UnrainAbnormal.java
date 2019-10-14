@@ -5,22 +5,22 @@ package com.siti.wisdomhydrologic.configwarning.entity;
  */
 public class UnrainAbnormal {
 
-    private long id;
+    private Integer id;
     private String sensorCode;
     private String sensorName;
-    private long interruptLimit;
+    private Integer interruptLimit;
     private double levelMax;
     private double levelMin;
     private double upMax;
-    private double belowMax;
-    private long duration;
+    private double downMax;
+    private Integer duration;
     private String exceptionValue;
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class UnrainAbnormal {
     }
 
 
-    public long getInterruptLimit() {
+    public Integer getInterruptLimit() {
         return interruptLimit;
     }
 
-    public void setInterruptLimit(long interruptLimit) {
+    public void setInterruptLimit(Integer interruptLimit) {
         this.interruptLimit = interruptLimit;
     }
 
@@ -78,21 +78,19 @@ public class UnrainAbnormal {
         this.upMax = upMax;
     }
 
-
-    public double getBelowMax() {
-        return belowMax;
+    public double getDownMax() {
+        return downMax;
     }
 
-    public void setBelowMax(double belowMax) {
-        this.belowMax = belowMax;
+    public void setDownMax(double downMax) {
+        this.downMax = downMax;
     }
 
-
-    public long getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

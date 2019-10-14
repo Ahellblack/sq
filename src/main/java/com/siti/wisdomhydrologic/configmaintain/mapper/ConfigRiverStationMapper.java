@@ -13,20 +13,23 @@ import java.util.List;
 public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
 
-    @Select("select * from config_river_station  " +
-            " where sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) ")
+    @Select("<script> select * from config_river_station  " +
+            " where sys_org in " +
+            "( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            "</script>")
     List<ConfigRiverStation> getAll(@Param("orgId") Integer orgId);
 
     @Select("select * from config_river_station ")
     List<ConfigRiverStation> getAllstation();
 
-    @Select("select * from config_river_station where region_id in(" +
-            "select region_id from config_region where manage_org_id in (" +
-            "select id from sys_org where FIND_IN_SET( (select org_id from sys_user_org where uid=#{userId}), path )) )")
-    List<ConfigRiverStation> getAllByUser(@Param("userId") Integer userId);
+    @Select("<script> " +
+            "select * from config_river_station  " +
+            " where sys_org in " +
+            "( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            "<if test=\'regionId != null\'> and region_id =#{regionId}</if>" +
+            "</script>")
+    List<ConfigRiverStation> getAllByUser(@Param("orgId") Integer orgId,@Param("regionId")Integer regionId);
 
-    /*@Select("")
-    List<ConfigRiverStation> getCheckAll();*/
 
     @Select("select * from config_river_station where station_id = #{stationId}")
     ConfigRiverStation getAllByCode(@Param("stationId") Integer stationId);
@@ -122,6 +125,6 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
     // 根据测站名称模糊进行查询
     @Select("<script>select * from config_river_station " +
-            "<if test=\'stationId != null\'>where station_code = #{stationId})</if></script>")
+            "<if test=\'stationId != null\'>where station_code = #{stationId}</if></script>")
     List<ConfigRiverStation> getStationByStationID(@Param("stationId")Integer stationId);
 }

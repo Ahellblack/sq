@@ -3,8 +3,10 @@ package com.siti.wisdomhydrologic.configwarning.controller;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.configwarning.entity.*;
 import com.siti.wisdomhydrologic.configwarning.mapper.WarningAbnormalUnRainMapper;
-import com.sun.tools.javac.util.List;
-import org.apache.ibatis.annotations.Update;
+
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,17 +24,91 @@ public class UnRainfallController {
     WarningAbnormalUnRainMapper warningAbnormalUnRainMapper;
 
     @GetMapping("/getAllAbnormalByType")
-    public List<UnrainAbnormal> getAllAbnormalByType(String SensorTypeId) {
+    public Map<String, Object> getAllAbnormalByType(String SensorTypeId) {
+        Map<String, Object> map = new HashMap<>();
         //获取数据库名
         String databaseName = getDatabase(SensorTypeId);
-        return warningAbnormalUnRainMapper.getAllAbnormalByType(databaseName);
+        try {
+            if (!"".equals(databaseName)) {
+                List<UnrainAbnormal> list = warningAbnormalUnRainMapper.getAllAbnormalByType(databaseName);
+                if (list.size() > 0) {
+                    map.put("list", list);
+                    map.put("status", 1);
+                    map.put("msg", "查询成功");
+                } else {
+                    map.put("status", 0);
+                    map.put("msg", "暂无数据");
+                }
+            } else {
+                map.put("status", -1);
+                map.put("msg", "参数异常");
+            }
+            return map;
+        } catch (Exception e) {
+            map.put("status", -2);
+            map.put("msg", "异常");
+        }
+        return map;
     }
+
     @PostMapping("/updateAbnormalByType")
     public Map<String, Object> updateAbnormal(String SensorTypeId, @RequestBody UnrainAbnormal entity) {
+        Map<String, Object> map = new HashMap<>();
         String databaseName = getDatabase(SensorTypeId);
-        int status = warningAbnormalUnRainMapper.update(databaseName,entity);
-        return null;
+        try {
+            if (!"".equals(databaseName)) {
+                int status = warningAbnormalUnRainMapper.update(databaseName, entity);
+                if (status != 0) {
+                    map.put("status", 1);
+                    map.put("msg", "修改成功");
+                } else {
+                    map.put("status", 0);
+                    map.put("msg", "修改失败");
+                }
+            } else {
+                map.put("status", -1);
+                map.put("msg", "参数异常");
+            }
+            return map;
+        } catch (Exception e) {
+            map.put("status", -2);
+            map.put("msg", "异常");
+        }
+        return map;
     }
+
+
+    @PostMapping("/insertAbnormalByType")
+    public Map<String, Object> insertAbnormal(String SensorTypeId, @RequestBody UnrainAbnormal entity) {
+        Map<String, Object> map = new HashMap<>();
+        String databaseName = getDatabase(SensorTypeId);
+        try {
+            if (!"".equals(databaseName)) {
+                UnrainAbnormal oneAbnormalByType = warningAbnormalUnRainMapper.getOneAbnormalByType(databaseName, entity.getSensorCode());
+                if (oneAbnormalByType != null) {
+                    map.put("status", 0);
+                    map.put("msg", "sensorCode重复");
+                }
+                int status = warningAbnormalUnRainMapper.insert(databaseName, entity);
+                if (status != 0) {
+                    map.put("status", 1);
+                    map.put("msg", "添加成功");
+                } else {
+                    map.put("status", 0);
+                    map.put("msg", "添加失败");
+                }
+            } else {
+                map.put("status", -1);
+                map.put("msg", "参数异常");
+            }
+            return map;
+        } catch (Exception e) {
+            map.put("status", -2);
+            map.put("msg", "异常");
+        }
+        return map;
+    }
+
 
     /**
      * 获取对应typeID的数据库名称
