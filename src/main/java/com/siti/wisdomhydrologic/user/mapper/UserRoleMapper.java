@@ -12,13 +12,13 @@ import java.util.List;
 @Mapper
 public interface UserRoleMapper {
     @Select("SELECT * FROM sys_user_role_rela WHERE user_id = #{user_id}")
-    List<UserRole> getRoleByUser(@Param("user_id") Long user_id);
+    List<UserRole> getRoleByUser(@Param("user_id") Integer user_id);
 
     /**
      * 根据用户id获取相关角色id
      * */
     @Select("select role_id from sys_user_role_rela where user_id=#{userid}")
-    List<Long> getRoleIdByUserId(@Param("userid") Long userid);
+    List<Long> getRoleIdByUserId(@Param("userid") Integer userid);
 
 
 

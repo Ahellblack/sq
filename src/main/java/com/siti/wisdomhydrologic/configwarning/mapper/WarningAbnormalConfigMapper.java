@@ -18,8 +18,8 @@ public interface WarningAbnormalConfigMapper {
     List<AbnormalRainfall> getRainAll(@Param("sensorCode")String sensorCode);
 
     @Insert("INSERT INTO `abnormal_rainfall`" +
-            "(`id`, `sensor_code`, `sensor_name`, `interrupt_limit`, `max_day_level`, `min_day_level`, `max_hour_level`, `min_hour_level`, `max_five_level`, `min_five_level`, `nearby_sensor_code`, `nearby_rate`, `exception_value`) " +
-            "VALUES ( #{data.sensorCode},#{data.sensorName}, #{data.interruptLimit}, #{data.maxDayLevel}, #{data.minDayLevel}, #{data.maxHourLevel}, #{data.minHourLevel}, #{data.maxFiveLevel}, #{data.minFiveLevel},#{data.nearbySensorCode} ,#{data.nearbyRate},#{data.nearbyRate},#{data.exceptionValue})")
+            "(`sensor_code`, `sensor_name`, `interrupt_limit`, `max_day_level`, `min_day_level`, `max_hour_level`, `min_hour_level`, `max_five_level`, `min_five_level`, `nearby_sensor_code`, `nearby_rate`, `exception_value`) " +
+            "VALUES ( #{data.sensorCode},#{data.sensorName}, #{data.interruptLimit}, #{data.maxDayLevel}, #{data.minDayLevel}, #{data.maxHourLevel}, #{data.minHourLevel}, #{data.maxFiveLevel}, #{data.minFiveLevel},#{data.nearbySensorCode} ,#{data.nearbyRate},#{data.exceptionValue})")
     int addAbnormalRainfall(@Param("data") AbnormalRainfall abnormalRainfall);
 
     @Update("UPDATE `abnormal_rainfall` SET `sensor_code` = #{data.sensorCode}, `sensor_name` = #{data.sensorName}, `interrupt_limit` = #{data.interruptLimit}," +
