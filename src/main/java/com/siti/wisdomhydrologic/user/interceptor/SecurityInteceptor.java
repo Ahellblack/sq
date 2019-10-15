@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
 @Component
-public class SecurityInteceptor implements HandlerInterceptor,ApplicationContextAware {
+public class SecurityInteceptor implements HandlerInterceptor {
     @Autowired
     private RedisBiz redisBiz;
     private static ApplicationContext context = null;
@@ -28,7 +28,7 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
     }
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        redisBiz = getBean(RedisBiz.class);
+        /*redisBiz = getBean(RedisBiz.class);
         httpServletResponse.setContentType("text/html;charset=UTF-8");
         HttpSession session = httpServletRequest.getSession();
         //System.out.println(session.getId());
@@ -38,21 +38,36 @@ public class SecurityInteceptor implements HandlerInterceptor,ApplicationContext
             //返回401 给前台, 跳转默认地址
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             return false;
+        }*/
+        //System.out.println(httpServletRequest.getRequestURL());
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
+        //if(!httpServletRequest.getRequestURL().toString().contains("login")){
+        Object obj = httpServletRequest.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        if (obj == null) {
+            String url = "http://" + httpServletRequest.getLocalAddr() + ":" + httpServletRequest.getLocalPort() + httpServletRequest.getContextPath() + "/login";
+            //ajax请求超时判断
+            String requestType = httpServletRequest.getHeader("X-Requested-With");
+            if ((requestType != null) && requestType.equalsIgnoreCase("XMLHttpRequest")) {
+                httpServletResponse.setHeader("sessionstatus", "timeout");
+            }
         }
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-
+        System.out.println("postHandle...");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+        System.out.println("afterCompletion...");
     }
 
-    @Override
+    /*@Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         context = applicationContext;
-    }
+    }*/
 }

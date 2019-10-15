@@ -9,12 +9,12 @@ import java.util.List;
 
 import com.siti.wisdomhydrologic.util.BASE64Util;
 import com.siti.wisdomhydrologic.util.Md5Utils;
-import org.springframework.beans.factory.annotation.Autowired;/*
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Created by dell on 2019/10/11.
  */
 @Component
-public class UserService /*implements UserDetailsService*/{
+public class UserService implements UserDetailsService{
 
 
     @Autowired
@@ -67,7 +67,7 @@ public class UserService /*implements UserDetailsService*/{
             userOrgRelaMapper.saveOrupdateBatchUserOrg(list);
         }
     }
-/*
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user;
@@ -115,5 +115,5 @@ public class UserService /*implements UserDetailsService*/{
         child.stream().forEach(e -> {
             backToFront(next, e, all);
         });
-    }*/
+    }
 }

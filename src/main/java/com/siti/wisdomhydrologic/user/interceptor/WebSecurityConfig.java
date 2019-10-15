@@ -1,7 +1,9 @@
-/*
 package com.siti.wisdomhydrologic.user.interceptor;
 
-import com.siti.wisdomhydrologic.user.service.MyAuthenticationProvider;
+import com.siti.wisdomhydrologic.user.interceptor.MyAuthenticationProvider;
+import com.siti.wisdomhydrologic.user.interceptor.RestAuthenticationEntryPoint;
+import com.siti.wisdomhydrologic.user.interceptor.RestAuthenticationFailureHandler;
+import com.siti.wisdomhydrologic.user.interceptor.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,12 +12,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-*/
 /**
  * Created by zyh on 2018-07-13.
  * spring security config
- *//*
-
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,10 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/login/logout"
-                ,"/login"
-                ,"/swagger-ui.html"
-                ,"/module/getAllNid"
-
+                , "/user/getEmailCheckCode"
+                ,"/module/**"
         );
         super.configure(web);
     }
@@ -49,20 +47,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();        // 解决前端无法使用iframe的问题
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("*/
-/*").permitAll()
+                .antMatchers("/*").permitAll()
                 // 其他地址访问需要验证权限
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 //.loginPage("/login")// 指定登录页
                 //.successForwardUrl("/indexHome")// 登录成功后的主页
+                .successHandler(restAuthenticationSuccessHandler)
+                .failureHandler(new RestAuthenticationFailureHandler())
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll()
                 .and()
-                .exceptionHandling();
+                .exceptionHandling()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint());
     }
 
     @Override
@@ -70,8 +70,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(myAuthenticationProvider);
     }
 
-
-
-
 }
-*/

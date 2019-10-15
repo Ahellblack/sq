@@ -21,7 +21,7 @@ public class RealStationDataTask {
     @Scheduled(cron = "0 3/5 * * * ? ")
     public void insertAbnormal() throws Exception {
         //List<Integer> stationId = stationDataMapper.getStationId();
-        System.out.println("real station data update...");
+        //System.out.println("real station data update...");
         /*stationId.forEach(id -> {
             try {*/
         stationDataService.updateData();

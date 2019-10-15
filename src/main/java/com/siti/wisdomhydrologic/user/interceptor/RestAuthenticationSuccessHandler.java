@@ -1,4 +1,3 @@
-/*
 package com.siti.wisdomhydrologic.user.interceptor;
 
 import com.alibaba.fastjson.JSON;
@@ -65,4 +64,3 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
     }
 
 }
-*/

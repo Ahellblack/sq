@@ -75,7 +75,7 @@ public class Usertrol {
         return user;
     }
 
-    @PostMapping("login")
+    @RequestMapping("login")
     public Map<String,Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
         RequestAttributes ra=RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();

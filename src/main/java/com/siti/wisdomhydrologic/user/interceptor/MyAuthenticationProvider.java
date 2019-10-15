@@ -1,7 +1,7 @@
-/*
-package com.siti.wisdomhydrologic.user.service;
+package com.siti.wisdomhydrologic.user.interceptor;
 
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.UserService;
 import com.siti.wisdomhydrologic.util.BASE64Util;
 import com.siti.wisdomhydrologic.util.Md5Utils;
 
@@ -74,4 +74,3 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     }
 
 }
-*/

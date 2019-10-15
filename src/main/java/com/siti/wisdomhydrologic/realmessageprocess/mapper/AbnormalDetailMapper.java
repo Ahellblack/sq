@@ -205,8 +205,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     @Select("select * from abnormal_detail " +
             "where SUBSTR(sensor_code,1,5) = #{stationId} " +
             "and date BETWEEN #{latest30minute} and #{date} " +
-            "and data_error = #{accordingId} " +
-            "or equipment_error = #{accordingId} ")
+            "and data_error = #{accordingId}")
     List<AbnormalDetailEntity> get30MinuteDate(@Param("stationId")String stationId,@Param("accordingId")String accordingId,@Param("date")String date,@Param("latest30minute") String latest30minute);
 
     @Update("<script>update abnormal_detail set table4_display_status = 1 " +
