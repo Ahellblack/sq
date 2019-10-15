@@ -8,7 +8,7 @@ import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +30,10 @@ public class HyetometerServiceImpl  {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
 
     public List<ReportHyetometerTest> getAll(HttpSession session,String createTime, String stationId) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         if (orgList.size()>0){
             return reportHyetometerMapper.getAll(createTime, stationId,orgList.get(0).getId());

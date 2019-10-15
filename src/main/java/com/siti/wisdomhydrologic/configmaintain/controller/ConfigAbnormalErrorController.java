@@ -6,7 +6,7 @@ import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalErrorMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +24,7 @@ public class ConfigAbnormalErrorController {
     private ConfigAbnormalErrorMapper configAbnormalErrorMapper;
 
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
 
@@ -75,7 +75,7 @@ public class ConfigAbnormalErrorController {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "添加成功！");
 
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("异常字典表"+jsonObject)
@@ -127,7 +127,7 @@ public class ConfigAbnormalErrorController {
                     jsonObject.put("message", "修改成功！");
 
 
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("异常字典表"+jsonObject)
@@ -173,7 +173,7 @@ public class ConfigAbnormalErrorController {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "删除成功！");
 
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("异常字典表"+jsonObject)

@@ -6,7 +6,7 @@ import com.siti.wisdomhydrologic.statistics.mapper.DataErrorNumberMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class DataErrorNumberController {
     @Resource
     private DataErrorNumberMapper dataErrorNumberMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
 
@@ -39,7 +39,7 @@ public class DataErrorNumberController {
     public Map<String, Object> getList(HttpSession session, Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
         Map<String, Object> map = new HashMap<>();
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         try {

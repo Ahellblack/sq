@@ -12,7 +12,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +40,7 @@ public class StationDataController {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private StationDataMapper stationDataMapper;
 
@@ -108,7 +108,7 @@ public class StationDataController {
     @GetMapping("/getLocation")
     public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId, HttpSession session) throws Exception {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         orgList.get(0).getPath();
 

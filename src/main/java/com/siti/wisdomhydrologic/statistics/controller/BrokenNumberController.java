@@ -10,7 +10,7 @@ import java.util.Map;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +30,14 @@ public class BrokenNumberController {
     @Resource
     private BrokenNumberMapper brokenNumberMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
 
     @GetMapping("stationBroken")
     public Map<String, Object>  getList(HttpSession session,Integer stationId, Integer dateType, Integer year, Integer quarter, String month){
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         Map<String, Object> map = new HashMap<>();
 

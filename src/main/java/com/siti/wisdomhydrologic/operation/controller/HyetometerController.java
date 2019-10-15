@@ -12,7 +12,7 @@ import com.siti.wisdomhydrologic.operation.vo.ReportListVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -39,7 +39,7 @@ public class HyetometerController {
     private HyetometerServiceImpl reportHyetometerService;
 
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
 
     @Resource
     private UserMapper userMapper;
@@ -60,7 +60,7 @@ public class HyetometerController {
     public int deleteBy(Integer reportId,HttpSession session) {
         int i = reportHyetometerService.delByReportId(reportId);
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("从数据表6删除"+reportId)
@@ -79,7 +79,7 @@ public class HyetometerController {
     @PostMapping("/insert")
     public int insert(@RequestBody ReportHyetometerTest reportHyetometer,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("添加数据")
@@ -93,7 +93,7 @@ public class HyetometerController {
     @PostMapping("/update")
     public int update(@RequestBody ReportHyetometerTest reportHyetometer,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("修改数据")
@@ -150,7 +150,7 @@ public class HyetometerController {
      */
     public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId,  List<Integer> reportIdList) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());        // 查询数据,此处省略
 
         List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationId, orgList.get(0).getId());
@@ -260,7 +260,7 @@ public class HyetometerController {
      */
     public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());        // 查询数据,此处省略
 
         List<ReportHyetometerTest> list = reportHyetometerMapper.getAll(createTime, stationId, orgList.get(0).getId());

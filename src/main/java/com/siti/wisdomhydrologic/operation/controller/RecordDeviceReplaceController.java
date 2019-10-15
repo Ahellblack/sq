@@ -11,7 +11,7 @@ import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +46,7 @@ public class RecordDeviceReplaceController {
     @Resource
     private RecordDeviceReplaceMapper mapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -60,7 +60,7 @@ public class RecordDeviceReplaceController {
 
     @GetMapping("/delete")
     public int delete(Integer reportId, HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表8删除")
@@ -74,7 +74,7 @@ public class RecordDeviceReplaceController {
     @PostMapping("/update")
     public int update(@RequestBody RecordDeviceReplace entity,HttpSession session) {
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("数据表8修改")
@@ -142,7 +142,7 @@ public class RecordDeviceReplaceController {
 
         //修改设备记录在资产表
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("替换旧设备"+oldDatabase.toString()+"为新设备"+newDatabase.toString())

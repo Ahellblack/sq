@@ -8,7 +8,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageMantainServiceImpl;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +42,7 @@ public class ManageMantainController {
     @Resource
     private ManageMantainServiceImpl reportManageMantainService;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -71,7 +71,7 @@ public class ManageMantainController {
     @PostMapping("/update")
     public int update(@RequestBody ReportManageMantain reportManageMantain, HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表1修改")

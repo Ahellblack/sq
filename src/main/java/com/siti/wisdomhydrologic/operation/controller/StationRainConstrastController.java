@@ -12,7 +12,7 @@ import com.siti.wisdomhydrologic.operation.mapper.StationRainConstrastMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationRainConstrastServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.StationIdUtils;
 import io.swagger.annotations.Api;
@@ -47,7 +47,7 @@ public class StationRainConstrastController {
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     /**
@@ -69,7 +69,7 @@ public class StationRainConstrastController {
     @PostMapping("/update")
     public int update(@RequestBody ReportStationRainConstrastVo vo, HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表7修改")

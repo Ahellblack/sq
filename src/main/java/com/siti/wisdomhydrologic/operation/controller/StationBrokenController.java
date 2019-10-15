@@ -8,7 +8,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationBrokenServiceImpl;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,7 +36,7 @@ public class StationBrokenController {
     @Resource
     private StationBrokenServiceImpl stationBrokenService;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     @ApiOperation(value = "表三应用程序及设备故障登记表查询", httpMethod = "GET", notes = "表三应用程序及设备故障登记表查询")
@@ -47,7 +47,7 @@ public class StationBrokenController {
 
     @GetMapping("/delete")
     public int delete(Integer reportId, HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表3删除")
@@ -61,7 +61,7 @@ public class StationBrokenController {
     @PostMapping("/update")
     public int update(@RequestBody ReportStationBroken reportStationBroken,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表3修改")
@@ -74,7 +74,7 @@ public class StationBrokenController {
 
     @PostMapping("/insert")
     public int insert(@RequestBody ReportStationBroken reportStationBroken,HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表3添加")

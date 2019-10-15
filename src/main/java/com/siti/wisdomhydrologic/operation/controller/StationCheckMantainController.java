@@ -11,7 +11,7 @@ import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.StationCheckMantainServiceImpl;
 import com.siti.wisdomhydrologic.operation.vo.RainVo;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
@@ -46,7 +46,7 @@ public class StationCheckMantainController {
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     @ApiOperation(value = "表五测站检查维护记录表查询，根据日期及测站id进行筛选，每次导出一条数据", httpMethod = "GET", notes = "表五测站检查维护记录表查询")
@@ -79,7 +79,7 @@ public class StationCheckMantainController {
 
     @PostMapping("/update")
     public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain, HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表5修改")

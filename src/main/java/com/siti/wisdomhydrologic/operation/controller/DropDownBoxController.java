@@ -10,7 +10,7 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorDatabaseMappe
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public class DropDownBoxController {
     @Resource
     private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
 
@@ -50,7 +50,7 @@ public class DropDownBoxController {
     @GetMapping("/getStation")
     public List<ConfigRiverStation> getStationList(HttpSession session)
     {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         return configRiverStationMapper.getAll(orgList.get(0).getId());
@@ -100,7 +100,7 @@ public class DropDownBoxController {
     @ApiOperation(value = "资产表设备下拉框", httpMethod = "GET", notes = "资产表设备下拉框,运维表8下拉框")
     @GetMapping("/getDatabaseStationName")
     public List<String> getSensorTypeId(HttpSession session){
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         return configSensorDatabaseMapper.getStationName(orgList.get(0).getId());
     }
@@ -108,7 +108,7 @@ public class DropDownBoxController {
     @ApiOperation(value = "维护人员下拉框", httpMethod = "GET", notes = "维护人员下拉框")
     @GetMapping("/getMaintainer")
     public List<String> getMaintainer(HttpSession session){
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         return userMapper.findMaintainer(orgList.get(0).getId());
 

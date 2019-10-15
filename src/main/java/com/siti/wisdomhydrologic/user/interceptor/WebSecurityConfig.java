@@ -37,7 +37,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/login/logout"
                 , "/user/getEmailCheckCode"
-                ,"/module/**"
+                , "/user/checkInLaw"
+                , "/user/updatePwdByEmailCode"
+                , "/uploadFiles"
+                , "/sysInfo/getPCversion"
+                , "/sysInfo/getAPPversion"
+                , "/dispatch/listDispatchDeal"
+                , "/casePoint/saveCasePoint"
+                , "/count/countRecentWeek"
+                , "/count/dealRateRecentWeek"
+                ,"/verify/getVerify"
+                ,"/position/**"
+                ,"/bikeDispatch/**"
+                ,"/boundary/**"
+                ,"/bicycleTotal/**"
+                ,"/kpHour/**"
+                ,"/ble/**"
+                ,"/personPosition/**"
+                ,"/plat/**"
+
         );
         super.configure(web);
     }

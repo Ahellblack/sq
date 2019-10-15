@@ -18,7 +18,7 @@ import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.PushMsg;
@@ -54,7 +54,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Resource
     private UserMapper userMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
 
     @Resource
     private SysLogMapper sysLogMapper;
@@ -65,7 +65,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     public PageInfo<ReportManageApplicationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationId, Integer status) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         //默认查询本月

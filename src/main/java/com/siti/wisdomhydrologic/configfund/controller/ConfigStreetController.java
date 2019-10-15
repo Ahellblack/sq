@@ -5,7 +5,7 @@ import com.siti.wisdomhydrologic.configfund.mapper.ConfigStreetMapper;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class ConfigStreetController {
     @Resource
     private ConfigStreetMapper configStreetMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     @ApiOperation(value = "街道添加", httpMethod = "GET", notes = "街道添加")
@@ -30,7 +30,7 @@ public class ConfigStreetController {
     private int insert(@RequestBody ConfigStreet configStreet, HttpSession session) {
         try {
             System.out.println(configStreet.getSysOrgName());
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("街道表添加")
@@ -49,7 +49,7 @@ public class ConfigStreetController {
     @PostMapping(value="/update")
     private int update(@RequestBody ConfigStreet configStreet,HttpSession session) {
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("街道修改")
@@ -68,7 +68,7 @@ public class ConfigStreetController {
     @GetMapping(value="/delete")
     private int delete(@RequestParam(value = "streetId")  Integer streetID,HttpSession session) {
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("街道删除")

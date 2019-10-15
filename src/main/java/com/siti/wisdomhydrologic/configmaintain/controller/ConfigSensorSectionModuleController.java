@@ -6,7 +6,7 @@ import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class ConfigSensorSectionModuleController {
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
 
@@ -34,7 +34,7 @@ public class ConfigSensorSectionModuleController {
     @GetMapping("/getAll")
     private List<ConfigSensorSectionModule> getList(HttpSession session,Integer stationCode) {
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             return configSensorSectionModuleMapper.getStationByCode(user.getOrgList().get(0).getId(),stationCode);
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class ConfigSensorSectionModuleController {
         JSONObject jsonObject = new JSONObject();
         try {
             System.out.println(configSensorSectionModule.toString());
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("传感器表添加")
@@ -106,7 +106,7 @@ public class ConfigSensorSectionModuleController {
     public JSONObject update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()
                     .setUsername(user.getUserName())
                     .setOperateDes("传感器表修改")

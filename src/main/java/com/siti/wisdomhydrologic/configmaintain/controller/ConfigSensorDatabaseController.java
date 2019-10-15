@@ -7,7 +7,7 @@ import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +34,7 @@ public class ConfigSensorDatabaseController {
     @Resource
     private ConfigSensorTypeMapper configSensorTypeMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     @RequestMapping("/getAll")
@@ -80,7 +80,7 @@ public class ConfigSensorDatabaseController {
                 return -1;
             } else if (1 == configSensorDatabaseMapper.insert(configSensorDatabase)){
 
-                User user = (User) redisBiz.get(session.getId());
+                User user = (User) userInfoService.get();
                 sysLogMapper.insertUserOprLog( new SysLog.builder()
                         .setUsername(user.getUserName())
                         .setOperateDes("仓库表添加")
@@ -116,7 +116,7 @@ public class ConfigSensorDatabaseController {
             configSensorDatabase.setSensorTypeName(configSensorTypeMapper.getSensorTypeNameBySensorTypeID(sensorTypeId));
 
             if (1 == configSensorDatabaseMapper.update(configSensorDatabase)){
-                User user = (User) redisBiz.get(session.getId());
+                User user = (User) userInfoService.get();
                 sysLogMapper.insertUserOprLog( new SysLog.builder()
                         .setUsername(user.getUserName())
                         .setOperateDes("仓库表修改")

@@ -14,7 +14,7 @@ import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +52,7 @@ public class ManageDataMantainController {
     @Resource
     private ManageDataMantainMapper reportManageDataMantainMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -77,7 +77,7 @@ public class ManageDataMantainController {
     @GetMapping("/delete")
     public int delete(Integer reportId,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表2删除")
@@ -92,7 +92,7 @@ public class ManageDataMantainController {
     @PostMapping("/update")
     public int update(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表2修改")
@@ -106,7 +106,7 @@ public class ManageDataMantainController {
     @PostMapping("/insert")
     public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表2添加")
@@ -185,7 +185,7 @@ public class ManageDataMantainController {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
         }
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         // 查询数据,此处省略
         List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationId, alterType, createTime,orgList.get(0).getId());
@@ -300,7 +300,7 @@ public class ManageDataMantainController {
             createTime = DateOrTimeTrans.Date2TimeString3(new Date());
         }
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         // 查询数据,此处省略
         List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationId, alterType, createTime,orgList.get(0).getId());

@@ -14,15 +14,15 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
-public class RedisBiz {
-    @Autowired
+public class UserInfoService {
+   /* @Autowired
     private RedisTemplate redisTemplate;
-    /**
+    *//**
      * 写入缓存
      * @param key
      * @param value
      * @return
-     */
+     *//*
     public boolean set(final String key, Object value) {
         boolean result = false;
         try {
@@ -33,13 +33,13 @@ public class RedisBiz {
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
     /**
      * 写入缓存设置时效时间
      * @param key
      * @param value
      * @return
-     */
+     *//*
     public boolean set(final String key, Object value, Long expireTime) {
         boolean result = false;
         try {
@@ -51,14 +51,13 @@ public class RedisBiz {
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     /**
-     * 读取缓存
-     * @param key
-     * @return
+     * 获取用户信息数据
+     * @return Object
      */
-    public Object get(final String key) {
+    public Object get() {
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             return null;

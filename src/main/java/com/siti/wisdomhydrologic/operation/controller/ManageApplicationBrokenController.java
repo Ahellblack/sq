@@ -12,7 +12,7 @@ import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +41,7 @@ public class ManageApplicationBrokenController {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     ManageApplicationBrokenMapper manageApplicationBrokenMapper;
     @Resource
@@ -58,7 +58,7 @@ public class ManageApplicationBrokenController {
     @PostMapping("/insert")
     public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表4添加")
@@ -72,7 +72,7 @@ public class ManageApplicationBrokenController {
 
     @PostMapping("/update")
     public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表4修改")
@@ -92,7 +92,7 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
     @GetMapping("/delete")
     public int delete(Integer reportId,HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())
                 .setOperateDes("数据表4删除"+reportId)
@@ -157,7 +157,7 @@ public class ManageApplicationBrokenController {
             createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
         }
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
@@ -260,7 +260,7 @@ public class ManageApplicationBrokenController {
         if(createTime == null){
             createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
         }
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略

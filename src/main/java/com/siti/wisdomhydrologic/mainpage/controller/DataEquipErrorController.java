@@ -4,7 +4,7 @@ import com.siti.wisdomhydrologic.mainpage.vo.DataEquipErrorVo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import java.util.List;
 public class DataEquipErrorController {
 
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
 
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
@@ -35,7 +35,7 @@ public class DataEquipErrorController {
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
     public DataEquipErrorVo getDataEquipErrorVo(HttpSession session) {
 
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         Integer uid = user.getId();
 
         DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0, 0, 0);

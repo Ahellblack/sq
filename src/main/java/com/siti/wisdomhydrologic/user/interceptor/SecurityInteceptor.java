@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.user.interceptor;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,18 +21,18 @@ import java.io.PrintWriter;
 @Component
 public class SecurityInteceptor implements HandlerInterceptor {
     @Autowired
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     private static ApplicationContext context = null;
     public static <T> T getBean(Class<T> requiredType) {
         return context.getBean(requiredType);
     }
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        /*redisBiz = getBean(RedisBiz.class);
+        /*userInfoService = getBean(UserInfoService.class);
         httpServletResponse.setContentType("text/html;charset=UTF-8");
         HttpSession session = httpServletRequest.getSession();
         //System.out.println(session.getId());
-        if(!redisBiz.exists(session.getId())){
+        if(!userInfoService.exists(session.getId())){
 
             httpServletResponse.getWriter().write("请先完成登陆！");
             //返回401 给前台, 跳转默认地址

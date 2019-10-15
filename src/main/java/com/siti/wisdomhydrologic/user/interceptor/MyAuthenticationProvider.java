@@ -31,7 +31,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         }
         String username;
         String password;
-        String pushId = null;
+        //String pushId = null;
         if (logPwd.endsWith("#THT#")) {
             System.out.println("跳转登录");
             username = usernameTemp;

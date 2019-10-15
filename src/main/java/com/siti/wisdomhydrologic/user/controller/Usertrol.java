@@ -9,7 +9,7 @@ import com.siti.wisdomhydrologic.user.mapper.LoginLogMapper;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.mapper.UserOrgRelaMapper;
 import com.siti.wisdomhydrologic.user.mapper.UserRoleMapper;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.user.service.UserService;
 import com.siti.wisdomhydrologic.util.BASE64Util;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 public class Usertrol {
     private static final long timeLong = 6000;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
     @Autowired
@@ -71,13 +71,14 @@ public class Usertrol {
 
     @GetMapping("getUser")
     public User getUsername (HttpSession session){
-        User user = (User)redisBiz.get(session.getId());
+        User user = (User)userInfoService.get();
         return user;
     }
 
-    @RequestMapping("login")
+    @PostMapping("login")
     public Map<String,Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
-        RequestAttributes ra=RequestContextHolder.getRequestAttributes();
+        return null;
+        /*RequestAttributes ra=RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();
         request.getSession(true).setAttribute("keytest","testvalue");
 
@@ -89,7 +90,7 @@ public class Usertrol {
                 map.put("status",0);
                 return map;
             }
-            //redisBiz.get(session.getId());
+            //userInfoService.get();
             String logPwd = BASE64Util.decode(password);
             password = Md5Utils.encryptString(logPwd);
             if (logPwd == null) {
@@ -109,8 +110,8 @@ public class Usertrol {
                 user.setOrgList(orgList);
                 user.setRoles(roles);
                 if (session.getId() != "" && !"".equals(session.getId())) {
-                    redisBiz.set(session.getId(), user, timeLong);
-                    //System.out.println(redisBiz.get(session.getId()));
+                    userInfoService.set(session.getId(), user, timeLong);
+                    //System.out.println(userInfoService.get());
                     Map<String,Object> map = new HashMap();
                     map.put("user",user);
                     map.put("status",1);
@@ -129,7 +130,7 @@ public class Usertrol {
         Map<String,Object> map = new HashMap();
         map.put("msg","输入的账户或密码有误");
         map.put("status",0);
-        return map;
+        return map;*/
     }
 
     /***
@@ -163,7 +164,7 @@ public class Usertrol {
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             //获取当前用户
-            User loginUser = (User)redisBiz.get(session.getId());
+            User loginUser = (User)userInfoService.get();
 
             //判断添加权限
             List<Role> roles = userMapper.findRole(loginUser.getId());
@@ -202,7 +203,7 @@ public class Usertrol {
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             //获取当前用户
-            User loginUser = (User)redisBiz.get(session.getId());
+            User loginUser = (User)userInfoService.get();
             //判断添加权限
             List<Role> roles = userMapper.findRole(loginUser.getId());
             List<Integer> list = new ArrayList<>();
@@ -237,7 +238,7 @@ public class Usertrol {
     public Map<String,Object> modifyPwd(Integer id, String password, HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
-            User loginUser = (User)redisBiz.get(session.getId());
+            User loginUser = (User)userInfoService.get();
             String updateBy = loginUser.getUserName();
 
             User user = new User();
@@ -264,7 +265,7 @@ public class Usertrol {
     public Map<String,Object> deleteUser(Integer userid,HttpSession session){
         Map<String,Object> map = new HashMap<String,Object>();
         //判断添加权限
-        User loginUser = (User)redisBiz.get(session.getId());
+        User loginUser = (User)userInfoService.get();
         List<Role> roles = userMapper.findRole(loginUser.getId());
         List<Integer> list = new ArrayList<>();
         roles.forEach(role->{

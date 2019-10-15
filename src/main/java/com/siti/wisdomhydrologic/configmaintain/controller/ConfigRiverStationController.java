@@ -7,7 +7,7 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.service.RedisBiz;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,12 +29,12 @@ public class ConfigRiverStationController {
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
-    private RedisBiz redisBiz;
+    private UserInfoService userInfoService;
     @Resource
     private SysLogMapper sysLogMapper;
     @RequestMapping("/getAll")
     public List<ConfigRiverStation> getAll(HttpSession session) {
-        User user = (User) redisBiz.get(session.getId());
+        User user = (User) userInfoService.get();
         Integer uid = user.getId();
         return configRiverStationMapper.getAll(user.getOrgList().get(0).getId());
     }
@@ -43,7 +43,7 @@ public class ConfigRiverStationController {
     public JSONObject getAllByUser(HttpSession session,Integer regionId) {
         JSONObject jsonObject = new JSONObject();
         try {
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             user.getOrgList().get(0);
             List<ConfigRiverStation> list = configRiverStationMapper.getAllByUser(user.getOrgList().get(0).getId(),regionId);
             if (null != list) {
@@ -68,7 +68,7 @@ public class ConfigRiverStationController {
     public List<JSONObject> getAllIDAndName(HttpSession session) {
         try {
             List<JSONObject> jsonList = new ArrayList<JSONObject>();
-            User user = (User) redisBiz.get(session.getId());
+            User user = (User) userInfoService.get();
             Integer uid = user.getId();
             // 从ConfigRiverStation取出stationID与stationName，构建json数组传送给前端
             for (ConfigRiverStation rs:configRiverStationMapper.getAll(uid)) {
@@ -160,7 +160,7 @@ public class ConfigRiverStationController {
                 if (0 != configRiverStationMapper.insert(configRiverStation)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "添加成功！");
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("测站配置表添加")
@@ -200,7 +200,7 @@ public class ConfigRiverStationController {
                     configRiverStation.setRegionName("北片");
                 }*/
                 if (0 != configRiverStationMapper.update(configRiverStation)) {
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("测站配置表修改")
@@ -236,7 +236,7 @@ public class ConfigRiverStationController {
                 if (0 != configRiverStationMapper.deleteByStationCode(stationCode)) {
                     jsonObject.put("status", 1);
                     jsonObject.put("message", "删除成功！");
-                    User user = (User) redisBiz.get(session.getId());
+                    User user = (User) userInfoService.get();
                     sysLogMapper.insertUserOprLog( new SysLog.builder()
                             .setUsername(user.getUserName())
                             .setOperateDes("测站配置表删除")
