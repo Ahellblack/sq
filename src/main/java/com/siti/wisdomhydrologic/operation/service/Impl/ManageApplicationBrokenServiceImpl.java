@@ -73,8 +73,22 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status,1);
 
+
+        return new PageInfo<>(all);
+    }
+
+    //查询全部数据
+    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId,Integer status) {
+        User user = (User) userInfoService.get();
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        //默认查询本月
+        if (createDate == null) {
+            createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        PageHelper.startPage(page, pageSize);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status,null);
 
         return new PageInfo<>(all);
     }
@@ -207,7 +221,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int delete(Integer reportId) {
-        return reportManageApplicationBrokenMapper.deleteById(reportId);
+        //return reportManageApplicationBrokenMapper.deleteById(reportId);
+        return reportManageApplicationBrokenMapper.updateDisplayStatus(reportId);
     }
 
 
@@ -247,7 +262,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
                         if (lastData.size() > 0) {
                             reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
-                            //System.out.println("表四数据错误时间更替" + lastData);
+                            System.out.println("表四数据错误时间更替" + lastData);
                         } else {
                             Calendar calendar = Calendar.getInstance();
                             ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
@@ -351,6 +366,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         }
         return new SimpleDateFormat(dateFormat).format(new Date(needTime));
     }
+
 
 }
 

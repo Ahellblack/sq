@@ -5,6 +5,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -20,9 +21,10 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "<if test=\"createDate!=null and createDate!=''\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
             "<if test=\"stationId!=null and stationId!=''\"> and a.station_code = #{stationId}  </if>"+
             "<if test=\"alterType!=null and alterType!=''\"> and a.alter_sensor_type_name like '%${alterType}%' </if>" +
+            "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
             "order by a.create_time desc" +
             "</script>")
-    List<ReportManageDataMantain> getByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
+    List<ReportManageDataMantain> getByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId,@Param("display") Integer display);
 
     @Select("<script>Select * from report_manage_data_mantain a left join config_river_station c on a.station_name = c.station_name " +
             " where c.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
@@ -82,5 +84,8 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "</script>")
     List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("sensorTypeId")int sensorTypeId,  @Param("last5MinuteTime") String last5MinuteTime);
 
-
+    @Update("UPDATE `report_manage_data_mantain` " +
+            "SET  `display_status` = 0 " +
+            "  WHERE `report_id` = #{reportId}")
+    int updateDisplayStatus(@Param("reportId") Integer reportId);
 }

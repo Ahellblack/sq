@@ -55,6 +55,12 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationId,status);
     }
 
+    @ApiOperation(value = "表四应用程序及设备异常表查询全部", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
+    @GetMapping("/getAllDisplay")
+    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId,Integer status) {
+        return manageApplicationBrokenService.selectAllDisplay(page, pageSize, createDate, stationId,status);
+    }
+
     @PostMapping("/insert")
     public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
 
@@ -161,7 +167,7 @@ public class ManageApplicationBrokenController {
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
 
         /**
          * 选择导出reportList替换全部list
@@ -264,7 +270,7 @@ public class ManageApplicationBrokenController {
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
 
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);

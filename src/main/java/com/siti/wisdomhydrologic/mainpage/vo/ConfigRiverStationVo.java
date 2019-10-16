@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
+import java.util.List;
+
 import java.util.Date;
 
 /**
@@ -43,6 +45,16 @@ public class ConfigRiverStationVo {
     //测站状态
     private int status;
 
+    //当前测站的异常状态list
+    private List<String> AbnormalDetailList;
+
+    public List<String> getAbnormalDetailList() {
+        return AbnormalDetailList;
+    }
+
+    public void setAbnormalDetailList(List<String> abnormalDetailList) {
+        AbnormalDetailList = abnormalDetailList;
+    }
 
     public String getWindDirectionName() {
         return windDirectionName;

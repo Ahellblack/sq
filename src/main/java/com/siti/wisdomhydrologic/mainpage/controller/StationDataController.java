@@ -5,9 +5,11 @@ import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
+import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
+import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
@@ -103,7 +105,7 @@ public class StationDataController {
      * @Param level 站点级别
      * @Param status 站点状态
      */
-    @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选" + "测站状态 0位离线； 1为正常；2为故障" + "站点类型：0 基本站；1国家站；2一般站 " + "南北片：42 北片 ； 43 南片")
+    @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选" + "测站状态 0位离线；1为正常；2为故障" + "站点类型：0 基本站；1国家站；2一般站 " + "南北片：42 北片 ； 43 南片")
     @ApiParam(name = "level", value = "测站级别")
     @GetMapping("/getLocation")
     public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId, HttpSession session) throws Exception {
@@ -210,6 +212,16 @@ public class StationDataController {
             }
             if (!list.contains(data.getStationId() + (ConstantConfig.WAP))) {
                 data.setAirPressure("");
+            }
+            //故障站状态赋值
+            if(data.getStatus()==2) {
+                //查询该测站的异常状态,赋值AbnormalDetailList
+                List<AbnormalDetailVo> stationLatestData = abnormalDetailMapper.getStationLatestData(data.getTime(), data.getStationId());
+                List<String> errorList = new ArrayList<>();
+                stationLatestData.forEach(error -> {
+                    errorList.add(error.getErrorName());
+                });
+                data.setAbnormalDetailList(errorList);
             }
         });
         return stationLocation;

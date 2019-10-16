@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.realmessageprocess.mapper;
 
+import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.*;
@@ -201,6 +202,13 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "<if test=\"createDate!=null\">where date = #{createDate}</if> " +
             "<if test=\"sensorCode!=null\">  and sensor_code = #{sensorCode}</if></script>")
     List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("sensorCode") Integer sensorCode);
+
+    @Select("<script>select * from abnormal_detail ad " +
+            " left join config_abnormal_dictionary cad on ad.data_error = cad.broken_according_id" +
+            "<if test=\"time!=null\">where date = #{time}</if> " +
+            "<if test=\"stationCode!=null\">  and  SUBSTR(sensor_code,1,5) = #{stationCode}</if></script>")
+    List<AbnormalDetailVo> getStationLatestData(@Param("time") String time, @Param("stationCode") Integer stationCode);
+
 
     @Select("select * from abnormal_detail " +
             "where SUBSTR(sensor_code,1,5) = #{stationId} " +

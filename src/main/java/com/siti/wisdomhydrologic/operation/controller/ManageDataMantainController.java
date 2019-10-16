@@ -73,6 +73,22 @@ public class ManageDataMantainController {
         return reportManageDataMantainService.getByCreateDate(page, pageSize, stationId, alterType, createDate,session);
     }
 
+    /**
+     * 根据修改日期查询
+     *
+     * @Param stationId 测站id
+     * @Param alterType 监控类型
+     * @Param createBy  修改人
+     * @Param createDate 数据生成日期
+     * <p>
+     * 若createDate为空，默认获取当月的数据
+     */
+    @ApiOperation(value = "表二查询", httpMethod = "GET", notes = "表二查询表二查询根据修改日期查询" + "*stationId 测站id alterType 监控类型     *createBy  修改人\\n\" + \"     * createDate 数据生成日期")
+    @GetMapping("/getDisplayByCreateDate")
+    public PageInfo<ReportManageDataMantain> getDisplayByCreateDate(int page, int pageSize, String stationId, String alterType, String createDate) {
+        return reportManageDataMantainService.getDisplayByCreateDate(page, pageSize, stationId, alterType, createDate);
+    }
+
     @ApiOperation(value = "表二删除", httpMethod = "GET", notes = "表二删除")
     @GetMapping("/delete")
     public int delete(Integer reportId,HttpSession session) {

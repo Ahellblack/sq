@@ -60,7 +60,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId());
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(),1);
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 
         /**
@@ -74,20 +74,39 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             });
         });
 
-        /*list.forEach(data -> {
-            if (data.getCreateTime() != null && data.getCreateTime().length() >= 13)
-                data.setCreateTime(data.getCreateTime().substring(0, 13));
-            if (data.getMissTimeSpace() != null && data.getMissTimeSpace().length() >= 13)
-                data.setMissTimeSpace(data.getMissTimeSpace().substring(0, 13));
-            if (data.getErrorTimeSpace() != null && data.getErrorTimeSpace().length() >= 13)
-                data.setErrorTimeSpace(data.getErrorTimeSpace().substring(0, 13));
-        });*/
         return new PageInfo<ReportManageDataMantain>(list);
     }
 
+    public PageInfo<ReportManageDataMantain> getDisplayByCreateDate(int page, int pageSize, String stationId, String alterType, String createDate) {
+
+        User user = (User) userInfoService.get();
+        List<Org> orgList = userMapper.findOrg(user.getId());
+        //默认查询本月
+        if (createDate == null) {
+            createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        PageHelper.startPage(page, pageSize);
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(),null);
+        List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
+
+        /**
+         * 把页面查询的依据id 替换成依据内容
+         * */
+        list.forEach(data -> {
+            list1.forEach(data2 -> {
+                if (data2.getBrokenAccordingId().equals(data.getBrokenAccordingId())) {
+                    data.setBrokenAccordingId(data2.getBrokenAccording());
+                }
+            });
+        });
+
+        return new PageInfo<ReportManageDataMantain>(list);
+    }
+
+
     @Override
     public int delete(Integer reportId) {
-        return reportManageDataMantainMapper.deleteByReportId(reportId);
+        return reportManageDataMantainMapper.updateDisplayStatus(reportId);
     }
 
     @Override
@@ -172,7 +191,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                                 abData.setErrorTimeSpace(latestAbnormalData.get(0).getDate() + "," + abData.getCreateTime());
                                 abData.setReportId(latestData.get(0).getReportId());
                                 reportManageDataMantainMapper.updateTime(abData);
-                                //System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                                System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
                             } else {
                                 //根据字典获取异常名
                                 dictionarylist.forEach(param -> {

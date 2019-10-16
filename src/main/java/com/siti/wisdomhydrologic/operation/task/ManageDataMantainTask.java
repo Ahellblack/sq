@@ -30,7 +30,7 @@ public class ManageDataMantainTask {
         } catch (Exception e) {
         }
         /**
-         * 查询上一个整5分再往前5分钟数据
+         * 查询上一个整5分再往前25分钟数据
          * */
         cal.add(cal.MINUTE, -25);
         date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");

@@ -19,9 +19,10 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if> " +
             "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
             "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
+            "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
             "order by a.create_time desc" +
             "</script>")
-    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status);
+    List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
 
 
     @Select("<script>select * from report_station_broken where request_designating_status  &lt; 4</script> ")
@@ -127,4 +128,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("select * from report_station_broken where report_id = #{reportId}")
     ReportManageApplicationBroken getOne(@Param("reportId") Integer reportId);
 
+    @Update("UPDATE `report_station_broken` SET `display_status` = 0  WHERE report_id = #{reportId}")
+    int updateDisplayStatus(@Param("reportId") Integer reportId);
 }

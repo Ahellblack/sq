@@ -36,14 +36,14 @@ public class DataEquipErrorController {
     public DataEquipErrorVo getDataEquipErrorVo(HttpSession session) {
 
         User user = (User) userInfoService.get();
-        Integer uid = user.getId();
+        Integer orgId = user.getOrgList().get(0).getId();
 
         DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0, 0, 0);
         //默认查询本月
         String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
         List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAllData();
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,uid,null);
+        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,orgId,null,1);
         monthData.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
                 String[] splitStr = data.getBrokenAccordingId().split("_");
