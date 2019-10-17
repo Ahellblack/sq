@@ -69,9 +69,9 @@ public class ConfigRiverStationController {
         try {
             List<JSONObject> jsonList = new ArrayList<JSONObject>();
             User user = (User) userInfoService.get();
-            Integer uid = user.getId();
+
             // 从ConfigRiverStation取出stationID与stationName，构建json数组传送给前端
-            for (ConfigRiverStation rs:configRiverStationMapper.getAll(uid)) {
+            for (ConfigRiverStation rs:configRiverStationMapper.getAll(user.getOrgList().get(0).getId())) {
                 JSONObject json = new JSONObject();
                 json.put("stationID", rs.getStationId());
                 json.put("stationName", rs.getStationName());

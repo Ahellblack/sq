@@ -123,11 +123,11 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     int deleteByPropertyCode(@Param("propertyCode") String propertyCode);
 
 
-    @Select("<script>select sensor_type_name from config_sensor_database " +
+    @Select("<script>select sensor_type_name,sensor_type_id from config_sensor_database " +
             "<if test=\"stationId!=null and stationId != ''\">where manage_org_id =#{stationId} </if> " +
             "and sensor_use_status = \'1\' " +
             "GROUP BY sensor_type_name</script> ")
-    List<String> getSensorTypeNameList(@Param("stationId") String stationId);
+    List<ConfigSensorDatabase> getSensorTypeNameList(@Param("stationId") String stationId);
 
 
     @Select("<script>select manage_org_name from config_sensor_database a " +
@@ -140,9 +140,9 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     List<String> getStationName(@Param("orgId") Integer orgId);
 
     @Select("select * from config_sensor_database " +
-            "where sensor_type_name =#{originDeviceName} " +
-            "and manage_org_name =#{manageOrgName} and sensor_use_status = 1 " )
-    List<ConfigSensorDatabase> getData(@Param("originDeviceName") String originDeviceName, @Param("manageOrgName") String manageOrgName);
+            "where sensor_type_id =#{originDeviceId} " +
+            "and manage_org_id =#{manageOrgId} and sensor_use_status = '1' " )
+    List<ConfigSensorDatabase> getData(@Param("originDeviceId") String originDeviceId, @Param("manageOrgId") String manageOrgId);
 
 
     @Select("select * from config_sensor_database " +

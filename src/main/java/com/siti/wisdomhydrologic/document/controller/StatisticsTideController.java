@@ -39,7 +39,7 @@ public class StatisticsTideController {
         map.put("高桥外侧亭潮位",statisticsTideMapper.getTide(databaseName,year,"16802"));
         map.put("高桥外侧亭潮位超过4.0",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.0));
         map.put("高桥外侧亭潮位超过4.5",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.5));
-
+        map.put("年份",calendar.get(Calendar.YEAR));
         return map;
     }
 

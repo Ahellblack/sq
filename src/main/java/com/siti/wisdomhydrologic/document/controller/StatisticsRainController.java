@@ -35,12 +35,21 @@ public class StatisticsRainController {
             databaseName = "history_day_sensor_data_" + calendar.get(Calendar.YEAR);
         }
         Map<String,Object> map = new HashMap<>();
+        List<RainGroupVo> rainSumGroup = statisticsRainMapper.getRainSumGroupByMonth(databaseName, year);
 
         map.put("全年雨量",statisticsRainMapper.getYearRainSum(databaseName,year));
         map.put("全年降雨天数",statisticsRainMapper.getYearRainNumber(databaseName, year));
         map.put("汛期降雨量",statisticsRainMapper.getFloorSeasonRainSum(databaseName,year));
         map.put("汛期降雨天数",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));
         map.put("各月雨量",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));
+        if (rainSumGroup.size()>3){
+            map.put("最大雨量月份",rainSumGroup.get(0).getMonth());
+            map.put("第二雨量月份",rainSumGroup.get(1).getMonth());
+            map.put("第三雨量月份",rainSumGroup.get(2).getMonth());
+            map.put("最低雨量月份",rainSumGroup.get((rainSumGroup.size()-1)).getMonth());
+            map.put("倍数",rainSumGroup.get(0).getSum()/rainSumGroup.get((rainSumGroup.size()-1)).getSum());
+        }
+        map.put("年份",calendar.get(Calendar.YEAR));
         return  map;
     }
 
@@ -73,7 +82,7 @@ public class StatisticsRainController {
         map.put("雨量最高测站",maxVo);
         map.put("雨量最低测站",minVo);
         map.put("雨量分布List",rainDistrbution);
-
+        map.put("年份",calendar.get(Calendar.YEAR));
         return map;
     }
 
@@ -92,6 +101,7 @@ public class StatisticsRainController {
 
             databaseName = "history_hour_sensor_data_"+ calendar.get(Calendar.YEAR);
         map.put("小时降雨量最大数据",statisticsRainMapper.getMaxHourRainStation(databaseName));
+        map.put("年份",calendar.get(Calendar.YEAR));
         return map;
     }
 

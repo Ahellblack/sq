@@ -25,7 +25,7 @@ public interface StatisticsRainMapper {
     @Select("select count(*) from (select * from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} and SUBSTR(sensor_data_upload_time,6,2) in ('09','08','07','06')  group by SUBSTR(sensor_data_upload_time,1,10)) a")
     Integer getFloorSeasonRainNumber(@Param("databaseName") String databaseName,@Param("year") String year);
 
-    @Select("select sum(sensor_data_value) AS sum , SUBSTR(sensor_data_upload_time,6,2) AS month from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} group by  SUBSTR(sensor_data_upload_time,6,2)")
+    @Select("select sum(sensor_data_value) AS sum , SUBSTR(sensor_data_upload_time,6,2) AS month from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} group by  SUBSTR(sensor_data_upload_time,6,2) order by sum desc")
     List<RainGroupVo> getRainSumGroupByMonth(@Param("databaseName") String databaseName,@Param("year") String year);
 
     @Select("select sum(sensor_data_value) as sum,station_name from " +

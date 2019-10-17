@@ -55,6 +55,15 @@ public class ReportManageDataMantain {
 
     @ApiModelProperty("value=数据错误最后发生时间")
     private String errorLastestAppearTime;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getErrorLastestAppearTime() {
         return errorLastestAppearTime;

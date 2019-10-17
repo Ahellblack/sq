@@ -89,8 +89,8 @@ public class RecordDeviceReplaceController {
     }
     @ApiOperation(value = "表八原设备资产选择下拉框", httpMethod = "GET", notes = "表八原设备资产选择下拉框")
     @GetMapping("/getOriginDatabase")
-    public List<ConfigSensorDatabase> getOriginList(String originDeviceName,String manageOrgName) {
-        return configSensorDatabaseMapper.getData(originDeviceName, manageOrgName);
+    public List<ConfigSensorDatabase> getOriginList(String originDeviceId,String manageOrgId) {
+        return configSensorDatabaseMapper.getData(originDeviceId, manageOrgId);
     }
     @ApiOperation(value = "表八新备用设备资产选择下拉框", httpMethod = "GET", notes = "表八新备用设备资产选择下拉框")
     @GetMapping("/getNewDatabase")

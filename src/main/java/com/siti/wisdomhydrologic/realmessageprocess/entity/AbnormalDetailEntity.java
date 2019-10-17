@@ -20,6 +20,7 @@ public class AbnormalDetailEntity {
     String dataError;
     String equipmentError;
     Date createTime;
+    String description;
 
     private AbnormalDetailEntity(builer builer){
         this. date=builer.date;
@@ -29,6 +30,7 @@ public class AbnormalDetailEntity {
         this. dataError=builer.dataError;
         this. equipmentError=builer.equipmentError;
         this. createTime=builer.createTime;
+        this. description=builer.description;
         //java 构建器
     }
 
@@ -40,8 +42,18 @@ public class AbnormalDetailEntity {
         String equipmentError;
         Date createTime;
        String errorPeriod;
+        String description;
         public AbnormalDetailEntity build(){
             return new AbnormalDetailEntity(this);
+        }
+
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
         }
 
         public builer date(String date) {
@@ -141,6 +153,22 @@ public class AbnormalDetailEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDataError() {
+        return dataError;
+    }
+
+    public void setDataError(String dataError) {
+        this.dataError = dataError;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public AbnormalDetailEntity() {

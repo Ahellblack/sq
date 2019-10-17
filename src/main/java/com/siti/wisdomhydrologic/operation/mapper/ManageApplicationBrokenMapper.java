@@ -37,14 +37,14 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Delete("DELETE from report_station_broken where report_id = #{reportId}")
     int deleteById(@Param("reportId") Integer reportId);
 
-    @Insert("<script>INSERT INTO `report_station_broken`" +
+    @Insert("<script>INSERT ignore INTO `report_station_broken`" +
             "(`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
             "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`,`error_lastest_appear_time`)" +
-            " VALUES <foreach collection=\"brokenList\" item=\"item\" separator=\",\">" +
+            " VALUES " +
             "(#{item.stationId},#{item.stationName}, #{item.brokenName}, #{item.brokenAccordingId}," +
             " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime}," +
-            "#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark},#{item.errorLastestAppearTime})</foreach></script>")
-    int insertDataMantain(@Param("brokenList") List<ReportManageApplicationBroken> brokenList);
+            "#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark},#{item.errorLastestAppearTime})</script>")
+    int insertDataMantain(@Param("item") ReportManageApplicationBroken brokenList);
 
     @Select("<script>SELECT * FROM report_station_broken a left join config_river_station b" +
             " on a.station_id = b.station_id " +

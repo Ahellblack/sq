@@ -232,7 +232,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Override
     public int insertDataMantain(String date) {
 
-
         List<ConfigAbnormalDictionary> list = configAbnormalDictionaryMapper.getList();
         //根据异常表表四展示状态字段 获取数据
         //获取到的数据状态更新为1
@@ -242,27 +241,66 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
         List<Integer> idList = new ArrayList<>();
-        //获取异常配置参数
+        List<ReportManageDataMantainVo> ALLLIST = all;
         if (all.size() > 0) {
+            //新建拷贝筛选队列
             all.forEach(data -> {
+                idList.add(data.getId());
+            });
+            outer:
+            for (int i = 0; i < ALLLIST.size(); i++) {
+                String Iaid = ALLLIST.get(i).getDataError();
+                Integer Isid = ALLLIST.get(i).getSensorCode();
+                Date Idate = DateTransform.String2Date(ALLLIST.get(i).getDate(), "yyyy-MM-dd HH:mm:ss");
+                for (int j = i + 1; j < ALLLIST.size(); j++) {
+                    String Jaid = ALLLIST.get(j).getDataError();
+                    Integer Jsid = ALLLIST.get(j).getSensorCode();
+                    Date Jdate = DateTransform.String2Date(ALLLIST.get(j).getDate(), "yyyy-MM-dd HH:mm:ss");
+                    //同一测站同一异常时,判断
+                    if (Iaid.equals(Jaid) && Isid.equals(Jsid)) {
+                        //如果第i个的时间在第j个之后，替换时间
+                        if (Idate.after(Jdate)) {
+                            //如果时间差超过24小时，不删除数据
+                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
+                                ALLLIST.remove(i);
+                                i--;
+                                continue outer;
+                            }
+                        } else {
+                            //如果时间差超过24小时，不删除数据
+                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
+                                ALLLIST.remove(j);
+                                i--;
+                                continue outer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //获取异常配置参数
+        if (ALLLIST.size() > 0) {
+            ALLLIST.forEach(data -> {
                 /**
                  * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
                  * */
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                cal.add(cal.MINUTE, -5);
-                String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last5MinuteTime, data.getSensorCode());
+                cal.add(cal.MINUTE, -30);
+                String last30MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last30MinuteTime, data.getSensorCode(),data.getBrokenAccordingId());
                 /**
                  * 查询数据表四,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
                  * 若有，更新最后一次生成时间
                  * */
                 if (latestData.size() > 0) {
                     try {
-                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last5MinuteTime);
+                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last30MinuteTime);
                         if (lastData.size() > 0) {
-                            reportManageApplicationBrokenMapper.updateTime(lastData.get(0), data.getDate());
-                            System.out.println("表四数据错误时间更替" + lastData);
+                            lastData.forEach(lastdata->{
+                                reportManageApplicationBrokenMapper.updateTime(lastdata, data.getDate());
+                                System.out.println("表四数据错误时间更替" + lastData);
+                            });
                         } else {
                             Calendar calendar = Calendar.getInstance();
                             ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
@@ -321,12 +359,13 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             });
             abnormalDetailMapper.updateTable4Status(idList);
 
-            int size = 1000;
+
             int allsize = brokenList.size();
-            int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
-            IntStream.range(0, cycle).forEach(e -> {
-                if (allsize > 0) {
-                    reportManageApplicationBrokenMapper.insertDataMantain(brokenList.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
+            brokenList.forEach(data->{
+                try {
+                    reportManageApplicationBrokenMapper.insertDataMantain(data);
+                }catch (Exception e){
+                    System.out.println("数据插入异常");
                 }
             });
             return allsize;

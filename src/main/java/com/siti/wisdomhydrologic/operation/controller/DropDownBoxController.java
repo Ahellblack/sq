@@ -93,7 +93,7 @@ public class DropDownBoxController {
 
     @ApiOperation(value = "设备名称下拉框", httpMethod = "GET", notes = "设备名称下拉框,运维表8下拉框")
     @GetMapping("/getSensorTypeName")
-    public List<String> getSensorTypeNameList(String stationId){
+    public List<ConfigSensorDatabase> getSensorTypeNameList(String stationId){
         return configSensorDatabaseMapper.getSensorTypeNameList(stationId);
     }
 

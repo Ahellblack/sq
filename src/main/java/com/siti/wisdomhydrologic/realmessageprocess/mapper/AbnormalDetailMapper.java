@@ -190,7 +190,8 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "select * from abnormal_detail a " +
             "left join config_sensor_section_module b " +
             "on a.sensor_code = b.section_code " +
-            "where table2_display_status = 0 </script>")
+            "where table2_display_status = 0 " +
+            "order by date desc </script>")
     List<ReportManageDataMantainVo> getAllTable2Data();
 
 
@@ -199,9 +200,11 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
     List<AbnormalDetailEntity> getAbnormal(@Param("date") String date);
 
     @Select("<script>select * from abnormal_detail " +
-            "<if test=\"createDate!=null\">where date = #{createDate}</if> " +
-            "<if test=\"sensorCode!=null\">  and sensor_code = #{sensorCode}</if></script>")
-    List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("sensorCode") Integer sensorCode);
+            "<if test=\"createDate!=null\">where date &gt; #{createDate}</if> " +
+            "<if test=\"sensorCode!=null\">  and sensor_code = #{sensorCode}</if>" +
+            "<if test=\"brokenAccordingId!=null\">  and data_error = #{brokenAccordingId} </if>" +
+            " order by date asc </script>")
+    List<AbnormalDetailEntity> getLatestData(@Param("createDate") String createDate, @Param("sensorCode") Integer sensorCode,@Param("brokenAccordingId") String brokenAccordingId);
 
     @Select("<script>select * from abnormal_detail ad " +
             " left join config_abnormal_dictionary cad on ad.data_error = cad.broken_according_id" +

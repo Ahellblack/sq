@@ -16,7 +16,7 @@ import java.util.List;
 public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain> {
     @Select("<script>Select * from report_manage_data_mantain a " +
             "left join config_abnormal_dictionary b on a.broken_according_id = b.broken_according_id " +
-            "left join config_river_station c on a.station_name = c.station_name " +
+            "left join config_river_station c on a.station_code = c.station_id  " +
             " where c.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             "<if test=\"createDate!=null and createDate!=''\"> and DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
             "<if test=\"stationId!=null and stationId!=''\"> and a.station_code = #{stationId}  </if>"+
@@ -63,14 +63,14 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
 
 
 
-    @Insert("<script>INSERT INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
+    @Insert("<script>INSERT ignore INTO `report_manage_data_mantain`(`station_code`, `alter_date`, `station_name`, `alter_sensor_type_id`, `alter_sensor_type_name`, `error_data_reason`, `error_data_type`, `error_time_space`, " +
             "`error_value`, `confir_value`, `error_unit`, `error_data_re_run`, `miss_data_type`, `miss_time_space`, " +
             "`miss_data_re_run`, `create_by`,`create_time`, `manage_org_id`, `manage_org_name`,`broken_according_id`,`error_lastest_appear_time`) " +
-            "VALUES <foreach collection=\"list\" item=\"item\" separator=\",\">" +
+            "VALUES " +
             "(#{item.stationCode}, #{item.alterDate}, #{item.stationName},#{item.alterSensorTypeId}, #{item.alterSensorTypeName},#{item.errorDataReason},#{item.errorDataType},#{item.errorTimeSpace}," +
             " #{item.errorValue}, #{item.confirValue}, #{item.errorUnit}, #{item.errorDataReRun}, #{item.missDataType}, #{item.missTimeSpace}," +
-            " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId},#{item.errorLastestAppearTime})</foreach></script>")
-    int insertAbnormal(@Param("list") List<ReportManageDataMantainVo> all);
+            " #{item.missDataReRun}, #{item.createBy},#{item.createTime}, #{item.manageOrgId},#{item.manageOrgName},#{item.brokenAccordingId},#{item.errorLastestAppearTime})</script>")
+    int insertAbnormal(@Param("item") ReportManageDataMantainVo vo);
 
 
     @Select("select * from report_manage_data_mantain where station_code = #{stationCode} and create_time = #{last5MinuteTime}")
@@ -80,9 +80,9 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "select * from report_manage_data_mantain  " +
             "where station_code = #{stationId}  " +
             "and alter_sensor_type_id = #{sensorTypeId} " +
-            "and error_lastest_appear_time = #{last5MinuteTime} " +
+            "and error_lastest_appear_time &gt; #{last30MinuteTime} " +
             "</script>")
-    List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("sensorTypeId")int sensorTypeId,  @Param("last5MinuteTime") String last5MinuteTime);
+    List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("sensorTypeId")int sensorTypeId,  @Param("last30MinuteTime") String last30MinuteTime);
 
     @Update("UPDATE `report_manage_data_mantain` " +
             "SET  `display_status` = 0 " +

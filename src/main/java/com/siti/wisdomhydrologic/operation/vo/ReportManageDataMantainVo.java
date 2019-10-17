@@ -30,6 +30,7 @@ public class ReportManageDataMantainVo {
     private String errorDataTypeName;
     private String errorDataReRunName;
     private String missDataReRunName;
+    private String description;
 
     @ApiModelProperty("value=数据错误最后发生时间")
     private String errorLastestAppearTime;
@@ -55,7 +56,15 @@ public class ReportManageDataMantainVo {
 
     @Override
     public String toString() {
-        return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", errorDataTypeName='" + errorDataTypeName + '\'' + ", errorDataReRunName='" + errorDataReRunName + '\'' + ", missDataReRunName='" + missDataReRunName + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + ", id=" + id + ", date='" + date + '\'' + ", sensorCode=" + sensorCode + ", continueInterrupt=" + continueInterrupt + ", updateTime=" + updateTime + ", dataError='" + dataError + '\'' + ", equipmentError='" + equipmentError + '\'' + ", sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorName='" + sensorName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + '}';
+        return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", errorDataTypeName='" + errorDataTypeName + '\'' + ", errorDataReRunName='" + errorDataReRunName + '\'' + ", missDataReRunName='" + missDataReRunName + '\'' + ", description='" + description + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + ", id=" + id + ", date='" + date + '\'' + ", sensorCode=" + sensorCode + ", continueInterrupt=" + continueInterrupt + ", updateTime=" + updateTime + ", dataError='" + dataError + '\'' + ", equipmentError='" + equipmentError + '\'' + ", sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorName='" + sensorName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + '}';
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {

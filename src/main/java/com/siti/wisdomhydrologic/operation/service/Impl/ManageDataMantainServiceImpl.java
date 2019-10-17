@@ -60,20 +60,15 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(),1);
-        List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(), 1);
 
         /**
          * 把页面查询的依据id 替换成依据内容
          * */
-        list.forEach(data -> {
-            list1.forEach(data2 -> {
-                if (data2.getBrokenAccordingId().equals(data.getBrokenAccordingId())) {
-                    data.setBrokenAccordingId(data2.getBrokenAccording());
-                }
-            });
+     /*   list.forEach(data -> {
+            data.setBrokenAccordingId(data.getDescription());
         });
-
+*/
         return new PageInfo<ReportManageDataMantain>(list);
     }
 
@@ -86,18 +81,14 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(),null);
+        List<ReportManageDataMantain> list = reportManageDataMantainMapper.getByCreateDate(stationId, alterType, createDate, orgList.get(0).getId(), null);
         List<ConfigAbnormalDictionary> list1 = configAbnormalDictionaryMapper.getList();
 
         /**
          * 把页面查询的依据id 替换成依据内容
          * */
         list.forEach(data -> {
-            list1.forEach(data2 -> {
-                if (data2.getBrokenAccordingId().equals(data.getBrokenAccordingId())) {
-                    data.setBrokenAccordingId(data2.getBrokenAccording());
-                }
-            });
+            data.setBrokenAccordingId(data.getDescription());
         });
 
         return new PageInfo<ReportManageDataMantain>(list);
@@ -147,28 +138,67 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
+        String str = "";
+        String str1 = "";
         if (all.size() > 0) {
+            //新建拷贝筛选队列
+            List<ReportManageDataMantainVo> ALLLIST = all;
+            all.forEach(data->{
+                list.add(data.getId());
+            });
+            outer:
+            for (int i = 0; i < ALLLIST.size(); i++) {
+                String Iaid = ALLLIST.get(i).getDataError();
+                Integer Isid = ALLLIST.get(i).getSensorCode();
+                Date Idate = DateTransform.String2Date(ALLLIST.get(i).getDate(), "yyyy-MM-dd HH:mm:ss");
+                for (int j = i+1; j < ALLLIST.size(); j++) {
+                    String Jaid = ALLLIST.get(j).getDataError();
+                    Integer Jsid = ALLLIST.get(j).getSensorCode();
+                    Date Jdate = DateTransform.String2Date(ALLLIST.get(j).getDate(), "yyyy-MM-dd HH:mm:ss");
+                    //同一测站同一异常时,判断
+                    if (Iaid.equals(Jaid) && Isid.equals(Jsid)) {
+                        //如果第i个的时间在第j个之后，替换时间
+                        if (Idate.after(Jdate)) {
+                            //如果时间差超过24小时，不删除数据
+                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
+                                ALLLIST.remove(i);
+                                i--;
+                                continue outer;
+                            }
+                        } else {
+                            //如果时间差超过24小时，不删除数据
+                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
+                                ALLLIST.remove(j);
+                                i--;
+                                continue outer;
+                            }
+                        }
+                    }
+                }
+            }
             //获取异常配置参数
-            all.forEach(abData -> {
+            ALLLIST.forEach(abData -> {
                 String errorType = "";
-                if (abData.getDataError()!=null) {
+                if (abData.getDataError() != null) {
                     errorType = abData.getDataError().split("_")[0];
                 }
-                if ("data".equals(errorType)) {
+                if ("data".equals(errorType) || "md".equals(errorType)) {
                     abData.setBrokenAccordingId(abData.getDataError());
 
-                    /**
-                     * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
-                     * */
+                  /**
+                   * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
+                   * */
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(DateTransform.String2Date(abData.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    cal.add(cal.MINUTE, -5);
-                    String last5MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                    cal.add(cal.MINUTE, -30);
+                    String last30MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
 
-                    /**
-                     * 查询上个五分钟的异常表数据。
+                   /**
+                     * 查询前30分钟内
+                     * 同一异常
+                     * 的异常表数据。
                      * */
-                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last5MinuteTime, abData.getSensorCode());
+                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last30MinuteTime, abData.getSensorCode(), abData.getBrokenAccordingId());
 
                     //赋值测站号和修改日期
                     abData.setStationCode(abData.getSensorCode() / 100);
@@ -183,7 +213,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                         try {
                             int stationId = abData.getStationCode();
                             int sensorTypeId = abData.getAlterSensorTypeId();
-                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData( stationId,sensorTypeId,last5MinuteTime);
+                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData( stationId,sensorTypeId,last30MinuteTime);
                             if (latestData.size() > 0) {
                                 //修改最后出现时间
                                 abData.setErrorLastestAppearTime(abData.getCreateTime());
@@ -235,11 +265,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                 list.add(abData.getId());
             });
             abnormalDetailMapper.updateTable2Status(list);
-            int size = 1000;
             int allsize = abnormalall.size();
-            int cycle = allsize % size == 0 ? allsize / size : (allsize / size + 1);
-            IntStream.range(0, cycle).forEach(e -> {
-                reportManageDataMantainMapper.insertAbnormal(abnormalall.subList(e * size, (e + 1) * size > allsize ? allsize : size * (e + 1)));
+            abnormalall.forEach(data->{
+                reportManageDataMantainMapper.insertAbnormal(data);
             });
             return allsize;
         } else {
@@ -255,4 +283,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
             return 0;
         }
     }
+
+
 }

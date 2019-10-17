@@ -70,7 +70,7 @@ public class Usertrol {
     }
 
     @GetMapping("getUser")
-    public User getUsername (HttpSession session){
+    public User getUsername (){
         User user = (User)userInfoService.get();
         return user;
     }
