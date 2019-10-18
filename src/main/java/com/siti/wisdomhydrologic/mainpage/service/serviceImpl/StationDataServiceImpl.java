@@ -47,7 +47,7 @@ public class StationDataServiceImpl implements StationDataService {
 
     @Override
     public void updateData() throws Exception {
-        //待开发可添加根据riverStation的id先生成添加数据
+        //待开发可添加根据riverStation的id生成添加数据
         Calendar calendar = Calendar.getInstance();
         String realtime = realStationDataMapper.getStationLatestData();
         calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));

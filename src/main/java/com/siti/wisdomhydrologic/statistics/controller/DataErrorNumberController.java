@@ -36,7 +36,7 @@ public class DataErrorNumberController {
     private UserMapper userMapper;
 
     @GetMapping("errorList")
-    public Map<String, Object> getList(HttpSession session, Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
+    public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
         Map<String, Object> map = new HashMap<>();
         User user = (User) userInfoService.get();
@@ -46,7 +46,7 @@ public class DataErrorNumberController {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
             List<DataError> dataList =new ArrayList<>();
             if(list.size() >0) {
-                dataList = dataErrorNumberMapper.getList(stationId, year, list, dataTime,orgList.get(0).getId());
+                dataList = dataErrorNumberMapper.getList(stationId, year, list, null,orgList.get(0).getId());
             }else{
                 // list为空,且dateTime不为空时
                 if(dateType == 4 && dataTime != null) {

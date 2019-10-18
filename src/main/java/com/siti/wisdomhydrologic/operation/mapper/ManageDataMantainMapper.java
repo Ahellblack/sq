@@ -26,7 +26,7 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "</script>")
     List<ReportManageDataMantain> getByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId,@Param("display") Integer display);
 
-    @Select("<script>Select * from report_manage_data_mantain a left join config_river_station c on a.station_name = c.station_name " +
+    @Select("<script>Select * from report_manage_data_mantain a left join config_river_station c on a.station_code = c.station_id " +
             " where c.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             "<if test=\"createDate!=null and createDate!=''\">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if>" +
             "<if test=\"stationId!=null and stationId!='' \"> and a.station_code = #{stationId}  </if>"+
@@ -79,10 +79,10 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
     @Select("<script>" +
             "select * from report_manage_data_mantain  " +
             "where station_code = #{stationId}  " +
-            "and alter_sensor_type_id = #{sensorTypeId} " +
-            "and error_lastest_appear_time &gt; #{last30MinuteTime} " +
+            "and broken_according_id = #{accordingId} " +
+            "and error_lastest_appear_time &gt; #{last24HourTime} " +
             "</script>")
-    List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("sensorTypeId")int sensorTypeId,  @Param("last30MinuteTime") String last30MinuteTime);
+    List<ReportManageDataMantain> getLastestData(@Param("stationId") int stationId,@Param("accordingId")String accordingId,  @Param("last24HourTime") String last24HourTime);
 
     @Update("UPDATE `report_manage_data_mantain` " +
             "SET  `display_status` = 0 " +

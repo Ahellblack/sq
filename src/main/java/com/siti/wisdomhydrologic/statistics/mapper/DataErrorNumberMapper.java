@@ -22,7 +22,7 @@ public interface DataErrorNumberMapper {
             " WHERE " +
             "1 = 1 " +
             " and b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            " <if test=\"stationId!=null\">AND a.station_code = #{stationId} </if> " +
+            " <if test=\"stationId!=null and stationId != ''\">AND a.station_code = #{stationId} </if> " +
             " <if test=\"year!=null\"> AND SUBSTR( a.create_time, 1, 4 ) = #{year} </if> " +
             " <if test=\"list!=null\">AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)</if> " +
             " <if test=\"dataTime!=null\">AND SUBSTR( a.create_time, 1, 10 ) = #{dataTime} </if>" +

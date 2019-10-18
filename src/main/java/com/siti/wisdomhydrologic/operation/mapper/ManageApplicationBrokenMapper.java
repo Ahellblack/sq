@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
 
-    @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_name = b.station_name " +
+    @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_id = b.station_id " +
             " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
             "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if> " +
             "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
@@ -111,10 +111,13 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
 
 
-    @Select("select * from report_station_broken where station_id = #{stationId} and error_lastest_appear_time = #{last5MinuteTime} ")
-    List<ReportManageApplicationBroken> getLastestData(@Param("stationId") int stationId, @Param("last5MinuteTime") String last5MinuteTime);
+    @Select("select * from report_station_broken where station_id = #{stationId} " +
+            "and broken_according_id = #{accordingId} " +
+            "and error_lastest_appear_time > #{last24HourTime} ")
+    List<ReportManageApplicationBroken> getLastestData(@Param("stationId") int stationId,@Param("accordingId") String accordingId, @Param("last24HourTime") String last24HourTime);
 
-    @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  WHERE report_id = #{data.reportId}")
+    @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  " +
+            "WHERE report_id = #{data.reportId}")
     void updateTime(@Param("data") ReportManageApplicationBroken lastData, @Param("date") String date);
 
 

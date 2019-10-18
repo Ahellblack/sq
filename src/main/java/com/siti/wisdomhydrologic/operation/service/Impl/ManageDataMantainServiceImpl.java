@@ -138,8 +138,9 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         List<ConfigSensorSectionModule> moduleList = configSensorSectionModuleMapper.getStation();
         List<ReportManageDataMantainVo> abnormalall = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
-        String str = "";
-        String str1 = "";
+        /**
+         * 一次数据拉取剔除重复
+         * */
         if (all.size() > 0) {
             //新建拷贝筛选队列
             List<ReportManageDataMantainVo> ALLLIST = all;
@@ -161,14 +162,14 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                         if (Idate.after(Jdate)) {
                             //如果时间差超过24小时，不删除数据
                             if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(i);
+                                ALLLIST.remove(j);
                                 i--;
                                 continue outer;
                             }
                         } else {
                             //如果时间差超过24小时，不删除数据
                             if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(j);
+                                ALLLIST.remove(i);
                                 i--;
                                 continue outer;
                             }
@@ -186,19 +187,19 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     abData.setBrokenAccordingId(abData.getDataError());
 
                   /**
-                   * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
+                   * 查询24小时内的数据表中是否包含这次测站的这个异常
                    * */
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(DateTransform.String2Date(abData.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    cal.add(cal.MINUTE, -30);
-                    String last30MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                    cal.add(cal.HOUR, -24);
+                    String last24HourTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
 
                    /**
-                     * 查询前30分钟内
+                     * 查询前24小时内
                      * 同一异常
                      * 的异常表数据。
                      * */
-                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last30MinuteTime, abData.getSensorCode(), abData.getBrokenAccordingId());
+                    List<AbnormalDetailEntity> latestAbnormalData = abnormalDetailMapper.getLatestData(last24HourTime, abData.getSensorCode(), abData.getBrokenAccordingId());
 
                     //赋值测站号和修改日期
                     abData.setStationCode(abData.getSensorCode() / 100);
@@ -206,22 +207,36 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                     abData.setCreateTime(abData.getDate());
 
                     /**
-                     * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
+                     * 查询数据表二,是否有数据的最后一次出现时间 = 异常表上24小时内的时间,
                      * 若有，更新最后一次生成时间
                      * */
                     if (latestAbnormalData.size() > 0) {
                         try {
                             int stationId = abData.getStationCode();
-                            int sensorTypeId = abData.getAlterSensorTypeId();
-                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData( stationId,sensorTypeId,last30MinuteTime);
+                            String accordingId = abData.getDataError();
+                            List<ReportManageDataMantain> latestData = reportManageDataMantainMapper.getLastestData(stationId,accordingId,last24HourTime);
                             if (latestData.size() > 0) {
-                                //修改最后出现时间
-                                abData.setErrorLastestAppearTime(abData.getCreateTime());
-                                //修改错误时间段
-                                abData.setErrorTimeSpace(latestAbnormalData.get(0).getDate() + "," + abData.getCreateTime());
-                                abData.setReportId(latestData.get(0).getReportId());
-                                reportManageDataMantainMapper.updateTime(abData);
-                                System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                                latestData.forEach(latestdata->{
+
+                                    Date dateOld = DateTransform.String2Date(latestdata.getErrorLastestAppearTime(), "yyyy-MM-dd HH:mm:ss");
+                                    Date dateNew = DateTransform.String2Date(abData.getCreateTime(), "yyyy-MM-dd HH:mm:ss");
+                                    if (dateOld.after(dateNew)) {
+                                        //修改最后出现时间
+                                        abData.setErrorLastestAppearTime(latestdata.getErrorLastestAppearTime());
+                                        //修改错误时间段
+                                        abData.setErrorTimeSpace(abData.getCreateTime() + "," +  abData.getErrorLastestAppearTime());
+                                        abData.setReportId(latestdata.getReportId());
+                                    }else {
+                                        //修改最后出现时间
+                                        abData.setErrorLastestAppearTime(abData.getCreateTime());
+                                        //修改错误时间段
+                                        abData.setErrorTimeSpace(latestdata.getCreateTime() + "," +  abData.getCreateTime());
+                                        abData.setReportId(latestdata.getReportId());
+                                    }
+
+                                    reportManageDataMantainMapper.updateTime(abData);
+                                    System.out.println(abData.getStationName() + "的异常" + abData.getBrokenAccordingId() + "表二数据错误时间更替" + abData.getErrorLastestAppearTime());
+                                });
                             } else {
                                 //根据字典获取异常名
                                 dictionarylist.forEach(param -> {

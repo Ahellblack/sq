@@ -33,9 +33,16 @@ public interface UserMapper extends Mapper<User> {
             "where suo.uid = #{id}</script>")
     List<Org> findOrg(@Param("id") int id);
 
-    @Select("SELECT su.real_name FROM sys_org so left join sys_user_org suo on so.id = suo.org_id " +
-            "left join sys_user su on suo.uid = su.id " +
-            "WHERE so.id = #{orgId} OR FIND_IN_SET( #{orgId}, path )")
+    /**
+     * 只查询角色为运维人员的数据
+     * */
+    @Select("select su.real_name from sys_user su " +
+            "left join sys_user_org suo on su.id = suo.uid " +
+            "left join sys_org so on suo.org_id = so.id " +
+            "left join sys_user_role sur on su.id = sur.uid " +
+            "left join sys_role sr on sur.rid = sr.id " +
+            "WHERE (so.id = #{orgId} OR FIND_IN_SET( #{orgId},so.path)) " +
+            "and  sur.rid = 3")
     List<String> findMaintainer(@Param("orgId")Integer orgId);
 
 

@@ -73,14 +73,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status,1);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status, 1);
 
 
         return new PageInfo<>(all);
     }
 
     //查询全部数据
-    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId,Integer status) {
+    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId, Integer status) {
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         //默认查询本月
@@ -88,7 +88,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             createDate = DateOrTimeTrans.Date2TimeString3(new Date());
         }
         PageHelper.startPage(page, pageSize);
-        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status,null);
+        List<ReportManageApplicationBroken> all = reportManageApplicationBrokenMapper.getAll(createDate, stationId, orgList.get(0).getId(), status, null);
 
         return new PageInfo<>(all);
     }
@@ -168,12 +168,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
 
         if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
-
             reportManageApplicationBroken.setRequestDesignatingStatus(2);
             reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
             String numberStr = "";
             for (int i = 0; i < phoneNumber.size(); i++) {
                 numberStr = numberStr + "," + phoneNumber.get(i);
+            }
+            if (numberStr == "") {
+                return 0;
             }
             if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
                 //发送短信
@@ -198,7 +200,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             notResolveList.forEach(data -> {
 
                 List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(), date, latest30minute);
-                //系统异常表30分钟无该数据异常,表示恢复
+                //系统异常表最近30分钟无该数据异常,表示恢复
                 if (latest30minuteDate.size() == 0) {
                     data.setRequestDesignatingStatus(4);
                     String now = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
@@ -262,14 +264,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                         if (Idate.after(Jdate)) {
                             //如果时间差超过24小时，不删除数据
                             if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(i);
+                                ALLLIST.remove(j);
                                 i--;
                                 continue outer;
                             }
                         } else {
                             //如果时间差超过24小时，不删除数据
                             if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(j);
+                                ALLLIST.remove(i);
                                 i--;
                                 continue outer;
                             }
@@ -282,23 +284,33 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         if (ALLLIST.size() > 0) {
             ALLLIST.forEach(data -> {
                 /**
-                 * 查询上次5分钟内的数据表中是否包含这次测站的这个异常
+                 * 查询上次24小时内的数据表中是否包含这次测站的这个异常
                  * */
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                cal.add(cal.MINUTE, -30);
-                String last30MinuteTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last30MinuteTime, data.getSensorCode(),data.getBrokenAccordingId());
+                cal.add(cal.HOUR, -24);
+                String last24HourTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+                List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last24HourTime, data.getSensorCode(), data.getBrokenAccordingId());
                 /**
-                 * 查询数据表四,是否有数据的最后一次出现时间 = 异常表上个5分钟的时间,
+                 * 查询数据表四,是否有数据的最后一次出现时间 = 异常表上个24小时的时间,
                  * 若有，更新最后一次生成时间
                  * */
                 if (latestData.size() > 0) {
                     try {
-                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData((latestData.get(0).getSensorCode() / 100), last30MinuteTime);
+                        Integer stationId = (latestData.get(0).getSensorCode() / 100);
+                        String accordingId = latestData.get(0).getDataError();
+                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData(stationId, accordingId, last24HourTime);
                         if (lastData.size() > 0) {
-                            lastData.forEach(lastdata->{
-                                reportManageApplicationBrokenMapper.updateTime(lastdata, data.getDate());
+                            lastData.forEach(lastdata -> {
+                                Date dateOld = DateTransform.String2Date(lastdata.getErrorLastestAppearTime(), "yyyy-MM-dd HH:mm:ss");
+                                Date dateNew = DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss");
+                                if (dateOld.after(dateNew)) {
+                                    //修改最后出现时间
+                                    data.setErrorLastestAppearTime(lastdata.getErrorLastestAppearTime());
+                                } else {
+                                    data.setErrorLastestAppearTime(data.getDate());
+                                }
+                                reportManageApplicationBrokenMapper.updateTime(lastdata, data.getErrorLastestAppearTime());
                                 System.out.println("表四数据错误时间更替" + lastData);
                             });
                         } else {
@@ -361,10 +373,10 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
 
             int allsize = brokenList.size();
-            brokenList.forEach(data->{
+            brokenList.forEach(data -> {
                 try {
                     reportManageApplicationBrokenMapper.insertDataMantain(data);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("数据插入异常");
                 }
             });

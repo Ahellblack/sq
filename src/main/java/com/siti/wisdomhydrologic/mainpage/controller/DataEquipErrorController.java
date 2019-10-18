@@ -38,12 +38,21 @@ public class DataEquipErrorController {
         User user = (User) userInfoService.get();
         Integer orgId = user.getOrgList().get(0).getId();
 
-        DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0, 0, 0);
+        DataEquipErrorVo vo = new DataEquipErrorVo(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+        );
         //默认查询本月
         String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
-        List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAllData();
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,orgId,null,1);
+        List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAll(null,null,1000,null,1);
+        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,1000,null,1);
         monthData.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
                 String[] splitStr = data.getBrokenAccordingId().split("_");
@@ -64,6 +73,8 @@ public class DataEquipErrorController {
         });
         vo.setEquipErrorNumberMonth(vo.getEquipAnalystNumber() + vo.getTypicalValueNumber());
         vo.setDataErrorNumberMonth(vo.getDataAnalystNumber() + vo.getModelNumber());
+
+
         vo.setEquipAnalystNumber(0);
         vo.setDataAnalystNumber(0);
         vo.setModelNumber(0);
