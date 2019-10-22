@@ -91,7 +91,7 @@ public class StationCheckMantainController {
     }
 
     @ApiOperation(value = "表五测站检查维护记录表，根据日期及测站id进行筛选，每次导出一条数据,模板导出", httpMethod = "GET", notes = "表五测站检查维护记录表模板导出")
-    @GetMapping("/getExcel")
+    @GetMapping("/getExcelAll")
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String mantainDate, Integer stationId) throws UnsupportedEncodingException {
         // 获取workbook对象

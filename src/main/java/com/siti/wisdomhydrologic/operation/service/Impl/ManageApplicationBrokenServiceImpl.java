@@ -166,22 +166,28 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
         ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
-
-        if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
-            reportManageApplicationBroken.setRequestDesignatingStatus(2);
-            reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
-            String numberStr = "";
-            for (int i = 0; i < phoneNumber.size(); i++) {
-                numberStr = numberStr + "," + phoneNumber.get(i);
+        try {
+            if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
+                reportManageApplicationBroken.setRequestDesignatingStatus(2);
+                reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+                String numberStr = "";
+                for (int i = 0; i < phoneNumber.size(); i++) {
+                    numberStr = numberStr + "," + phoneNumber.get(i);
+                }
+                if (numberStr.length() > 1) {
+                    numberStr = numberStr.substring(1, numberStr.length());
+                }
+                if (numberStr == "") {
+                    return 0;
+                }
+                if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
+                    //发送短信
+                    PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
+                }
+                return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
             }
-            if (numberStr == "") {
-                return 0;
-            }
-            if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
-                //发送短信
-                PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
-            }
-            return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
+        } catch (Exception e) {
+            return 0;
         }
         return 0;
     }
@@ -319,6 +325,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                             //异常包含设备异常或数据异常的一种
                             if (data.getDataError() != null) {
                                 applicationBroken.setBrokenAccordingId(data.getDataError());
+                                applicationBroken.setDescription(data.getDescription());
                             }
                             if (applicationBroken.getBrokenAccordingId() != null) {
                                 //结合module表添加测站参数

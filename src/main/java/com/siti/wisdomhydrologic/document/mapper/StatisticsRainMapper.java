@@ -30,7 +30,7 @@ public interface StatisticsRainMapper {
 
     @Select("select sum(sensor_data_value) as sum,station_name from " +
             "(select * from ${databaseName} " +
-            "where sensor_code like '%84' " +
+            "where sensor_code like '%84' and sensor_data_value < 500 " +
             "and SUBSTR(sensor_data_upload_time,1,4) = #{year}) a  " +
             "GROUP BY substr(sensor_code,1,5) " +
             "order by sum desc")

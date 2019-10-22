@@ -88,7 +88,7 @@ public class ManageMantainController {
     }
 
     @ApiOperation(value = "表一日常维护记录表模板导出", httpMethod = "GET", notes = "表一日常维护记录表模板导出")
-    @GetMapping("/getExcel")
+    @GetMapping("/getExcelAll")
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String date) throws UnsupportedEncodingException {
         // 获取workbook对象

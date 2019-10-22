@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,14 +34,9 @@ public class DataEquipErrorController {
 
     @GetMapping("/get")
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
-    public DataEquipErrorVo getDataEquipErrorVo(HttpSession session) {
-
-        User user = (User) userInfoService.get();
-        Integer orgId = user.getOrgList().get(0).getId();
+    public DataEquipErrorVo getDataEquipErrorVo(Integer date) { // date = 1时 查询日数据 date = 2时 查询月数据 date = 3 查询年数据
 
         DataEquipErrorVo vo = new DataEquipErrorVo(
-                0,
-                0,
                 0,
                 0,
                 0,
@@ -49,11 +45,21 @@ public class DataEquipErrorController {
                 0
         );
         //默认查询本月
-        String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
 
-        List<ReportManageApplicationBroken> allData = reportManageApplicationBrokenMapper.getAll(null,null,1000,null,1);
-        List<ReportManageApplicationBroken> monthData = reportManageApplicationBrokenMapper.getAll(createDate,null,1000,null,1);
-        monthData.forEach(data -> {
+        List<ReportManageApplicationBroken> list = new ArrayList<>();
+        if(date==1){
+            String createDate = DateOrTimeTrans.Date2TimeString(new Date());
+            list = reportManageApplicationBrokenMapper.getAllDay(createDate,null,1000,null,1);
+        }
+        if(date==2){
+            String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+            list = reportManageApplicationBrokenMapper.getAllMonth(createDate,null,1000,null,1);
+        }
+        if(date==3){
+            String createDate = DateOrTimeTrans.Year2String(new Date());
+            list = reportManageApplicationBrokenMapper.getAllYear(createDate,null,1000,null,1);
+        }
+        list.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
                 String[] splitStr = data.getBrokenAccordingId().split("_");
                 String type = splitStr[0];
@@ -67,32 +73,6 @@ public class DataEquipErrorController {
                     vo.setModelNumber(vo.getModelNumber() + 1);
                 }
                 if ("ty".equals(type)) {//典型值
-                    vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
-                }
-            }
-        });
-        vo.setEquipErrorNumberMonth(vo.getEquipAnalystNumber() + vo.getTypicalValueNumber());
-        vo.setDataErrorNumberMonth(vo.getDataAnalystNumber() + vo.getModelNumber());
-
-
-        vo.setEquipAnalystNumber(0);
-        vo.setDataAnalystNumber(0);
-        vo.setModelNumber(0);
-        vo.setTypicalValueNumber(0);
-        allData.forEach(data -> {
-            if (data.getBrokenAccordingId() != null) {
-                String[] splitStr = data.getBrokenAccordingId().split("_");
-                String type = splitStr[0];
-                if ("eq".equals(type)) {
-                    vo.setEquipAnalystNumber(vo.getEquipAnalystNumber() + 1);
-                }
-                if ("data".equals(type)) {
-                    vo.setDataAnalystNumber(vo.getDataAnalystNumber() + 1);
-                }
-                if ("md".equals(type)) {
-                    vo.setModelNumber(vo.getModelNumber() + 1);
-                }
-                if ("ty".equals(type)) {
                     vo.setTypicalValueNumber(vo.getTypicalValueNumber() + 1);
                 }
             }

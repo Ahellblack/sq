@@ -170,7 +170,7 @@ public class StationRainConstrastController {
     }
 
     @ApiOperation(value = "表七测站降水量数据比对表，默认查询上月数据导出", httpMethod = "GET", notes = "表七测站降水量数据比对表查询导出excel")
-    @GetMapping("/getExcel")
+    @GetMapping("/getExcelAll")
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String createTime) throws UnsupportedEncodingException {
         // 获取workbook对象

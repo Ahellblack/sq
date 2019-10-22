@@ -13,24 +13,6 @@ public class DataEquipErrorVo {
     private int modelNumber;
     private int typicalValueNumber;
 
-    private int dataErrorNumberMonth;
-    private int equipErrorNumberMonth;
-
-    public int getDataErrorNumberMonth() {
-        return dataErrorNumberMonth;
-    }
-
-    public void setDataErrorNumberMonth(int dataErrorNumberMonth) {
-        this.dataErrorNumberMonth = dataErrorNumberMonth;
-    }
-
-    public int getEquipErrorNumberMonth() {
-        return equipErrorNumberMonth;
-    }
-
-    public void setEquipErrorNumberMonth(int equipErrorNumberMonth) {
-        this.equipErrorNumberMonth = equipErrorNumberMonth;
-    }
 
     public int getEquipErrorNumber() {
         return equipErrorNumber;
@@ -80,15 +62,13 @@ public class DataEquipErrorVo {
         this.dataErrorNumber = dataErrorNumber;
     }
 
-    public DataEquipErrorVo(int dataErrorNumber, int equipErrorNumber, int dataAnalystNumber, int equipAnalystNumber, int modelNumber, int typicalValueNumber, int dataErrorNumberMonth, int equipErrorNumberMonth) {
+    public DataEquipErrorVo(int dataErrorNumber, int equipErrorNumber, int dataAnalystNumber, int equipAnalystNumber, int modelNumber, int typicalValueNumber) {
         this.dataErrorNumber = dataErrorNumber;
         this.equipErrorNumber = equipErrorNumber;
         this.dataAnalystNumber = dataAnalystNumber;
         this.equipAnalystNumber = equipAnalystNumber;
         this.modelNumber = modelNumber;
         this.typicalValueNumber = typicalValueNumber;
-        this.dataErrorNumberMonth = dataErrorNumberMonth;
-        this.equipErrorNumberMonth = equipErrorNumberMonth;
     }
 
     public DataEquipErrorVo() {

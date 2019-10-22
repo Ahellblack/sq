@@ -63,6 +63,23 @@ public class ReportManageApplicationBroken {
     @ApiModelProperty(value = "故障最后出现时间")
     private String errorLastestAppearTime;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBrokenRequestReportTime() {
+        return brokenRequestReportTime;
+    }
+
+    public void setBrokenRequestReportTime(String brokenRequestReportTime) {
+        this.brokenRequestReportTime = brokenRequestReportTime;
+    }
 
     public String getErrorLastestAppearTime() {
         return errorLastestAppearTime;
