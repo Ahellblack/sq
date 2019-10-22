@@ -36,6 +36,9 @@ public class DataEquipErrorController {
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
     public DataEquipErrorVo getDataEquipErrorVo(Integer date) { // date = 1时 查询日数据 date = 2时 查询月数据 date = 3 查询年数据
 
+        if (date == null){
+            return null;
+        }
         DataEquipErrorVo vo = new DataEquipErrorVo(
                 0,
                 0,

@@ -60,4 +60,7 @@ public interface UserOrgRelaMapper {
      * */
     @Select("select * from sys_org")
     List<Org> getRoleList();
+
+    @Update("update sys_user_org set is_leader = #{isLeader} where uid = #{id}")
+    void updateIsLeader(@Param("id")int id,@Param("isLeader") Integer isLeader);
 }

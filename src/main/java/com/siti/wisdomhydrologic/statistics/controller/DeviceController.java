@@ -1,12 +1,15 @@
 package com.siti.wisdomhydrologic.statistics.controller;
 
+import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
 import com.siti.wisdomhydrologic.statistics.entity.DeviceChange;
 import com.siti.wisdomhydrologic.statistics.mapper.DeviceMapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.MonthListUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +22,9 @@ import javax.annotation.Resource;
 @RequestMapping("/device")
 @RestController
 public class DeviceController {
+
+    @Resource
+    private RecordDeviceReplaceMapper recordDeviceReplaceMapper;
 
     @Resource
     private DeviceMapper deviceMapper;
@@ -71,5 +77,14 @@ public class DeviceController {
         return map;
     }
 
+    public Map<String, Object> getDevice() {
+        Map<String, Object> map = new HashMap<>();
+        String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
+        String time = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
+        String year = DateTransform.Date2String(new Date(), "yyyy");
+        recordDeviceReplaceMapper.getAll(null,today);
 
+
+        return map;
+    }
 }

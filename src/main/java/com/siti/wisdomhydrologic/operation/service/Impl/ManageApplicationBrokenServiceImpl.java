@@ -12,6 +12,7 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModule
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageApplicationBrokenService;
+import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
@@ -168,8 +169,12 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
         try {
             if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
-                reportManageApplicationBroken.setRequestDesignatingStatus(2);
+                /**
+                 *派单后状态直接更改为3，派单时间 == 处理中时间
+                 * */
+                reportManageApplicationBroken.setRequestDesignatingStatus(3);
                 reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+                reportManageApplicationBroken.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
                 String numberStr = "";
                 for (int i = 0; i < phoneNumber.size(); i++) {
                     numberStr = numberStr + "," + phoneNumber.get(i);
@@ -182,7 +187,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 }
                 if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
                     //发送短信
-                    PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording());
+                    PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording(),reportId+"");
                 }
                 return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
             }
@@ -226,6 +231,28 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         }
         return 0;
     }
+
+    /*public void updateUnpackStatus() {
+        //获取5分钟内的开关门动态
+        List<RealDeviceStatus> devList  = reportManageApplicationBrokenMapper.getRealDeviceStatus();
+
+        if(devList.size()>0){
+            List<ReportManageApplicationBroken> notResolveList = reportManageApplicationBrokenMapper.getNotResolve();
+            devList.forEach(data->{
+                for (ReportManageApplicationBroken broken : notResolveList) {
+                    if(broken.getStationId()+"" == data.getStationId()
+                            || broken.getBrokenOnResolveTime() == null ){
+                        broken.setBrokenOnResolveTime(data.getLastUploadTime());
+                        broken.setRequestDesignatingStatus(3);
+                        if (broken.getRequestDesignatingTime() == null) {
+                            broken.setRequestDesignatingTime(data.getLastUploadTime());
+                        }
+                        //无维护时间修改
+                        reportManageApplicationBrokenMapper.updateStatus(broken);
+                    }
+                }});}
+    }*/
+
 
     @Override
     public int delete(Integer reportId) {
@@ -392,6 +419,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             return 0;
         }
     }
+
+
 
 
     /**

@@ -17,4 +17,13 @@ public interface PatencyMapper {
             "<foreach collection=\"sensorCode\" item=\"item\" separator=\",\"> #{item} </foreach>)) a " +
             "GROUP BY a.sensor_code</script>")
     List<Patency> getPatency(@Param("sensorCode")List<String> sensorCode, @Param("startTime") String startTime, @Param("endTime") String endTime);
+
+    @Select("select count(*) from ${datebaseName} where to_days(sensor_data_time) = to_days(now());")
+    Integer getRealTSDBData(@Param("datebaseName") String datebaseName);
+
+    @Select("select count(*) from ${datebaseName} where to_days(sensor_data_upload_time) = to_days(now());")
+    Integer getRealHourData(@Param("datebaseName") String datebaseName);
+
+    @Select("select count(*) from `${datebaseName}` where to_days(time) = to_days(now());")
+    Integer getRealRTSQData(@Param("datebaseName") String datebaseName);
 }

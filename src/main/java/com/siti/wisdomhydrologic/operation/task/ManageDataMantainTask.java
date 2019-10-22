@@ -20,7 +20,7 @@ public class ManageDataMantainTask {
     @Resource
     private ManageDataMantainServiceImpl reportManageDataMantainService;
 
-    @Scheduled(cron = "0 1/5 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);

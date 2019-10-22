@@ -16,10 +16,19 @@ public class AbnormalRainfall {
   private String nearbySensorCode;
   private double nearbyRate;
   private String exceptionValue;
+  private String nearbySensorName;
+
+  public String getNearbySensorName() {
+    return nearbySensorName;
+  }
+
+  public void setNearbySensorName(String nearbySensorName) {
+    this.nearbySensorName = nearbySensorName;
+  }
 
   @Override
   public String toString() {
-    return "AbnormalRainfall{" + "id=" + id + ", sensorCode='" + sensorCode + '\'' + ", sensorName='" + sensorName + '\'' + ", interruptLimit=" + interruptLimit + ", maxDayLevel=" + maxDayLevel + ", minDayLevel=" + minDayLevel + ", maxHourLevel=" + maxHourLevel + ", minHourLevel=" + minHourLevel + ", maxFiveLevel=" + maxFiveLevel + ", minFiveLevel=" + minFiveLevel + ", nearbySensorCode='" + nearbySensorCode + '\'' + ", nearbyRate=" + nearbyRate + ", exceptionValue='" + exceptionValue + '\'' + '}';
+    return "AbnormalRainfall{" + "id=" + id + ", sensorCode='" + sensorCode + '\'' + ", sensorName='" + sensorName + '\'' + ", interruptLimit=" + interruptLimit + ", maxDayLevel=" + maxDayLevel + ", minDayLevel=" + minDayLevel + ", maxHourLevel=" + maxHourLevel + ", minHourLevel=" + minHourLevel + ", maxFiveLevel=" + maxFiveLevel + ", minFiveLevel=" + minFiveLevel + ", nearbySensorCode='" + nearbySensorCode + '\'' + ", nearbyRate=" + nearbyRate + ", exceptionValue='" + exceptionValue + '\'' + ", nearbySensorName='" + nearbySensorName + '\'' + '}';
   }
 
   public String getExceptionValue() {

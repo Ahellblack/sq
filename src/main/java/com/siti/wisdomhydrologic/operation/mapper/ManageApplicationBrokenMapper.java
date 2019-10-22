@@ -4,6 +4,7 @@ import com.siti.wisdomhydrologic.mainpage.vo.ReportManageApplicationBrokenVo;
 import com.siti.wisdomhydrologic.mainpage.vo.StationMalFunction;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
+import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -164,4 +165,19 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
 
     @Update("UPDATE `report_station_broken` SET `display_status` = 0  WHERE report_id = #{reportId}")
     int updateDisplayStatus(@Param("reportId") Integer reportId);
+
+    /**
+     *获取现在到5分钟前的开关门状态,查询时间段内有开关门记录，并记录
+     * */
+    @Select("SELECT drs.devid,mc,drs.last_upload_time,station_id FROM `device_real_status` drs left join config_dev_station cds  on drs.devid = cds.devid \n" +
+            "where drs.is_online = 1 \n" +
+            "and station_id is not null\n" +
+            "and last_upload_time BETWEEN  date_add(now(), interval -5 minute) and now() " +
+            "and station_id = #{stationId}")
+    List<RealDeviceStatus> getRealDeviceStatus();
+
+    //查询装有设备的测站
+    @Select("SELECT drs.devid,mc,drs.last_upload_time,station_id FROM `device_real_status` drs left join config_dev_station cds  on drs.devid = cds.devid \n" +
+            "where station_id = #{stationId}")
+    List<RealDeviceStatus> getRealDeviceList(@Param("stationId")Integer stationId);
 }

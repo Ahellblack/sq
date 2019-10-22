@@ -29,7 +29,7 @@ public class ManageApplicationBrokenTask {
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
-    @Scheduled(cron = "0 1/5 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
@@ -46,8 +46,13 @@ public class ManageApplicationBrokenTask {
 
         int i = manageApplicationBrokenService.insertDataMantain(date);
         if(i>0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
+        /*
+        //系统开关门状态录入
+        manageApplicationBrokenService.updateUnpackStatus();*/
+
         //异常状态恢复方法
         manageApplicationBrokenService.updateBrokenStatus();
+
         return i;
     }
 

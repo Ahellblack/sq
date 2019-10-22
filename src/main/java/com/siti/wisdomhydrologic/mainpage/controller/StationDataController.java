@@ -9,6 +9,8 @@ import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
+import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
 import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
@@ -56,6 +58,10 @@ public class StationDataController {
     private StationDataServiceImpl stationDataService;
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
+
+
+    @Resource
+    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
 
 
     @ApiOperation(value = "首页地图站点点击数据展示接口", httpMethod = "GET", notes = "查询station_data表获取最近各站点的传感器数据,返回各类传感器数据值")
@@ -123,7 +129,7 @@ public class StationDataController {
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
-        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId,1002 );//暂展示浦东点位
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId, 1002);//暂展示浦东点位
 
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
         List<String> list = new ArrayList<>();
@@ -214,7 +220,7 @@ public class StationDataController {
                 data.setAirPressure("");
             }
             //故障站状态赋值
-            if(data.getStatus()==2) {
+            if (data.getStatus() == 2) {
                 //查询该测站的异常状态,赋值AbnormalDetailList
                 List<AbnormalDetailVo> stationLatestData = abnormalDetailMapper.getStationLatestData(data.getTime(), data.getStationId());
                 List<String> errorList = new ArrayList<>();
@@ -222,6 +228,10 @@ public class StationDataController {
                     errorList.add(error.getErrorName());
                 });
                 data.setAbnormalDetailList(errorList);
+            }
+            List<RealDeviceStatus> devList = reportManageApplicationBrokenMapper.getRealDeviceList(data.getStationId());
+            if (devList.size() > 0) {
+                data.setRealDeviceStatusList(devList);
             }
         });
         return stationLocation;

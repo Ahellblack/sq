@@ -22,6 +22,14 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "</script>")
     List<RecordDeviceReplaceVo> getAll(@Param("stationId") String stationId, @Param("createDate")String createDate);
 
+    @Select("<script>select * from record_device_replace " +
+            "where to_days(sensor_data_upload_time) = to_days(now())  " +
+            "<if test=\"stationId!=null  and stationId!=''\"> and station_code = #{stationId}  </if>" +
+            "order by create_time desc" +
+            "</script>")
+    List<RecordDeviceReplaceVo> getToday(@Param("stationId") String stationId);
+
+
     @Delete("delete from record_device_replace where report_id = #{reportId}")
     int deleteData(@Param("reportId") Integer reportId);
 

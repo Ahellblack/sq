@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService{
 
     private final String password =  Md5Utils.encryptString("123456");
 
-    public void saveOrupdateUser(User user, Integer[] orgIds, Integer [] roleIds, int flag){
+    public void saveOrupdateUser(User user, Integer[] orgIds, Integer [] roleIds, int flag,Integer isLeader){
         if (flag == 0) {
             user.setPassword(password);
             userMapper.saveUser(user);
@@ -65,7 +65,12 @@ public class UserService implements UserDetailsService{
                 list.add(new UserOrg(user.getId(),orgIds[i]));
             }
             userOrgRelaMapper.saveOrupdateBatchUserOrg(list);
+            if (isLeader != null){
+                userOrgRelaMapper.updateIsLeader(user.getId(),isLeader);
+            }
         }
+
+
     }
 
     @Override

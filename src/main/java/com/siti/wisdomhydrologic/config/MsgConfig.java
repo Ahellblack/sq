@@ -15,6 +15,6 @@ public class MsgConfig {
     public static final String SERVERIP = "app.cloopen.com";
     public static final String SERVERPORT = "8883";
     //模板号
-    public static final String TEMPLATEID = "462488";//240720 // 100070
+    public static final String TEMPLATEID = "479134";//240720 // 100070 //462488
 
 }

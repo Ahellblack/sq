@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.configwarning.controller;
 
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.configwarning.entity.AbnormalRainfall;
 import com.siti.wisdomhydrologic.configwarning.entity.UnrainAbnormal;
 import com.siti.wisdomhydrologic.configwarning.mapper.WarningAbnormalConfigMapper;
@@ -21,6 +23,8 @@ public class AbnormalRainfallController {
 
 
     @Resource
+    private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
+    @Resource
     private WarningAbnormalConfigMapper warningAbnormalConfigMapper;
 
     @GetMapping("/getConfig")
@@ -28,6 +32,18 @@ public class AbnormalRainfallController {
         Map<String, Object> map = new HashMap<>();
         try {
             List<AbnormalRainfall> list = warningAbnormalConfigMapper.getRainAll(sensorCode);
+            list.forEach(data->{
+                String sensorName = "";
+                String[] sensorcode = data.getNearbySensorCode().split(",");
+                for(int i = 0;i<sensorcode.length;i++){
+                    ConfigSensorSectionModule moduleBySectionCode = configSensorSectionModuleMapper.findModuleBySectionCode(Integer.parseInt(sensorcode[i]));
+                    sensorName = sensorName + moduleBySectionCode.getSectionName()+",";
+                }
+                if(sensorName.length()>0){
+                    sensorName.substring(0,sensorName.length()-1);
+                    data.setNearbySensorName(sensorName);
+                }
+            });
             if (list.size() > 0) {
                     map.put("list", list);
                     map.put("status", 1);

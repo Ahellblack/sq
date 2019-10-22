@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
+import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
+
 import java.util.List;
 
 import java.util.Date;
@@ -47,6 +49,16 @@ public class ConfigRiverStationVo {
 
     //当前测站的异常状态list
     private List<String> AbnormalDetailList;
+
+    private List<RealDeviceStatus> RealDeviceStatusList;
+
+    public List<RealDeviceStatus> getRealDeviceStatusList() {
+        return RealDeviceStatusList;
+    }
+
+    public void setRealDeviceStatusList(List<RealDeviceStatus> realDeviceStatusList) {
+        RealDeviceStatusList = realDeviceStatusList;
+    }
 
     public List<String> getAbnormalDetailList() {
         return AbnormalDetailList;
