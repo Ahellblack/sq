@@ -144,7 +144,7 @@ public class Usertrol {
         try {
             List<User> list = userMapper.getAll(username);
             map.put("list",list);
-            map.put("status",0);
+            map.put("status",1);
             map.put("message","添加成功");
         }catch (Exception e){
             map.put("status",-1);
@@ -160,7 +160,7 @@ public class Usertrol {
     @ApiOperation(value = "新增用户",notes = "")
     @RequestMapping(value="user/saveUser",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds,HttpSession session){
+    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds, Integer isLeader){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             //获取当前用户
@@ -183,8 +183,8 @@ public class Usertrol {
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
             //FLAG为0即添加 1为修改
-            userService.saveOrupdateUser(user,organizationIds,roleIds,0);
-            map.put("status",0);
+            userService.saveOrupdateUser(user,organizationIds,roleIds,0,isLeader);
+            map.put("status",1);
             map.put("message","添加成功");
         }catch (Exception e){
             map.put("status",-1);
@@ -199,7 +199,7 @@ public class Usertrol {
     @ApiOperation(value = "更新用户信息,但不更新用户密码")
     @RequestMapping(value = "user/updateUser",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds,HttpSession session){
+    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds,Integer isLeader){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             //获取当前用户
@@ -220,8 +220,8 @@ public class Usertrol {
             user.setPassword(user.getPassword());
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
-            userService.saveOrupdateUser(user,organizationIds,roleIds,1);
-            map.put("status",0);
+            userService.saveOrupdateUser(user,organizationIds,roleIds,1,isLeader);
+            map.put("status",1);
             map.put("message","修改成功");
         }catch (Exception e){
             map.put("status",-1);
