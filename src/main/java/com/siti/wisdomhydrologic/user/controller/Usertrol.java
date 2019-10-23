@@ -160,9 +160,10 @@ public class Usertrol {
     @ApiOperation(value = "新增用户",notes = "")
     @RequestMapping(value="user/saveUser",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds, Integer isLeader){
+    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
+            Integer isLeader = user.getIsLeader();
             //获取当前用户
             User loginUser = (User)userInfoService.get();
 
@@ -199,9 +200,10 @@ public class Usertrol {
     @ApiOperation(value = "更新用户信息,但不更新用户密码")
     @RequestMapping(value = "user/updateUser",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds,Integer isLeader){
+    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
+            Integer isLeader = user.getIsLeader();
             //获取当前用户
             User loginUser = (User)userInfoService.get();
             //判断添加权限
@@ -285,7 +287,7 @@ public class Usertrol {
             userOrgRelaMapper.deleteUserOrgByUserId(userid);
             // 删除用户信息
             userMapper.deleteUserInfo(userid);
-            map.put("status",0);
+            map.put("status",1);
             map.put("message","删除成功");
         }catch (Exception e){
             map.put("status",-1);

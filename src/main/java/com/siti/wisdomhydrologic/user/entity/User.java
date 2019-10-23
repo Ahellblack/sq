@@ -53,6 +53,15 @@ public class User implements UserDetails, Principal {
     @Transient
     List<Org> orgList;
 
+    private Integer isLeader;
+
+    public Integer getIsLeader() {
+        return isLeader;
+    }
+
+    public void setIsLeader(Integer isLeader) {
+        this.isLeader = isLeader;
+    }
 
     public String getUserOrg() {
         return userOrg;

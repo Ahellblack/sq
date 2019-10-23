@@ -1,5 +1,6 @@
 package com.siti.wisdomhydrologic.statistics.mapper;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -34,5 +35,14 @@ public interface BrokenNumberMapper {
                              @Param("year")Integer year,
                              @Param("list")List<String> list,
                              @Param("orgId")Integer orgId);
+
+
+    //本月的异常易发时间查询
+    @Select("<script>SELECT * FROM `report_station_broken` " +
+            " WHERE DATE_FORMAT( create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' ) " +
+            " and broken_resolve_time is not null " +
+            " <if test = \'stationId != null \'>and station_id = #{stationId}</if> " +
+            " </script>")
+    List<ReportManageApplicationBroken> getRecoverTime(@Param("stationId") String stationId);
 
 }

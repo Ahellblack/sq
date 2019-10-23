@@ -80,9 +80,8 @@ public class DeviceController {
     public Map<String, Object> getDevice() {
         Map<String, Object> map = new HashMap<>();
         String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
-        String time = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
-        String year = DateTransform.Date2String(new Date(), "yyyy");
-        recordDeviceReplaceMapper.getAll(null,today);
+
+        recordDeviceReplaceMapper.getDeviceReplace();
 
 
         return map;

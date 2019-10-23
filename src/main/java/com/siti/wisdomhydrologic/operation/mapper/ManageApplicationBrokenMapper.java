@@ -81,7 +81,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("<script>SELECT * FROM report_station_broken a left join config_river_station b" +
             " on a.station_id = b.station_id " +
             " <if test=\'regionId != null \'>where region_id = #{regionId}</if> " +
-            " GROUP BY a.station_id " +
             " order by  a.request_designating_status asc,a.create_time desc " +
             " LIMIT 10 </script> ")
     List<ReportManageApplicationBrokenVo> getLatest10(@Param("regionId") Integer regionId);

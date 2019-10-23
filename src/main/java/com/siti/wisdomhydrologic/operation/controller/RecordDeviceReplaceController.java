@@ -130,12 +130,12 @@ public class RecordDeviceReplaceController {
         //根据旧资产表赋值
         entity.setStationCode(oldDatabase.getManageOrgId()+"");
         entity.setStationName(oldDatabase.getManageOrgName());
-        entity.setOriginDeviceCode(oldDatabase.getSensorCode());
+        entity.setOriginDeviceCode(oldDatabase.getPropertyCode());
         entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
         entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
         entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
         //根据替换资产赋值
-        entity.setNewDeviceCode(newDatabase.getSensorCode());
+        entity.setNewDeviceCode(newDatabase.getPropertyCode());
         entity.setNewDeviceName(newDatabase.getSensorTypeName());
         entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
         entity.setNewOrgName(newDatabase.getSubordinateCompany());

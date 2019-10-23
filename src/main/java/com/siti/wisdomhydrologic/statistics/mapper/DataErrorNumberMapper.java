@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.statistics.mapper;
 
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
+import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.statistics.entity.DataError;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -36,5 +38,13 @@ public interface DataErrorNumberMapper {
                             @Param("list") List<String> list,
                             @Param("dataTime")String dataTime,
                             @Param("orgId")Integer orgId);
+
+    //本月的异常易发时间查询
+    @Select("<script>SELECT * FROM `report_manage_data_mantain` " +
+            " WHERE DATE_FORMAT( create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' ) " +
+            " <if test = \'stationId != null \'>and station_id = #{stationId}</if> " +
+            " GROUP BY SUBSTR(create_time,12,8) </script>")
+    List<ReportManageDataMantain> getGroupByTime(@Param("stationId") String stationId);
+
 
 }

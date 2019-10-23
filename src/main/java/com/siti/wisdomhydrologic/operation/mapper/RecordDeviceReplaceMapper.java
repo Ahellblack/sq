@@ -36,4 +36,9 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
     @Update("update record_device_replace set replace_reason = #{RecordDeviceReplace.replaceReason}," +
             "create_by  = #{RecordDeviceReplace.createBy} where report_id = #{RecordDeviceReplace.reportId}")
     int updateData( @Param("RecordDeviceReplace")RecordDeviceReplace entity);
+
+    @Select("select * from record_device_replace rdr  right join config_sensor_database csd  " +
+            "on rdr.origin_device_code = csd.property_code " +
+            "where origin_org_name is not null\n")
+     List<RecordDeviceReplaceVo> getDeviceReplace();
 }
