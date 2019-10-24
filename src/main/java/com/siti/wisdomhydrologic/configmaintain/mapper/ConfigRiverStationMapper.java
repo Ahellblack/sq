@@ -22,6 +22,10 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("select * from config_river_station ")
     List<ConfigRiverStation> getAllstation();
 
+    @Select("select * from config_river_station crs left join real_station_data rsd on crs.station_id = rsd.station_id ")
+    List<ConfigRiverStation> getAllstationPatency();
+
+
     @Select("<script> " +
             "select * from config_river_station  " +
             " where sys_org in " +
@@ -125,6 +129,6 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
 
     // 根据测站名称模糊进行查询
     @Select("<script>select * from config_river_station " +
-            "<if test=\'stationId != null\'>where station_code = #{stationId}</if></script>")
+            "<if test=\'stationId != null\'>where station_id = #{stationId}</if></script>")
     List<ConfigRiverStation> getStationByStationID(@Param("stationId")Integer stationId);
 }

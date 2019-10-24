@@ -79,7 +79,7 @@ public class BrokenNumberController {
                 map.put("type", dataList.size());
                 //最多故障出现次数
                 map.put("maxTime", maxTime);
-                map.put("proportion", RateUtils.accuracy(maxTime,sum,2));
+                map.put("proportion", RateUtils.accuracy(maxTime, sum, 2));
                 //最多故障类型
                 map.put("maxAccording", maxAccording);
 
@@ -95,7 +95,6 @@ public class BrokenNumberController {
         }
         return map;
     }
-
 
 
     @GetMapping("getRecover")
@@ -116,23 +115,21 @@ public class BrokenNumberController {
 
                 if (hour <= 1) {
                     hour1++;
-                }
-                if (hour > 1 && hour <= 2) {
+                } else if (hour > 1 && hour <= 2) {
                     hour2++;
-                }
-                if (hour > 2 && hour <= 3) {
+                } else if (hour > 2 && hour <= 3) {
                     hour3++;
-                }else {
-                    over4hour ++ ;
+                } else {
+                    over4hour++;
                 }
             }
             if (dataList.size() > 0) {
                 map.put("status", 1);
                 map.put("message", "查询成功");
-                map.put("hour1",hour1);
-                map.put("hour2",hour2);
-                map.put("hour3",hour3);
-                map.put("over4hour",over4hour);
+                map.put("hour1", hour1);
+                map.put("hour2", hour2);
+                map.put("hour3", hour3);
+                map.put("over4hour", over4hour);
                 //故障次数
                 map.put("count", sum);
             } else {

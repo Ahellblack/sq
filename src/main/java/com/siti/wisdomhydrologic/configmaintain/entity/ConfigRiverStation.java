@@ -30,6 +30,26 @@ public class ConfigRiverStation {
 
     private int flowRate;
 
+    private int patencyRate;
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getPatencyRate() {
+        return patencyRate;
+    }
+
+    public void setPatencyRate(int patencyRate) {
+        this.patencyRate = patencyRate;
+    }
+
     public int getFlowRate() {
         return flowRate;
     }

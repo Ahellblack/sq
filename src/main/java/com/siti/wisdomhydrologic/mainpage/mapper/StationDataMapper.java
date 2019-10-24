@@ -1,7 +1,11 @@
 package com.siti.wisdomhydrologic.mainpage.mapper;
 
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -41,4 +45,19 @@ public interface StationDataMapper {
 
     @Select("select station_id from config_river_station where station_id is not null")
     List<Integer> getStationId();
+
+    @Insert("insert ignore into real_station_data (`station_id`,`station_name`,`status`) values ()")
+    void insertIgnore();
+
+    @Delete("delete from real_station_data")
+    void deleteAll();
+
+    @Insert({"<script>",
+            " replace into real_station_data (`station_id`,`station_name`,`status`,`patency_rate`,`time`)" +
+                    " values " +
+                    "<foreach item=\"item\" collection=\"station\" separator=\",\">" +
+                    "(#{item.stationId},#{item.stationName},#{item.status},#{item.patencyRate},#{item.time})" +
+                    "</foreach>",
+            "</script>"})
+    void replaceData(@Param("station") List<ConfigRiverStation> stationAndModule);
 }

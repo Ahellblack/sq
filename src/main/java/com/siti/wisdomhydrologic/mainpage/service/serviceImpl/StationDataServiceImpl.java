@@ -1,6 +1,8 @@
 package com.siti.wisdomhydrologic.mainpage.service.serviceImpl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
+import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
@@ -55,9 +57,12 @@ public class StationDataServiceImpl implements StationDataService {
          * 查询上一个整5分再往前5分钟的real表数据
          * */
         List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getAbnormal(realtime);
-
         List<RealStationVo> stationData = stationDataMapper.getStationData();
-        //RealStationData entity = realStationDataMapper.getData(stationCode);
+        List<ConfigRiverStation> stationAll = configRiverStationMapper.getAllstationPatency();
+
+        //如果riverStation多一条数据，自动生成
+        stationDataMapper.replaceData(stationAll);
+
         List<Integer> stationList = new ArrayList<>();
 
         abnormallist.forEach(data -> {
@@ -162,6 +167,7 @@ public class StationDataServiceImpl implements StationDataService {
                 // 数据更新
                 realStationDataMapper.updateStationData(realStationVo);
             } catch (NullPointerException e) {
+                System.out.println("更新異常");
             }
         });
     }

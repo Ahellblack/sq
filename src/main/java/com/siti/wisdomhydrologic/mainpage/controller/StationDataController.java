@@ -95,16 +95,8 @@ public class StationDataController {
 
     @ApiOperation(value = "测站实时状况表更新接口", httpMethod = "GET", notes = "测站实时状况表更新接口")
     @GetMapping("/updateData")
-    public int InsertRealData() throws Exception {
-        /*List<Integer> stationId = stationDataMapper.getStationId();
-        stationId.forEach(id -> {
-            try {*/
+    public void InsertRealData() throws Exception {
         stationDataService.updateData();
-           /* } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });*/
-        return 1;
     }
 
     /**
@@ -128,7 +120,7 @@ public class StationDataController {
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
-        System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
+        //System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
         List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId, 1002);//暂展示浦东点位
 
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
