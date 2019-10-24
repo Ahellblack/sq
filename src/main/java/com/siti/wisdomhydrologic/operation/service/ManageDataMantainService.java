@@ -15,5 +15,5 @@ ManageDataMantainService {
     int delete(Integer reportId);
     int update(ReportManageDataMantain reportManageDataMantain);
 
-    int insertAbnormalData(String date);
+    int insertAbnormalData();
 }

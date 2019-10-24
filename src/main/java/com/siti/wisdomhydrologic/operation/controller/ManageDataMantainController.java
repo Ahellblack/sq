@@ -136,7 +136,7 @@ public class ManageDataMantainController {
     @ApiOperation(value = "表二自动入库，后台人员使用", httpMethod = "GET", notes = "表二自动入库")
     @GetMapping("/insertAbnormal")
     public int insertAbnormalData(String date) {
-        return reportManageDataMantainService.insertAbnormalData(date);
+        return reportManageDataMantainService.insertAbnormalData();
     }
 
     /*

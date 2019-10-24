@@ -24,17 +24,7 @@ public class ManageDataMantainTask {
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
-        } catch (Exception e) {
-        }
-        /**
-         * 查询上一个整5分再往前25分钟数据
-         * */
-        cal.add(cal.MINUTE, -25);
-        date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-        int i = reportManageDataMantainService.insertAbnormalData(date);
+        int i = reportManageDataMantainService.insertAbnormalData();
         if (i > 0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");
         return i;
     }

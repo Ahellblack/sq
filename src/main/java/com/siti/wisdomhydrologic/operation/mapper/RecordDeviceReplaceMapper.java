@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.operation.mapper;
 
 import com.siti.wisdomhydrologic.operation.entity.RecordDeviceReplace;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
+import com.siti.wisdomhydrologic.statistics.vo.DeviceStatistics;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -41,4 +42,22 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "on rdr.origin_device_code = csd.property_code " +
             "where origin_org_name is not null\n")
      List<RecordDeviceReplaceVo> getDeviceReplace();
+
+    /**
+     * 当月备品替换次数
+     * */
+    @Select("select origin_device_name,new_device_name,count(*) as displaytime " +
+            "from record_device_replace rdr  right join config_sensor_database csd  " +
+            "on rdr.origin_device_code = csd.property_code " +
+            "where origin_org_name is not null " +
+            "and DATE_FORMAT( rdr.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' )" +
+            "group by new_device_name")
+    List<DeviceStatistics> getNewStatistics();
+    @Select("select origin_device_name,new_device_name,count(*) as displaytime " +
+            "from record_device_replace rdr  right join config_sensor_database csd  " +
+            "on rdr.origin_device_code = csd.property_code " +
+            "where origin_org_name is not null " +
+            "and DATE_FORMAT( rdr.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' )" +
+            "group by origin_device_name")
+    List<DeviceStatistics> getOrgStatistics();
 }

@@ -112,7 +112,7 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四故障情况记录表自动添加入库接口,后台人员使用", httpMethod = "GET", notes = "表四故障情况记录表自动添加入库接口")
     @GetMapping("/insertDataMantain")
     public int insertDataMantain(String date) {
-        return manageApplicationBrokenService.insertDataMantain(date);
+        return manageApplicationBrokenService.insertDataMantain();
     }
 
     @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")

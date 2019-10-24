@@ -33,18 +33,7 @@ public class ManageApplicationBrokenTask {
     public int insertAbnormal() throws Exception {
         Date today = new Date();
         String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
-        } catch (Exception e) {
-        }
-        /**
-         * 查询上一个整5分再往前5分钟数据
-         * */
-        cal.add(cal.MINUTE, -25);
-        date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
-
-        int i = manageApplicationBrokenService.insertDataMantain(date);
+        int i = manageApplicationBrokenService.insertDataMantain();
         if(i>0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
         /*
         //系统开关门状态录入

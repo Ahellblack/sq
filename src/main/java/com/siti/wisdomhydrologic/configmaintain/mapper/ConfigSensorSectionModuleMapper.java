@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.configmaintain.mapper;
 
 
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
+import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -14,6 +15,14 @@ public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSect
 
     @Select("Select * from config_sensor_section_module ")
     List<ConfigSensorSectionModule> getStation();
+
+    @Select(" Select * from config_sensor_section_module cssm " +
+            " left join config_river_station crs " +
+            " on cssm.station_code = crs.station_id")
+    List<ModuleAndStation> getStationAndModule();
+
+    @Select("Select * from config_sensor_section_module where substr(section_code,6,2) = 84 ")
+    List<ConfigSensorSectionModule> getRainStation();
 
     @Select("<script>Select * from config_sensor_section_module cssm " +
             "left join config_river_station crs " +

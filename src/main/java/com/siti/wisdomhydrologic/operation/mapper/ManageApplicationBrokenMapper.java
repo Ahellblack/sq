@@ -66,14 +66,11 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     List<ReportManageApplicationBroken> getAllData();
 
 
-    @Delete("DELETE from report_station_broken where report_id = #{reportId}")
-    int deleteById(@Param("reportId") Integer reportId);
-
     @Insert("<script>INSERT ignore INTO `report_station_broken`" +
-            "(`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
+            "(`report_id`,`station_id`, `station_name`, `broken_name`, `broken_according_id`, " +
             "`broken_according`, `broken_response_time`, `create_time`,`resolve_method`, `resolve_user_id`, `remark`,`error_lastest_appear_time`,`description`)" +
             " VALUES " +
-            "(#{item.stationId},#{item.stationName}, #{item.brokenName}, #{item.brokenAccordingId}," +
+            "(#{item.reportId},#{item.stationId},#{item.stationName}, #{item.brokenName}, #{item.brokenAccordingId}," +
             " #{item.brokenAccording}, #{item.brokenResponseTime}, #{item.createTime}," +
             "#{item.resolveMethod}, #{item.resolveUserId}, #{item.remark},#{item.errorLastestAppearTime},#{item.description})</script>")
     int insertDataMantain(@Param("item") ReportManageApplicationBroken brokenList);
@@ -148,8 +145,8 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     List<ReportManageApplicationBroken> getLastestData(@Param("stationId") int stationId,@Param("accordingId") String accordingId, @Param("last24HourTime") String last24HourTime);
 
     @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  " +
-            "WHERE report_id = #{data.reportId}")
-    void updateTime(@Param("data") ReportManageApplicationBroken lastData, @Param("date") String date);
+            "WHERE report_id = #{reportId}")
+    void updateTime(@Param("reportId") Integer reportId, @Param("date") String date);
 
 
     @Select("select a.phone_num " +
@@ -179,4 +176,14 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("SELECT drs.devid,mc,drs.last_upload_time,station_id FROM `device_real_status` drs left join config_dev_station cds  on drs.devid = cds.devid \n" +
             "where station_id = #{stationId}")
     List<RealDeviceStatus> getRealDeviceList(@Param("stationId")Integer stationId);
+
+    @Select("<script>select * from report_station_broken where report_id in (" +
+            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)</script>")
+    List<ReportManageApplicationBroken> getById(@Param("idList") List<Integer> idList);
+
+
+    @Delete("DELETE from report_station_broken where report_id in (" +
+            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)")
+    int deleteById(@Param("idList") List<Integer> idList);
+
 }

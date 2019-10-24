@@ -9,6 +9,15 @@ public class Patency {
     Integer stationId;
     Double Number;
     Double patencyRate;
+    String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public Double getPatencyRate() {
         return patencyRate;
@@ -40,6 +49,25 @@ public class Patency {
 
     public void setStationName(String stationName) {
         this.stationName = stationName;
+    }
+
+
+    public Patency(String stationName, Integer stationId, Double number, Double patencyRate, String time) {
+        this.stationName = stationName;
+        this.stationId = stationId;
+        Number = number;
+        this.patencyRate = patencyRate;
+        this.time = time;
+    }
+
+    public Patency(String stationName, Integer stationId, Double number, Double patencyRate) {
+        this.stationName = stationName;
+        this.stationId = stationId;
+        Number = number;
+        this.patencyRate = patencyRate;
+    }
+
+    public Patency() {
     }
 
     @Override

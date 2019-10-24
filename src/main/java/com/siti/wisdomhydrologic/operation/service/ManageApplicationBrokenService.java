@@ -17,6 +17,6 @@ public interface ManageApplicationBrokenService {
 
     int delete(Integer reportId);
 
-    int insertDataMantain(String date);
+    int insertDataMantain();
 
 }

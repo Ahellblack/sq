@@ -2,10 +2,13 @@ package com.siti.wisdomhydrologic.statistics.controller;
 
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
+import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.statistics.entity.Patency;
 import com.siti.wisdomhydrologic.statistics.mapper.PatencyMapper;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.siti.wisdomhydrologic.util.DateDistance;
@@ -29,8 +32,13 @@ public class PatencyController {
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
 
+    @Resource
+    private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
+
     @RequestMapping("/getPatency")
-    public Map<String, Object> getPatency(String startTime, String endTime, Integer stationId) {
+    public Map<String, Object> getPatency(Integer stationId) {
+        String endTime = "";
+        String startTime = "";
         Map<String, Object> map = new HashMap<>();
         List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
         Map<Integer, String> stationMap = new HashMap<>();
@@ -41,18 +49,34 @@ public class PatencyController {
         });
         List<Patency> patency = new ArrayList<>();
         try {
-            //获取起始时间和结束时间的5分钟应有几个
-            long[] times = DateDistance.getDistanceTimes(startTime, endTime);
-            long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
+            for (int i = 0; i < 7; i++) {
+                Date today = new Date();
+                String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
+                cal.add(Calendar.DAY_OF_MONTH, -i);
+                endTime = DateTransform.Date2String(cal.getTime(),
+                        "yyyy-MM-dd HH:mm:ss");
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+                startTime = DateTransform.Date2String(cal.getTime(),
+                        "yyyy-MM-dd HH:mm:ss");
+                //获取起始时间和结束时间的5分钟应有几个
+                long[] times = DateDistance.getDistanceTimes(startTime, endTime);
+                long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
+                Patency entity = patencyMapper.getPatency(stationIdList, startTime, endTime);
 
-            patency = patencyMapper.getPatency(stationIdList, startTime, endTime);
-            patency.forEach(data -> {
-                data.setStationId(data.getStationId() / 100);
-                data.setPatencyRate(Double.parseDouble(data.getNumber() / timeDiff + "") * 100);
-                BigDecimal b = new BigDecimal(data.getPatencyRate());
-                data.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                data.setStationName(stationMap.get(data.getStationId()));
-            });
+                if(entity != null){
+                    entity.setStationId(stationId);
+                    entity.setPatencyRate(Double.parseDouble(entity.getNumber() / timeDiff + "") * 100);
+                    BigDecimal b = new BigDecimal(entity.getPatencyRate());
+                    entity.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    entity.setStationName(stationMap.get(entity.getStationId()));
+                    entity.setTime(endTime);
+                }else {
+                    entity = new Patency(stationMap.get(stationId),stationId,0.0,0.0,endTime);
+                }
+                patency.add(entity);
+            }
             map.put("status", 1);
             map.put("msg", "查询成功");
             map.put("list", patency);
@@ -70,23 +94,24 @@ public class PatencyController {
         String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         String time = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
         String year = DateTransform.Date2String(new Date(), "yyyy");
-        String databaseName = "";
+
+        //查询需发送数据的传感器个数
+        Integer moduleNum = configSensorSectionModuleMapper.getStation().size();
+
 
         //统计tsdb当天数据
-        Integer time1 = patencyMapper.getRealTSDBData(
-                "history_5min_sensor_data_"+ year);
-        long[] times = DateDistance.getDistanceTimes(today+" 00:00:00", time);
+        Integer time1 = patencyMapper.getRealTSDBData("history_5min_sensor_data_" + year);
+        long[] times = DateDistance.getDistanceTimes(today + " 00:00:00", time);
         long timeDiff = times[1];
-        map.put("expectTSDB",timeDiff);
-        map.put("realTSDB",time1);
-        Integer time2 = patencyMapper.getRealHourData(
-                "history_hour_sensor_data_"+ year);
-        map.put("expectHour",timeDiff);
-        map.put("realHour",time2);
+        map.put("expectTSDB", timeDiff * moduleNum);
+        map.put("realTSDB", time1);
+        Integer time2 = patencyMapper.getRealHourData("history_hour_sensor_data_" + year);
+        map.put("expectHour", timeDiff * moduleNum);
+        map.put("realHour", time2);
         Integer time3 = patencyMapper.getRealRTSQData("real");
         long timeRTSQ = times[0] * 288 + times[1] * 12 + times[2] / 5;
-        map.put("expectRTSQ",timeRTSQ);
-        map.put("realRTSQ",time3);
+        map.put("expectRTSQ", timeRTSQ * moduleNum);
+        map.put("realRTSQ", time3);
 
 
         return map;
@@ -104,6 +129,37 @@ public class PatencyController {
         System.out.println(timeDiff);
 
 
+    }
+
+
+    /**
+     * 取当前日期的年月日
+     *
+     * @return
+     * @throws ParseException
+     */
+    public static Date getMinDate(Date date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date newDate = sdf.parse(sdf.format(date));
+        return newDate;
+    }
+
+    /**
+     * 获取最近的整5分时间点real表数据
+     *
+     * @Param dateFormat dateFormat的格式 如 YYYY-MM-dd
+     * @Param date 当前时间
+     * @Param min 相隔时间
+     */
+    public static String getCloseDate(String dateFormat, Date date, long min) throws Exception {
+        long dateTime = date.getTime();
+        long needTime = 0;
+        if (min >= 8 * 60) {
+            return new SimpleDateFormat(dateFormat).format(getMinDate(date));
+        } else {
+            needTime = dateTime - dateTime % (min * 60L * 1000L);
+        }
+        return new SimpleDateFormat(dateFormat).format(new Date(needTime));
     }
 
 }

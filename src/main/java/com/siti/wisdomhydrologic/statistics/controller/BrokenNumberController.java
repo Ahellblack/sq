@@ -98,7 +98,7 @@ public class BrokenNumberController {
 
 
 
-    @GetMapping("getEasierTimeSpace")
+    @GetMapping("getRecover")
     public Map<String, Object> getRecover(String stationId) {
 
         Map<String, Object> map = new HashMap<>();
@@ -112,7 +112,7 @@ public class BrokenNumberController {
             for (int i = 0; i < sum; i++) {
                 ReportManageApplicationBroken data = dataList.get(i);
                 long[] distanceTimes = DateDistance.getDistanceTimes(data.getCreateTime(), data.getBrokenResolveTime());
-                long hour = distanceTimes[1] + distanceTimes[2]/60;
+                long hour = distanceTimes[1];
 
                 if (hour <= 1) {
                     hour1++;

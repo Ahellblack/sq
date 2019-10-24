@@ -124,6 +124,14 @@ public class AbnormalRainfallController {
         }
         return map;
     }
+    /**
+     * 附近雨量传感器选择下拉框
+     * */
+    @GetMapping("nearbySensor")
+    public List<ConfigSensorSectionModule> getRainModule(){
+
+        return configSensorSectionModuleMapper.getRainStation();
+    }
 
 
 }
