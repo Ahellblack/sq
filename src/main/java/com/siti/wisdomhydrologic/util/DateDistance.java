@@ -16,27 +16,7 @@ public class DateDistance {
     /**
      * 两个时间差计算
      */
-
     private static String distanceTime;
-
-    public static void main(String[] args) throws Exception {
-        String startday = "2017-09-20";
-        String endday = "2017-09-28";
-        long DistanceDays = getDistanceDays(startday, endday);//两个时间之间相差距离多少天
-        System.out.println(DistanceDays);
-
-        String starttimes = "2017-01-17 00:10:20";
-        String endtimes = "2017-01-18 00:10:21";
-        long[] DistanceTimes = getDistanceTimes(starttimes, endtimes);//两个时间相差距离多少天多少小时多少分多少秒 ，以long[]形式返回
-        for (int i = 0; i < DistanceTimes.length; i++) {
-            System.out.println(DistanceTimes[i]);
-        }
-
-        String DistanceTime = getDistanceTime(starttimes, endtimes);//两个时间相差距离多少天多少小时多少分多少秒 ，以String形式返回
-        System.out.println(DistanceTime);
-    }
-
-
     /**
      * 两个时间之间相差距离多少天
      *
@@ -140,6 +120,24 @@ public class DateDistance {
             e.printStackTrace();
         }
         return day + "天" + hour + "小时" + min + "分" + sec + "秒";
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        String startday = "2017-09-20";
+        String endday = "2017-09-28";
+        long DistanceDays = getDistanceDays(startday, endday);//两个时间之间相差距离多少天
+        System.out.println(DistanceDays);
+
+        String starttimes = "2017-01-17 00:10:20";
+        String endtimes = "2017-01-18 00:10:21";
+        long[] DistanceTimes = getDistanceTimes(starttimes, endtimes);//两个时间相差距离多少天多少小时多少分多少秒 ，以long[]形式返回
+        for (int i = 0; i < DistanceTimes.length; i++) {
+            System.out.println(DistanceTimes[i]);
+        }
+
+        String DistanceTime = getDistanceTime(starttimes, endtimes);//两个时间相差距离多少天多少小时多少分多少秒 ，以String形式返回
+        System.out.println(DistanceTime);
     }
 
 }

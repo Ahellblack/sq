@@ -3,8 +3,10 @@ package com.siti.wisdomhydrologic.mainpage.controller;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.config.HaiKangVideoConfig;
 import com.siti.wisdomhydrologic.mainpage.entity.HaiKangResult;
+import com.siti.wisdomhydrologic.mainpage.mapper.DeviceTemMapper;
 import com.siti.wisdomhydrologic.mainpage.vo.DeviceVo;
 import com.siti.wisdomhydrologic.mainpage.vo.HaiKangVo;
+import com.siti.wisdomhydrologic.mainpage.vo.WeatherApiVo;
 import com.siti.wisdomhydrologic.mainpage.vo.WeatherVo;
 import com.siti.wisdomhydrologic.util.HttpClientUtil;
 import com.siti.wisdomhydrologic.util.JsonUtils;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * Created by dell on 2019/8/7.
  */
@@ -21,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/haikang")
 @Api(value = "海康视频水情首页问湿度controller", tags = {"海康视频水情首页问湿度"})
 public class HaiKangController {
+
+    @Resource
+    DeviceTemMapper deviceTemMapper;
 
     @ApiOperation(value = "海康视频接口", httpMethod = "GET", notes = "根据appkey及secret获取的视频地址")
     @GetMapping("/getConfig")
@@ -64,44 +71,46 @@ public class HaiKangController {
 
     @ApiOperation(value = "水情首页温湿度接口", httpMethod = "GET", notes = "获取实时机房温湿度")
     @GetMapping("/getDeviceConfig")
-    public static DeviceVo getDeviceConfig() {
-        DeviceVo deviceVo = new DeviceVo();
-        DeviceVo deviceVo2 = new DeviceVo();
+    public  DeviceVo getDeviceConfig() {
         try {
-            String url = ConstantConfig.DEVIDURL + "?devid=" + ConstantConfig.DEVID;
+            DeviceVo deviceVo = deviceTemMapper.getTemperature();
+/*           String url = ConstantConfig.DEVIDURL + "?devid=" + ConstantConfig.DEVID;
             String result = HttpClientUtil.doPost(url);
             deviceVo = JsonUtils.parse(result, DeviceVo.class);
-            deviceVo2 = JsonUtils.parse(deviceVo.getDevice_real_status(), DeviceVo.class);
+            deviceVo2 = JsonUtils.parse(deviceVo.getDevice_real_status(), DeviceVo.class);*/
+            return deviceVo;
         } catch (Exception e) {
             System.out.println("获取机房温湿度失败");
+            return null;
         }
-
-        return deviceVo2;
     }
 
 
     @ApiOperation(value = "水情首页温湿度天气接口", httpMethod = "GET", notes = "水情首页温湿度天气接口")
     @GetMapping("/getWeather")
-    public static WeatherVo getWeather() {
-        WeatherVo vo = new WeatherVo();
-        WeatherVo vo1 = new WeatherVo();
-        WeatherVo vo2 = new WeatherVo();
+    public static WeatherApiVo getWeather() {
+
+        WeatherApiVo vo = new WeatherApiVo();
         try {
-            String url = "http://114.80.231.178:18080/openDataTest/weatherAction/getWeatherInfoEx?cityName=浦东&index=1&en=1";
+            //天气api浦东新区接口调用  城市信息为 cityid  101020600为浦东新区
+            String url = "https://www.tianqiapi.com/api/?version=v6&cityid=101020600&appid=68261499&appsecret=IfTIll7V";
+            //String url = "http://114.80.231.178:18080/openDataTest/weatherAction/getWeatherInfoEx?cityName=浦东&index=1&en=1";
             String result = HttpClientUtil.doGet(url);
-            vo = JsonUtils.parse(result, WeatherVo.class);
-            vo1 = JsonUtils.parse(vo.getData(), WeatherVo.class);
+            vo = JsonUtils.parse(result, WeatherApiVo.class);
+
+
+            /*vo1 = JsonUtils.parse(vo.getData(), WeatherVo.class);
             vo2 = vo1.getForcast()[0];
             vo2.setCityName(vo1.getCityName());
             vo2.setUpdateTime(vo1.getUpdateTime());
             vo2.setCurrentTemp(vo1.getCurrentTemp());
             vo2.setCurrentShidu(vo1.getCurrentShidu());
-            vo2.setCurrentWindOrient(vo1.getCurrentWindOrient());
+            vo2.setCurrentWindOrient(vo1.getCurrentWindOrient());*/
         } catch (Exception e) {
             System.out.println("水情首页温湿度天气获取失败");
         }
 
-        return vo2;
+        return vo;
     }
 
 }

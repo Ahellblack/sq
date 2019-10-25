@@ -142,10 +142,19 @@ public class DataErrorNumberController {
             } else {
                 map.put("status", 0);
                 map.put("message", "暂无数据");
+                map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
+                map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
+                //故障次数
+                map.put("count", 0);
+
                 map.put("stationBrokenInfo", null);
             }
         } catch (Exception e) {
             map.put("status", -1);
+            map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
+            map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
+            //故障次数
+            map.put("count", 0);
             map.put("message", "查询错误");
         }
         return map;

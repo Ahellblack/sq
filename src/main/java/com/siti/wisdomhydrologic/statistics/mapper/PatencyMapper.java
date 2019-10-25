@@ -11,9 +11,8 @@ import org.apache.ibatis.annotations.Select;
 public interface PatencyMapper {
 
     @Select("<script>select a.sensor_code as station_id ,count(*) as number from " +
-            "(select * FROM `real` WHERE time BETWEEN " +
-            "#{startTime} and #{endTime} " +
-            "and sensor_code in(" +
+            "(select * FROM `real` WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
+            " and sensor_code in(" +
             "<foreach collection=\"sensorCode\" item=\"item\" separator=\",\"> #{item} </foreach>)) a " +
             "GROUP BY a.sensor_code</script>")
     Patency getPatency(@Param("sensorCode")List<String> sensorCode, @Param("startTime") String startTime, @Param("endTime") String endTime);

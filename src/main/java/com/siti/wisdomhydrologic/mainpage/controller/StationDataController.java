@@ -125,8 +125,11 @@ public class StationDataController {
 
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
         List<String> list = new ArrayList<>();
+        try {
         station.forEach(data -> {
-            list.add(data.getSectionCode() + "");
+
+                list.add((data.getStationCode() + "") + ((data.getSectionCode() % 100) + ""));
+
         });
         stationLocation.forEach(data -> {
             if (!list.contains(data.getStationId() + ConstantConfig.ES)) {
@@ -226,8 +229,10 @@ public class StationDataController {
                 data.setRealDeviceStatusList(devList);
             }
         });
+        } catch (Exception e) {
+            System.out.println("传感器添加失败");
+        }
         return stationLocation;
-
     }
 
     /**

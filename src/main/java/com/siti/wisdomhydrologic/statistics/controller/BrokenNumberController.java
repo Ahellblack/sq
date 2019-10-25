@@ -135,11 +135,20 @@ public class BrokenNumberController {
             } else {
                 map.put("status", 0);
                 map.put("message", "暂无数据");
-                map.put("stationBrokenInfo", null);
+                map.put("hour1", 0);
+                map.put("hour2", 0);
+                map.put("hour3", 0);
+                map.put("over4hour", 0);
+                map.put("count", 1);
             }
         } catch (Exception e) {
             map.put("status", -1);
             map.put("message", "查询错误");
+            map.put("hour1", 0);
+            map.put("hour2", 0);
+            map.put("hour3", 0);
+            map.put("over4hour", 0);
+            map.put("count", 1);
         }
         return map;
     }

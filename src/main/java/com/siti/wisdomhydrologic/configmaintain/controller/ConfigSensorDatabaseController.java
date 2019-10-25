@@ -8,6 +8,7 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
+import com.siti.wisdomhydrologic.user.service.UserService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,8 @@ import java.util.List;
 @RequestMapping("/sensorDatabase")
 public class ConfigSensorDatabaseController {
 
+    @Resource
+    UserService userService;
     @Resource
     private ConfigSensorDatabaseMapper configSensorDatabaseMapper;
 
@@ -63,7 +66,7 @@ public class ConfigSensorDatabaseController {
     public int insert(@RequestBody ConfigSensorDatabase configSensorDatabase, HttpSession session){
         try {
             // 设置创建人ID以及创建时间
-            configSensorDatabase.setCreateBy(3);
+            configSensorDatabase.setCreateBy(((User)userInfoService.get()).getId());
             configSensorDatabase.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
             // 根据测站ID查询测站名称
@@ -104,7 +107,7 @@ public class ConfigSensorDatabaseController {
         // 1为“更新成功”；其它均为“更新失败！”
         try {
             // 设置修改人ID以及修改时间
-            configSensorDatabase.setUpdateBy(3);
+            configSensorDatabase.setUpdateBy(((User)userInfoService.get()).getId());
             configSensorDatabase.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 
             // 根据测站ID查询测站名称
