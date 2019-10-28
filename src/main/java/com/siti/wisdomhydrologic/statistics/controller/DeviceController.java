@@ -108,10 +108,18 @@ public class DeviceController {
                 map.put("msg", "查询成功");
             } else {
                 map.put("status", 0);
+                map.put("count", 0);
+                map.put("shouldBuy1","无");
+                map.put("BuyNum1", 0);
                 map.put("msg", "暂无数据");
             }
         } catch (Exception e) {
             map.put("status", -1);
+
+            map.put("status", 0);
+            map.put("count", 0);
+            map.put("shouldBuy1","无");
+            map.put("BuyNum1", 0);
             map.put("msg", "查询异常");
         }
         return map;

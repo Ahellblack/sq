@@ -99,7 +99,7 @@ public class DropDownBoxController {
 
     @ApiOperation(value = "资产表设备下拉框", httpMethod = "GET", notes = "资产表设备下拉框,运维表8下拉框")
     @GetMapping("/getDatabaseStationName")
-    public List<String> getSensorTypeId(HttpSession session){
+    public List<String> getSensorTypeId(){
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         return configSensorDatabaseMapper.getStationName(orgList.get(0).getId());
@@ -107,7 +107,7 @@ public class DropDownBoxController {
 
     @ApiOperation(value = "维护人员下拉框", httpMethod = "GET", notes = "维护人员下拉框")
     @GetMapping("/getMaintainer")
-    public List<String> getMaintainer(HttpSession session){
+    public List<String> getMaintainer(){
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         return userMapper.findMaintainer(orgList.get(0).getId());

@@ -13,6 +13,7 @@ import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
+import com.siti.wisdomhydrologic.util.DateTransform;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -94,8 +95,8 @@ public class RecordDeviceReplaceController {
     }
     @ApiOperation(value = "表八新备用设备资产选择下拉框", httpMethod = "GET", notes = "表八新备用设备资产选择下拉框")
     @GetMapping("/getNewDatabase")
-    public List<ConfigSensorDatabase> getNewList() {
-        return configSensorDatabaseMapper.getNewData();
+    public List<ConfigSensorDatabase> getNewList(String newDeviceId) {
+        return configSensorDatabaseMapper.getNewData(newDeviceId);
     }
 
     @PostMapping("/insert")
@@ -127,6 +128,7 @@ public class RecordDeviceReplaceController {
         entity.setCreateBy(vo.getCreateBy());
         entity.setCreateTime(vo.getCreateTime());
         entity.setReplaceReason(vo.getReplaceReason());
+
         //根据旧资产表赋值
         entity.setStationCode(oldDatabase.getManageOrgId()+"");
         entity.setStationName(oldDatabase.getManageOrgName());
@@ -134,12 +136,15 @@ public class RecordDeviceReplaceController {
         entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
         entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
         entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
+
         //根据替换资产赋值
         entity.setNewDeviceCode(newDatabase.getPropertyCode());
         entity.setNewDeviceName(newDatabase.getSensorTypeName());
         entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
         entity.setNewOrgName(newDatabase.getSubordinateCompany());
 
+
+        entity.setCreateTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
         //修改设备记录在资产表
         try {
             User user = (User) userInfoService.get();

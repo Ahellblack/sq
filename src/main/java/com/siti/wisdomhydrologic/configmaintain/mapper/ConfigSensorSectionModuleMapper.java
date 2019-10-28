@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSectionModule> {
 
-    @Select("Select * from config_sensor_section_module ")
+    @Select("Select * from config_sensor_section_module where section_status  = '1' ")
     List<ConfigSensorSectionModule> getStation();
 
     @Select(" Select * from config_sensor_section_module cssm " +

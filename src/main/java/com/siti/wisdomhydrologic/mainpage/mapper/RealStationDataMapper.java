@@ -25,15 +25,18 @@ public interface RealStationDataMapper {
             " #{stationData.realDataAirTemperature}, #{stationData.status})")
     int insertStationData(@Param("stationData") RealStationVo realStationVo);
 
-    @Update("UPDATE `real_station_data` SET  " +
-            "`time` = #{stationData.time}," +
-            "`water_level` = #{stationData.waterLevel}, `rainfall` = #{stationData.rainfall}, " +
-            "`tide_level` = #{stationData.tideLevel} , `electric` = #{stationData.electric}," +
-            "`wind_speed` = #{stationData.windSpeed}, `wind_direction` =#{stationData.windDirection}, " +
-            "`flow_velocity_x` = #{stationData.flowVelocityX} ,`flow_velocity_y` = #{stationData.flowVelocityY} , " +
-            " `air_pressure` =#{stationData.airPressure}, `air_temperature`=#{stationData.airTemperature}, " +
-            "`status` = #{stationData.status}  WHERE station_id = #{stationData.stationId} ")
-    int updateStationData(@Param("stationData") RealStationData realStationVo);
+    @Update("<script>" +
+            "<foreach item ='item' index = 'key' collection='stationData' separator = ';'>" +
+            " UPDATE `real_station_data` SET  " +
+            "`time` = #{item.time}," +
+            "`water_level` = #{item.waterLevel}, `rainfall` = #{item.rainfall}, " +
+            "`tide_level` = #{item.tideLevel} , `electric` = #{item.electric}," +
+            "`wind_speed` = #{item.windSpeed}, `wind_direction` =#{item.windDirection}, " +
+            "`flow_velocity_x` = #{item.flowVelocityX} ,`flow_velocity_y` = #{item.flowVelocityY} , " +
+            " `air_pressure` =#{item.airPressure}, `air_temperature`=#{item.airTemperature}, " +
+            "`status` = #{item.status}  WHERE station_id = #{item.stationId}</foreach>" +
+            "</script>")
+    int updateStationData(@Param("stationData") List<RealStationData> realStationVo);
 
     @Update("UPDATE `real_station_data` SET " +
             " `patency_rate`=#{stationData.patencyRate} WHERE station_id = #{stationData.stationId} ")

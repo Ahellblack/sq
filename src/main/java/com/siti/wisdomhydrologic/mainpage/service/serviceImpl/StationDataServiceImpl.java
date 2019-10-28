@@ -51,17 +51,23 @@ public class StationDataServiceImpl implements StationDataService {
     public void updateData() throws Exception {
         //待开发可添加根据riverStation的id生成添加数据
         Calendar calendar = Calendar.getInstance();
+        //数据最新时间
         String realtime = realStationDataMapper.getStationLatestData();
+        List<RealStationData> updateList = new ArrayList<>();
         calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
         /**
          * 查询上一个整5分再往前5分钟的real表数据
          * */
         List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getAbnormal(realtime);
         List<RealStationVo> stationData = stationDataMapper.getStationData();
-        List<ConfigRiverStation> stationAll = configRiverStationMapper.getAllstationPatency();
 
-        //如果riverStation多一条数据，自动生成
-        stationDataMapper.replaceData(stationAll);
+        /**
+         * 如果riverStation多一条数据，自动生成,每日检查一次
+         */
+        if(realtime.equals(realtime.substring(0,10)+" 00:00:00")){
+            List<ConfigRiverStation> stationAll = configRiverStationMapper.getAllstationPatency();
+            stationDataMapper.replaceData(stationAll);
+        }
 
         List<Integer> stationList = new ArrayList<>();
 
@@ -140,7 +146,7 @@ public class StationDataServiceImpl implements StationDataService {
                 String endTime = realtime;
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                if ("08:10:00".equals(realtime.substring(11, 19))){
+                if ("08:10:00".equals(realtime.substring(11, 19))) {
                     cal.add(Calendar.HOUR, -12);
                     String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
                     List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(data.getStationCode() + "89", startTime, endTime);
@@ -164,12 +170,15 @@ public class StationDataServiceImpl implements StationDataService {
                     realStationVo.setPatencyRate(((LastDayRealList.size() * 100) / 36f));
                     realStationDataMapper.updateStationPatency(realStationVo);
                 }
-                // 数据更新
-                realStationDataMapper.updateStationData(realStationVo);
+                // 数据更新添加
+                updateList.add(realStationVo);
+
             } catch (NullPointerException e) {
                 System.out.println("更新異常");
             }
         });
+
+        realStationDataMapper.updateStationData(updateList);
     }
 
 

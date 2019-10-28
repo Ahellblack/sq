@@ -219,6 +219,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "and data_error = #{accordingId}")
     List<AbnormalDetailEntity> get30MinuteDate(@Param("stationId")String stationId,@Param("accordingId")String accordingId,@Param("date")String date,@Param("latest30minute") String latest30minute);
 
+/*
     @Update("<script>update abnormal_detail set table4_display_status = 1 " +
             "where id in " +
             "(<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}" +
@@ -230,5 +231,6 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "(<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}" +
             "</foreach>) </script>")
     int updateTable2Status(@Param("idList") List<Integer> idList);
+*/
 
 }

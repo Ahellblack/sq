@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +64,9 @@ public class ConfigSensorSectionModuleController {
     public JSONObject insert(@RequestBody ConfigSensorSectionModule configSensorSectionModule, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
+            configSensorSectionModule.setCreateTime(new Date());
+            configSensorSectionModule.setSensorCode(configSensorSectionModule.getStationCode()+configSensorSectionModule.getSensorCode());
+            configSensorSectionModule.setSensorName(configSensorSectionModule.getStationName()+configSensorSectionModule.getSensorName());
             System.out.println(configSensorSectionModule.toString());
             User user = (User) userInfoService.get();
             sysLogMapper.insertUserOprLog( new SysLog.builder()

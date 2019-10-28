@@ -145,8 +145,9 @@ public interface ConfigSensorDatabaseMapper extends Mapper<ConfigSensorDatabase>
     List<ConfigSensorDatabase> getData(@Param("originDeviceId") String originDeviceId, @Param("manageOrgId") String manageOrgId);
 
 
-    @Select("select * from config_sensor_database " +
-            "where sensor_use_status = '0'" )//sensor_type_name =#{senserTypeName} and
-    List<ConfigSensorDatabase> getNewData(/*@Param("sensorTypeName") String sensorTypeName*/);
+    @Select("<script> select * from config_sensor_database where 1=1 " +
+            " <if test = \'newDeviceId != null\'>and sensor_type_id =#{newDeviceId}</if> " +
+            " and sensor_use_status = '0' </script>" )//sensor_type_name =#{senserTypeName} and
+    List<ConfigSensorDatabase> getNewData(@Param("newDeviceId") String newDeviceId);
 
 }
