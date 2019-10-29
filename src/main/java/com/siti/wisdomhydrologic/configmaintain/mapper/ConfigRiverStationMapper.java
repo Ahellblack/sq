@@ -16,6 +16,7 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("<script> select * from config_river_station  " +
             " where sys_org in " +
             "( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " order by station_id asc   " +
             "</script>")
     List<ConfigRiverStation> getAll(@Param("orgId") Integer orgId);
 

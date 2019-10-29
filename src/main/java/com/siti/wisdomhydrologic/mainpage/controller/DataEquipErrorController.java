@@ -36,31 +36,24 @@ public class DataEquipErrorController {
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
     public DataEquipErrorVo getDataEquipErrorVo(Integer date) { // date = 1时 查询日数据 date = 2时 查询月数据 date = 3 查询年数据
 
-        if (date == null){
+        if (date == null) {
             return null;
         }
-        DataEquipErrorVo vo = new DataEquipErrorVo(
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-        );
+        DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0);
         //默认查询本月
 
         List<ReportManageApplicationBroken> list = new ArrayList<>();
-        if(date==1){
+        if (date == 1) {
             String createDate = DateOrTimeTrans.Date2TimeString(new Date());
-            list = reportManageApplicationBrokenMapper.getAllDay(createDate,null,1000,null,1);
+            list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, null);
         }
-        if(date==2){
+        if (date == 2) {
             String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
-            list = reportManageApplicationBrokenMapper.getAllMonth(createDate,null,1000,null,1);
+            list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, null);
         }
-        if(date==3){
+        if (date == 3) {
             String createDate = DateOrTimeTrans.Year2String(new Date());
-            list = reportManageApplicationBrokenMapper.getAllYear(createDate,null,1000,null,1);
+            list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, null);
         }
         list.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
@@ -84,6 +77,47 @@ public class DataEquipErrorController {
         vo.setDataErrorNumber(vo.getDataAnalystNumber() + vo.getModelNumber());
 
         return vo;
+    }
+
+    @GetMapping("brokenRealData")
+    public List<ReportManageApplicationBroken> getRealData(Integer type, Integer date) {
+
+        getTypeList(type);
+        List<ReportManageApplicationBroken> list = new ArrayList<>();
+
+        if (date == 1) {
+            String createDate = DateOrTimeTrans.Date2TimeString(new Date());
+            list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, getTypeList(type));
+        }
+        if (date == 2) {
+            String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+            list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, getTypeList(type));
+        }
+        if (date == 3) {
+            String createDate = DateOrTimeTrans.Year2String(new Date());
+            list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, getTypeList(type));
+        }
+
+        return list;
+    }
+
+
+    public static List<String> getTypeList(Integer type) {
+        List<String> typeName = new ArrayList<>();
+        if (type == 4) {
+            typeName.add("eq");typeName.add("ty");
+        } else if (type == 5) {
+            typeName.add("eq");
+        } else if (type == 6) {
+            typeName.add("ty");
+        } else if (type == 1) {
+            typeName.add("data");typeName.add("md");
+        } else if (type == 2) {
+            typeName.add("data");
+        } else if (type == 3) {
+            typeName.add("md");
+        }
+        return typeName;
     }
 
 

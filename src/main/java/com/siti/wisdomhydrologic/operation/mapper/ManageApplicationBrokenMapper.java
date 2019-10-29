@@ -25,40 +25,56 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "</script>")
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
 
-
-    @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_id = b.station_id " +
-            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createDate} </if> " +
-            "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
-            "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
+    @Select("<script>select " +
+            "* " +
+            "from report_station_broken a " +
+            "left join config_river_station b " +
+            "on a.station_id = b.station_id " +
+            " where DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createDate} " +
+            "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
+            "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
+            "#{item}" +
+            "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc" +
+            "order by a.create_time desc limit 10" +
             "</script>")
-    List<ReportManageApplicationBroken> getAllDay(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
+    List<ReportManageApplicationBroken> getAllDay(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
-    @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_id = b.station_id " +
-            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y') = #{createDate} </if> " +
-            "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
-            "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
+    @Select("<script>select " +
+            "* " +
+            "from report_station_broken a " +
+            "left join config_river_station b " +
+            "on a.station_id = b.station_id " +
+            " where DATE_FORMAT(a.create_time,'%Y') = #{createDate} " +
+            "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
+            "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
+            "#{item}" +
+            "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc" +
+            "order by a.create_time desc limit 10" +
             "</script>")
-    List<ReportManageApplicationBroken> getAllYear(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
+    List<ReportManageApplicationBroken> getAllYear(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
-    @Select("<script>select * from report_station_broken a left join config_river_station b on a.station_id = b.station_id " +
-            " where  b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
-            "<if test=\"createDate!=null and createDate!='' \">and  DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} </if> " +
-            "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
-            "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
+
+    @Select("<script>select " +
+            "* " +
+            "from report_station_broken a " +
+            "left join config_river_station b " +
+            "on a.station_id = b.station_id " +
+            " where DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} " +
+            "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
+            "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
+            "#{item}" +
+            "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc" +
+            "order by a.create_time desc limit 10" +
             "</script>")
-    List<ReportManageApplicationBroken> getAllMonth(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
+    List<ReportManageApplicationBroken> getAllMonth(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
 
     @Select("<script>select * from report_station_broken where request_designating_status  &lt; 4</script> ")
     List<ReportManageApplicationBroken> getNotResolve();
+
 
     @Select("<script>select * from report_station_broken" +
             "<if test=\"createDate!=null\">where create_time = #{createDate} </if> " +
@@ -78,29 +94,40 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("<script>SELECT * FROM report_station_broken a left join config_river_station b" +
             " on a.station_id = b.station_id " +
             " <if test=\'regionId != null \'>where region_id = #{regionId}</if> " +
+            " and display_status = 1 " +
             " order by  a.request_designating_status asc,a.create_time desc " +
             " LIMIT 10 </script> ")
     List<ReportManageApplicationBrokenVo> getLatest10(@Param("regionId") Integer regionId);
 
     @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
-            "where request_designating_status is not null and " +
-            "to_days(b.create_time) = to_days(now())")
+            " where request_designating_status is not null " +
+            " and display_status = 1 " +
+            " and to_days(b.create_time) = to_days(now())")
     List<StationMalFunction> getRegAndStatusListDay();
+
+
     @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
-            "where request_designating_status is not null and " +
-            "DATE_FORMAT( b.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )\n")
+            " where request_designating_status is not null  " +
+            " and display_status = 1 " +
+            " and DATE_FORMAT( b.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )\n")
     List<StationMalFunction> getRegAndStatusListMonth();
+
+
     @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
-            "where request_designating_status is not null and " +
-            "YEAR(b.create_time)=YEAR(NOW());\n")
+            " where request_designating_status is not null  " +
+            " and display_status = 1 " +
+            " and YEAR(b.create_time)=YEAR(NOW());\n")
     List<StationMalFunction> getRegAndStatusListYear();
 
-    @Select("<script>select a.sys_org,b.broken_name,b.create_time from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
+    @Select("<script>select a.sys_org,b.broken_name,b.create_time " +
+            "from config_river_station a " +
+            "left join report_station_broken b " +
+            "on a.station_id = b .station_id " +
             "where b.broken_name is not null and " +
             "SUBSTR(b.create_time,1,7) = #{createTime} " +
-            "and a.sys_org = #{sysOrg} " +
-            "and b.request_designating_status &lt; 4</script>")
-    List<ManageMantainVo> getLastMonthList(@Param("createTime") String createTime, @Param("sysOrg") int sysOrg);
+            "and a.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) )  " +
+            "and b.request_designating_status &lt; 4 </script>")
+    List<ManageMantainVo> getLastMonthList(@Param("createTime") String createTime, @Param("orgId") int orgId);
 
 
     @Insert("INSERT INTO `report_station_broken` " +

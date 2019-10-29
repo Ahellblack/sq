@@ -58,7 +58,8 @@ public class StationDataServiceImpl implements StationDataService {
         /**
          * 查询上一个整5分再往前5分钟的real表数据
          * */
-        List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getAbnormal(realtime);
+        List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getCurrentAbnormal(realtime);
+
         List<RealStationVo> stationData = stationDataMapper.getStationData();
 
         /**

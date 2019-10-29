@@ -259,16 +259,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
        /* List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALLTable4Data();
 */
         List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();
-
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
-
         List<Integer> idList = new ArrayList<>();
 
+        lastest.forEach(data -> {
+            idList.add(data.getId());
+        });
         if (lastest.size() > 0) {
             //新建拷贝筛选队列
-            lastest.forEach(data -> {
-                idList.add(data.getId());
-            });
             List<ReportManageApplicationBroken> histroyList = reportManageApplicationBrokenMapper.getById(idList);
             if (histroyList.size() > 0) {
 
@@ -279,7 +277,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                                     .updateTime(data.getReportId(), lasttime.getLastDate());
                             abnormalDetailCurrentMapper
                                     .update4Status(lasttime.getId());
-                            System.out.println("表四数据错误时间更替" + lasttime.getLastDate());
+                            //System.out.println("表四数据错误时间更替" + lasttime.getLastDate());
                         }
                     });
                 });

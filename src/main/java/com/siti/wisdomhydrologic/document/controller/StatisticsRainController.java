@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.document.controller;
 
 import com.siti.wisdomhydrologic.document.mapper.StatisticsRainMapper;
 import com.siti.wisdomhydrologic.document.vo.RainGroupVo;
+import com.siti.wisdomhydrologic.util.RateUtils;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +38,15 @@ public class StatisticsRainController {
         Map<String,Object> map = new HashMap<>();
         List<RainGroupVo> rainSumGroup = statisticsRainMapper.getRainSumGroupByMonth(databaseName, year);
 
-        map.put("全年雨量",statisticsRainMapper.getYearRainSum(databaseName,year));
+        Double allyear = statisticsRainMapper.getYearRainSum(databaseName,year);
+        Double allFloor = statisticsRainMapper.getFloorSeasonRainSum(databaseName,year);
+
+        map.put("全年雨量",allyear);
         map.put("全年降雨天数",statisticsRainMapper.getYearRainNumber(databaseName, year));
-        map.put("汛期降雨量",statisticsRainMapper.getFloorSeasonRainSum(databaseName,year));
+        map.put("汛期降雨量",allFloor);
         map.put("汛期降雨天数",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));
         map.put("各月雨量",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));
+        map.put("汛期占比", RateUtils.accuracy(allFloor, allyear, 2));
         if (rainSumGroup.size()>3){
             map.put("最大雨量月份",rainSumGroup.get(0).getMonth());
             map.put("第二雨量月份",rainSumGroup.get(1).getMonth());

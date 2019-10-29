@@ -66,8 +66,12 @@ public interface RealStationDataMapper {
             "<if test=\"regionName!=null\"> and b.region_name = #{regionName}</if></script>")
     List<RealStationData> getPatencyDataList(@Param("regionName") String regionName);
 
+
+    /**
+     * 首页畅通率
+     * */
     @Select("<script>select * FROM `real` " +
-            " WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
+            " WHERE time &gt;= #{startTime} and time &lt;= #{endTime} " +
             " and sensor_code = #{sensorCode}</script> ")
     List<RealVo> getLastDayList(@Param("sensorCode") String sensorCode,@Param("startTime") String startTime,@Param("endTime") String endTime);
 

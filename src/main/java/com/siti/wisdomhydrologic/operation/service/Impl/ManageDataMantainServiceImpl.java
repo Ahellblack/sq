@@ -230,11 +230,8 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                 }
                 int allsize = brokenList.size();
                 brokenList.forEach(data -> {
-
                     reportManageDataMantainMapper.insertAbnormal(data);
-
                 });
-
                 return allsize;
             } catch (Exception e) {
                 System.out.println("数据插入异常");

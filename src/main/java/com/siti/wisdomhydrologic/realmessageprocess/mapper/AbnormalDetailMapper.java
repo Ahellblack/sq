@@ -199,6 +199,10 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "<if test=\"date!=null\" >where date = #{date}</if></script>")
     List<AbnormalDetailEntity> getAbnormal(@Param("date") String date);
 
+    @Select("<script>select * from abnormal_detail_current"+
+            "<if test=\"date!=null\" >where last_date = #{date} and is_recover_status = '0' </if></script>")
+    List<AbnormalDetailEntity> getCurrentAbnormal(@Param("date") String date);
+
     @Select("<script>select * from abnormal_detail " +
             "<if test=\"createDate!=null\">where date &gt; #{createDate}</if> " +
             "<if test=\"sensorCode!=null\">  and sensor_code = #{sensorCode}</if>" +
