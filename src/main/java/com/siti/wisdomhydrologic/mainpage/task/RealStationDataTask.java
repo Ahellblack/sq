@@ -18,7 +18,7 @@ public class RealStationDataTask {
     @Resource
     private StationDataMapper stationDataMapper;
 
-    @Scheduled(cron = "0 3/5 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void insertAbnormal() throws Exception {
         //List<Integer> stationId = stationDataMapper.getStationId();
         //System.out.println("real station data update...");

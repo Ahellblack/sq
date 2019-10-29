@@ -126,109 +126,111 @@ public class StationDataController {
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
         List<String> list = new ArrayList<>();
         try {
-        station.forEach(data -> {
+            station.forEach(data -> {
 
                 list.add((data.getStationCode() + "") + ((data.getSectionCode() % 100) + ""));
 
-        });
-        stationLocation.forEach(data -> {
-            if (!list.contains(data.getStationId() + ConstantConfig.ES)) {
-                data.setElectric("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WFVY))) {
-                data.setFlowVelocityY("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WFV))) {
-                data.setFlowVelocityX("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.TS))) {
-                data.setTideLevel("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.RS))) {
-                //Double value = (data.getRealVal() - Double.parseDouble(realStationVo.getRainfall()));
-                data.setRainfall("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WS))) {
-                data.setWaterLevel("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WSS))) {
-                data.setWindSpeed("");
-            }
-            //设置字段WindDirectionName
-            if (!list.contains(data.getStationId() + (ConstantConfig.WDS))) {
-                data.setWindDirection("");
-            } else {
-                Double dirction = Double.parseDouble(data.getWindDirection());
-                if (dirction >= 348.76 || dirction <= 11.25) {
-                    data.setWindDirectionName("北");
+            });
+            stationLocation.forEach(data -> {
+                if (!list.contains(data.getStationId() + ConstantConfig.ES)) {
+                    data.setElectric("");
                 }
-                if (dirction >= 11.26 || dirction <= 33.75) {
-                    data.setWindDirectionName("北东北");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WFVY))) {
+                    data.setFlowVelocityY("");
                 }
-                if (dirction >= 33.76 || dirction <= 56.25) {
-                    data.setWindDirectionName("东北");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WFV))) {
+                    data.setFlowVelocityX("");
                 }
-                if (dirction >= 56.76 || dirction <= 78.25) {
-                    data.setWindDirectionName("东东北");
+                if (!list.contains(data.getStationId() + (ConstantConfig.TS))) {
+                    data.setTideLevel("");
                 }
-                if (dirction >= 78.76 || dirction <= 101.25) {
-                    data.setWindDirectionName("东");
+                if (!list.contains(data.getStationId() + (ConstantConfig.RS))) {
+                    //Double value = (data.getRealVal() - Double.parseDouble(realStationVo.getRainfall()));
+                    data.setRainfall("");
                 }
-                if (dirction >= 101.26 || dirction <= 123.75) {
-                    data.setWindDirectionName("东东南");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WS))) {
+                    data.setWaterLevel("");
                 }
-                if (dirction >= 123.76 || dirction <= 146.75) {
-                    data.setWindDirectionName("东南");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WSS))) {
+                    data.setWindSpeed("");
                 }
-                if (dirction >= 146.76 || dirction <= 168.75) {
-                    data.setWindDirectionName("南东南");
+                //设置字段WindDirectionName
+                if (!list.contains(data.getStationId() + (ConstantConfig.WDS))) {
+                    data.setWindDirection("");
+                } else {
+                    if (data.getWindDirection() != "" && data.getWindDirection() != null) {
+                        Double dirction = Double.parseDouble(data.getWindDirection());
+                        if (dirction >= 348.76 || dirction <= 11.25) {
+                            data.setWindDirectionName("北");
+                        }
+                        if (dirction >= 11.26 || dirction <= 33.75) {
+                            data.setWindDirectionName("北东北");
+                        }
+                        if (dirction >= 33.76 || dirction <= 56.25) {
+                            data.setWindDirectionName("东北");
+                        }
+                        if (dirction >= 56.76 || dirction <= 78.25) {
+                            data.setWindDirectionName("东东北");
+                        }
+                        if (dirction >= 78.76 || dirction <= 101.25) {
+                            data.setWindDirectionName("东");
+                        }
+                        if (dirction >= 101.26 || dirction <= 123.75) {
+                            data.setWindDirectionName("东东南");
+                        }
+                        if (dirction >= 123.76 || dirction <= 146.75) {
+                            data.setWindDirectionName("东南");
+                        }
+                        if (dirction >= 146.76 || dirction <= 168.75) {
+                            data.setWindDirectionName("南东南");
+                        }
+                        if (dirction >= 168.76 || dirction <= 191.75) {
+                            data.setWindDirectionName("南");
+                        }
+                        if (dirction >= 191.76 || dirction <= 213.75) {
+                            data.setWindDirectionName("南西南");
+                        }
+                        if (dirction >= 213.76 || dirction <= 236.75) {
+                            data.setWindDirectionName("西南");
+                        }
+                        if (dirction >= 236.76 || dirction <= 258.25) {
+                            data.setWindDirectionName("西西南");
+                        }
+                        if (dirction >= 258.76 || dirction <= 281.25) {
+                            data.setWindDirectionName("西");
+                        }
+                        if (dirction >= 281.76 || dirction <= 303.25) {
+                            data.setWindDirectionName("西西北");
+                        }
+                        if (dirction >= 303.76 || dirction <= 326.25) {
+                            data.setWindDirectionName("西北");
+                        }
+                        if (dirction >= 326.76 || dirction <= 348.25) {
+                            data.setWindDirectionName("北西北");
+                        }
+                    }
                 }
-                if (dirction >= 168.76 || dirction <= 191.75) {
-                    data.setWindDirectionName("南");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WAT))) {
+                    data.setAirTemperature("");
                 }
-                if (dirction >= 191.76 || dirction <= 213.75) {
-                    data.setWindDirectionName("南西南");
+                if (!list.contains(data.getStationId() + (ConstantConfig.WAP))) {
+                    data.setAirPressure("");
                 }
-                if (dirction >= 213.76 || dirction <= 236.75) {
-                    data.setWindDirectionName("西南");
+                //故障站状态赋值
+                if (data.getStatus() == 2) {
+                    //查询该测站的异常状态,赋值AbnormalDetailList
+                    List<AbnormalDetailVo> stationLatestData = abnormalDetailMapper.getStationLatestData(data.getTime(), data.getStationId());
+                    List<String> errorList = new ArrayList<>();
+                    stationLatestData.forEach(error -> {
+                        errorList.add(error.getErrorName());
+                    });
+                    data.setAbnormalDetailList(errorList);
                 }
-                if (dirction >= 236.76 || dirction <= 258.25) {
-                    data.setWindDirectionName("西西南");
+                List<RealDeviceStatus> devList = reportManageApplicationBrokenMapper.getRealDeviceList(data.getStationId());
+                if (devList.size() > 0) {
+                    data.setRealDeviceStatusList(devList);
                 }
-                if (dirction >= 258.76 || dirction <= 281.25) {
-                    data.setWindDirectionName("西");
-                }
-                if (dirction >= 281.76 || dirction <= 303.25) {
-                    data.setWindDirectionName("西西北");
-                }
-                if (dirction >= 303.76 || dirction <= 326.25) {
-                    data.setWindDirectionName("西北");
-                }
-                if (dirction >= 326.76 || dirction <= 348.25) {
-                    data.setWindDirectionName("北西北");
-                }
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WAT))) {
-                data.setAirTemperature("");
-            }
-            if (!list.contains(data.getStationId() + (ConstantConfig.WAP))) {
-                data.setAirPressure("");
-            }
-            //故障站状态赋值
-            if (data.getStatus() == 2) {
-                //查询该测站的异常状态,赋值AbnormalDetailList
-                List<AbnormalDetailVo> stationLatestData = abnormalDetailMapper.getStationLatestData(data.getTime(), data.getStationId());
-                List<String> errorList = new ArrayList<>();
-                stationLatestData.forEach(error -> {
-                    errorList.add(error.getErrorName());
-                });
-                data.setAbnormalDetailList(errorList);
-            }
-            List<RealDeviceStatus> devList = reportManageApplicationBrokenMapper.getRealDeviceList(data.getStationId());
-            if (devList.size() > 0) {
-                data.setRealDeviceStatusList(devList);
-            }
-        });
+            });
         } catch (Exception e) {
             System.out.println("传感器添加失败");
         }

@@ -89,9 +89,9 @@ public class DeviceController {
                 Integer sum = deviceReplace.size();
                 map.put("count", sum);
 
-                List<DeviceStatistics> Orgstatistics = recordDeviceReplaceMapper.getOrgStatistics();
+                //List<DeviceStatistics> Orgstatistics = recordDeviceReplaceMapper.getOrgStatistics();
                 List<DeviceStatistics> Newstatistics = recordDeviceReplaceMapper.getNewStatistics();
-                map.put("changeMost", Orgstatistics.get(0).getOriginDeviceName());
+                map.put("changeMost", Newstatistics.get(0).getOriginDeviceName());
                 if(Newstatistics.size()>0){
                     map.put("shouldBuy1", Newstatistics.get(0).getNewDeviceName());
                     map.put("BuyNum1", Newstatistics.get(0).getDisplaytime());

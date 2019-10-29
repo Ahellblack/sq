@@ -51,13 +51,15 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "on rdr.origin_device_code = csd.property_code " +
             "where origin_org_name is not null " +
             "and DATE_FORMAT( rdr.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' )" +
-            "group by new_device_name")
+            "group by new_device_name " +
+            "ORDER BY displaytime desc ")
     List<DeviceStatistics> getNewStatistics();
     @Select("select origin_device_name,new_device_name,count(*) as displaytime " +
             "from record_device_replace rdr  right join config_sensor_database csd  " +
             "on rdr.origin_device_code = csd.property_code " +
             "where origin_org_name is not null " +
             "and DATE_FORMAT( rdr.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' )" +
-            "group by origin_device_name")
+            "group by origin_device_name " +
+            "ORDER BY displaytime desc ")
     List<DeviceStatistics> getOrgStatistics();
 }
