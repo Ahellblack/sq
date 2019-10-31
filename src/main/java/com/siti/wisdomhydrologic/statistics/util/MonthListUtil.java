@@ -1,4 +1,4 @@
-package com.siti.wisdomhydrologic.util;
+package com.siti.wisdomhydrologic.statistics.util;
 
 import java.util.ArrayList;
 import java.util.List;

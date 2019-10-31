@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.mainpage.vo.DataEquipErrorVo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
@@ -80,38 +82,47 @@ public class DataEquipErrorController {
     }
 
     @GetMapping("brokenRealData")
-    public List<ReportManageApplicationBroken> getRealData(Integer type, Integer date) {
+    public PageInfo<ReportManageApplicationBroken> getRealData(Integer type, Integer date, Integer page, Integer pageSize) {
+        try {
+            if (page == null || pageSize == null) {
+                return null;
+            }
+            PageHelper.startPage(page, pageSize);
 
-        getTypeList(type);
-        List<ReportManageApplicationBroken> list = new ArrayList<>();
+            getTypeList(type);
+            List<ReportManageApplicationBroken> list = new ArrayList<>();
 
-        if (date == 1) {
-            String createDate = DateOrTimeTrans.Date2TimeString(new Date());
-            list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, getTypeList(type));
+            if (date == 1) {
+                String createDate = DateOrTimeTrans.Date2TimeString(new Date());
+                list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, getTypeList(type));
+            }
+            if (date == 2) {
+                String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
+                list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, getTypeList(type));
+            }
+            if (date == 3) {
+                String createDate = DateOrTimeTrans.Year2String(new Date());
+                list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, getTypeList(type));
+            }
+            return new PageInfo<>(list);
+        } catch (Exception e) {
+            return null;
         }
-        if (date == 2) {
-            String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
-            list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, getTypeList(type));
-        }
-        if (date == 3) {
-            String createDate = DateOrTimeTrans.Year2String(new Date());
-            list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, getTypeList(type));
-        }
-
-        return list;
     }
 
 
     public static List<String> getTypeList(Integer type) {
         List<String> typeName = new ArrayList<>();
         if (type == 4) {
-            typeName.add("eq");typeName.add("ty");
+            typeName.add("eq");
+            typeName.add("ty");
         } else if (type == 5) {
             typeName.add("eq");
         } else if (type == 6) {
             typeName.add("ty");
         } else if (type == 1) {
-            typeName.add("data");typeName.add("md");
+            typeName.add("data");
+            typeName.add("md");
         } else if (type == 2) {
             typeName.add("data");
         } else if (type == 3) {

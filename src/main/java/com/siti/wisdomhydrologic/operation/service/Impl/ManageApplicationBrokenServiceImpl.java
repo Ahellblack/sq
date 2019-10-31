@@ -171,13 +171,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
         ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
 
-        ConfigRiverStation allByCode = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
-        List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(allByCode.getRegionId());
+        ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
+        List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
         try {
             if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
                 /**
                  *派单后状态直接更改为3，派单时间 == 处理中时间
                  * */
+                reportManageApplicationBroken.setMalStatus(1);
                 reportManageApplicationBroken.setRequestDesignatingStatus(3);
                 reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
                 reportManageApplicationBroken.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));

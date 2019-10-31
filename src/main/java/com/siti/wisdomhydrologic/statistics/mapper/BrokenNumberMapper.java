@@ -38,11 +38,18 @@ public interface BrokenNumberMapper {
 
 
     //本月的异常易发时间查询
-    @Select("<script>SELECT * FROM `report_station_broken` " +
-            " WHERE DATE_FORMAT( create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' ) " +
+    @Select("<script>SELECT * FROM `report_station_broken` a " +
+            " left JOIN config_river_station b ON a.station_id = b.station_id " +
+            " WHERE 1 = 1 " +
             " and broken_resolve_time is not null " +
-            " <if test = \'stationId != null \'>and station_id = #{stationId}</if> " +
+            " <if test = \'stationId != null \'>and a.station_id = #{stationId}</if> " +
+            " AND b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " AND SUBSTR( a.create_time, 1, 4 ) = #{year} " +
+            " AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)" +
             " </script>")
-    List<ReportManageApplicationBroken> getRecoverTime(@Param("stationId") String stationId);
+    List<ReportManageApplicationBroken> getRecoverTime(@Param("stationId") Integer stationId,
+                                                       @Param("year")Integer year,
+                                                       @Param("list")List<String> list,
+                                                       @Param("orgId")Integer orgId);
 
 }

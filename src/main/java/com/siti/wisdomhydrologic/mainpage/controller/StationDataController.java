@@ -47,21 +47,18 @@ public class StationDataController {
     private UserInfoService userInfoService;
     @Resource
     private StationDataMapper stationDataMapper;
-
     @Resource
     private AbnormalDetailMapper abnormalDetailMapper;
-
     @Resource
     private RealStationDataMapper realStationDataMapper;
-
     @Resource
     private StationDataServiceImpl stationDataService;
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
-
-
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
+    //现展示浦东数据
+    private final Integer SYSORG = 1002;
 
 
     @ApiOperation(value = "首页地图站点点击数据展示接口", httpMethod = "GET", notes = "查询station_data表获取最近各站点的传感器数据,返回各类传感器数据值")
@@ -106,7 +103,7 @@ public class StationDataController {
     @ApiOperation(value = "首页地图站点地址经纬度展示接口", httpMethod = "GET", notes = "返回各类站点的地图坐标,根据不同测站状态及测站等级进行筛选" + "测站状态 0位离线；1为正常；2为故障" + "站点类型：0 基本站；1国家站；2一般站 " + "南北片：42 北片 ； 43 南片")
     @ApiParam(name = "level", value = "测站级别")
     @GetMapping("/getLocation")
-    public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId, HttpSession session) throws Exception {
+    public List<ConfigRiverStationVo> getList(Integer level, Integer status, Integer snId,Integer stationId) throws Exception {
 
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
@@ -121,15 +118,13 @@ public class StationDataController {
         calendar2.setTime(today);
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         //System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
-        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId, 1002);//暂展示浦东点位
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId, SYSORG,stationId);//暂展示浦东点位
 
         List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
         List<String> list = new ArrayList<>();
         try {
             station.forEach(data -> {
-
                 list.add((data.getStationCode() + "") + ((data.getSectionCode() % 100) + ""));
-
             });
             stationLocation.forEach(data -> {
                 if (!list.contains(data.getStationId() + ConstantConfig.ES)) {

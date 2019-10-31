@@ -1,15 +1,13 @@
 package com.siti.wisdomhydrologic.statistics.controller;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
 import com.siti.wisdomhydrologic.statistics.entity.DataError;
 import com.siti.wisdomhydrologic.statistics.mapper.DataErrorNumberMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
-import com.siti.wisdomhydrologic.util.MonthListUtil;
+import com.siti.wisdomhydrologic.statistics.util.MonthListUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,13 +94,42 @@ public class DataErrorNumberController {
 
 
     @GetMapping("getEasierTimeSpace")
-    public Map<String, Object> getTimeList(String stationId) {
+    public Map<String, Object> getTimeList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month, String dataTime) {
 
-        User user = (User) userInfoService.get();
-        List<Org> orgList = userMapper.findOrg(user.getId());
+
         Map<String, Object> map = new HashMap<>();
+
+        if (dateType == null || "".equals(dateType) || year == null || "".equals(year)) {
+            map.put("status", -2);
+            map.put("message", "参数错误");
+            map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
+            map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
+
+            return map;
+        }
+
         try {
-            List<ReportManageDataMantain> dataList = dataErrorNumberMapper.getGroupByTime(stationId);
+            List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
+
+            User user = (User) userInfoService.get();
+            List<Org> orgList = userMapper.findOrg(user.getId());
+            List<ReportManageDataMantain> dataList =new ArrayList<>();
+            if(list.size() >0) {
+                dataList = dataErrorNumberMapper.getGroupByTime(stationId, year, list, null,orgList.get(0).getId());
+            }else{
+                // list为空,且dateTime不为空时
+                if(dateType == 4 && dataTime != null) {
+                    dataList = dataErrorNumberMapper.getGroupByTime(stationId, year, null, dataTime, orgList.get(0).getId());
+                }else{
+                    // monthlist无值且dateTime为空时
+                    map.put("status", -2);
+                    map.put("message", "参数错误");
+                    map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
+                    map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
+
+                    return map;
+                }
+            }
             Integer sum = dataList.size();
             Integer space1to4 = 0;
             Integer space5to8 = 0;

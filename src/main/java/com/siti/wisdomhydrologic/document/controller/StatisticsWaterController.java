@@ -31,10 +31,10 @@ public class StatisticsWaterController {
             databaseName = "history_day_sensor_data_" + calendar.get(Calendar.YEAR);
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("水位最高值", statisticWaterMapper.getMaxWater(databaseName, year));
-        map.put("水位最低值", statisticWaterMapper.getMinWater(databaseName, year));
-        map.put("三林超出水位预警次数",statisticWaterMapper.getWaterOver(databaseName, year,"1630483"));
-        map.put("年份",calendar.get(Calendar.YEAR));
+        map.put("maxWater", statisticWaterMapper.getMaxWater(databaseName, year));//水位最高值
+        map.put("minWater", statisticWaterMapper.getMinWater(databaseName, year));//水位最低值
+        map.put("overSanLin",statisticWaterMapper.getWaterOver(databaseName, year,"1630483"));//三林超出水位预警次数
+        map.put("year",calendar.get(Calendar.YEAR));//年份
         return map;
     }
 

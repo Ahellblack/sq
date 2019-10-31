@@ -38,8 +38,9 @@ public interface StationDataMapper {
             "<if test=\"level!=null\"> and station_level = #{level} </if>" +
             "<if test=\"status!=null\"> and b.status = #{status} </if>" +
             "<if test=\"snId!=null\"> and a.region_id = #{snId} </if>" +
+            "<if test=\"stationId!=null\"> and a.station_id = #{stationId} </if>" +
             "</script>")
-    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId,@Param("orgId") Integer orgId);
+    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId,@Param("orgId") Integer orgId,@Param("stationId")Integer stationId);
 
 
 

@@ -40,11 +40,20 @@ public interface DataErrorNumberMapper {
                             @Param("orgId")Integer orgId);
 
     //本月的异常易发时间查询
-    @Select("<script>SELECT * FROM `report_manage_data_mantain` " +
-            " WHERE DATE_FORMAT( create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' ) " +
-            " <if test = \'stationId != null \'>and station_id = #{stationId}</if> " +
-            " GROUP BY SUBSTR(create_time,12,8) </script>")
-    List<ReportManageDataMantain> getGroupByTime(@Param("stationId") String stationId);
+    @Select("<script>SELECT * FROM `report_manage_data_mantain` a " +
+            " left JOIN config_river_station b ON a.station_code = b.station_id " +
+            " WHERE 1=1" +
+            " AND b.sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) ) " +
+            " <if test = \'stationId != null \'>and a.station_code = #{stationId}</if> " +
+            " <if test=\"year!=null\"> AND SUBSTR( a.create_time, 1, 4 ) = #{year} </if> " +
+            " <if test=\"list!=null\">AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)</if> " +
+            " <if test=\"dataTime!=null\">AND SUBSTR( a.create_time, 1, 10 ) = #{dataTime} </if>" +
+            " GROUP BY SUBSTR(a.create_time,12,8) </script>")
+    List<ReportManageDataMantain> getGroupByTime(@Param("stationId") Integer stationId,
+                                                 @Param("year")Integer year,
+                                                 @Param("list") List<String> list,
+                                                 @Param("dataTime")String dataTime,
+                                                 @Param("orgId")Integer orgId);
 
 
 }

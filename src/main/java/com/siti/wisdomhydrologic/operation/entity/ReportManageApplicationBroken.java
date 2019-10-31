@@ -65,6 +65,16 @@ public class ReportManageApplicationBroken {
 
     private String description;
 
+    private Integer malStatus;
+
+    public Integer getMalStatus() {
+        return malStatus;
+    }
+
+    public void setMalStatus(Integer malStatus) {
+        this.malStatus = malStatus;
+    }
+
     public String getDescription() {
         return description;
     }

@@ -26,6 +26,24 @@ public class StationMalFunction {
 
     private Integer requestDesignatingStatus;
     private String regionName;
+    private String regionId;
+    private Integer malStatus;
+
+    public String getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
+    }
+
+    public Integer getMalStatus() {
+        return malStatus;
+    }
+
+    public void setMalStatus(Integer malStatus) {
+        this.malStatus = malStatus;
+    }
 
     public Integer getSfindNumber() {
         return SfindNumber;

@@ -41,20 +41,22 @@ public class StatisticsRainController {
         Double allyear = statisticsRainMapper.getYearRainSum(databaseName,year);
         Double allFloor = statisticsRainMapper.getFloorSeasonRainSum(databaseName,year);
 
-        map.put("全年雨量",allyear);
-        map.put("全年降雨天数",statisticsRainMapper.getYearRainNumber(databaseName, year));
-        map.put("汛期降雨量",allFloor);
-        map.put("汛期降雨天数",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));
-        map.put("各月雨量",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));
-        map.put("汛期占比", RateUtils.accuracy(allFloor, allyear, 2));
+        map.put("yearRain",allyear);//全年雨量
+        map.put("yearRainDay",statisticsRainMapper.getYearRainNumber(databaseName, year));//全年降雨天数
+        map.put("floorRain",allFloor);//汛期降雨量
+        map.put("floorRainDay",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));//汛期降雨天数
+        map.put("rainList",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));//各月雨量
+        map.put("floorRate", RateUtils.accuracy(allFloor, allyear, 2));//汛期占比
         if (rainSumGroup.size()>3){
-            map.put("最大雨量月份",rainSumGroup.get(0).getMonth());
-            map.put("第二雨量月份",rainSumGroup.get(1).getMonth());
-            map.put("第三雨量月份",rainSumGroup.get(2).getMonth());
-            map.put("最低雨量月份",rainSumGroup.get((rainSumGroup.size()-1)).getMonth());
-            map.put("倍数",rainSumGroup.get(0).getSum()/rainSumGroup.get((rainSumGroup.size()-1)).getSum());
+            map.put("firstRain",rainSumGroup.get(0).getMonth());//最大雨量月份
+            map.put("secondRain",rainSumGroup.get(1).getMonth());//第二雨量月份
+            map.put("thirdRain",rainSumGroup.get(2).getMonth());//第三雨量月份
+            map.put("finalRain",rainSumGroup.get((rainSumGroup.size()-1)).getMonth());//最低雨量月份
+            map.put("times",RateUtils.accuracyTimes(rainSumGroup.get(0).getSum(),
+                            rainSumGroup.get((rainSumGroup.size()-1)).getSum(),
+                            2));//倍数
         }
-        map.put("年份",calendar.get(Calendar.YEAR));
+        map.put("year",calendar.get(Calendar.YEAR));//年份
         return  map;
     }
 
@@ -84,10 +86,10 @@ public class StatisticsRainController {
                 minVo.setStationName(data.getStationName());
             }
         });
-        map.put("雨量最高测站",maxVo);
-        map.put("雨量最低测站",minVo);
-        map.put("雨量分布List",rainDistrbution);
-        map.put("年份",calendar.get(Calendar.YEAR));
+        map.put("highestRainStation",maxVo);//雨量最高测站
+        map.put("lowestRainStation",minVo);//雨量最低测站
+        map.put("List",rainDistrbution);//雨量分布List
+        map.put("year",calendar.get(Calendar.YEAR));
         return map;
     }
 
@@ -102,11 +104,11 @@ public class StatisticsRainController {
         } else {
             databaseName = "history_day_sensor_data_" + calendar.get(Calendar.YEAR);
         }
-        map.put("日降雨量最大数据",statisticsRainMapper.getMaxRainStation(databaseName, year));
+        map.put("dayMax",statisticsRainMapper.getMaxRainStation(databaseName, year));   //日降雨量最大数据
 
             databaseName = "history_hour_sensor_data_"+ calendar.get(Calendar.YEAR);
-        map.put("小时降雨量最大数据",statisticsRainMapper.getMaxHourRainStation(databaseName));
-        map.put("年份",calendar.get(Calendar.YEAR));
+        map.put("hourMax",statisticsRainMapper.getMaxHourRainStation(databaseName)); // 小时降雨量最大数据
+        map.put("year",calendar.get(Calendar.YEAR));
         return map;
     }
 

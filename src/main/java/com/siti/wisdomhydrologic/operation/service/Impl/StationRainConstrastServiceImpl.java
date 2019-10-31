@@ -9,7 +9,7 @@ import com.siti.wisdomhydrologic.operation.service.StationRainConstrastService;
 import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
-import com.siti.wisdomhydrologic.util.StationIdUtils;
+import com.siti.wisdomhydrologic.operation.utils.StationIdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

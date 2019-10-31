@@ -36,7 +36,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "#{item}" +
             "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc limit 10" +
+            "order by a.create_time desc " +
             "</script>")
     List<ReportManageApplicationBroken> getAllDay(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
@@ -51,7 +51,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "#{item}" +
             "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc limit 10" +
+            "order by a.create_time desc " +
             "</script>")
     List<ReportManageApplicationBroken> getAllYear(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
@@ -67,7 +67,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "#{item}" +
             "</foreach>)</if> " +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc limit 10" +
+            "order by a.create_time desc " +
             "</script>")
     List<ReportManageApplicationBroken> getAllMonth(@Param("createDate") String createDate,@Param("display")Integer display,@Param("typeNameList") List<String> typeNameList);
 
@@ -99,21 +99,21 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             " LIMIT 10 </script> ")
     List<ReportManageApplicationBrokenVo> getLatest10(@Param("regionId") Integer regionId);
 
-    @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
+    @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null " +
             " and display_status = 1 " +
             " and to_days(b.create_time) = to_days(now())")
     List<StationMalFunction> getRegAndStatusListDay();
 
 
-    @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
+    @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null  " +
             " and display_status = 1 " +
             " and DATE_FORMAT( b.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )\n")
     List<StationMalFunction> getRegAndStatusListMonth();
 
 
-    @Select(" select region_name,request_designating_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
+    @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null  " +
             " and display_status = 1 " +
             " and YEAR(b.create_time)=YEAR(NOW());\n")
@@ -160,6 +160,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "`request_designating_time` = #{data.requestDesignatingTime}, " +
             "`broken_resolve_time` = #{data.brokenResolveTime}," +
             "`broken_on_resolve_time` = #{data.brokenOnResolveTime}" +
+            "`mal_status` = #{data.malStatus} " +
             " WHERE report_id = #{data.reportId}")
     int updateStatus(@Param("data") ReportManageApplicationBroken broken);
 

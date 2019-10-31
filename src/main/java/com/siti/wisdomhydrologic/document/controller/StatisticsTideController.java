@@ -39,13 +39,13 @@ public class StatisticsTideController {
         BigDecimal bd = new BigDecimal(GQtide.getAvgV());
         Double avg = bd.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         GQtide.setAvgV(avg);
-        map.put("芦潮港潮位",LCtide);
-        map.put("芦潮港潮位超过4.0",statisticsTideMapper.getTideOver(databaseName,year,"1850281",4.0));
-        map.put("芦潮港潮位超过4.5",statisticsTideMapper.getTideOver(databaseName,year,"1850281",4.5));
-        map.put("高桥外侧亭潮位",GQtide);
-        map.put("高桥外侧亭潮位超过4.0",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.0));
-        map.put("高桥外侧亭潮位超过4.5",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.5));
-        map.put("年份",calendar.get(Calendar.YEAR));
+        map.put("LCtide",LCtide);//芦潮港潮位
+        map.put("LCover4",statisticsTideMapper.getTideOver(databaseName,year,"1850281",4.0));//芦潮港潮位超过4.0
+        map.put("LCover4point5",statisticsTideMapper.getTideOver(databaseName,year,"1850281",4.5));//芦潮港潮位超过4.5
+        map.put("GQtide",GQtide);//高桥外侧亭潮位
+        map.put("GQover4",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.0));//高桥外侧亭潮位超过4.0
+        map.put("GQover4point5",statisticsTideMapper.getTideOver(databaseName,year,"1680281",4.5));//高桥外侧亭潮位超过4.5
+        map.put("year",calendar.get(Calendar.YEAR));
         return map;
     }
 
