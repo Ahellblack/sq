@@ -41,7 +41,7 @@ public class DownloadController {
      * @param response
      * @return
      */
-    @PostMapping("downloadFile")
+    @GetMapping("downloadFile")
     public int downloadFile(Integer id, HttpServletResponse response) {
         int result = 1;
         InputStream is = null;
