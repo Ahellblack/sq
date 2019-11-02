@@ -40,4 +40,7 @@ public interface ConfigAbnormalDictionaryMapper {
 
     @Select("select * from config_abnormal_dictionary where broken_according = #{according}")
     ConfigAbnormalDictionary getOneByAccording(@Param("according") String according);
+
+    @Select("select * from config_abnormal_dictionary where broken_according_id = #{accordingId}")
+    ConfigAbnormalDictionary getOneByAccordingId(@Param("accordingId") String accordingId);
 }

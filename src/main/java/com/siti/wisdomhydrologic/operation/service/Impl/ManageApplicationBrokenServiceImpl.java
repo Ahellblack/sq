@@ -169,19 +169,19 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     public int updateMalStatus(Integer reportId) {
 
-        ReportManageApplicationBroken reportManageApplicationBroken = reportManageApplicationBrokenMapper.getOne(reportId);
+        ReportManageApplicationBroken entity = reportManageApplicationBrokenMapper.getOne(reportId);
 
-        ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(reportManageApplicationBroken.getStationId());
+        ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(entity.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
         try {
-            if (reportManageApplicationBroken.getRequestDesignatingStatus() == 1) {
+            if (entity.getRequestDesignatingStatus() == 1) {
                 /**
                  *派单后状态直接更改为3，派单时间 == 处理中时间
                  * */
-                reportManageApplicationBroken.setMalStatus(1);
-                reportManageApplicationBroken.setRequestDesignatingStatus(3);
-                reportManageApplicationBroken.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
-                reportManageApplicationBroken.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+                entity.setMalStatus(1);
+                entity.setRequestDesignatingStatus(3);
+                entity.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+                entity.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
                 String numberStr = "";
                 for (int i = 0; i < phoneNumber.size(); i++) {
                     numberStr = numberStr + "," + phoneNumber.get(i);
@@ -192,11 +192,13 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 if (numberStr == "") {
                     return 0;
                 }
-                if (reportManageApplicationBroken.getStationName() != null && reportManageApplicationBroken.getCreateTime() != null && reportManageApplicationBroken.getBrokenAccording() != null) {
+                if (entity.getStationName() != null && entity.getCreateTime() != null && entity.getBrokenAccording() != null) {
                     //发送短信
-                    PushMsg.pushMsgToClient(numberStr, reportManageApplicationBroken.getStationName(), reportManageApplicationBroken.getCreateTime(), reportManageApplicationBroken.getBrokenAccording(), reportId + "");
+                    ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
+
+                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording()+","+oneByAccordingId, reportId + "");
                 }
-                return reportManageApplicationBrokenMapper.updateStatus(reportManageApplicationBroken);
+                return reportManageApplicationBrokenMapper.updateStatus(entity);
             }
         } catch (Exception e) {
             return 0;
