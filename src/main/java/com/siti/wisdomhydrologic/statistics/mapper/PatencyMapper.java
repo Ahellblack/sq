@@ -19,12 +19,15 @@ public interface PatencyMapper {
 
 
 
-    @Select("select count(*) from ${datebaseName} where to_days(sensor_data_time) = to_days(now());")
-    Integer getRealTSDBData(@Param("datebaseName") String datebaseName);
+    @Select("<script>select count(*) from ${datebaseName} where to_days(sensor_data_time) = to_days(#{date})" +
+            "<if test = \'stationId != null\'> and SUBSTR(sensor_code,1,5) = #{stationId} </if></script>")
+    Integer getRealTSDBData(@Param("datebaseName") String datebaseName,@Param("date") String date,@Param("stationId") Integer stationId);
 
-    @Select("select count(*) from ${datebaseName} where to_days(sensor_data_upload_time) = to_days(now());")
-    Integer getRealHourData(@Param("datebaseName") String datebaseName);
+    @Select("<script>select count(*) from ${datebaseName} where to_days(sensor_data_upload_time) = to_days(#{date})" +
+            "<if test = \'stationId != null\'> and SUBSTR(sensor_code,1,5) = #{stationId} </if></script>")
+    Integer getRealHourData(@Param("datebaseName") String datebaseName,@Param("date") String date,@Param("stationId") Integer stationId);
 
-    @Select("select count(*) from `${datebaseName}` where to_days(time) = to_days(now());")
-    Integer getRealRTSQData(@Param("datebaseName") String datebaseName);
+    @Select("<script>select count(*) from `${datebaseName}` where to_days(time) = to_days(#{date})" +
+            "<if test = \'stationId != null\'> and SUBSTR(sensor_code,1,5) = #{stationId} </if></script>")
+    Integer getRealRTSQData(@Param("datebaseName") String datebaseName,@Param("date") String date,@Param("stationId") Integer stationId);
 }

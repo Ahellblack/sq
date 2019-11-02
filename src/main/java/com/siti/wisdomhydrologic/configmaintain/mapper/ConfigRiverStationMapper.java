@@ -57,10 +57,14 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     @Select("select * from config_river_station where sys_org<>0 group by sys_org ")
     List<ConfigRiverStation> getBySysOrg();
 
+
+
+
     @Insert("INSERT INTO `config_river_station` (`station_code`, `station_telemetry_code`, `station_id`, " +
             "`station_name`, `org_id`, `org_name`, `river_id`, `river_name`, `region_id`,`region_name`, " +
             "`station_wiski_code`, `station_level`, `station_gaode_longitude`,`station_gaode_latitude`, " +
-            "`is_sluice_gate`, `station_address`, `create_time`, `flow_rate`, `sys_org` ) VALUES (" +
+            "`is_sluice_gate`, `station_address`, `create_time`, `flow_rate`, `sys_org`," +
+            "`building_time`,`abbreviation`,`number_cdma`,`number_gprs`) VALUES (" +
             "#{obj.stationCode}, " +
             "#{obj.stationTelemetryCode}, " +
             "#{obj.stationId}, " +
@@ -79,7 +83,11 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "#{obj.stationAddress}, " +
             "#{obj.createTime}, " +
             "#{obj.flowRate}, " +
-            "#{obj.sysOrg});")
+            "#{obj.sysOrg})," +
+            "#{obj.buildingTime}," +
+            "#{obj.abbreviation}," +
+            "#{obj.numberCdma}," +
+            "#{obj.numberGprs};")
     int insert(@Param("obj") ConfigRiverStation configRiverStation);
 
     // 更新数据，部分字段不更新
@@ -97,7 +105,12 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "`station_gaode_latitude`=#{obj.stationGaodeLatitude}," +
             "`is_sluice_gate`=#{obj.isSluiceGate}," +
             "`station_address`=#{obj.stationAddress}," +
-            "`flow_rate`=#{obj.flowRate} WHERE (`station_code`=#{obj.stationCode});")
+            "`flow_rate`=#{obj.flowRate}," +
+            "`building_time` = #{obj.buildingTime},"+
+            "`abbreviation` = #{obj.abbreviation},"+
+            "`number_cdma` = #{obj.numberCdma},"+
+            "`number_gprs` = #{obj.numberGprs} "+
+            " WHERE (`station_code`=#{obj.stationCode});")
     int update(@Param("obj") ConfigRiverStation configRiverStation);
 
     // 根据stationCode删除

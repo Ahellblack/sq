@@ -34,6 +34,43 @@ public class ConfigRiverStation {
 
     private String time;
 
+    private String buildingTime;
+    private String abbreviation;
+    private String numberCdma;
+    private String numberGprs;
+
+    public String getBuildingTime() {
+        return buildingTime;
+    }
+
+    public void setBuildingTime(String buildingTime) {
+        this.buildingTime = buildingTime;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+    public String getNumberCdma() {
+        return numberCdma;
+    }
+
+    public void setNumberCdma(String numberCdma) {
+        this.numberCdma = numberCdma;
+    }
+
+    public String getNumberGprs() {
+        return numberGprs;
+    }
+
+    public void setNumberGprs(String numberGprs) {
+        this.numberGprs = numberGprs;
+    }
+
     public String getTime() {
         return time;
     }

@@ -20,7 +20,7 @@ public interface ArticleMapper {
             "VALUES (#{entity.message}, #{entity.createTime}, #{entity.createBy})")
     int createNew(@Param("entity") SysManualLog message);
 
-    @Update("update sys_manual_log set message = #{entity.message} ,create_time = #{entity.createTime}" +
+    @Update("update sys_manual_log set message = #{entity.message} " +
             "where id =#{entity.id}")
     int update(@Param("entity") SysManualLog message);
 

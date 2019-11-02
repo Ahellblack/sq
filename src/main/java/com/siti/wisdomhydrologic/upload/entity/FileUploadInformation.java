@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.upload.entity;
 public class FileUploadInformation {
 
   private Integer fileId;
+  private String originFileName;
   private String fileUrl;
   private String uploadUser;
   private String uploadTime;
@@ -15,6 +16,15 @@ public class FileUploadInformation {
 
   public void setFileId(Integer fileId) {
     this.fileId = fileId;
+  }
+
+
+  public String getOriginFileName() {
+    return originFileName;
+  }
+
+  public void setOriginFileName(String originFileName) {
+    this.originFileName = originFileName;
   }
 
   public String getFileUrl() {

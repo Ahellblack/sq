@@ -14,9 +14,10 @@ import java.util.List;
 public interface FileUploadMapper {
 
     @Insert("INSERT INTO `file_upload_information`" +
-            "(`file_url`, `upload_user`, `upload_ip_address`) " +
-            "VALUES (#{url},#{userName},#{ipAddress}) ")
+            "(`file_url`,`origin_file_name`, `upload_user`, `upload_ip_address`) " +
+            "VALUES (#{url},#{fileName},#{userName},#{ipAddress}) ")
     int saveFileMsg(@Param("url") String url,
+                    @Param("fileName") String fileName,
                     @Param("userName") String userName,
                     @Param("ipAddress")String ipAddress);
 

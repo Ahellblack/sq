@@ -88,58 +88,48 @@ public class PatencyController {
     }
 
     @GetMapping("/getDataUploading")
-    public Map<String, Object> getDataUploading(String date) {
+    public Map<String, Object> getDataUploading(String date, Integer stationId) {
         Map<String, Object> map = new HashMap<>();
         String day = "";
         String year = "";
+        String yearmonth = "";
         try {
             if (date.length() > 10) {
                 day = date.substring(0, 10);
                 year = date.substring(0, 4);
+                yearmonth = year+ date.substring(5,7);
             }
             //查询需发送数据的传感器个数
             Integer moduleNum = configSensorSectionModuleMapper.getStation().size();
 
             //统计tsdb当天数据
-            Integer time1 = patencyMapper.getRealTSDBData("history_5min_sensor_data_" + year);
-            long[] times = DateDistance.getDistanceTimes(day + " 00:00:00", day + " 24:00:00");
-            long timeDiff = times[0]*24;
+            Integer time1 = patencyMapper
+                    .getRealTSDBData("history_5min_sensor_data_" + year, day, stationId);
+            long[] times = DateDistance
+                    .getDistanceTimes(day + " 00:00:00", day + " 24:00:00");
+            long timeDiff = times[0] * 24;
             map.put("expectTSDB", timeDiff * moduleNum);
             map.put("realTSDB", time1);
-            Integer time2 = patencyMapper.getRealHourData("history_hour_sensor_data_" + year);
+            Integer time2 = patencyMapper
+                    .getRealHourData("history_hour_sensor_data_" + year, day, stationId);
             map.put("expectHour", timeDiff * moduleNum);
             map.put("realHour", time2);
-            Integer time3 = patencyMapper.getRealRTSQData("real");
+
+            Integer time3 = patencyMapper
+                    .getRealRTSQData("history_real_sensor_data_"+yearmonth, day, stationId);
             long timeRTSQ = times[0] * 288 + times[1] * 12 + times[2] / 5;
             map.put("expectRTSQ", timeRTSQ * moduleNum);
             map.put("realRTSQ", time3);
 
             map.put("status", 1);
             map.put("msg", "查询成功");
-        }catch (Exception e){
+        } catch (Exception e) {
 
             map.put("status", -1);
             map.put("msg", "查询出错");
         }
         return map;
     }
-
-    public static void main(String[] args) {
-
-        String startTime = "2019-09-10 13:00:00";
-        String endTime = "2019-09-13 18:30:00";
-
-        //获取起始时间和结束时间的5分钟应有几个
-        long[] times = DateDistance.getDistanceTimes("2019-09-10" + " 00:00:00", "2019-09-10" + " 23:59:59");
-        long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
-
-
-        System.out.println(startTime.substring(0, 4));
-        System.out.println(timeDiff);
-
-
-    }
-
 
     /**
      * 取当前日期的年月日

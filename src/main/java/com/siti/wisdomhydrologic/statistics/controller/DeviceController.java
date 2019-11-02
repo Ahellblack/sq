@@ -80,17 +80,27 @@ public class DeviceController {
         return map;
     }
     @GetMapping("spareBuy")
-    public Map<String, Object> getDevice() {
+    public Map<String, Object> getDevice(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
-        String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
+        if (dateType == null || "".equals(dateType) || year == null || "".equals(year)) {
+            map.put("status", -2);
+            map.put("message", "参数错误");
+            return map;
+        }
         try {
-            List<RecordDeviceReplaceVo> deviceReplace = recordDeviceReplaceMapper.getDeviceReplace();
+            List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
+            if (list.size() == 0) {
+                map.put("status", -2);
+                map.put("message", "参数错误");
+                return map;
+            }
+
+            List<RecordDeviceReplaceVo> deviceReplace = recordDeviceReplaceMapper.getDeviceReplace(stationId, year, list);
             if (deviceReplace.size() > 0) {
                 Integer sum = deviceReplace.size();
                 map.put("count", sum);
 
-                //List<DeviceStatistics> Orgstatistics = recordDeviceReplaceMapper.getOrgStatistics();
-                List<DeviceStatistics> Newstatistics = recordDeviceReplaceMapper.getNewStatistics();
+                List<DeviceStatistics> Newstatistics = recordDeviceReplaceMapper.getNewStatistics(stationId, year, list);
                 map.put("changeMost", Newstatistics.get(0).getOriginDeviceName());
                 if(Newstatistics.size()>0){
                     map.put("shouldBuy1", Newstatistics.get(0).getNewDeviceName());
@@ -115,8 +125,6 @@ public class DeviceController {
             }
         } catch (Exception e) {
             map.put("status", -1);
-
-            map.put("status", 0);
             map.put("count", 0);
             map.put("shouldBuy1","无");
             map.put("BuyNum1", 0);

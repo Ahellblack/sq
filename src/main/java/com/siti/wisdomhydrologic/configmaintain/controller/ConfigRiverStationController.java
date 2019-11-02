@@ -150,7 +150,7 @@ public class ConfigRiverStationController {
                     return jsonObject;
                 }
                 configRiverStation.setCreateTime(new Timestamp(System.currentTimeMillis()).toString());
-                configRiverStation.setOrgId(1002);
+                //configRiverStation.setOrgId(1002);
                 /*if(configRiverStation.getRegionId() == 43){
                     configRiverStation.setRegionName("南片");
                 }
