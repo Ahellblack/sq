@@ -159,7 +159,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "`broken_response_time` = #{data.brokenResponseTime}, " +
             "`request_designating_time` = #{data.requestDesignatingTime}, " +
             "`broken_resolve_time` = #{data.brokenResolveTime}," +
-            "`broken_on_resolve_time` = #{data.brokenOnResolveTime}" +
+            "`broken_on_resolve_time` = #{data.brokenOnResolveTime}," +
             "`mal_status` = #{data.malStatus} " +
             " WHERE report_id = #{data.reportId}")
     int updateStatus(@Param("data") ReportManageApplicationBroken broken);
