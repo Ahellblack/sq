@@ -75,7 +75,7 @@ public class StationDataServiceImpl implements StationDataService {
         abnormallist.forEach(data -> {
             stationList.add(data.getSensorCode() / 100);
         });
-        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
+        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation(null);
         List<Integer> list = new ArrayList<>();
         station.forEach(data -> {
             list.add(data.getSectionCode());

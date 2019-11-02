@@ -13,8 +13,10 @@ import java.util.List;
  */
 public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSectionModule> {
 
-    @Select("Select * from config_sensor_section_module where section_status  = '1' ")
-    List<ConfigSensorSectionModule> getStation();
+    @Select("<script>Select * from config_sensor_section_module " +
+            "where section_status  = '1' " +
+            "<if test= \'stationId != null\'>and station_code = #{stationId}</if> </script>")
+    List<ConfigSensorSectionModule> getStation(@Param("stationId")Integer stationId);
 
     @Select(" Select * from config_sensor_section_module cssm " +
             " left join config_river_station crs " +

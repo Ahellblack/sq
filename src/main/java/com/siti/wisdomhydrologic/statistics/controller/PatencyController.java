@@ -39,6 +39,8 @@ public class PatencyController {
     public Map<String, Object> getPatency(Integer stationId, String date) {
         String endTime = "";
         String startTime = "";
+        String year = "";
+        String yearmonth = "";
         Map<String, Object> map = new HashMap<>();
         List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
         Map<Integer, String> stationMap = new HashMap<>();
@@ -49,10 +51,15 @@ public class PatencyController {
         });
         List<Patency> patency = new ArrayList<>();
         try {
+            if (date.length() > 10) {
+                year = date.substring(0, 4);
+                yearmonth = year + date.substring(5, 7);
+            }
+
             for (int i = 0; i < 7; i++) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
-                cal.add(Calendar.DAY_OF_MONTH, -i);
+                cal.add(Calendar.DAY_OF_MONTH, -i + 1);
 
                 endTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
 
@@ -62,7 +69,15 @@ public class PatencyController {
                 //获取起始时间和结束时间的5分钟应有几个
                 long[] times = DateDistance.getDistanceTimes(startTime, endTime);
                 long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
-                Patency entity = patencyMapper.getPatency(stationIdList, startTime, endTime);
+
+                List<String> exist = patencyMapper.isExist("history_real_sensor_data_" + yearmonth);
+                if (exist.size() == 0) {
+                    map.put("status", 0);
+                    map.put("msg", "暂无数据");
+                    return map;
+                }
+
+                Patency entity = patencyMapper.getPatency("history_real_sensor_data_" + yearmonth, stationIdList, startTime, endTime);
 
                 if (entity != null) {
                     entity.setStationId(stationId);
@@ -70,9 +85,9 @@ public class PatencyController {
                     BigDecimal b = new BigDecimal(entity.getPatencyRate());
                     entity.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     entity.setStationName(stationMap.get(entity.getStationId()));
-                    entity.setTime(endTime);
+                    entity.setTime(startTime);
                 } else {
-                    entity = new Patency(stationMap.get(stationId), stationId, 0.0, 0.0, endTime);
+                    entity = new Patency(stationMap.get(stationId), stationId, 0.0, 0.0, startTime);
                 }
                 patency.add(entity);
             }
@@ -97,26 +112,22 @@ public class PatencyController {
             if (date.length() > 10) {
                 day = date.substring(0, 10);
                 year = date.substring(0, 4);
-                yearmonth = year+ date.substring(5,7);
+                yearmonth = year + date.substring(5, 7);
             }
             //查询需发送数据的传感器个数
-            Integer moduleNum = configSensorSectionModuleMapper.getStation().size();
+            Integer moduleNum = configSensorSectionModuleMapper.getStation(stationId).size();
 
             //统计tsdb当天数据
-            Integer time1 = patencyMapper
-                    .getRealTSDBData("history_5min_sensor_data_" + year, day, stationId);
-            long[] times = DateDistance
-                    .getDistanceTimes(day + " 00:00:00", day + " 24:00:00");
+            Integer time1 = patencyMapper.getRealTSDBData("history_5min_sensor_data_" + year, day, stationId);
+            long[] times = DateDistance.getDistanceTimes(day + " 00:00:00", day + " 24:00:00");
             long timeDiff = times[0] * 24;
             map.put("expectTSDB", timeDiff * moduleNum);
             map.put("realTSDB", time1);
-            Integer time2 = patencyMapper
-                    .getRealHourData("history_hour_sensor_data_" + year, day, stationId);
+            Integer time2 = patencyMapper.getRealHourData("history_hour_sensor_data_" + year, day, stationId);
             map.put("expectHour", timeDiff * moduleNum);
             map.put("realHour", time2);
 
-            Integer time3 = patencyMapper
-                    .getRealRTSQData("history_real_sensor_data_"+yearmonth, day, stationId);
+            Integer time3 = patencyMapper.getRealRTSQData("history_real_sensor_data_" + yearmonth, day, stationId);
             long timeRTSQ = times[0] * 288 + times[1] * 12 + times[2] / 5;
             map.put("expectRTSQ", timeRTSQ * moduleNum);
             map.put("realRTSQ", time3);

@@ -11,11 +11,14 @@ import org.apache.ibatis.annotations.Select;
 public interface PatencyMapper {
 
     @Select("<script>select a.sensor_code as station_id ,count(*) as number from " +
-            "(select * FROM `real` WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
+            "(select * FROM ${datebaseName} WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
             " and sensor_code in(" +
             "<foreach collection=\"sensorCode\" item=\"item\" separator=\",\"> #{item} </foreach>)) a " +
             "GROUP BY a.sensor_code</script>")
-    Patency getPatency(@Param("sensorCode")List<String> sensorCode, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    Patency getPatency(@Param("datebaseName") String datebaseName,@Param("sensorCode")List<String> sensorCode, @Param("startTime") String startTime, @Param("endTime") String endTime);
+
+    @Select("SELECT table_name FROM information_schema.TABLES WHERE table_name = #{datebaseName};")
+    List<String> isExist(@Param("datebaseName") String datebaseName);
 
 
 

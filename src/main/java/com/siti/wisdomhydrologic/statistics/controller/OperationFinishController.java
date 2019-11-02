@@ -3,6 +3,8 @@ package com.siti.wisdomhydrologic.statistics.controller;
 import com.siti.wisdomhydrologic.statistics.mapper.OperationFinishMapper;
 import com.siti.wisdomhydrologic.statistics.util.MonthListUtil;
 import com.siti.wisdomhydrologic.statistics.vo.OperationFinish;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ import java.util.Map;
 public class OperationFinishController {
 
     @Resource
+    UserInfoService userInfoService;
+    @Resource
     OperationFinishMapper operationFinishMapper;
 
     @GetMapping("getResult")
@@ -40,7 +44,9 @@ public class OperationFinishController {
                 map.put("message", "参数错误");
                 return map;
             }
-            List<OperationFinish> returnList = operationFinishMapper.getRegionGroup();
+            User user = (User)userInfoService.get();
+
+            List<OperationFinish> returnList = operationFinishMapper.getRegionGroup(user.getOrgList().get(0).getId());
             returnList.forEach(data->{data.setMal4(0);data.setResult4(0);data.setResult5(0);data.setResult6(0);});
 
             returnList.forEach(data -> {

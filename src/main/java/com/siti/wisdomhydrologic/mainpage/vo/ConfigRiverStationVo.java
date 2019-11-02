@@ -52,6 +52,16 @@ public class ConfigRiverStationVo {
 
     private List<RealDeviceStatus> RealDeviceStatusList;
 
+    private List<String> descriptionList;
+
+    public List<String> getDescriptionList() {
+        return descriptionList;
+    }
+
+    public void setDescriptionList(List<String> descriptionList) {
+        this.descriptionList = descriptionList;
+    }
+
     public List<RealDeviceStatus> getRealDeviceStatusList() {
         return RealDeviceStatusList;
     }

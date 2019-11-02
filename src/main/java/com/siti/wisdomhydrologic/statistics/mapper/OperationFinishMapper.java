@@ -163,6 +163,9 @@ public interface OperationFinishMapper {
                                  @Param("list")List<String> list);
 
 
-    @Select("select region_id,region_name from config_river_station  where region_id is not null group by region_id")
-    List<OperationFinish> getRegionGroup();
+    @Select(" select region_id,region_name from config_river_station " +
+            " where region_id is not null  " +
+            " and sys_org in ( SELECT id FROM sys_org so WHERE id = #{orgId} OR FIND_IN_SET( #{orgId}, path ) )" +
+            " group by region_id")
+    List<OperationFinish> getRegionGroup(@Param("orgId") Integer orgId);
 }

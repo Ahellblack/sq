@@ -25,7 +25,7 @@ public class ManageDataMantainTask {
         Date today = new Date();
         String date = getCloseDate("YYYY-MM-dd HH:mm:ss", today, 5);
         int i = reportManageDataMantainService.insertAbnormalData();
-        if (i > 0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");
+        //if (i > 0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表二" + i + "条");
         return i;
     }
 

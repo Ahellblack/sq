@@ -23,6 +23,15 @@ public class AbnormalDetailVo {
 
     String errorName;
     String brokenAccording;
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getBrokenAccording() {
         return brokenAccording;

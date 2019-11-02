@@ -73,7 +73,7 @@ public class StationDataController {
         realtime = DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss");
         System.out.println(realtime);
         RealStationData returndata = realStationDataMapper.getData(stationCode);
-        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
+        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation(null);
         List<String> list = new ArrayList<>();
         station.forEach(data -> {
             list.add(data.getSectionCode() + "");
@@ -120,7 +120,7 @@ public class StationDataController {
         //System.out.println("level:" + level + ";status:" + status + ";realtime:" + realtime);
         List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, realtime, snId, SYSORG,stationId);//暂展示浦东点位
 
-        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation();
+        List<ConfigSensorSectionModule> station = configSensorSectionModuleMapper.getStation(null);
         List<String> list = new ArrayList<>();
         try {
             station.forEach(data -> {
@@ -216,10 +216,13 @@ public class StationDataController {
                     //查询该测站的异常状态,赋值AbnormalDetailList
                     List<AbnormalDetailVo> stationLatestData = abnormalDetailMapper.getStationLatestData(data.getTime(), data.getStationId());
                     List<String> errorList = new ArrayList<>();
+                    List<String> description = new ArrayList<>();
                     stationLatestData.forEach(error -> {
                         errorList.add(error.getErrorName());
+                        description.add(error.getDescription());
                     });
                     data.setAbnormalDetailList(errorList);
+                    data.setDescriptionList(description);
                 }
                 List<RealDeviceStatus> devList = reportManageApplicationBrokenMapper.getRealDeviceList(data.getStationId());
                 if (devList.size() > 0) {
