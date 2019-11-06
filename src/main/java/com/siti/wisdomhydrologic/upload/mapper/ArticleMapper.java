@@ -25,6 +25,6 @@ public interface ArticleMapper {
 
 
     @Delete("delete from  sys_manual_log " +
-            "where id =#{entity.id}")
+            "where id =#{id}")
     int delete(@Param("id") Integer id);
 }
