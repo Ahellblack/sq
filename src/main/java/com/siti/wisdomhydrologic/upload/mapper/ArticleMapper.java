@@ -1,10 +1,7 @@
 package com.siti.wisdomhydrologic.upload.mapper;
 
 import com.siti.wisdomhydrologic.upload.entity.SysManualLog;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public interface ArticleMapper {
     int update(@Param("entity") SysManualLog message);
 
 
-    @Update("delete from  sys_manual_log " +
+    @Delete("delete from  sys_manual_log " +
             "where id =#{entity.id}")
     int delete(@Param("id") Integer id);
 }

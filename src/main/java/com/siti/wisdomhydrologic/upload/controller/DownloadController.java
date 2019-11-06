@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.upload.entity.FileUploadInformation;
 import com.siti.wisdomhydrologic.upload.mapper.FileUploadMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 /**
  * Created by dell on 2019/10/31.
  */
-@RestController
+@Controller
 @RequestMapping("/download")
 public class DownloadController {
 
@@ -35,9 +37,9 @@ public class DownloadController {
     /**
      * 文件下载
      *
+     * @Param id       服务器上的文件路径
      * @param response
      * @return
-     * @Param id       服务器上的文件路径
      */
     @GetMapping("downloadFile")
     public int downloadFile(Integer id, HttpServletResponse response) {
@@ -47,9 +49,7 @@ public class DownloadController {
         try {
             List<FileUploadInformation> files = fileUploadMapper.getFiles(id);
             //获取file的url
-            URL url = this.getClass().getClassLoader().getResource("");
-            String logFilePath = url.getPath();
-            File file = new File(logFilePath + files.get(0).getFileUrl());
+            File file = new File(files.get(0).getFileUrl());
             // 清空response
             response.reset();
             // 设置response的Header
