@@ -21,7 +21,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "<if test=\"stationId!=null and stationId!=''\"> and a.station_id = #{stationId} </if>" +
             "<if test=\"status!=null and status!=''\"> and a.request_designating_status = #{status} </if>" +
             "<if test=\"display!=null and display!=''\"> and a.display_status = #{display} </if>" +
-            "order by a.create_time desc" +
+            "order by a.request_designating_status asc, a.create_time desc " +
             "</script>")
     List<ReportManageApplicationBroken> getAll(@Param("createDate") String createDate,@Param("stationId")String stationId,@Param("orgId") Integer orgId,@Param("status") Integer status,@Param("display")Integer display);
 

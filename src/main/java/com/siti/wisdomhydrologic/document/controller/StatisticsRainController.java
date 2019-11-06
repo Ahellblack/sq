@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dell on 2019/10/16.
@@ -47,17 +44,36 @@ public class StatisticsRainController {
         map.put("floorRainDay",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));//汛期降雨天数
         map.put("rainList",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));//各月雨量
         map.put("floorRate", RateUtils.accuracy(allFloor, allyear, 2));//汛期占比
-        if (rainSumGroup.size()>3){
-            map.put("firstRain",rainSumGroup.get(0).getMonth());//最大雨量月份
-            map.put("secondRain",rainSumGroup.get(1).getMonth());//第二雨量月份
-            map.put("thirdRain",rainSumGroup.get(2).getMonth());//第三雨量月份
-            map.put("finalRain",rainSumGroup.get((rainSumGroup.size()-1)).getMonth());//最低雨量月份
-            map.put("times",RateUtils.accuracyTimes(rainSumGroup.get(0).getSum(),
-                            rainSumGroup.get((rainSumGroup.size()-1)).getSum(),
-                            2));//倍数
+        try {
+            if (rainSumGroup.size() > 3) {
+                map.put("firstRain", rainSumGroup.get(0).getMonth());//最大雨量月份
+                map.put("secondRain", rainSumGroup.get(1).getMonth());//第二雨量月份
+                map.put("thirdRain", rainSumGroup.get(2).getMonth());//第三雨量月份
+                Double rain = rainSumGroup.get((rainSumGroup.size() - 1)).getSum();
+                String month = rainSumGroup.get(rainSumGroup.size() - 1).getMonth();
+                for (int i = 0; i < rainSumGroup.size(); i++) {
+                    if (rain == 0) {//为防止最低月份雨量为0 不可做被除数
+                        rain = rainSumGroup.get((rainSumGroup.size() - 1 - i)).getSum();
+                        month = rainSumGroup.get((rainSumGroup.size() - 1 - i)).getMonth();
+                    } else {
+                        break;
+                    }
+                }
+                map.put("finalRain", month);//最低雨量月份
+                map.put("times", RateUtils.accuracyTimes(rainSumGroup.get(0).getSum(), rain, 2));//倍数
+            }
+            map.put("year", calendar.get(Calendar.YEAR));//年份
+            return map;
+        }catch (Exception e){
+            map.put("yearRain",0);//全年雨量
+            map.put("yearRainDay",0);//全年降雨天数
+            map.put("floorRain",0);//汛期降雨量
+            map.put("floorRainDay",0);//汛期降雨天数
+            map.put("rainList",0);//各月雨量
+            map.put("floorRate",new ArrayList<>());//汛期占比
+            map.put("times",0);//倍数
+            return map;
         }
-        map.put("year",calendar.get(Calendar.YEAR));//年份
-        return  map;
     }
 
     @GetMapping("getRainDistribution")

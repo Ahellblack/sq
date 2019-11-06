@@ -42,7 +42,7 @@ public interface AbnormalDetailCurrentMapper {
     @Select("update abnormal_detail_current set table2_display_status = 1 where id = #{id}")
     Integer update2Status(@Param("id") int id);
 
-    @Select("SELECT * FROM `abnormal_detail_current` adc  " +
+    @Select("SELECT count(*) FROM `abnormal_detail_current` adc  " +
             "left join config_sensor_section_module cssm " +
             "on adc.sensor_code = cssm.section_code " +
             "where cssm.station_code = #{stationId} and is_recover_status = 0 ")

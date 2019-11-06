@@ -11,6 +11,7 @@ import com.siti.wisdomhydrologic.user.mapper.UserOrgRelaMapper;
 import com.siti.wisdomhydrologic.user.mapper.UserRoleMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.user.service.UserService;
+import com.siti.wisdomhydrologic.user.vo.UserVo;
 import com.siti.wisdomhydrologic.util.BASE64Util;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.ExceptionUtil;
@@ -139,10 +140,10 @@ public class Usertrol {
     @ApiOperation(value = "查询用户",notes = "")
     @RequestMapping(value="user/selectUser",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getUser(HttpSession session,String username){
+    public Map<String,Object> getUser(String username){
         Map<String,Object> map=new HashMap<String,Object>();
         try {
-            List<User> list = userMapper.getAll(username);
+            List<UserVo> list = userMapper.getAll(username);
             map.put("list",list);
             map.put("status",1);
             map.put("message","添加成功");

@@ -26,10 +26,10 @@ public class ArticleController {
     UserInfoService userInfoService;
 
     @GetMapping("findMine")
-    public List<SysManualLog> getSysManualLog(Integer status) {
+    public List<SysManualLog> getSysManualLog(Integer status,String date,String content) {
 
         User user = (User) userInfoService.get();
-        List<SysManualLog> msgs = articleMapper.getAll(user.getId(), status);
+        List<SysManualLog> msgs = articleMapper.getAll(user.getId(), status,date,content);
         msgs.forEach(data->{data.setCreateBy(user.getRealName());});
 
         return msgs;

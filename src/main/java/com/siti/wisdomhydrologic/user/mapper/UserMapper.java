@@ -4,6 +4,7 @@ import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.Permission;
 import com.siti.wisdomhydrologic.user.entity.Role;
 import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.vo.UserVo;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -75,6 +76,12 @@ public interface UserMapper extends Mapper<User> {
     @Delete("delete from sys_user where id=#{id}")
     void deleteUserInfo(@Param("id")Integer id);
 
-    @Select("<script>select * from sys_user where user_name like '%${username}%' </script>")
-    List<User> getAll(@Param("username")String username);
+    @Select("<script>select su.*,sr.id as rid,sr.descr,suo.is_leader,so.id as oid,so.name,so.path " +
+            "from sys_user su " +
+            " left join sys_user_org suo on su.id = suo.uid " +
+            " left join sys_org so on suo.org_id = so.id " +
+            " left join sys_user_role sur on su.id = sur.uid " +
+            " left join sys_role sr on sur.rid = sr.id " +
+            "where user_name like '%${username}%' </script>")
+    List<UserVo> getAll(@Param("username")String username);
 }

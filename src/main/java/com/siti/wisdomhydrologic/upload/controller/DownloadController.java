@@ -67,8 +67,8 @@ public class DownloadController {
             toClient.flush();
             toClient.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
-            result = 0;
+            System.out.println("文件被移除或路径错误");
+            return 0;
         } finally {
             closeInputStream(is);
             closeOutputStream(os);

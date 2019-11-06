@@ -48,7 +48,7 @@ public class DropDownBoxController {
     }
     @ApiOperation(value = "测站信息下拉框", httpMethod = "GET", notes = "测站信息下拉框获取")
     @GetMapping("/getStation")
-    public List<ConfigRiverStation> getStationList(HttpSession session)
+    public List<ConfigRiverStation> getStationList()
     {
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());

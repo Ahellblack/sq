@@ -78,7 +78,7 @@ public class StationCheckMantainController {
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain, HttpSession session) {
+    public int update(@RequestBody ReportStationCheckMantain reportStationCheckMantain) {
         User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
                 .setUsername(user.getUserName())

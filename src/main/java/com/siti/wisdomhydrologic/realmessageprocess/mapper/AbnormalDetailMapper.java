@@ -27,7 +27,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
 
     @Select("<script>select * from abnormal_detail_current ad " +
             " left join config_abnormal_dictionary cad on ad.data_error = cad.broken_according_id" +
-            "<if test=\"time!=null\">where last_date = #{time}</if> " +
+            "<if test=\"time!=null\">where last_date &gt;= #{time}</if> " +
             "<if test=\"stationCode!=null\">  and  SUBSTR(sensor_code,1,5) = #{stationCode}</if></script>")
     List<AbnormalDetailVo> getStationLatestData(@Param("time") String time, @Param("stationCode") Integer stationCode);
 

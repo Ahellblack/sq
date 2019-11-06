@@ -119,11 +119,11 @@ public class UploadController {
        /* // 生成全局唯一的id
         UUID uuid = UUID.randomUUID();
 */
-        Long timestamp = System.currentTimeMillis();
+        //Long timestamp = System.currentTimeMillis();
         //按照时间戳修改文件名称
-        String localUrl = logFilePath+"fileupload/"+timestamp + "_" + file.getOriginalFilename();//防止重复上传文件出错，添加时间戳后缀
+        String localUrl = logFilePath+"fileupload/"+ file.getOriginalFilename();//防止重复上传文件出错，添加时间戳后缀
         //数据库记录相对路径
-        String raletiveUrl = "fileupload/"+timestamp + "_" + file.getOriginalFilename();//防止重复上传文件出错，添加时间戳后缀
+        String raletiveUrl = "fileupload/"+ file.getOriginalFilename();//防止重复上传文件出错，添加时间戳后缀
         String fileName = file.getOriginalFilename();
         boolean saveResult = saveFile(localUrl, file);
         if (!saveResult) {

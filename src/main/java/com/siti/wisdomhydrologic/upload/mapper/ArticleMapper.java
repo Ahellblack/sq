@@ -11,8 +11,14 @@ import java.util.List;
 public interface ArticleMapper {
 
     @Select("<script>select * from sys_manual_log where create_by = #{userId} " +
-            "<if test = \'status != null\'>and finish_status = #{status}</if></script>")
-    List<SysManualLog> getAll(@Param("userId")Integer userId ,@Param("status") Integer status);
+            "<if test = \'status != null\'>and finish_status = #{status}</if>" +
+            "<if test = \'date != null\'>and DATE_FORMAT(create_time,'%Y-%m-%d') = #{date}</if>" +
+            "<if test = \'content != null\'>and message like '%${content}%'</if>" +
+            "</script>")
+    List<SysManualLog> getAll(@Param("userId")Integer userId ,
+                              @Param("status") Integer status,
+                              @Param("date")String date,
+                              @Param("content")String content);
 
     @Insert("INSERT INTO `sys_manual_log`(`message`, `create_time`, `create_by`,`finish_status`) " +
             "VALUES (#{entity.message}, #{entity.createTime}, #{entity.createBy},#{entity.finishStatus})")
