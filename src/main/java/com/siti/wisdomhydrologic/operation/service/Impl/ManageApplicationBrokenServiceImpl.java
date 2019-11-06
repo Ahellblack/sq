@@ -196,7 +196,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                     //发送短信
                     ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
 
-                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording()+","+oneByAccordingId, reportId + "");
+                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId, reportId + "");
                 }
                 return reportManageApplicationBrokenMapper.updateStatus(entity);
             }
@@ -207,32 +207,24 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
     public int updateBrokenStatus() {
+
+
         List<ReportManageApplicationBroken> notResolveList = reportManageApplicationBrokenMapper.getNotResolve();
-
-        Date today = new Date();
+        String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
         try {
-            String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
-            cal.add(Calendar.MINUTE, -30);
-
-            String latest30minute = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
             notResolveList.forEach(data -> {
-
-                List<AbnormalDetailEntity> latest30minuteDate = abnormalDetailMapper.get30MinuteDate(data.getStationId() + "", data.getBrokenAccordingId(), date, latest30minute);
-                //系统异常表最近30分钟无该数据异常,表示恢复
-                if (latest30minuteDate.size() == 0) {
+                int unCoverData = abnormalDetailCurrentMapper.getUnCoverData(data.getStationId());
+                if (unCoverData == 0) {
                     data.setRequestDesignatingStatus(4);
-                    String now = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
+                    data.setBrokenResolveTime(today);
+
                     if (data.getRequestDesignatingTime() == null) {
-                        data.setRequestDesignatingTime(now);
+                        data.setRequestDesignatingTime(today);
                     }
                     if (data.getBrokenOnResolveTime() == null) {
-                        data.setBrokenOnResolveTime(now);
+                        data.setBrokenOnResolveTime(today);
                     }
-                    data.setBrokenResolveTime(now);
                     reportManageApplicationBrokenMapper.updateStatus(data);
-                    //System.out.println(data.getStationName()+"的异常恢复");
                 }
             });
         } catch (Exception e) {
@@ -240,7 +232,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         }
         return 0;
     }
-
 
 
     @Override
@@ -276,10 +267,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 histroyList.forEach(data -> {
                     lastest.forEach(lasttime -> {
                         if (data.getReportId() == lasttime.getId()) {
-                            reportManageApplicationBrokenMapper
-                                    .updateTime(data.getReportId(), lasttime.getLastDate());
-                            abnormalDetailCurrentMapper
-                                    .update4Status(lasttime.getId());
+                            reportManageApplicationBrokenMapper.updateTime(data.getReportId(), lasttime.getLastDate());
+                            abnormalDetailCurrentMapper.update4Status(lasttime.getId());
                             //System.out.println("表四数据错误时间更替" + lasttime.getLastDate());
                         }
                     });

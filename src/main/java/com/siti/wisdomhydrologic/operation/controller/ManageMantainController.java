@@ -63,7 +63,7 @@ public class ManageMantainController {
      * @param yearMonth 需要添加或判断的月份 yyyy-MM
      */
     @ApiOperation(value = "表一数据查询时若无数据自动查询，表一不可进行添加", httpMethod = "GET", notes = "表一数据查询时若无数据自动查询")
-    @PostMapping("/insertOrUpdate")
+    @GetMapping("/insertOrUpdate")
     public void insertOrUpdate(/*@RequestBody ReportManageMantain reportManageMantain*/String yearMonth) {
         reportManageMantainService.insertOrUpdate(yearMonth);
     }
