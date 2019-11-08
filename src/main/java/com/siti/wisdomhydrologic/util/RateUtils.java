@@ -26,6 +26,9 @@ public class RateUtils {
         //模式 例如四舍五入
         df.setRoundingMode(RoundingMode.HALF_UP);
         double accuracy_num = num / total ;
-        return Double.parseDouble(df.format(accuracy_num));
+        String times = df.format(accuracy_num);
+        //数字超过1000会出现蜜汁逗号
+         times = times.replaceAll(",", "");
+        return Double.parseDouble(times);
     }
 }

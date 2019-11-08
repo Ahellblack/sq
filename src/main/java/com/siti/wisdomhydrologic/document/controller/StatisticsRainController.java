@@ -59,8 +59,10 @@ public class StatisticsRainController {
                         break;
                     }
                 }
-                map.put("finalRain", month);//最低雨量月份
-                map.put("times", RateUtils.accuracyTimes(rainSumGroup.get(0).getSum(), rain, 2));//倍数
+                map.put("finalRain", month);//最低雨量月份'
+                double sumRain= rainSumGroup.get(0).getSum();
+                Double times = RateUtils.accuracyTimes(sumRain, rain, 2);
+                map.put("times",times );//倍数
             }
             map.put("year", calendar.get(Calendar.YEAR));//年份
             return map;
