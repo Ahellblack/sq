@@ -10,7 +10,15 @@ public class SysManualLog {
   private Date createTime;
   private String createBy;
   private Date updateTime;
+  private int status;
 
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
 
   public long getId() {
     return id;

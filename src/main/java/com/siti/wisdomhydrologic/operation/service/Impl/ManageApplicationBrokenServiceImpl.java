@@ -34,10 +34,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -106,9 +103,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         entity.setBrokenAccordingId(according.getBrokenAccordingId());
         entity.setRequestDesignatingStatus(1);
         entity.setErrorLastestAppearTime(entity.getCreateTime());
-        Calendar calendar = Calendar.getInstance();
+       /* Calendar calendar = Calendar.getInstance();
         List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
-        /*try {
+        try {
             riverStationList.forEach(river -> {
                 if (entity.getStationId() == river.getStationId()) {
                     calendar.setTime(DateTransform.String2Date(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -207,8 +204,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
     public int updateBrokenStatus() {
-
-
         List<ReportManageApplicationBroken> notResolveList = reportManageApplicationBrokenMapper.getNotResolve();
         String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
         try {
@@ -231,6 +226,46 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
             System.out.println("系统自动恢复异常");
         }
         return 0;
+    }
+
+
+    public Map<String,Object> updateModuleStatus(Integer reportId) {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            /**
+             * 对审核的设备故障，替换成已完成状态
+             * */
+            Optional<ReportManageApplicationBroken> optional =
+                    Optional.ofNullable(reportManageApplicationBrokenMapper.getOne(reportId));
+
+            ReportManageApplicationBroken data = optional.get();
+            String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
+            data.setRequestDesignatingStatus(4);
+            data.setBrokenResolveTime(today);
+            if (data.getRequestDesignatingTime() == null) {
+                data.setRequestDesignatingTime(today);
+            }
+            if (data.getBrokenOnResolveTime() == null) {
+                data.setBrokenOnResolveTime(today);
+            }
+            reportManageApplicationBrokenMapper.updateStatus(data);
+            /**
+             * 关联异常表找到故障模组,设置该模组为灰名单。
+             * */
+            Integer sensorCode = reportManageApplicationBrokenMapper.findModule(reportId);
+            if(configSensorSectionModuleMapper.updateStatus(sensorCode)==0){
+                map.put("status",0);
+                map.put("msg","灰名单已被添加");
+            }else {
+                map.put("status", 1);
+                map.put("msg", "模组添加至灰名单");
+            }return map;
+
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("msg", "添加出现异常");
+            return map;
+        }
     }
 
 

@@ -49,13 +49,13 @@ public class ManageApplicationBrokenController {
     @Resource
     private SysLogMapper sysLogMapper;
 
-    @ApiOperation(value = "表四应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
+    @ApiOperation(value = "应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
     public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationId,Integer status) {
         return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationId,status);
     }
 
-    @ApiOperation(value = "表四应用程序及设备异常表查询全部", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
+    @ApiOperation(value = "应用程序及设备异常表查询全部", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAllDisplay")
     public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId,Integer status) {
         return manageApplicationBrokenService.selectAllDisplay(page, pageSize, createDate, stationId,status);
@@ -89,13 +89,20 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
 
-    @ApiOperation(value = "表四故障情况记录表查派单状态修改", httpMethod = "POST", notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
+    @ApiOperation(value = "故障情况记录表查派单状态修改", notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
     @GetMapping("/updateStatus")
     public int updateMalStatus(Integer reportId) {
         return manageApplicationBrokenService.updateMalStatus(reportId);
     }
 
-    @ApiOperation(value = "表四故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
+    @ApiOperation(value = "人员核验错误调整",notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
+    @GetMapping("/updateModuleStatus")
+    public Map<String,Object> updateModuleStatus(Integer reportId) {
+        return manageApplicationBrokenService.updateModuleStatus(reportId);
+    }
+
+
+    @ApiOperation(value = "故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
     @GetMapping("/delete")
     public int delete(Integer reportId,HttpSession session) {
         User user = (User) userInfoService.get();
@@ -109,7 +116,7 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.delete(reportId);
     }
 
-    @ApiOperation(value = "表四故障情况记录表自动添加入库接口,后台人员使用", httpMethod = "GET", notes = "表四故障情况记录表自动添加入库接口")
+    @ApiOperation(value = "故障情况记录表自动添加入库接口,后台人员使用", httpMethod = "GET", notes = "表四故障情况记录表自动添加入库接口")
     @GetMapping("/insertDataMantain")
     public int insertDataMantain(String date) {
         return manageApplicationBrokenService.insertDataMantain();
@@ -219,7 +226,7 @@ public class ManageApplicationBrokenController {
 
 
 
-    @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
+    @ApiOperation(value = "故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
     @GetMapping("/getExcelAll")
     @ResponseBody
     public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationId,Integer status) throws UnsupportedEncodingException {

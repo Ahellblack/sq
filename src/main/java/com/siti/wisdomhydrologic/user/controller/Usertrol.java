@@ -60,6 +60,7 @@ public class Usertrol {
     UserRoleMapper userRoleMapper;
     @Autowired
     UserOrgRelaMapper userOrgRelaMapper;
+
     /**
      * 获取当前登录用户
      *
@@ -71,13 +72,18 @@ public class Usertrol {
     }
 
     @GetMapping("getUser")
-    public User getUsername (){
-        User user = (User)userInfoService.get();
-        return user;
+    public User getUsername() {
+        try {
+            User user = (User) userInfoService.get();
+            return user;
+        } catch (Exception e) {
+            System.out.println("用户信息未登录");
+        }
+        return null;
     }
 
     @PostMapping("login")
-    public Map<String,Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
+    public Map<String, Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
         return null;
         /*RequestAttributes ra=RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();
@@ -137,19 +143,19 @@ public class Usertrol {
     /***
      * 新增用户
      */
-    @ApiOperation(value = "查询用户",notes = "")
-    @RequestMapping(value="user/selectUser",method = RequestMethod.GET)
+    @ApiOperation(value = "查询用户", notes = "")
+    @RequestMapping(value = "user/selectUser", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getUser(String username){
-        Map<String,Object> map=new HashMap<String,Object>();
+    public Map<String, Object> getUser(String username) {
+        Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<UserVo> list = userMapper.getAll(username);
-            map.put("list",list);
-            map.put("status",1);
-            map.put("message","添加成功");
-        }catch (Exception e){
-            map.put("status",-1);
-            map.put("message",e.getLocalizedMessage());
+            map.put("list", list);
+            map.put("status", 1);
+            map.put("message", "添加成功");
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("message", e.getLocalizedMessage());
         }
         return map;
     }
@@ -158,90 +164,91 @@ public class Usertrol {
     /***
      * 新增用户
      */
-    @ApiOperation(value = "新增用户",notes = "")
-    @RequestMapping(value="user/saveUser",method = RequestMethod.POST)
+    @ApiOperation(value = "新增用户", notes = "")
+    @RequestMapping(value = "user/saveUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> saveUser(@RequestBody User user, @ApiParam(required = true)Integer[] organizationIds, @ApiParam(required = true)Integer [] roleIds){
-        Map<String,Object> map=new HashMap<String,Object>();
+    public Map<String, Object> saveUser(@RequestBody User user, @ApiParam(required = true) Integer[] organizationIds, @ApiParam(required = true) Integer[] roleIds) {
+        Map<String, Object> map = new HashMap<String, Object>();
         try {
             Integer isLeader = user.getIsLeader();
             //获取当前用户
-            User loginUser = (User)userInfoService.get();
+            User loginUser = (User) userInfoService.get();
 
             //判断添加权限
             List<Role> roles = userMapper.findRole(loginUser.getId());
             List<Integer> list = new ArrayList<>();
-            roles.forEach(role->{
-                if(role.getId() == 1){
+            roles.forEach(role -> {
+                if (role.getId() == 1) {
                     list.add(role.getId());
                 }
             });
-            if(list.size() == 0){
-                map.put("status",-1);
-                map.put("message","无添加权限");
+            if (list.size() == 0) {
+                map.put("status", -1);
+                map.put("message", "无添加权限");
                 return map;
             }
             user.setPassword(user.getPassword());
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
             //FLAG为0即添加 1为修改
-            userService.saveOrupdateUser(user,organizationIds,roleIds,0,isLeader);
-            map.put("status",1);
-            map.put("message","添加成功");
-        }catch (Exception e){
-            map.put("status",-1);
-            map.put("message",e.getLocalizedMessage());
+            userService.saveOrupdateUser(user, organizationIds, roleIds, 0, isLeader);
+            map.put("status", 1);
+            map.put("message", "添加成功");
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("message", e.getLocalizedMessage());
         }
         return map;
     }
 
     /**
      * 更新用户信息,但不更新用户密码
-     * */
+     */
     @ApiOperation(value = "更新用户信息,但不更新用户密码")
-    @RequestMapping(value = "user/updateUser",method = RequestMethod.POST)
+    @RequestMapping(value = "user/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> updateUser(@RequestBody User user,Integer[] organizationIds,Integer [] roleIds){
-        Map<String,Object> map=new HashMap<String,Object>();
+    public Map<String, Object> updateUser(@RequestBody User user, Integer[] organizationIds, Integer[] roleIds) {
+        Map<String, Object> map = new HashMap<String, Object>();
         try {
             Integer isLeader = user.getIsLeader();
             //获取当前用户
-            User loginUser = (User)userInfoService.get();
+            User loginUser = (User) userInfoService.get();
             //判断添加权限
             List<Role> roles = userMapper.findRole(loginUser.getId());
             List<Integer> list = new ArrayList<>();
-            roles.forEach(role->{
-                if(role.getId() == 1){
+            roles.forEach(role -> {
+                if (role.getId() == 1) {
                     list.add(role.getId());
                 }
             });
-            if(list.size() == 0){
-                map.put("status",-1);
-                map.put("message","无修改权限");
+            if (list.size() == 0) {
+                map.put("status", -1);
+                map.put("message", "无修改权限");
                 return map;
             }
             user.setPassword(user.getPassword());
             //设置添加用户
             user.setUpdateBy(loginUser.getUserName());
-            userService.saveOrupdateUser(user,organizationIds,roleIds,1,isLeader);
-            map.put("status",1);
-            map.put("message","修改成功");
-        }catch (Exception e){
-            map.put("status",-1);
-            map.put("message",e.getLocalizedMessage());
+            userService.saveOrupdateUser(user, organizationIds, roleIds, 1, isLeader);
+            map.put("status", 1);
+            map.put("message", "修改成功");
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("message", e.getLocalizedMessage());
         }
         return map;
     }
+
     /**
      * 修改密码
-     * */
-    @ApiOperation(value = "修改密码",notes = "xx")
-    @RequestMapping(value="user/modifyPwd",method = RequestMethod.POST)
+     */
+    @ApiOperation(value = "修改密码", notes = "xx")
+    @RequestMapping(value = "user/modifyPwd", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> modifyPwd(Integer id, String password, HttpSession session){
-        Map<String,Object> map=new HashMap<String,Object>();
+    public Map<String, Object> modifyPwd(Integer id, String password, HttpSession session) {
+        Map<String, Object> map = new HashMap<String, Object>();
         try {
-            User loginUser = (User)userInfoService.get();
+            User loginUser = (User) userInfoService.get();
             String updateBy = loginUser.getUserName();
 
             User user = new User();
@@ -251,34 +258,35 @@ public class Usertrol {
             user.setPassword(password);
             user.setUpdateBy(updateBy);
             userMapper.updatePwd(user);
-            map.put("status",0);
-            map.put("message","添加成功");
-        }catch (Exception e){
-            map.put("status",-1);
-            map.put("message",e.getLocalizedMessage());
+            map.put("status", 0);
+            map.put("message", "添加成功");
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("message", e.getLocalizedMessage());
         }
         return map;
     }
+
     /**
      * 删除用户
-     * */
-    @ApiOperation(value = "删除用户",notes = "")
-    @RequestMapping(value="user/deleteUser",method = RequestMethod.POST)
+     */
+    @ApiOperation(value = "删除用户", notes = "")
+    @RequestMapping(value = "user/deleteUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> deleteUser(Integer userid,HttpSession session){
-        Map<String,Object> map = new HashMap<String,Object>();
+    public Map<String, Object> deleteUser(Integer userid, HttpSession session) {
+        Map<String, Object> map = new HashMap<String, Object>();
         //判断添加权限
-        User loginUser = (User)userInfoService.get();
+        User loginUser = (User) userInfoService.get();
         List<Role> roles = userMapper.findRole(loginUser.getId());
         List<Integer> list = new ArrayList<>();
-        roles.forEach(role->{
-            if(role.getId() == 1){
+        roles.forEach(role -> {
+            if (role.getId() == 1) {
                 list.add(role.getId());
             }
         });
-        if(list.size() == 0){
-            map.put("status",-1);
-            map.put("message","无删除权限");
+        if (list.size() == 0) {
+            map.put("status", -1);
+            map.put("message", "无删除权限");
             return map;
         }
         try {
@@ -288,17 +296,14 @@ public class Usertrol {
             userOrgRelaMapper.deleteUserOrgByUserId(userid);
             // 删除用户信息
             userMapper.deleteUserInfo(userid);
-            map.put("status",1);
-            map.put("message","删除成功");
-        }catch (Exception e){
-            map.put("status",-1);
-            map.put("message",e.getLocalizedMessage());
+            map.put("status", 1);
+            map.put("message", "删除成功");
+        } catch (Exception e) {
+            map.put("status", -1);
+            map.put("message", e.getLocalizedMessage());
         }
         return map;
     }
-
-
-
 
 
     public static void backToFront(int root, Permission finalP, List<Permission> all) {
@@ -322,7 +327,8 @@ public class Usertrol {
             backToFront(next, e, all);
         });
     }
-    public static String getIpAddress(HttpServletRequest request){
+
+    public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
@@ -341,7 +347,6 @@ public class Usertrol {
         }
         return ip;
     }
-
 
 
 }

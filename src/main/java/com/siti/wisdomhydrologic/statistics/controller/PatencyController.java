@@ -4,13 +4,16 @@ import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.statistics.entity.Patency;
+import com.siti.wisdomhydrologic.statistics.entity.UploadData;
 import com.siti.wisdomhydrologic.statistics.mapper.PatencyMapper;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.siti.wisdomhydrologic.statistics.vo.UploadVo;
 import com.siti.wisdomhydrologic.util.DateDistance;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +40,9 @@ public class PatencyController {
 
     @RequestMapping("/getPatency")
     public Map<String, Object> getPatency(Integer stationId, String date) {
-        String endTime = "";
-        String startTime = "";
-        String year = "";
+        String endTime;
+        String startTime;
+        String year;
         String yearmonth = "";
         Map<String, Object> map = new HashMap<>();
         List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
@@ -101,6 +104,67 @@ public class PatencyController {
         }
         return map;
     }
+
+    @GetMapping("uploadData")
+    public Map<String, Object> getUploadData(String year) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            UploadVo rtsqvo = new UploadVo(); rtsqvo.setSum(0);
+            UploadVo tsdbvo = new UploadVo(); tsdbvo.setSum(0);
+            UploadVo hourvo = new UploadVo();hourvo.setSum(0);
+            UploadVo dayvo = new UploadVo();dayvo.setSum(0);
+            List<UploadData> list = patencyMapper.uploadList(year);
+            list.forEach(uploadData -> {
+                switch (uploadData.getDataType()) {
+                    case 1://rtsq
+                        solveUploadData(rtsqvo,uploadData);
+                        break;
+                    case 2://tsdb
+                        solveUploadData(tsdbvo,uploadData);
+                        break;
+                    case 3://hour
+                        solveUploadData(hourvo,uploadData);
+                        break;
+                    case 4://day
+                        solveUploadData(dayvo,uploadData);
+                        break;
+                }
+            });
+            map.put("rtsq", rtsqvo);
+            map.put("tsdb", tsdbvo);
+            map.put("hour", hourvo);
+            map.put("day", dayvo);
+            map.put("status", 1);
+            return map;
+        } catch (Exception e) {
+
+            map.put("status", -1);
+            map.put("msg", "查询出错");
+        }
+        return map;
+    }
+
+    public static UploadVo solveUploadData(UploadVo vo,UploadData entity){
+
+        for (int i = 1; i <= 12; i++) {
+            try {
+                Integer month = Integer.parseInt(entity.getYearMonth().split("-")[1]);
+                Method setMethod = vo.getClass().getMethod("setMonth" + i, Integer.class);
+                Method getMethod = vo.getClass().getMethod("getMonth" + i);
+                if (month == i) {
+                    setMethod.invoke(vo, entity.getValue());
+                    int value = (Integer) getMethod.invoke(vo);
+                    vo.setSum(vo.getSum()+value);
+                }
+            } catch (Exception e) {
+                System.out.println();
+            }
+        }
+
+
+        return vo;
+    }
+
 
     @GetMapping("/getDataUploading")
     public Map<String, Object> getDataUploading(String date, Integer stationId) {

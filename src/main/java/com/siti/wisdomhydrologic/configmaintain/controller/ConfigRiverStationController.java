@@ -35,7 +35,6 @@ public class ConfigRiverStationController {
     @RequestMapping("/getAll")
     public List<ConfigRiverStation> getAll(HttpSession session) {
         User user = (User) userInfoService.get();
-        Integer uid = user.getId();
         return configRiverStationMapper.getAll(user.getOrgList().get(0).getId());
     }
 
@@ -209,7 +208,7 @@ public class ConfigRiverStationController {
                             .setPreviousVal("")
                             .build());
                     jsonObject.put("status", 1);
-                    jsonObject.put("message", "添加成功！");
+                    jsonObject.put("message", "修改成功！");
                 }else{
                     jsonObject.put("status", 2);
                     jsonObject.put("message", "其它原因，修改失败！");

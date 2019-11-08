@@ -22,7 +22,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
 
 
     @Select("<script>select * from abnormal_detail_current"+
-            "<if test=\"date!=null\" >where last_date = #{date} and is_recover_status = '0' </if></script>")
+            "<if test=\"date!=null\" >where  is_recover_status = '0' </if></script>")//last_date &gt;= #{date} and
     List<AbnormalDetailEntity> getCurrentAbnormal(@Param("date") String date);
 
     @Select("<script>select * from abnormal_detail_current ad " +

@@ -33,7 +33,7 @@ public class DeviceController {
     private DeviceMapper deviceMapper;
 
     @RequestMapping("/devReplace")
-    public Map<String, Object> getList(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
+    public Map<String, Object> getList(Integer regionId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
         if (dateType == null || "".equals(dateType) || year == null || "".equals(year)) {
             map.put("status", -2);
@@ -47,7 +47,7 @@ public class DeviceController {
                 map.put("message", "参数错误");
                 return map;
             }
-            List<DeviceChange> dataList = deviceMapper.getList(stationId, year, list);
+            List<DeviceChange> dataList = deviceMapper.getList(regionId, year, list);
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
@@ -55,7 +55,6 @@ public class DeviceController {
             if (dataList.size() > 0) {
                 map.put("status", 1);
                 map.put("message", "查询成功");
-                map.put("stationId", stationId);
                 map.put("dateType", dateType);
                 map.put("year", year);
                 map.put("quarter", quarter);
@@ -65,7 +64,6 @@ public class DeviceController {
             } else {
                 map.put("status", 0);
                 map.put("message", "暂无数据");
-                map.put("stationId", stationId);
                 map.put("dateType", dateType);
                 map.put("year", year);
                 map.put("quarter", quarter);
@@ -79,8 +77,9 @@ public class DeviceController {
         }
         return map;
     }
+
     @GetMapping("spareBuy")
-    public Map<String, Object> getDevice(Integer stationId, Integer dateType, Integer year, Integer quarter, String month) {
+    public Map<String, Object> getDevice(Integer regionId, Integer dateType, Integer year, Integer quarter, String month) {
         Map<String, Object> map = new HashMap<>();
         if (dateType == null || "".equals(dateType) || year == null || "".equals(year)) {
             map.put("status", -2);
@@ -94,23 +93,23 @@ public class DeviceController {
                 map.put("message", "参数错误");
                 return map;
             }
-
-            List<RecordDeviceReplaceVo> deviceReplace = recordDeviceReplaceMapper.getDeviceReplace(stationId, year, list);
-            if (deviceReplace.size() > 0) {
-                Integer sum = deviceReplace.size();
+            List<DeviceStatistics> Newstatistics = recordDeviceReplaceMapper.getNewStatistics(regionId, year, list);
+            if (Newstatistics.size() > 0) {
+                int sum = 0;
+                for (DeviceStatistics device : Newstatistics) {
+                    sum = sum + device.getDisplaytime();
+                }
                 map.put("count", sum);
-
-                List<DeviceStatistics> Newstatistics = recordDeviceReplaceMapper.getNewStatistics(stationId, year, list);
                 map.put("changeMost", Newstatistics.get(0).getOriginDeviceName());
-                if(Newstatistics.size()>0){
+                if (Newstatistics.size() > 0) {
                     map.put("shouldBuy1", Newstatistics.get(0).getNewDeviceName());
                     map.put("BuyNum1", Newstatistics.get(0).getDisplaytime());
                 }
-                if(Newstatistics.size()>1){
+                if (Newstatistics.size() > 1) {
                     map.put("shouldBuy2", Newstatistics.get(1).getNewDeviceName());
                     map.put("BuyNum2", Newstatistics.get(1).getDisplaytime());
                 }
-                if(Newstatistics.size()>2){
+                if (Newstatistics.size() > 2) {
                     map.put("shouldBuy3", Newstatistics.get(2).getNewDeviceName());
                     map.put("BuyNum3", Newstatistics.get(2).getDisplaytime());
                 }
@@ -119,15 +118,11 @@ public class DeviceController {
             } else {
                 map.put("status", 0);
                 map.put("count", 0);
-                map.put("shouldBuy1","无");
-                map.put("BuyNum1", 0);
                 map.put("msg", "暂无数据");
             }
         } catch (Exception e) {
             map.put("status", -1);
             map.put("count", 0);
-            map.put("shouldBuy1","无");
-            map.put("BuyNum1", 0);
             map.put("msg", "查询异常");
         }
         return map;

@@ -87,4 +87,6 @@ public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSect
     @Select("Select * from config_sensor_section_module where section_name = #{station_name}")
     ConfigSensorSectionModule findOneModuleBySectionName(@Param("station_name") String station_name);
 
+    @Update("update config_sensor_section_module set section_status = '2' where section_code = #{sensorCode}")
+    int updateStatus(@Param("sensorCode") Integer sensorCode);
 }

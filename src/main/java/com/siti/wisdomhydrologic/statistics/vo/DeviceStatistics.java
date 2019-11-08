@@ -7,7 +7,7 @@ public class DeviceStatistics {
 
     private String originDeviceName;
     private String newDeviceName;
-    private String displaytime;
+    private Integer displaytime;
 
     public String getOriginDeviceName() {
         return originDeviceName;
@@ -25,11 +25,11 @@ public class DeviceStatistics {
         this.newDeviceName = newDeviceName;
     }
 
-    public String getDisplaytime() {
+    public Integer getDisplaytime() {
         return displaytime;
     }
 
-    public void setDisplaytime(String displaytime) {
+    public void setDisplaytime(Integer displaytime) {
         this.displaytime = displaytime;
     }
 }

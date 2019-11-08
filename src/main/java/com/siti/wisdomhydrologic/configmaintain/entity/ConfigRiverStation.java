@@ -39,6 +39,116 @@ public class ConfigRiverStation {
     private String numberCdma;
     private String numberGprs;
 
+
+    private String haveTide;
+    private String haveWaterLevel;
+    private String havaRainfall;
+    private String haveFlowVelocity;
+    private String havaWind;
+    private String havaAirPressure;
+    private String havaAirTemperature;
+    private String havaEvaporation;
+    private String havaDT350;
+    private String havaWaterTemperature;
+    private String havaWatertableLever;
+    private String velocityDirect;
+
+    public String getHaveTide() {
+        return haveTide;
+    }
+
+    public void setHaveTide(String haveTide) {
+        this.haveTide = haveTide;
+    }
+
+    public String getHaveWaterLevel() {
+        return haveWaterLevel;
+    }
+
+    public void setHaveWaterLevel(String haveWaterLevel) {
+        this.haveWaterLevel = haveWaterLevel;
+    }
+
+    public String getHavaRainfall() {
+        return havaRainfall;
+    }
+
+    public void setHavaRainfall(String havaRainfall) {
+        this.havaRainfall = havaRainfall;
+    }
+
+    public String getHaveFlowVelocity() {
+        return haveFlowVelocity;
+    }
+
+    public void setHaveFlowVelocity(String haveFlowVelocity) {
+        this.haveFlowVelocity = haveFlowVelocity;
+    }
+
+    public String getHavaWind() {
+        return havaWind;
+    }
+
+    public void setHavaWind(String havaWind) {
+        this.havaWind = havaWind;
+    }
+
+    public String getHavaAirPressure() {
+        return havaAirPressure;
+    }
+
+    public void setHavaAirPressure(String havaAirPressure) {
+        this.havaAirPressure = havaAirPressure;
+    }
+
+    public String getHavaAirTemperature() {
+        return havaAirTemperature;
+    }
+
+    public void setHavaAirTemperature(String havaAirTemperature) {
+        this.havaAirTemperature = havaAirTemperature;
+    }
+
+    public String getHavaEvaporation() {
+        return havaEvaporation;
+    }
+
+    public void setHavaEvaporation(String havaEvaporation) {
+        this.havaEvaporation = havaEvaporation;
+    }
+
+    public String getHavaDT350() {
+        return havaDT350;
+    }
+
+    public void setHavaDT350(String havaDT350) {
+        this.havaDT350 = havaDT350;
+    }
+
+    public String getHavaWaterTemperature() {
+        return havaWaterTemperature;
+    }
+
+    public void setHavaWaterTemperature(String havaWaterTemperature) {
+        this.havaWaterTemperature = havaWaterTemperature;
+    }
+
+    public String getHavaWatertableLever() {
+        return havaWatertableLever;
+    }
+
+    public void setHavaWatertableLever(String havaWatertableLever) {
+        this.havaWatertableLever = havaWatertableLever;
+    }
+
+    public String getVelocityDirect() {
+        return velocityDirect;
+    }
+
+    public void setVelocityDirect(String velocityDirect) {
+        this.velocityDirect = velocityDirect;
+    }
+
     public String getBuildingTime() {
         return buildingTime;
     }

@@ -64,7 +64,10 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "`station_name`, `org_id`, `org_name`, `river_id`, `river_name`, `region_id`,`region_name`, " +
             "`station_wiski_code`, `station_level`, `station_gaode_longitude`,`station_gaode_latitude`, " +
             "`is_sluice_gate`, `station_address`, `create_time`, `flow_rate`, `sys_org`," +
-            "`building_time`,`abbreviation`,`number_cdma`,`number_gprs`) VALUES (" +
+            "`building_time`,`abbreviation`,`number_cdma`,`number_gprs`, `have_tide` , `have_water_level` ," +
+            " `hava_rainfall` , `have_flow_velocity` , `hava_wind` , `hava_air_pressure`, `hava_air_temperature`," +
+            " `hava_evaporation`, `hava_DT350` , `hava_water_temperature`, `hava_watertable_lever` ,`velocity_direct`) " +
+            "VALUES (" +
             "#{obj.stationCode}, " +
             "#{obj.stationTelemetryCode}, " +
             "#{obj.stationId}, " +
@@ -78,16 +81,28 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "#{obj.stationWiskiCode}, " +
             "#{obj.stationLevel}, " +
             "#{obj.stationGaodeLongitude}, " +
-            "#{obj.stationGaodeLatitude}," +
+            "#{obj.stationGaodeLatitude}, " +
             "#{obj.isSluiceGate}," +
             "#{obj.stationAddress}, " +
             "#{obj.createTime}, " +
             "#{obj.flowRate}, " +
-            "#{obj.sysOrg})," +
+            "#{obj.sysOrg}," +
             "#{obj.buildingTime}," +
             "#{obj.abbreviation}," +
             "#{obj.numberCdma}," +
-            "#{obj.numberGprs};")
+            "#{obj.numberGprs}," +
+            "#{obj.haveTide}," +
+            "#{obj.haveWaterLevel}," +
+            "#{obj.havaRainfall}," +
+            "#{obj.haveFlowVelocity}," +
+            "#{obj.havaWind}," +
+            "#{obj.havaAirPressure}," +
+            "#{obj.havaAirTemperature}," +
+            "#{obj.havaEvaporation}," +
+            "#{obj.havaDT350}," +
+            "#{obj.havaWaterTemperature}," +
+            "#{obj.havaWatertableLever}," +
+            "#{obj.velocityDirect} );")
     int insert(@Param("obj") ConfigRiverStation configRiverStation);
 
     // 更新数据，部分字段不更新
@@ -109,7 +124,19 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             "`building_time` = #{obj.buildingTime},"+
             "`abbreviation` = #{obj.abbreviation},"+
             "`number_cdma` = #{obj.numberCdma},"+
-            "`number_gprs` = #{obj.numberGprs} "+
+            "`number_gprs` = #{obj.numberGprs}," +
+            "`have_tide` = #{obj.haveTide}," +
+            " `have_water_level` = #{obj.haveWaterLevel}," +
+            " `hava_rainfall` = #{obj.havaRainfall}, " +
+            " `have_flow_velocity` = #{obj.haveFlowVelocity}," +
+            " `hava_wind` = #{obj.havaWind}," +
+            " `hava_air_pressure` = #{obj.havaAirPressure}," +
+            " `hava_air_temperature` = #{obj.havaAirTemperature}," +
+            " `hava_evaporation` = #{obj.havaEvaporation}," +
+            " `hava_DT350` = #{obj.havaDT350}," +
+            " `hava_water_temperature` = #{obj.havaWaterTemperature}," +
+            " `hava_watertable_lever` = #{obj.havaWatertableLever}," +
+            " `velocity_direct` = #{obj.velocityDirect} "+
             " WHERE (`station_code`=#{obj.stationCode});")
     int update(@Param("obj") ConfigRiverStation configRiverStation);
 

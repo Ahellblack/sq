@@ -42,17 +42,19 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "where report_id = #{RecordDeviceReplace.reportId}")
     int updateData( @Param("RecordDeviceReplace")RecordDeviceReplace entity);
 
-    @Select("<script>" +
+/*    @Select("<script>" +
             "select * from record_device_replace rdr  right join config_sensor_database csd  " +
             "on rdr.origin_device_code = csd.property_code " +
+            "left join config_river_station crs " +
+            "on rdr.station_code = crs.station_id  " +
             "where origin_org_name is not null " +
             "and SUBSTR(replace_date,1,4) = #{year} "  +
             "and SUBSTR(replace_date,6,2) in " +
             "(<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)"+
-            "<if test=\"stationId!=null\">and station_code = #{stationId} </if></script>")
-     List<RecordDeviceReplaceVo> getDeviceReplace(@Param("stationId") Integer stationId,
+            "<if test=\"regionId!=null\">and crs.region_id = #{regionId} </if></script>")
+     List<RecordDeviceReplaceVo> getDeviceReplace(@Param("regionId") Integer regionId,
                                                   @Param("year")Integer year,
-                                                  @Param("list")List<String> list);
+                                                  @Param("list")List<String> list);*/
     /**
      * 当月备品替换次数
      * */
@@ -60,22 +62,17 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "select origin_device_name,new_device_name,count(*) as displaytime " +
             "from record_device_replace rdr  right join config_sensor_database csd  " +
             "on rdr.origin_device_code = csd.property_code " +
+            "left join config_river_station crs " +
+            "on rdr.station_code = crs.station_id  " +
             "where origin_org_name is not null " +
             "and SUBSTR(replace_date,1,4) = #{year} "  +
             "and SUBSTR(replace_date,6,2) in " +
             "(<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>) "+
-            "<if test=\'stationId!=null\'>and station_code = #{stationId} </if> " +
+            "<if test=\"regionId!=null\">and crs.region_id = #{regionId} </if> " +
             "group by new_device_name " +
             "ORDER BY displaytime desc </script>")
-    List<DeviceStatistics> getNewStatistics(@Param("stationId") Integer stationId,
+    List<DeviceStatistics> getNewStatistics(@Param("regionId") Integer regionId,
                                             @Param("year")Integer year,
                                             @Param("list")List<String> list);
-    /*@Select("select origin_device_name,new_device_name,count(*) as displaytime " +
-            "from record_device_replace rdr  right join config_sensor_database csd  " +
-            "on rdr.origin_device_code = csd.property_code " +
-            "where origin_org_name is not null " +
-            "and DATE_FORMAT( rdr.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' )" +
-            "group by origin_device_name " +
-            "ORDER BY displaytime desc ")
-    List<DeviceStatistics> getOrgStatistics();*/
+
 }

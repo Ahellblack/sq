@@ -30,7 +30,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "from report_station_broken a " +
             "left join config_river_station b " +
             "on a.station_id = b.station_id " +
-            " where DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createDate} " +
+            " where DATE_FORMAT(a.error_lastest_appear_time,'%Y-%m-%d') = #{createDate} " +
             "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
             "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
             "#{item}" +
@@ -45,7 +45,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "from report_station_broken a " +
             "left join config_river_station b " +
             "on a.station_id = b.station_id " +
-            " where DATE_FORMAT(a.create_time,'%Y') = #{createDate} " +
+            " where DATE_FORMAT(a.error_lastest_appear_time,'%Y') = #{createDate} " +
             "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
             "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
             "#{item}" +
@@ -61,7 +61,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "from report_station_broken a " +
             "left join config_river_station b " +
             "on a.station_id = b.station_id " +
-            " where DATE_FORMAT(a.create_time,'%Y-%m') = #{createDate} " +
+            " where DATE_FORMAT(a.error_lastest_appear_time,'%Y-%m') = #{createDate} " +
             "<if test=\"typeNameList!=null \">and SUBSTRING_INDEX(broken_according_id,'_', 1) in (" +
             "<foreach collection=\"typeNameList\" item=\"item\" separator=\",\">" +
             "#{item}" +
@@ -102,21 +102,21 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null " +
             " and display_status = 1 " +
-            " and to_days(b.create_time) = to_days(now())")
+            " and to_days(b.error_lastest_appear_time) = to_days(now())")
     List<StationMalFunction> getRegAndStatusListDay();
 
 
     @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null  " +
             " and display_status = 1 " +
-            " and DATE_FORMAT( b.create_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )\n")
+            " and DATE_FORMAT( b.error_lastest_appear_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )\n")
     List<StationMalFunction> getRegAndStatusListMonth();
 
 
     @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null  " +
             " and display_status = 1 " +
-            " and YEAR(b.create_time)=YEAR(NOW());\n")
+            " and YEAR(b.error_lastest_appear_time)=YEAR(NOW());\n")
     List<StationMalFunction> getRegAndStatusListYear();
 
     @Select("<script>select a.sys_org,b.broken_name,b.create_time " +
@@ -213,4 +213,8 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)")
     int deleteById(@Param("idList") List<Integer> idList);
 
+    @Select("SELECT sensor_code FROM `abnormal_detail_current` adc " +
+            "left join `report_manage_application_broken` rmab  on adc.id = rmab.report_id " +
+            "where id = #{reportId} ")
+    Integer findModule(@Param("reportId")Integer reportId);
 }
