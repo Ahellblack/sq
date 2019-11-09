@@ -159,18 +159,18 @@ public class StationCheckMantainController {
 
 
         if(entity.getSolarEnergyVoltageCheck() ==1){
-            entity.setSolarEnergyVoltageCheckRightName("■正常"+entity.getSolarEnergyVoltageValue()+"V");
-            entity.setSolarEnergyVoltageCheckWrongName("□不正常");
+            entity.setSolarEnergyVoltageCheckRightName("☑ 正常"+entity.getSolarEnergyVoltageValue()+"V");
+            entity.setSolarEnergyVoltageCheckWrongName("□ 不正常");
         }else{
             entity.setSolarEnergyVoltageCheckRightName("□正常");
-            entity.setSolarEnergyVoltageCheckWrongName("■不正常"+entity.getSolarEnergyVoltageValue()+"V");
+            entity.setSolarEnergyVoltageCheckWrongName("☑ 不正常"+entity.getSolarEnergyVoltageValue()+"V");
         }
         if(entity.getStorageBatteryVoltageCheck() ==1){
-            entity.setStorageBatteryVoltageCheckRightName("■正常"+entity.getStorageBatteryValue()+"V");
-            entity.setStorageBatteryVoltageCheckWrongName("□不正常");
+            entity.setStorageBatteryVoltageCheckRightName("☑ 正常"+entity.getStorageBatteryValue()+"V");
+            entity.setStorageBatteryVoltageCheckWrongName("□ 不正常");
         }else{
-            entity.setStorageBatteryVoltageCheckRightName("□正常");
-            entity.setStorageBatteryVoltageCheckWrongName("■不正常"+entity.getStorageBatteryValue()+"V");
+            entity.setStorageBatteryVoltageCheckRightName("□ 正常");
+            entity.setStorageBatteryVoltageCheckWrongName("☑ 不正常"+entity.getStorageBatteryValue()+"V");
         }
 
 

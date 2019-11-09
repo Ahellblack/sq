@@ -193,7 +193,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                     //发送短信
                     ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
 
-                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId, reportId + "");
+                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(), reportId + "");
                 }
                 return reportManageApplicationBrokenMapper.updateStatus(entity);
             }

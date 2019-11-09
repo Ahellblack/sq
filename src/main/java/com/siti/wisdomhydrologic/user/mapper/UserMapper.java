@@ -65,7 +65,7 @@ public interface UserMapper extends Mapper<User> {
     /**
      * 修改密码
      * */
-    @Update("update sys_user set password=#{user.password},update_by=#{user.updateBy} " +
+    @Update("update sys_user set password=#{user.password} " +
             " where id=#{user.id}")
     void updatePwd(@Param("user")User user);
 

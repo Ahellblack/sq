@@ -47,18 +47,17 @@ public class StationDataServiceImpl implements StationDataService {
     @Override
     public void updateData() throws Exception {
         //待开发可添加根据riverStation的id生成添加数据
-        Calendar calendar = Calendar.getInstance();
+
         //数据最新时间
         String realtime = realStationDataMapper.getStationLatestData();
         List<RealStationData> updateList = new ArrayList<>();
-        calendar.setTime(DateTransform.String2Date(realtime, "yyyy-MM-dd HH:mm:ss"));
+
         /**
-         * 对应时间的故障数据
+         * 对应未恢复故障数据
          * */
-        List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getCurrentAbnormal(realtime);
+        List<AbnormalDetailEntity> abnormallist = abnormalDetailMapper.getCurrentAbnormal();
 
         List<RealStationVo> stationData = stationDataMapper.getStationData();
-
         /**
          * 如果riverStation多一条数据，自动生成,每日检查一次
          */
@@ -216,20 +215,6 @@ public class StationDataServiceImpl implements StationDataService {
             needTime = dateTime - dateTime % (min * 60L * 1000L);
         }
         return new SimpleDateFormat(dateFormat).format(new Date(needTime));
-    }
-
-    public static void main(String[] args) {
-        Date today = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(calendar.MINUTE, -5);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTime(today);
-        calendar2.set(Calendar.HOUR_OF_DAY, 9);
-        calendar2.set(Calendar.MINUTE, 0);
-        calendar2.set(Calendar.SECOND, 0);
-        Date date9 = calendar2.getTime();
-
-        System.out.println(DateTransform.Date2String(date9, "yyyy-MM-dd HH:mm:ss").substring(11, 19));
     }
 
 

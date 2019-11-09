@@ -55,7 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/ble/**"
                 ,"/personPosition/**"
                 ,"/plat/**"
-
         );
         super.configure(web);
     }

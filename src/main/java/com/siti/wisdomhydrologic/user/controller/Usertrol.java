@@ -51,8 +51,6 @@ public class Usertrol {
     private UserInfoService userInfoService;
     @Resource
     private UserMapper userMapper;
-    @Autowired
-    LoginLogMapper loginLogMapper;
     @Resource
     UserService userService;
 
@@ -85,59 +83,6 @@ public class Usertrol {
     @PostMapping("login")
     public Map<String, Object> getLoginUserInfo(HttpSession session, @Param("username") String username, @Param("password") String password) {
         return null;
-        /*RequestAttributes ra=RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request=((ServletRequestAttributes)ra).getRequest();
-        request.getSession(true).setAttribute("keytest","testvalue");
-
-        System.out.println(session.getId());
-        try {
-            if(password==""||"".equals(password)){
-                Map<String,Object> map = new HashMap();
-                map.put("msg","密码错误");
-                map.put("status",0);
-                return map;
-            }
-            //userInfoService.get();
-            String logPwd = BASE64Util.decode(password);
-            password = Md5Utils.encryptString(logPwd);
-            if (logPwd == null) {
-                Map<String,Object> map = new HashMap();
-                map.put("msg","密码错误");
-                map.put("status",0);
-                return map;
-            }
-            User user = userMapper.findByUserName(username);
-            if (user.getPassword().equals(password)) {
-                List<Role> roles = userMapper.findRole(user.getId());
-                List<Permission> menuList = userMapper.findByPermission(username);   //  获取角色的目录权限
-                List<Org> orgList = userMapper.findOrg(user.getId());
-                List<Permission> last = menuList.stream().filter(e -> e.getSort() == 0).collect(Collectors.toList());
-                backToFront(0, last.get(0), menuList);
-                user.setMenuList(last);
-                user.setOrgList(orgList);
-                user.setRoles(roles);
-                if (session.getId() != "" && !"".equals(session.getId())) {
-                    userInfoService.set(session.getId(), user, timeLong);
-                    //System.out.println(userInfoService.get());
-                    Map<String,Object> map = new HashMap();
-                    map.put("user",user);
-                    map.put("status",1);
-                    String ip_address = getIpAddress(request);
-                    String userAgent = request.getHeader("User-Agent"); // 浏览器信息
-                    loginLogMapper.saveLoginLog(user.getId(),user.getUserName(),ip_address,userAgent,(DateOrTimeTrans.nowTimetoString()));
-                    return map;
-                }
-            }
-        } catch (Exception e) {
-            Map<String,Object> map = new HashMap();
-            map.put("msg","输入的账户或密码有误");
-            map.put("status",0);
-            return map;
-        }
-        Map<String,Object> map = new HashMap();
-        map.put("msg","输入的账户或密码有误");
-        map.put("status",0);
-        return map;*/
     }
 
     /***
@@ -245,19 +190,34 @@ public class Usertrol {
     @ApiOperation(value = "修改密码", notes = "xx")
     @RequestMapping(value = "user/modifyPwd", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> modifyPwd(Integer id, String password, HttpSession session) {
+    public Map<String, Object> modifyPwd(Integer id,String password) {
+        //base64
+        String logPwd = BASE64Util.decode(password);
         Map<String, Object> map = new HashMap<String, Object>();
         try {
+            //获取当前用户
             User loginUser = (User) userInfoService.get();
-            String updateBy = loginUser.getUserName();
+            List<Integer> list = new ArrayList<>();
+            List<Role> roles = userMapper.findRole(loginUser.getId());
+            roles.forEach(role -> {
+                if (role.getId() == 1) {
+                    list.add(role.getId());
+                }
+            });
+            //登录用户可修改当前账户的密码。
+            if(loginUser.getId() == id){
+                list.add(1);
+            }
+            if (list.size() == 0) {
+                map.put("status", -1);
+                map.put("message", "无删除权限");
+                return map;
+            }
 
-            User user = new User();
-            user.setId(id);
             //加密
-            password = Md5Utils.encryptString(password);
-            user.setPassword(password);
-            user.setUpdateBy(updateBy);
-            userMapper.updatePwd(user);
+            password = Md5Utils.encryptString(logPwd);
+            loginUser.setPassword(password);
+            userMapper.updatePwd(loginUser);
             map.put("status", 0);
             map.put("message", "添加成功");
         } catch (Exception e) {
@@ -273,7 +233,7 @@ public class Usertrol {
     @ApiOperation(value = "删除用户", notes = "")
     @RequestMapping(value = "user/deleteUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> deleteUser(Integer userid, HttpSession session) {
+    public Map<String, Object> deleteUser(Integer userid) {
         Map<String, Object> map = new HashMap<String, Object>();
         //判断添加权限
         User loginUser = (User) userInfoService.get();

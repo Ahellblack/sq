@@ -8,10 +8,27 @@ public class ConfigAbnormalDictionary {
     private String errorName;
     private int errorDataId;
     private int table1Relate;
+    private String description;
 
     @Override
     public String toString() {
         return "ConfigAbnormalDictionary{" + "brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", errorName='" + errorName + '\'' + ", errorDataId=" + errorDataId + ", table1Relate=" + table1Relate + '}';
+    }
+
+    public int getTable1Relate() {
+        return table1Relate;
+    }
+
+    public void setTable1Relate(int table1Relate) {
+        this.table1Relate = table1Relate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getTable1_relate() {

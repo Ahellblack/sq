@@ -27,8 +27,8 @@ public class DownloadController {
 
     @ResponseBody
     @GetMapping("filename")
-    public List<FileUploadInformation> getFileNames() {
-        List<FileUploadInformation> files = fileUploadMapper.getFiles(null);
+    public List<FileUploadInformation> getFileNames(String fileName) {
+        List<FileUploadInformation> files = fileUploadMapper.getFiles(null,fileName);
         return files;
     }
 
@@ -45,7 +45,7 @@ public class DownloadController {
         InputStream is = null;
         OutputStream os = null;
         try {
-            List<FileUploadInformation> files = fileUploadMapper.getFiles(id);
+            List<FileUploadInformation> files = fileUploadMapper.getFiles(id,null);
             //获取file的url
             URL url = this.getClass().getClassLoader().getResource("");
             String logFilePath = url.getPath();

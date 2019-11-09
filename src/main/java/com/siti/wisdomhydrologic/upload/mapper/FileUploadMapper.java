@@ -15,15 +15,17 @@ public interface FileUploadMapper {
 
     @Insert("INSERT INTO `file_upload_information`" +
             "(`file_url`,`origin_file_name`, `upload_user`, `upload_ip_address`) " +
-            "VALUES (#{url},#{fileName},#{userName},#{ipAddress}) ")
+            "VALUES (#{url},#{fileName},#{userId},#{ipAddress}) ")
     int saveFileMsg(@Param("url") String url,
                     @Param("fileName") String fileName,
-                    @Param("userName") String userName,
+                    @Param("userId") Integer userId,
                     @Param("ipAddress")String ipAddress);
 
-    @Select("<script>select * from file_upload_information" +
-            "<if test = \'id != null \'>where file_id = #{id}</if></script>")
-    List<FileUploadInformation> getFiles(@Param("id")Integer id);
+    @Select("<script>select * from file_upload_information " +
+            "<if test = \'id != null \'>where file_id = #{id} </if>" +
+            "<if test = \'fileName != null \'>and origin_file_name = #{fileName} </if>" +
+            "</script>")
+    List<FileUploadInformation> getFiles(@Param("id")Integer id,@Param("fileName") String fileName);
 
     @Delete("delete from file_upload_information where file_id = #{id} ")
     int delete(@Param("id")Integer id);

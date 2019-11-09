@@ -21,9 +21,9 @@ import java.util.List;
 public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
 
 
-    @Select("<script>select * from abnormal_detail_current"+
-            "<if test=\"date!=null\" >where  is_recover_status = '0' </if></script>")//last_date &gt;= #{date} and
-    List<AbnormalDetailEntity> getCurrentAbnormal(@Param("date") String date);
+    @Select("<script>select * from abnormal_detail_current "+
+            "where is_recover_status = '0' </script>")
+    List<AbnormalDetailEntity> getCurrentAbnormal();
 
     @Select("<script>select * from abnormal_detail_current ad " +
             " left join config_abnormal_dictionary cad on ad.data_error = cad.broken_according_id" +

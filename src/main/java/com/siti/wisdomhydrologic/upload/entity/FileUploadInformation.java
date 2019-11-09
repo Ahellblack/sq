@@ -5,7 +5,7 @@ public class FileUploadInformation {
   private Integer fileId;
   private String originFileName;
   private String fileUrl;
-  private String uploadUser;
+  private Integer uploadUser;
   private String uploadTime;
   private String uploadIpAddress;
 
@@ -35,12 +35,11 @@ public class FileUploadInformation {
     this.fileUrl = fileUrl;
   }
 
-
-  public String getUploadUser() {
+  public Integer getUploadUser() {
     return uploadUser;
   }
 
-  public void setUploadUser(String uploadUser) {
+  public void setUploadUser(Integer uploadUser) {
     this.uploadUser = uploadUser;
   }
 

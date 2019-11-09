@@ -21,9 +21,6 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     @Resource
     private StationCheckMantainMapper stationCheckMantainMapper;
 
-    public List<ReportStationCheckMantain> getAll() {
-        return stationCheckMantainMapper.selectAll();
-    }
 
     public int insert(ReportStationCheckMantain reportStationCheckMantain) {
         ConfigRiverStation allByStationName = configRiverStationMapper.getAllByCode(reportStationCheckMantain.getStationCode());

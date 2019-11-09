@@ -131,7 +131,7 @@ public class UploadController {
             return jsonObject;
         }
         try {
-            fileUploadMapper.saveFileMsg(raletiveUrl,fileName,user.getRealName(), ipAddress);
+            fileUploadMapper.saveFileMsg(raletiveUrl,fileName,user.getId(), ipAddress);
         }catch (Exception e){
             jsonObject.put("msg","信息入库异常。");
             return jsonObject;
