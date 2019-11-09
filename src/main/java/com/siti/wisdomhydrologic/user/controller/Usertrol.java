@@ -218,8 +218,8 @@ public class Usertrol {
             password = Md5Utils.encryptString(logPwd);
             loginUser.setPassword(password);
             userMapper.updatePwd(loginUser);
-            map.put("status", 0);
-            map.put("message", "添加成功");
+            map.put("status", 1);
+            map.put("message", "修改成功");
         } catch (Exception e) {
             map.put("status", -1);
             map.put("message", e.getLocalizedMessage());
