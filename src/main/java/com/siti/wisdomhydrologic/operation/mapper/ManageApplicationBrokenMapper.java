@@ -102,7 +102,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select(" select region_name,region_id,request_designating_status,mal_status from config_river_station a left join report_station_broken b on a.station_id = b .station_id " +
             " where request_designating_status is not null " +
             " and display_status = 1 " +
-            " and to_days(b.error_lastest_appear_time) = to_days(now())")
+            " and DATE_FORMAT( b.error_lastest_appear_time, '%Y%m%d' ) = DATE_FORMAT( CURDATE( ) , '%Y%m%d' )")
     List<StationMalFunction> getRegAndStatusListDay();
 
 

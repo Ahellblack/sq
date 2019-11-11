@@ -171,7 +171,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(entity.getStationId());
         List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
         try {
-            if (entity.getRequestDesignatingStatus() == 1) {
+
                 /**
                  *派单后状态直接更改为3，派单时间 == 处理中时间
                  * */
@@ -196,11 +196,10 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                     PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(), reportId + "");
                 }
                 return reportManageApplicationBrokenMapper.updateStatus(entity);
-            }
+
         } catch (Exception e) {
             return 0;
         }
-        return 0;
     }
 
     public int updateBrokenStatus() {
