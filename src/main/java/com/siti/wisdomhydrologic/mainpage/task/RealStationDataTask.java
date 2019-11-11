@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.mainpage.task;
 
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,16 +19,9 @@ public class RealStationDataTask {
     @Resource
     private StationDataMapper stationDataMapper;
 
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void insertAbnormal() throws Exception {
-        //List<Integer> stationId = stationDataMapper.getStationId();
-        //System.out.println("real station data update...");
-        /*stationId.forEach(id -> {
-            try {*/
+
         stationDataService.updateData();
-        /*    } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });*/
     }
 }
