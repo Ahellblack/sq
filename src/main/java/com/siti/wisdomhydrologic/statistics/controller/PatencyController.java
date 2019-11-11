@@ -122,15 +122,15 @@ public class PatencyController {
                         break;
                     case 2://tsdb
                         solveUploadData(tsdbvo,uploadData);
-                        rtsqvo.setName("tsdb");
+                        tsdbvo.setName("tsdb");
                         break;
                     case 3://hour
                         solveUploadData(hourvo,uploadData);
-                        rtsqvo.setName("hour");
+                        hourvo.setName("hour");
                         break;
                     case 4://day
                         solveUploadData(dayvo,uploadData);
-                        rtsqvo.setName("day");
+                        dayvo.setName("day");
                         break;
                 }
             });
