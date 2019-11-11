@@ -113,7 +113,7 @@ public class Usertrol {
     @RequestMapping(value = "user/saveUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> saveUser(@RequestBody User user, @ApiParam(required = true) Integer[] organizationIds, @ApiParam(required = true) Integer[] roleIds) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         try {
             Integer isLeader = user.getIsLeader();
             //获取当前用户
@@ -127,6 +127,10 @@ public class Usertrol {
                     list.add(role.getId());
                 }
             });
+            //登录用户可修改当前账户的信息。
+            if(loginUser.getId() == user.getId()){
+                list.add(1);
+            }
             if (list.size() == 0) {
                 map.put("status", -1);
                 map.put("message", "无添加权限");
@@ -153,7 +157,7 @@ public class Usertrol {
     @RequestMapping(value = "user/updateUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateUser(@RequestBody User user, Integer[] organizationIds, Integer[] roleIds) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         try {
             Integer isLeader = user.getIsLeader();
             //获取当前用户
@@ -166,6 +170,10 @@ public class Usertrol {
                     list.add(role.getId());
                 }
             });
+            //登录用户可修改当前账户的信息。
+            if(loginUser.getId() == user.getId()){
+                list.add(1);
+            }
             if (list.size() == 0) {
                 map.put("status", -1);
                 map.put("message", "无修改权限");
@@ -210,14 +218,16 @@ public class Usertrol {
             }
             if (list.size() == 0) {
                 map.put("status", -1);
-                map.put("message", "无删除权限");
+                map.put("message", "无修改权限");
                 return map;
             }
 
             //加密
             password = Md5Utils.encryptString(logPwd);
-            loginUser.setPassword(password);
-            userMapper.updatePwd(loginUser);
+            User updateUser = new User();
+            updateUser.setId(id);
+            updateUser.setPassword(password);
+            userMapper.updatePwd(updateUser);
             map.put("status", 1);
             map.put("message", "修改成功");
         } catch (Exception e) {
