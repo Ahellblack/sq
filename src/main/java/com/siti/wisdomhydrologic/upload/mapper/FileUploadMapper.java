@@ -21,8 +21,8 @@ public interface FileUploadMapper {
                     @Param("userId") Integer userId,
                     @Param("ipAddress")String ipAddress);
 
-    @Select("<script>select * from file_upload_information " +
-            "<if test = \'id != null \'>where file_id = #{id} </if>" +
+    @Select("<script>select * from file_upload_information where 1 = 1 " +
+            "<if test = \'id != null \'>and file_id = #{id} </if>" +
             "<if test = \'fileName != null \'>and origin_file_name = #{fileName} </if>" +
             "</script>")
     List<FileUploadInformation> getFiles(@Param("id")Integer id,@Param("fileName") String fileName);

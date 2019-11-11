@@ -165,7 +165,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     int updateStatus(@Param("data") ReportManageApplicationBroken broken);
 
 
-
     @Select("select * from report_station_broken where station_id = #{stationId} " +
             "and broken_according_id = #{accordingId} " +
             "and error_lastest_appear_time > #{last24HourTime} ")
