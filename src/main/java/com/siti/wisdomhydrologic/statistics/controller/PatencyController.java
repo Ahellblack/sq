@@ -118,15 +118,19 @@ public class PatencyController {
                 switch (uploadData.getDataType()) {
                     case 1://rtsq
                         solveUploadData(rtsqvo,uploadData);
+                        rtsqvo.setName("rtsq");
                         break;
                     case 2://tsdb
                         solveUploadData(tsdbvo,uploadData);
+                        rtsqvo.setName("tsdb");
                         break;
                     case 3://hour
                         solveUploadData(hourvo,uploadData);
+                        rtsqvo.setName("hour");
                         break;
                     case 4://day
                         solveUploadData(dayvo,uploadData);
+                        rtsqvo.setName("day");
                         break;
                 }
             });
