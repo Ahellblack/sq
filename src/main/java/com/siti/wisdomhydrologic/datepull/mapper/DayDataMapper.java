@@ -65,14 +65,8 @@ public interface DayDataMapper {
             "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;")
     int buildDayBase(@Param("database") String dateBaseName);
 
-
-
     @Select("Select * from config_sensor_section_module")
     List<ConfigSensorSectionModule> getStation();
-
-    @Select("Select * from config_sensor_section_module where section_code = #{code}")
-    ConfigSensorSectionModule getStationByCode(@Param("code") Integer code);
-
 
 
 

@@ -417,4 +417,7 @@ public class ReportManageApplicationBroken {
             return new ReportManageApplicationBroken(this);
         }
     }
+
+    public ReportManageApplicationBroken() {
+    }
 }

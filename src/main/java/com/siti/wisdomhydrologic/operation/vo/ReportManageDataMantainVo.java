@@ -643,4 +643,7 @@ public class ReportManageDataMantainVo {
             return new ReportManageDataMantainVo(this);
         }
     }
+
+    public ReportManageDataMantainVo() {
+    }
 }
