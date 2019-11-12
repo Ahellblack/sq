@@ -8,6 +8,7 @@ import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorDatabase;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorDatabaseMapper;
 import com.siti.wisdomhydrologic.operation.entity.RecordDeviceReplace;
 import com.siti.wisdomhydrologic.operation.mapper.RecordDeviceReplaceMapper;
+import com.siti.wisdomhydrologic.operation.utils.WorkBookUtils;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
@@ -171,31 +172,25 @@ public class RecordDeviceReplaceController {
         }
         // 设置excel的文件名称
         String excelName = "测站设备变更记录表";
-        // 重置响应对象
-        response.reset();
-        // 当前日期，用于导出文件名称
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = excelName + "_" + sdf.format(new Date());
-        String DownName = URLEncoder.encode(dateStr, "UTF-8");
-        // 指定下载的文件名--设置响应头
-        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
-        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        // 写出数据输出流到页面
-        try {
-            OutputStream output = response.getOutputStream();
-            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
-            workbook.write(bufferedOutPut);
-            bufferedOutPut.flush();
-            bufferedOutPut.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "success";
+        return WorkBookUtils.download(response, workbook, excelName);
     }
+
+
+    @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
+    @GetMapping("/getExcelAll")
+    @ResponseBody
+    public String exportExcelTest(HttpServletResponse response, String stationId, String createDate) throws UnsupportedEncodingException {
+        // 获取workbook对象
+        Workbook workbook = exportSheetByTemplate(stationId, createDate);
+        // 判断数据
+        if (workbook == null) {
+            return "fail";
+        }
+        // 设置excel的文件名称
+        String excelName = "测站设备变更记录表";
+        return WorkBookUtils.download(response, workbook, excelName);
+    }
+
 
     /**
      * 模版单sheet导出示例
@@ -250,45 +245,6 @@ public class RecordDeviceReplaceController {
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         // 导出excel
         return workbook;
-    }
-
-
-    @ApiOperation(value = "表八测站设备变更记录表模板导出", httpMethod = "GET", notes = "表八测站设备变更记录表模板导出")
-    @GetMapping("/getExcelAll")
-    @ResponseBody
-    public String exportExcelTest(HttpServletResponse response, String stationId, String createDate) throws UnsupportedEncodingException {
-        // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationId, createDate);
-        // 判断数据
-        if (workbook == null) {
-            return "fail";
-        }
-        // 设置excel的文件名称
-        String excelName = "测站设备变更记录表";
-        // 重置响应对象
-        response.reset();
-        // 当前日期，用于导出文件名称
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = excelName + "_" + sdf.format(new Date());
-        String DownName = URLEncoder.encode(dateStr, "UTF-8");
-        // 指定下载的文件名--设置响应头
-        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
-        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        // 写出数据输出流到页面
-        try {
-            OutputStream output = response.getOutputStream();
-            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
-            workbook.write(bufferedOutPut);
-            bufferedOutPut.flush();
-            bufferedOutPut.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "success";
     }
 
     /**

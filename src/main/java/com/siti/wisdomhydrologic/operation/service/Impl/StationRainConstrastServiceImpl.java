@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.DayData;
@@ -10,6 +12,7 @@ import com.siti.wisdomhydrologic.operation.vo.ReportStationRainConstrastVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.operation.utils.StationIdUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -29,6 +33,8 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     private StationRainConstrastMapper stationRainConstrastMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
+    @Resource
+    private StationRainConstrastServiceImpl stationRainConstrastService;
 
     Logger logger = LoggerFactory.getLogger(ReportStationRainConstrast.class);
 
@@ -258,6 +264,90 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
             }
         });
+    }
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(String createTime) {
+        // 查询数据,此处省略
+        List<ReportStationRainConstrastVo> list = stationRainConstrastService.getExcel(createTime);
+
+
+        if (list.size() != 11) {
+            return null;
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                ReportStationRainConstrastVo data = list.get(i);
+                data.setReportId(i + 1);
+                if (data.getCreateTime() != null && data.getCreateTime().length() > 13)
+                    data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            }
+            int count1 = 0;
+            // 设置导出配置
+            // 获取导出excel指定模版
+            URL url = this.getClass().getClassLoader().getResource("");
+            String logFilePath = url.getPath();
+            TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model7.xls");
+            // 标题开始行
+            // params.setHeadingStartRow(0);
+            // 标题行数
+            // params.setHeadingRows(2);
+            // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+            params.setSheetName("表七");
+            Map<String, Object> map = new HashMap<String, Object>();
+            //对查询的List进行遍历 把对象存于map
+            for (int i = 0; i < list.size(); i++) {
+                String dataname = "data" + (i + 1);
+                ReportStationRainConstrastVo vo = list.get(i);
+                for (int j = 1; j <= 31; j++) {
+                    try {
+                        Method methodautoget = vo.getClass().getMethod("getDay" + j + "Auto");
+                        Method methodbaseget = vo.getClass().getMethod("getDay" + j + "Base");
+                        Method methoddiffget = vo.getClass().getMethod("getDay" + j + "Diff");
+                        Method methodautoset = vo.getClass().getMethod("setDay" + j + "Auto", String.class);
+                        Method methodbaseset = vo.getClass().getMethod("setDay" + j + "Base", String.class);
+                        Method methoddiffset = vo.getClass().getMethod("setDay" + j + "Diff", String.class);
+                        /**
+                         * 导出时设置 值为0的部分 为 空字符串
+                         * */
+                        try {
+                            if (Double.parseDouble(methodautoget.invoke(vo).toString()) == 0) {
+                                methodautoset.invoke(vo, "");
+                            }
+                            if (Double.parseDouble(methodbaseget.invoke(vo).toString()) == 0) {
+                                methodbaseset.invoke(vo, "");
+                            }
+                            if (Double.parseDouble(methoddiffget.invoke(vo).toString()) == 0) {
+                                methoddiffset.invoke(vo, "");
+                            }
+                            if (Double.parseDouble(vo.getAutoTotal()) == 0) {
+                                vo.setAutoTotal("");
+                            }
+                            if (Double.parseDouble(vo.getBaseTotal()) == 0) {
+                                vo.setBaseTotal("");
+                            }
+                            if (Double.parseDouble(vo.getDiffTotal()) == 0) {
+                                vo.setDiffTotal("");
+                            }
+
+                        } catch (Exception e) {
+                            //System.out.println("导出异常");
+                        }
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                map.put(dataname, vo);
+
+            }
+            map.put("date", createTime);
+            Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+            // 导出excel
+            return workbook;
+        }
     }
 
 }

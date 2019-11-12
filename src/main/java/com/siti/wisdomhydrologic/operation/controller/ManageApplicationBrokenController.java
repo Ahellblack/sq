@@ -38,41 +38,27 @@ public class ManageApplicationBrokenController {
 
     @ApiOperation(value = "应用程序及设备异常表查询", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAll")
-    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session,int page, int pageSize, String createDate, String stationId,Integer status) {
-        return manageApplicationBrokenService.getAll(session,page, pageSize, createDate, stationId,status);
+    public PageInfo<ReportManageApplicationBroken> selectAll(HttpSession session, int page, int pageSize, String createDate, String stationId, Integer status) {
+        return manageApplicationBrokenService.getAll(session, page, pageSize, createDate, stationId, status);
     }
 
     @ApiOperation(value = "应用程序及设备异常表查询全部", httpMethod = "GET", notes = "表四应用程序及设备异常表查询")
     @GetMapping("/getAllDisplay")
-    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId,Integer status) {
-        return manageApplicationBrokenService.selectAllDisplay(page, pageSize, createDate, stationId,status);
+    public PageInfo<ReportManageApplicationBroken> selectAllDisplay(int page, int pageSize, String createDate, String stationId, Integer status) {
+        return manageApplicationBrokenService.selectAllDisplay(page, pageSize, createDate, stationId, status);
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
-
+    public int insert(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken, HttpSession session) {
         User user = (User) userInfoService.get();
-        sysLogMapper.insertUserOprLog( new SysLog.builder()
-                .setUsername(user.getUserName())
-                .setOperateDes("数据表4添加")
-                .setFreshVal(reportManageApplicationBroken.toString())
-                .setAction("添加")
-                .setPreviousVal("")
-                .build());
-
+        sysLogMapper.insertUserOprLog(new SysLog.builder().setUsername(user.getUserName()).setOperateDes("数据表4添加").setFreshVal(reportManageApplicationBroken.toString()).setAction("添加").setPreviousVal("").build());
         return manageApplicationBrokenService.insert(reportManageApplicationBroken);
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken,HttpSession session) {
+    public int update(@RequestBody ReportManageApplicationBroken reportManageApplicationBroken, HttpSession session) {
         User user = (User) userInfoService.get();
-        sysLogMapper.insertUserOprLog( new SysLog.builder()
-                .setUsername(user.getUserName())
-                .setOperateDes("数据表4修改")
-                .setFreshVal(reportManageApplicationBroken.toString())
-                .setAction("修改")
-                .setPreviousVal("")
-                .build());
+        sysLogMapper.insertUserOprLog(new SysLog.builder().setUsername(user.getUserName()).setOperateDes("数据表4修改").setFreshVal(reportManageApplicationBroken.toString()).setAction("修改").setPreviousVal("").build());
         return manageApplicationBrokenService.update(reportManageApplicationBroken);
     }
 
@@ -82,24 +68,18 @@ public class ManageApplicationBrokenController {
         return manageApplicationBrokenService.updateMalStatus(reportId);
     }
 
-    @ApiOperation(value = "人员核验错误调整",notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
+    @ApiOperation(value = "人员核验错误调整", notes = "表四故障情况记录表查派单状态修改,参数为2绑定派单，参数为4绑定已处理")
     @GetMapping("/updateModuleStatus")
-    public Map<String,Object> updateModuleStatus(Integer reportId) {
+    public Map<String, Object> updateModuleStatus(Integer reportId) {
         return manageApplicationBrokenService.updateModuleStatus(reportId);
     }
 
 
     @ApiOperation(value = "故障情况记录表删除", httpMethod = "GET", notes = "表四故障情况记录表删除")
     @GetMapping("/delete")
-    public int delete(Integer reportId,HttpSession session) {
+    public int delete(Integer reportId, HttpSession session) {
         User user = (User) userInfoService.get();
-        sysLogMapper.insertUserOprLog( new SysLog.builder()
-                .setUsername(user.getUserName())
-                .setOperateDes("数据表4删除"+reportId)
-                .setFreshVal(reportId+"")
-                .setAction("删除")
-                .setPreviousVal("")
-                .build());
+        sysLogMapper.insertUserOprLog(new SysLog.builder().setUsername(user.getUserName()).setOperateDes("数据表4删除" + reportId).setFreshVal(reportId + "").setAction("删除").setPreviousVal("").build());
         return manageApplicationBrokenService.delete(reportId);
     }
 
@@ -112,30 +92,28 @@ public class ManageApplicationBrokenController {
     @ApiOperation(value = "表四故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
     @GetMapping("/getExcel")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationId, @RequestParam List<Integer> reportIdList,Integer status) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationId, @RequestParam List<Integer> reportIdList, Integer status) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = manageApplicationBrokenService.exportSheetByTemplate(session,createTime, stationId,reportIdList,status);
+        Workbook workbook = manageApplicationBrokenService.exportSheetByTemplate(session, createTime, stationId, reportIdList, status);
         String excelName = "故障情况记录表";
-        return WorkBookUtils.download(response,workbook,excelName);
+        return WorkBookUtils.download(response, workbook, excelName);
     }
 
 
     @ApiOperation(value = "故障情况记录表EXCEL模板导出", httpMethod = "GET", notes = "表四故障情况记录表EXCEL模板导出")
     @GetMapping("/getExcelAll")
     @ResponseBody
-    public String exportExcelTest(HttpSession session,HttpServletResponse response, String createTime, String stationId,Integer status) throws UnsupportedEncodingException {
+    public String exportExcelTest(HttpSession session, HttpServletResponse response, String createTime, String stationId, Integer status) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = manageApplicationBrokenService.exportSheetByTemplate(session,createTime, stationId,status);
+        Workbook workbook = manageApplicationBrokenService.exportSheetByTemplate(session, createTime, stationId, status);
         // 判断数据
         if (workbook == null) {
             return "fail";
         }
         // 设置excel的文件名称
         String excelName = "故障情况记录表";
-        return WorkBookUtils.download(response,workbook,excelName);
+        return WorkBookUtils.download(response, workbook, excelName);
     }
-
-
 
 
 }

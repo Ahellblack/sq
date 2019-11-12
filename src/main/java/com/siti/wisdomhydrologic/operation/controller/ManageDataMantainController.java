@@ -9,6 +9,7 @@ import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
+import com.siti.wisdomhydrologic.operation.utils.WorkBookUtils;
 import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
@@ -144,112 +145,12 @@ public class ManageDataMantainController {
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String stationId, String alterType, String createTime,HttpSession session, @RequestParam List<Integer> reportIdList) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationId, alterType, createTime,session,reportIdList);
+        Workbook workbook = reportManageDataMantainService.exportSheetByTemplate(stationId, alterType, createTime,session,reportIdList);
         // 判断数据
-        if (workbook == null) {
-            return "fail";
-        }
+        if (workbook == null) {return "fail";}
         // 设置excel的文件名称
         String excelName = "系统数据修正登记表";
-        // 重置响应对象
-        response.reset();
-        // 当前日期，用于导出文件名称
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = excelName + "_" + sdf.format(new Date());
-        String DownName = URLEncoder.encode(dateStr, "UTF-8");
-        // 指定下载的文件名--设置响应头
-        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
-        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        // 写出数据输出流到页面
-        try {
-            OutputStream output = response.getOutputStream();
-            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
-            workbook.write(bufferedOutPut);
-            bufferedOutPut.flush();
-            bufferedOutPut.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "success";
-    }
-
-    /**
-     * 模版单sheet导出示例
-     *
-     * @return
-     */
-    public Workbook exportSheetByTemplate(String stationId, String alterType, String createTime,HttpSession session,@RequestParam  List<Integer> reportIdList) {
-        //默认查询本月
-        if (createTime == null) {
-            createTime = DateOrTimeTrans.Date2TimeString3(new Date());
-        }
-
-        User user = (User) userInfoService.get();
-        List<Org> orgList = userMapper.findOrg(user.getId());
-        // 查询数据,此处省略
-        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationId, alterType, createTime,orgList.get(0).getId());
-
-        /**
-         * 选择导出reportList替换全部list
-         * */
-        if (reportIdList.size() > 0) {
-            List<ReportManageDataMantainVo> reportlist = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                if (reportIdList.contains(list.get(i).getReportId())) {
-                    reportlist.add(list.get(i));
-                }
-            }
-            list = reportlist;
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            try {
-                ReportManageDataMantainVo data = list.get(i);
-                data.setReportId(i + 1);
-                if (data.getCreateTime() != null)
-                    data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
-                if (data.getAlterSensorTypeName() != null)
-                    data.setAlterSensorTypeName(data.getAlterSensorTypeName().substring(data.getAlterSensorTypeName().length() - 2, data.getAlterSensorTypeName().length()));
-                if (data.getAlterDate() != null) data.setAlterDate(data.getAlterDate().substring(8, 10) + "日");
-                int type = data.getErrorDataType();
-                data.setErrorDataTypeName(type == 1 ? "实时" : type == 2 ? "5分钟" : type == 3 ? "小时" : type == 4 ? "一天" : "空值");
-                if (data.getMissDataReRun() != null) {
-                    int miss = data.getMissDataReRun();
-                    data.setMissDataReRunName(miss == 0 ? "×" : "√");
-                }
-                if (data.getErrorDataReRun() != null) {
-                    int error = data.getErrorDataReRun();
-                    data.setErrorDataReRunName(error == 0 ? "×" : "√");
-                }
-            } catch (Exception e) {
-                System.out.println("error");
-            }
-        }
-        int count1 = 0;
-        // 设置导出配置
-        // 获取导出excel指定模版
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model2.xls");
-        System.out.println(logFilePath + "sqexcelmodel/model2.xls");
-
-        // 标题开始行
-        // params.setHeadingStartRow(0);
-        // 标题行数
-        // params.setHeadingRows(2);
-        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
-        params.setSheetName("表二");
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("list", list);
-        map.put("date", createTime);
-        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-        // 导出excel
-        return workbook;
+        return WorkBookUtils.download(response, workbook, excelName);
     }
 
 
@@ -259,100 +160,16 @@ public class ManageDataMantainController {
     @ResponseBody
     public String exportExcelTest(HttpServletResponse response, String stationId, String alterType, String createTime,HttpSession session) throws UnsupportedEncodingException {
         // 获取workbook对象
-        Workbook workbook = exportSheetByTemplate(stationId, alterType, createTime,session);
+        Workbook workbook = reportManageDataMantainService.exportSheetByTemplate(stationId, alterType, createTime,session);
         // 判断数据
-        if (workbook == null) {
-            return "fail";
-        }
+        if (workbook == null) {return "fail";}
         // 设置excel的文件名称
         String excelName = "系统数据修正登记表";
-        // 重置响应对象
-        response.reset();
-        // 当前日期，用于导出文件名称
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = excelName + "_" + sdf.format(new Date());
-        String DownName = URLEncoder.encode(dateStr, "UTF-8");
-        // 指定下载的文件名--设置响应头
-        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
-        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        // 写出数据输出流到页面
-        try {
-            OutputStream output = response.getOutputStream();
-            BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
-            workbook.write(bufferedOutPut);
-            bufferedOutPut.flush();
-            bufferedOutPut.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "success";
+        return WorkBookUtils.download(response, workbook, excelName);
     }
 
-    /**
-     * 模版单sheet导出示例
-     *
-     * @return
-     */
-    public Workbook exportSheetByTemplate(String stationId, String alterType, String createTime,HttpSession session) {
-        //默认查询本月
-        if (createTime == null) {
-            createTime = DateOrTimeTrans.Date2TimeString3(new Date());
-        }
 
-        User user = (User) userInfoService.get();
-        List<Org> orgList = userMapper.findOrg(user.getId());
-        // 查询数据,此处省略
-        List<ReportManageDataMantainVo> list = reportManageDataMantainMapper.getVoByCreateDate(stationId, alterType, createTime,orgList.get(0).getId());
 
-        for (int i = 0; i < list.size(); i++) {
-            try {
-                ReportManageDataMantainVo data = list.get(i);
-                data.setReportId(i + 1);
-                if (data.getCreateTime() != null)
-                    data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
-                if (data.getAlterSensorTypeName() != null)
-                    data.setAlterSensorTypeName(data.getAlterSensorTypeName().substring(data.getAlterSensorTypeName().length() - 2, data.getAlterSensorTypeName().length()));
-                if (data.getAlterDate() != null) data.setAlterDate(data.getAlterDate().substring(8, 10) + "日");
-                int type = data.getErrorDataType();
-                data.setErrorDataTypeName(type == 1 ? "实时" : type == 2 ? "5分钟" : type == 3 ? "小时" : type == 4 ? "一天" : "空值");
-                if (data.getMissDataReRun() != null) {
-                    int miss = data.getMissDataReRun();
-                    data.setMissDataReRunName(miss == 0 ? "×" : "√");
-                }
-                if (data.getErrorDataReRun() != null) {
-                    int error = data.getErrorDataReRun();
-                    data.setErrorDataReRunName(error == 0 ? "×" : "√");
-                }
-            } catch (Exception e) {
-                System.out.println("error");
-            }
-        }
-        int count1 = 0;
-        // 设置导出配置
-        // 获取导出excel指定模版
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model2.xls");
-        System.out.println(logFilePath + "sqexcelmodel/model2.xls");
-
-        // 标题开始行
-        // params.setHeadingStartRow(0);
-        // 标题行数
-        // params.setHeadingRows(2);
-        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
-        params.setSheetName("表二");
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("list", list);
-        map.put("date", createTime);
-        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-        // 导出excel
-        return workbook;
-    }
 
 
 }

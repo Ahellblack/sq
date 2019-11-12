@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
@@ -12,10 +14,16 @@ import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -28,12 +36,12 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     @Resource
     private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
     @Resource
-    private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
-    @Resource
     private ReportStationBrokenMapper reportStationBrokenMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
 
+    @Resource
+    private ManageMantainServiceImpl reportManageMantainService;
     @Resource
     private ConfigAbnormalErrorMapper configAbnormalErrorMapper;
 
@@ -159,7 +167,51 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     public int delete(Integer reportId) {
         return reportManageMantainMapper.deleteById(reportId);
     }
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(String date) {
+        //默认查询本月
+        if (date == null) {
+            date = DateOrTimeTrans.Date2TimeString3(new Date());
+        }
+        // 查询数据,此处省略
+        List<ReportManageMantain> list = reportManageMantainService.getAll(date);
+        List<Integer> numberList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            ReportManageMantain data = list.get(i);
+            data.setReportId(i + 1);
+            if (i % 2 == 0) {
+                numberList.add(i / 2);
+            }
+        }
+        int count1 = 0;
+        // 设置导出配置
+        // 获取导出excel指定模版
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        URL url = this.getClass().getClassLoader().getResource("");
+        String logFilePath = url.getPath();
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model1.xls");
 
+        // 标题开始行
+        // params.setHeadingStartRow(0);
+        // 标题行数
+        // params.setHeadingRows(2);
+        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        params.setSheetName("表一");
+        Map<String, Object> map = new HashMap<String, Object>();
+        numberList.forEach(data -> {
+            String number = "number" + data;
+            map.put(number, data);
+        });
+        map.put("list", list);
+        map.put("date", date);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        // 导出excel
+        return workbook;
+    }
 
     public static void setTable4Status(Map<String, String> map, ManageMantainVo vo, ReportManageMantain entity) {
         if (map.containsKey(vo.getBrokenName())) {
