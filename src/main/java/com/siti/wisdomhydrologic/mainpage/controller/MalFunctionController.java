@@ -133,7 +133,7 @@ public class MalFunctionController {
                 if (status == 4) stationMalFunction.setSendResolveNumber(stationMalFunction.getSendResolveNumber() + 1);
             }
         });
-        List<RealStationData> realStationData = realStationDataMapper.getDataList("南片");
+        List<RealStationData> realStationData = realStationDataMapper.getDataList(regionName);
         realStationData.forEach(data -> {
             if (1 == data.getStatus()) {
                 stationMalFunction.setSnormalStationNumber(stationMalFunction.getSnormalStationNumber() + 1);
