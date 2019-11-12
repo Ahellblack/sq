@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,15 +47,18 @@ public class DataEquipErrorController {
         List<ReportManageApplicationBroken> list = new ArrayList<>();
         if (date == 1) {
             String createDate = DateOrTimeTrans.Date2TimeString(new Date());
-            list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, null);
+            list = reportManageApplicationBrokenMapper
+                    .getAllDay(createDate, 1, null);
         }
         if (date == 2) {
             String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
-            list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, null);
+            list = reportManageApplicationBrokenMapper
+                    .getAllMonth(createDate, 1, null);
         }
         if (date == 3) {
             String createDate = DateOrTimeTrans.Year2String(new Date());
-            list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, null);
+            list = reportManageApplicationBrokenMapper
+                    .getAllYear(createDate, 1, null);
         }
 
         list.forEach(data -> {

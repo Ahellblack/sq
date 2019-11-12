@@ -50,8 +50,6 @@ public class HaiKangController {
         } catch (Exception e) {
             System.out.println("获取token失败");
         }
-        /*RETURNresult.setFluencyEzopen("//open.ys7.com/D24409905/1.live");
-        RETURNresult.setHighDefinitionEzopen("//open.ys7.com/D24409905/1.hd.live");*/
         try {
             String url2 = ConstantConfig.HAIKANGURL2 + "?accessToken=" + RETURNresult.getAccessToken();
             String s = HttpClientUtil.doPost(url2);
@@ -74,10 +72,6 @@ public class HaiKangController {
     public  DeviceVo getDeviceConfig() {
         try {
             DeviceVo deviceVo = deviceTemMapper.getTemperature();
-/*           String url = ConstantConfig.DEVIDURL + "?devid=" + ConstantConfig.DEVID;
-            String result = HttpClientUtil.doPost(url);
-            deviceVo = JsonUtils.parse(result, DeviceVo.class);
-            deviceVo2 = JsonUtils.parse(deviceVo.getDevice_real_status(), DeviceVo.class);*/
             return deviceVo;
         } catch (Exception e) {
             System.out.println("获取机房温湿度失败");
@@ -94,18 +88,9 @@ public class HaiKangController {
         try {
             //天气api浦东新区接口调用  城市信息为 cityid  101020600为浦东新区
             String url = "https://www.tianqiapi.com/api/?version=v6&cityid=101020600&appid=68261499&appsecret=IfTIll7V";
-            //String url = "http://114.80.231.178:18080/openDataTest/weatherAction/getWeatherInfoEx?cityName=浦东&index=1&en=1";
             String result = HttpClientUtil.doGet(url);
             vo = JsonUtils.parse(result, WeatherApiVo.class);
 
-
-            /*vo1 = JsonUtils.parse(vo.getData(), WeatherVo.class);
-            vo2 = vo1.getForcast()[0];
-            vo2.setCityName(vo1.getCityName());
-            vo2.setUpdateTime(vo1.getUpdateTime());
-            vo2.setCurrentTemp(vo1.getCurrentTemp());
-            vo2.setCurrentShidu(vo1.getCurrentShidu());
-            vo2.setCurrentWindOrient(vo1.getCurrentWindOrient());*/
         } catch (Exception e) {
             System.out.println("水情首页温湿度天气获取失败");
         }

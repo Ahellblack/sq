@@ -276,47 +276,4 @@ public class Usertrol {
     }
 
 
-    public static void backToFront(int root, Permission finalP, List<Permission> all) {
-        int next = root + 1;
-        List<Permission> child = Lists.newArrayList();
-        for (Permission one : all) {
-            if (one.getSort() != 0) {
-                String[] str = one.getPath().split(",");
-                if (str.length > root) {
-                    if (str[root].equals(finalP.getId() + "") && one.getSort() == next) {
-                        child.add(one);
-                    }
-                }
-            }
-        }
-        if (child == null || child.size() < 1) {
-            return;
-        }
-        finalP.setChild(child);
-        child.stream().forEach(e -> {
-            backToFront(next, e, all);
-        });
-    }
-
-    public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-
 }
