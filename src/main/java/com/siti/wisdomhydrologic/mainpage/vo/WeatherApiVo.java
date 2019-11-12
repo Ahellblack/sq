@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
 /**
- * Created by dell on 2019/10/25.
+ * Created by zyw on 2019/10/25.
  */
 public class WeatherApiVo {
 

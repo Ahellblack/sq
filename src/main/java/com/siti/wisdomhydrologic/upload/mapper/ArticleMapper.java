@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /**
- * Created by dell on 2019/10/31.
+ * Created by zyw on 2019/10/31.
  */
 public interface ArticleMapper {
 

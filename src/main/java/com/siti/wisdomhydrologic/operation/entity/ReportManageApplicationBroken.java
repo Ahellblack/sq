@@ -4,10 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 public class ReportManageApplicationBroken {
-    @Override
-    public String toString() {
-        return "ReportManageApplicationBroken{" + "reportId=" + reportId + ", stationId=" + stationId + ", stationName='" + stationName + '\'' + ", brokenName='" + brokenName + '\'' + ", brokenAccording='" + brokenAccording + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", brokenResponseTime='" + brokenResponseTime + '\'' + ", brokenResolveTime='" + brokenResolveTime + '\'' + ", createTime='" + createTime + '\'' + ", requestDesignatingTime='" + requestDesignatingTime + '\'' + ", resolveMethod='" + resolveMethod + '\'' + ", resolveUserId='" + resolveUserId + '\'' + ", remark='" + remark + '\'' + ", requestDesignatingStatus=" + requestDesignatingStatus + ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' + ", brokenRequestReportTime='" + brokenRequestReportTime + '\'' + ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + '}';
-    }
+
 
     @ApiModelProperty(value = "用户名", name = "reportId")
     private int reportId;
@@ -66,6 +63,58 @@ public class ReportManageApplicationBroken {
     private String description;
 
     private Integer malStatus;
+
+    private ReportManageApplicationBroken(Builder builder) {
+        setReportId(builder.reportId);
+        setStationId(builder.stationId);
+        setStationName(builder.stationName);
+        setBrokenName(builder.brokenName);
+        setBrokenAccording(builder.brokenAccording);
+        setBrokenAccordingId(builder.brokenAccordingId);
+        setBrokenResponseTime(builder.brokenResponseTime);
+        setBrokenResolveTime(builder.brokenResolveTime);
+        setCreateTime(builder.createTime);
+        setRequestDesignatingTime(builder.requestDesignatingTime);
+        setResolveMethod(builder.resolveMethod);
+        setResolveUserId(builder.resolveUserId);
+        setRemark(builder.remark);
+        setRequestDesignatingStatus(builder.requestDesignatingStatus);
+        setBrokenAskToResolveTime(builder.brokenAskToResolveTime);
+        setBrokenRequestReportTime(builder.brokenRequestReportTime);
+        setBrokenOnResolveTime(builder.brokenOnResolveTime);
+        setErrorLastestAppearTime(builder.errorLastestAppearTime);
+        setDescription(builder.description);
+        setMalStatus(builder.malStatus);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static Builder newBuilder(ReportManageApplicationBroken copy) {
+        Builder builder = new Builder();
+        builder.reportId = copy.getReportId();
+        builder.stationId = copy.getStationId();
+        builder.stationName = copy.getStationName();
+        builder.brokenName = copy.getBrokenName();
+        builder.brokenAccording = copy.getBrokenAccording();
+        builder.brokenAccordingId = copy.getBrokenAccordingId();
+        builder.brokenResponseTime = copy.getBrokenResponseTime();
+        builder.brokenResolveTime = copy.getBrokenResolveTime();
+        builder.createTime = copy.getCreateTime();
+        builder.requestDesignatingTime = copy.getRequestDesignatingTime();
+        builder.resolveMethod = copy.getResolveMethod();
+        builder.resolveUserId = copy.getResolveUserId();
+        builder.remark = copy.getRemark();
+        builder.requestDesignatingStatus = copy.getRequestDesignatingStatus();
+        builder.brokenAskToResolveTime = copy.getBrokenAskToResolveTime();
+        builder.brokenRequestReportTime = copy.getBrokenRequestReportTime();
+        builder.brokenOnResolveTime = copy.getBrokenOnResolveTime();
+        builder.errorLastestAppearTime = copy.getErrorLastestAppearTime();
+        builder.description = copy.getDescription();
+        builder.malStatus = copy.getMalStatus();
+        return builder;
+    }
 
     public Integer getMalStatus() {
         return malStatus;
@@ -224,10 +273,7 @@ public class ReportManageApplicationBroken {
         this.resolveUserId = resolveUserId;
     }
 
-    public String getResolveMethod() {
-
-        return resolveMethod;
-    }
+    public String getResolveMethod() {return resolveMethod;}
 
     public void setResolveMethod(String resolveMethod) {
         this.resolveMethod = resolveMethod;
@@ -242,4 +288,133 @@ public class ReportManageApplicationBroken {
     }
 
 
+    public static final class Builder {
+        private int reportId;
+        private int stationId;
+        private String stationName;
+        private String brokenName;
+        private String brokenAccording;
+        private String brokenAccordingId;
+        private String brokenResponseTime;
+        private String brokenResolveTime;
+        private String createTime;
+        private String requestDesignatingTime;
+        private String resolveMethod;
+        private String resolveUserId;
+        private String remark;
+        private int requestDesignatingStatus;
+        private String brokenAskToResolveTime;
+        private String brokenRequestReportTime;
+        private String brokenOnResolveTime;
+        private String errorLastestAppearTime;
+        private String description;
+        private Integer malStatus;
+
+        public Builder() {
+        }
+
+        public Builder reportId(int val) {
+            reportId = val;
+            return this;
+        }
+
+        public Builder stationId(int val) {
+            stationId = val;
+            return this;
+        }
+
+        public Builder stationName(String val) {
+            stationName = val;
+            return this;
+        }
+
+        public Builder brokenName(String val) {
+            brokenName = val;
+            return this;
+        }
+
+        public Builder brokenAccording(String val) {
+            brokenAccording = val;
+            return this;
+        }
+
+        public Builder brokenAccordingId(String val) {
+            brokenAccordingId = val;
+            return this;
+        }
+
+        public Builder brokenResponseTime(String val) {
+            brokenResponseTime = val;
+            return this;
+        }
+
+        public Builder brokenResolveTime(String val) {
+            brokenResolveTime = val;
+            return this;
+        }
+
+        public Builder createTime(String val) {
+            createTime = val;
+            return this;
+        }
+
+        public Builder requestDesignatingTime(String val) {
+            requestDesignatingTime = val;
+            return this;
+        }
+
+        public Builder resolveMethod(String val) {
+            resolveMethod = val;
+            return this;
+        }
+
+        public Builder resolveUserId(String val) {
+            resolveUserId = val;
+            return this;
+        }
+
+        public Builder remark(String val) {
+            remark = val;
+            return this;
+        }
+
+        public Builder requestDesignatingStatus(int val) {
+            requestDesignatingStatus = val;
+            return this;
+        }
+
+        public Builder brokenAskToResolveTime(String val) {
+            brokenAskToResolveTime = val;
+            return this;
+        }
+
+        public Builder brokenRequestReportTime(String val) {
+            brokenRequestReportTime = val;
+            return this;
+        }
+
+        public Builder brokenOnResolveTime(String val) {
+            brokenOnResolveTime = val;
+            return this;
+        }
+
+        public Builder errorLastestAppearTime(String val) {
+            errorLastestAppearTime = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public Builder malStatus(Integer val) {
+            malStatus = val;
+            return this;
+        }
+
+        public ReportManageApplicationBroken build() {
+            return new ReportManageApplicationBroken(this);
+        }
+    }
 }

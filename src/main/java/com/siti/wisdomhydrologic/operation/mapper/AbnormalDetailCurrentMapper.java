@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 /**
- * Created by dell on 2019/10/24.
+ * Created by zyw on 2019/10/24.
  */
 public interface AbnormalDetailCurrentMapper {
 
@@ -21,7 +21,6 @@ public interface AbnormalDetailCurrentMapper {
             "on adc.data_error = cad.broken_according_id " +
             "where table4_display_status = 0")
     List<AbnormalDetailCurrent> get4Lastest();
-
 
     @Update("<script>update abnormal_detail_current set table2_display_status = 1 " +
             "where id in " +

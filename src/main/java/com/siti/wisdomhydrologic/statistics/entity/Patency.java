@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.statistics.entity;
 
 /**
- * Created by dell on 2019/9/20.
+ * Created by zyw on 2019/9/20.
  */
 public class Patency {
 

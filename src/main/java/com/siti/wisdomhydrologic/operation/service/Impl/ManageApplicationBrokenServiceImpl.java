@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
@@ -26,12 +28,19 @@ import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import com.siti.wisdomhydrologic.util.PushMsg;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,7 +48,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 @Service
 public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrokenService {
@@ -61,7 +70,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     AbnormalDetailCurrentMapper abnormalDetailCurrentMapper;
 
     @Resource
-    private SysLogMapper sysLogMapper;
+    ManageApplicationBrokenMapper manageApplicationBrokenMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(ManageApplicationBrokenServiceImpl.class);
 
@@ -103,25 +112,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         entity.setBrokenAccordingId(according.getBrokenAccordingId());
         entity.setRequestDesignatingStatus(1);
         entity.setErrorLastestAppearTime(entity.getCreateTime());
-       /* Calendar calendar = Calendar.getInstance();
-        List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
-        try {
-            riverStationList.forEach(river -> {
-                if (entity.getStationId() == river.getStationId()) {
-                    calendar.setTime(DateTransform.String2Date(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
-                    if (river.getStationLevel() == 2) {
-                        //一般站往后3小时内
-                        calendar.add(calendar.HOUR, 3);
-                    } else {
-                        //基本站往后1小时内
-                        calendar.add(calendar.HOUR, 1);
-                    }
-                    entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
-                }
-            });
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }*/
         try {
             reportManageApplicationBrokenMapper.insert(entity);
         } catch (Exception e) {
@@ -136,25 +126,7 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         entity.setBrokenAccordingId(according.getBrokenAccordingId());
         entity.setRequestDesignatingStatus(1);
         entity.setErrorLastestAppearTime(entity.getCreateTime());
-        Calendar calendar = Calendar.getInstance();
-        //List<ConfigRiverStation> riverStationList = configRiverStationMapper.getAllstation();
-        /*try {
-            riverStationList.forEach(river -> {
-                if (entity.getStationId() == river.getStationId()) {
-                    calendar.setTime(DateTransform.String2Date(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
-                    if (river.getStationLevel() == 2) {
-                        //一般站往后3小时内
-                        calendar.add(calendar.HOUR, 3);
-                    } else {
-                        //基本站往后1小时内
-                        calendar.add(calendar.HOUR, 1);
-                    }
-                    entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
-                }
-            });
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }*/
+
         try {
             reportManageApplicationBrokenMapper.update(entity);
         } catch (Exception e) {
@@ -281,48 +253,38 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Override
     public int insertDataMantain() {
         List<ModuleAndStation> moduleList = configSensorSectionModuleMapper.getStationAndModule();
-
         //根据异常表表四展示状态字段 获取数据
         //获取到的数据状态更新为1
-       /* List<ReportManageDataMantainVo> all = abnormalDetailMapper.getALLTable4Data();
-*/
         List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();
         List<ReportManageApplicationBroken> brokenList = new ArrayList();
-        List<Integer> idList = new ArrayList<>();
-
-        lastest.forEach(data -> {
-            idList.add(data.getId());
-        });
+        List<Integer> idList = lastest.stream()
+                .map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
         if (lastest.size() > 0) {
             //新建拷贝筛选队列
             List<ReportManageApplicationBroken> histroyList = reportManageApplicationBrokenMapper.getById(idList);
             if (histroyList.size() > 0) {
-
-                histroyList.forEach(data -> {
-                    lastest.forEach(lasttime -> {
-                        if (data.getReportId() == lasttime.getId()) {
-                            reportManageApplicationBrokenMapper.updateTime(data.getReportId(), lasttime.getLastDate());
-                            abnormalDetailCurrentMapper.update4Status(lasttime.getId());
-                            //System.out.println("表四数据错误时间更替" + lasttime.getLastDate());
-                        }
-                    });
-                });
+                histroyList.forEach(data -> lastest.forEach(lasttime -> {
+                    if (data.getReportId() == lasttime.getId()) {
+                        reportManageApplicationBrokenMapper.updateTime(data.getReportId(), lasttime.getLastDate());
+                        abnormalDetailCurrentMapper.update4Status(lasttime.getId());
+                    }
+                }));
             }
             List<AbnormalDetailCurrent> newlastest = abnormalDetailCurrentMapper.get4Lastest();
             if (newlastest.size() > 0) {
-                List<Integer> idList2 = new ArrayList<>();
+                List<Integer> idList2 = newlastest.stream()
+                        .map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
                 newlastest.forEach(data -> {
-                    idList2.add(data.getId());
-                });
-                newlastest.forEach(data -> {
-                    ReportManageApplicationBroken entity = new ReportManageApplicationBroken();
-                    entity.setReportId(data.getId());
-                    entity.setBrokenAccordingId(data.getBrokenAccordingId());
-                    entity.setBrokenAccording(data.getBrokenAccording());
-                    entity.setDescription(data.getDescription());
-                    entity.setCreateTime(data.getDate());
-                    entity.setBrokenName(data.getErrorName());
-                    entity.setErrorLastestAppearTime(data.getLastDate());
+                    ReportManageApplicationBroken entity =
+                            new ReportManageApplicationBroken.Builder()
+                                    .reportId(data.getId())
+                                    .brokenAccordingId(data.getBrokenAccordingId())
+                                    .brokenAccording(data.getBrokenAccording())
+                                    .description(data.getDescription())
+                                    .createTime(data.getDate())
+                                    .brokenName(data.getErrorName())
+                                    .errorLastestAppearTime(data.getLastDate()).build();
+
                     moduleList.forEach(module -> {
                         Calendar calendar = Calendar.getInstance();
                         if (data.getSensorCode() == module.getSectionCode()) {
@@ -389,150 +351,117 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
         return new SimpleDateFormat(dateFormat).format(new Date(needTime));
     }
 
- /* outer:
-            for (int i = 0; i < ALLLIST.size(); i++) {
-                String Iaid = ALLLIST.get(i).getDataError();
-                Integer Isid = ALLLIST.get(i).getSensorCode();
-                Date Idate = DateTransform.String2Date(ALLLIST.get(i).getDate(), "yyyy-MM-dd HH:mm:ss");
-                for (int j = i + 1; j < ALLLIST.size(); j++) {
-                    String Jaid = ALLLIST.get(j).getDataError();
-                    Integer Jsid = ALLLIST.get(j).getSensorCode();
-                    Date Jdate = DateTransform.String2Date(ALLLIST.get(j).getDate(), "yyyy-MM-dd HH:mm:ss");
-                    //同一测站同一异常时,判断
-                    if (Iaid.equals(Jaid) && Isid.equals(Jsid)) {
-                        //如果第i个的时间在第j个之后，替换时间
-                        if (Idate.after(Jdate)) {
-                            //如果时间差超过24小时，不删除数据
-                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(j);
-                                i--;
-                                continue outer;
-                            }
-                        } else {
-                            //如果时间差超过24小时，不删除数据
-                            if (Math.abs(Idate.getTime() - Jdate.getTime()) <= ((1000 * 60 * 60) * 24)) {
-                                ALLLIST.remove(i);
-                                i--;
-                                continue outer;
-                            }
-                        }
-                    }
+
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId, Integer status) {
+        if(createTime == null){
+            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        }
+        User user = (User) userInfoService.get();
+        List<Org> orgList = userMapper.findOrg(user.getId());
+
+        // 查询数据,此处省略
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
+
+        for (int i = 0; i < list.size(); i++) {
+            ReportManageApplicationBroken data = list.get(i);
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResponseTime() != null)
+                data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8, 10) + "日" + data.getBrokenResponseTime().substring(11, 13) + "时");
+            if (data.getBrokenAskToResolveTime() != null)
+                data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(8, 10) + "日" + data.getBrokenAskToResolveTime().substring(11, 13) + "时");
+            if (data.getBrokenrRequestReportTime() != null)
+                data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(8, 10) + "日" + data.getBrokenrRequestReportTime().substring(11, 13) + "时");
+        }
+        int count1 = 0;
+        // 设置导出配置
+        // 获取导出excel指定模版
+        URL url = this.getClass().getClassLoader().getResource("");
+        String logFilePath = url.getPath();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model4.xls");
+        File f = new File(this.getClass().getResource("/").getPath());
+        // 标题开始行
+        // params.setHeadingStartRow(0);
+        // 标题行数
+        // params.setHeadingRows(2);
+        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        params.setSheetName("表四");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        map.put("date", createTime);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        // 导出excel
+        return workbook;
+    }
+
+    /**
+     * 模版单sheet导出示例
+     *
+     * @return
+     */
+    public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId, @RequestParam List<Integer> reportIdList, Integer status) {
+        if(createTime == null){
+            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        }
+        User user = (User) userInfoService.get();
+        List<Org> orgList = userMapper.findOrg(user.getId());
+
+        // 查询数据,此处省略
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
+        /**
+         * 选择导出reportList替换全部list
+         * */
+        if (reportIdList.size() > 0) {
+            List<ReportManageApplicationBroken> reportlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (reportIdList.contains(list.get(i).getReportId())) {
+                    reportlist.add(list.get(i));
                 }
             }
-        }*/
-    //获取异常配置参数
-        /*if (ALLLIST.size() > 0) {
-            ALLLIST.forEach(data -> {
-                *//**
-     * 查询上次24小时内的数据表中是否包含这次测站的这个异常
-     * *//*
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                cal.add(cal.HOUR, -24);
-                String last24HourTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                List<AbnormalDetailEntity> latestData = abnormalDetailMapper.getLatestData(last24HourTime, data.getSensorCode(), data.getBrokenAccordingId());
-                *//**
-     * 查询数据表四,是否有数据的最后一次出现时间 = 异常表上个24小时的时间,
-     * 若有，更新最后一次生成时间
-     * *//*
-                if (latestData.size() > 0) {
-                    try {
-                        Integer stationId = (latestData.get(0).getSensorCode() / 100);
-                        String accordingId = latestData.get(0).getDataError();
-                        List<ReportManageApplicationBroken> lastData = reportManageApplicationBrokenMapper.getLastestData(stationId, accordingId, last24HourTime);
-                        if (lastData.size() > 0) {
-                            lastData.forEach(lastdata -> {
-                                Date dateOld = DateTransform.String2Date(lastdata.getErrorLastestAppearTime(), "yyyy-MM-dd HH:mm:ss");
-                                Date dateNew = DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss");
-                                if (dateOld.after(dateNew)) {
-                                    //修改最后出现时间
-                                    data.setErrorLastestAppearTime(lastdata.getErrorLastestAppearTime());
-                                } else {
-                                    data.setErrorLastestAppearTime(data.getDate());
-                                }
-                                reportManageApplicationBrokenMapper.updateTime(lastdata, data.getErrorLastestAppearTime());
-                            });
-                        } else {
-                            Calendar calendar = Calendar.getInstance();
-                            ReportManageApplicationBroken applicationBroken = new ReportManageApplicationBroken();
-                            //异常包含设备异常或数据异常的一种
-                            if (data.getDataError() != null) {
-                                applicationBroken.setBrokenAccordingId(data.getDataError());
-                                applicationBroken.setDescription(data.getDescription());
-                            }
-                            if (applicationBroken.getBrokenAccordingId() != null) {
-                                //结合module表添加测站参数
-                                moduleList.forEach(module -> {
-                                    if (module.getSectionCode() == data.getSectionCode()) {
-                                        applicationBroken.setStationId(module.getStationCode());
-                                        applicationBroken.setStationName(module.getStationName());
-                                    }
-                                });
-                                //给表四数据赋值各类自动时间
-                                try {
-                                    riverStationList.forEach(river -> {
-                                        if (data.getStationCode() == river.getStationId()) {
-                                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-
-                                            if (river.getStationLevel() == 2) {
-                                                //一般站往后3小时内
-                                                calendar.add(calendar.HOUR, 3);
-                                            } else {
-                                                //基本站往后1小时内
-                                                calendar.add(calendar.HOUR, 1);
-                                            }
-                                            applicationBroken.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                    logger.error(e.getMessage());
-                                }
-
-                                list.forEach(e -> {
-                                    //根据字典赋值故障判断依据和故障名称
-                                    if (e.getBrokenAccordingId().equals(applicationBroken.getBrokenAccordingId())) {
-                                        applicationBroken.setBrokenAccording(e.getBrokenAccording());
-                                        applicationBroken.setBrokenName(e.getErrorName());
-                                    }
-                                });
-                                applicationBroken.setCreateTime(data.getDate());
-                                applicationBroken.setErrorLastestAppearTime(data.getDate());
-                                brokenList.add(applicationBroken);
-                            }
-                        }
-                    } catch (Exception e) {
-                        logger.error(e.getMessage());
-                    }
-                }
-                *//**
-     * 修改已被展示的异常表数据 状态
-     * *//*r
-                idList.add(data.getId());
-            });
-            abnomalDetailMapper.updateTable4Status(idList);
-*/
-
-
-     /*public void updateUnpackStatus() {
-        //获取5分钟内的开关门动态
-        List<RealDeviceStatus> devList  = reportManageApplicationBrokenMapper.getRealDeviceStatus();
-
-        if(devList.size()>0){
-            List<ReportManageApplicationBroken> notResolveList = reportManageApplicationBrokenMapper.getNotResolve();
-            devList.forEach(data->{
-                for (ReportManageApplicationBroken broken : notResolveList) {
-                    if(broken.getStationId()+"" == data.getStationId()
-                            || broken.getBrokenOnResolveTime() == null ){
-                        broken.setBrokenOnResolveTime(data.getLastUploadTime());
-                        broken.setRequestDesignatingStatus(3);
-                        if (broken.getRequestDesignatingTime() == null) {
-                            broken.setRequestDesignatingTime(data.getLastUploadTime());
-                        }
-                        //无维护时间修改
-                        reportManageApplicationBrokenMapper.updateStatus(broken);
-                    }
-                }});}
-    }*/
+            list = reportlist;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            ReportManageApplicationBroken data = list.get(i);
+            data.setReportId(i + 1);
+            if (data.getCreateTime() != null)
+                data.setCreateTime(data.getCreateTime().substring(8, 10) + "日" + data.getCreateTime().substring(11, 13) + "时");
+            if (data.getBrokenResponseTime() != null)
+                data.setBrokenResponseTime(data.getBrokenResponseTime().substring(8, 10) + "日" + data.getBrokenResponseTime().substring(11, 13) + "时");
+            if (data.getBrokenAskToResolveTime() != null)
+                data.setBrokenAskToResolveTime(data.getBrokenAskToResolveTime().substring(8, 10) + "日" + data.getBrokenAskToResolveTime().substring(11, 13) + "时");
+            if (data.getBrokenrRequestReportTime() != null)
+                data.setBrokenrRequestReportTime(data.getBrokenrRequestReportTime().substring(8, 10) + "日" + data.getBrokenrRequestReportTime().substring(11, 13) + "时");
+        }
+        int count1 = 0;
+        // 设置导出配置
+        // 获取导出excel指定模版
+        URL url = this.getClass().getClassLoader().getResource("");
+        String logFilePath = url.getPath();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
+        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model4.xls");
+        File f = new File(this.getClass().getResource("/").getPath());
+        // 标题开始行
+        // params.setHeadingStartRow(0);
+        // 标题行数
+        // params.setHeadingRows(2);
+        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        params.setSheetName("表四");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        map.put("date", createTime);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        // 导出excel
+        return workbook;
+    }
 
 }
 

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * Created by dell on 2019/9/20.
+ * Created by zyw on 2019/9/20.
  */
 @RequestMapping("/patency")
 @RestController

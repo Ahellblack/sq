@@ -3,7 +3,7 @@ package com.siti.wisdomhydrologic.configmaintain.entity;
 import java.util.Date;
 
 /**
- * Created by dell on 2019/10/24.
+ * Created by zyw on 2019/10/24.
  */
 public class ModuleAndStation {
     private int sectionCode;

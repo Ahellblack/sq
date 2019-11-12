@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by dell on 2019/7/16.
+ * Created by zyw on 2019/7/16.
  */
 public class TSDBVo implements Serializable {
 

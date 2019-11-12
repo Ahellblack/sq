@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Created by dell on 2019/9/3.
+ * Created by zyw on 2019/9/3.
  */
 
 @ApiModel(value="首页派单轮播图",description="首页派单轮播图")

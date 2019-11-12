@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * Created by dell on 2019/10/16.
+ * Created by zyw on 2019/10/16.
  */
 public interface StatisticsTideMapper {
 

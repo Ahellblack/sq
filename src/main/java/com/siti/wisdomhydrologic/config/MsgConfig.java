@@ -3,7 +3,7 @@ package com.siti.wisdomhydrologic.config;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by dell on 2019/9/10.
+ * Created by zyw on 2019/9/10.
  */
 @Configuration
 public class MsgConfig {

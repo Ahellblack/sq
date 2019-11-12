@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.entity;
 
 /**
- * Created by dell on 2019/8/22.
+ * Created by zyw on 2019/8/22.
  */
 public class HaiKangResult {
 

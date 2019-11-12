@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by dell on 2019/7/10.
+ * Created by zyw on 2019/7/10.
  */
 public class HourVo implements Serializable {
     private int senId;

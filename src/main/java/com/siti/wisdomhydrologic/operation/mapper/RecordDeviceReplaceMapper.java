@@ -12,7 +12,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/8/23.
+ * Created by zyw on 2019/8/23.
  */
 public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
 
@@ -24,15 +24,6 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "</script>")
     List<RecordDeviceReplaceVo> getAll(@Param("stationId") String stationId, @Param("createDate")String createDate);
 
-    @Select("<script>" +
-            "select * from record_device_replace " +
-            "where to_days(sensor_data_upload_time) = to_days(now())  " +
-            "<if test=\"stationId!=null  and stationId!=''\"> and station_code = #{stationId}  </if>" +
-            "order by create_time desc" +
-            "</script>")
-    List<RecordDeviceReplaceVo> getToday(@Param("stationId") String stationId);
-
-
     @Delete("delete from record_device_replace where report_id = #{reportId}")
     int deleteData(@Param("reportId") Integer reportId);
 
@@ -42,19 +33,6 @@ public interface RecordDeviceReplaceMapper  extends Mapper<RecordDeviceReplace>{
             "where report_id = #{RecordDeviceReplace.reportId}")
     int updateData( @Param("RecordDeviceReplace")RecordDeviceReplace entity);
 
-/*    @Select("<script>" +
-            "select * from record_device_replace rdr  right join config_sensor_database csd  " +
-            "on rdr.origin_device_code = csd.property_code " +
-            "left join config_river_station crs " +
-            "on rdr.station_code = crs.station_id  " +
-            "where origin_org_name is not null " +
-            "and SUBSTR(replace_date,1,4) = #{year} "  +
-            "and SUBSTR(replace_date,6,2) in " +
-            "(<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)"+
-            "<if test=\"regionId!=null\">and crs.region_id = #{regionId} </if></script>")
-     List<RecordDeviceReplaceVo> getDeviceReplace(@Param("regionId") Integer regionId,
-                                                  @Param("year")Integer year,
-                                                  @Param("list")List<String> list);*/
     /**
      * 当月备品替换次数
      * */

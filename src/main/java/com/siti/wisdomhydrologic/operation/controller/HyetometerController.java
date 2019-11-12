@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by dell on 2019/7/26.
+ * Created by zyw on 2019/7/26.
  */
 @RequestMapping("/hyetometer")
 @RestController
@@ -37,16 +37,12 @@ public class HyetometerController {
 
     @Resource
     private HyetometerServiceImpl reportHyetometerService;
-
     @Resource
     private UserInfoService userInfoService;
-
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private HyetometerMapper reportHyetometerMapper;
-
     @Resource
     private SysLogMapper sysLogMapper;
 

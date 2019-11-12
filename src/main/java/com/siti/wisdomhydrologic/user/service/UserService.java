@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- * Created by dell on 2019/10/11.
+ * Created by zyw on 2019/10/11.
  */
 @Component
 public class UserService implements UserDetailsService{

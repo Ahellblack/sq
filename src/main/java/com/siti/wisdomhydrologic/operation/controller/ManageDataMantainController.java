@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by dell on 2019/7/30.
+ * Created by zyw on 2019/7/30.
  */
 @RequestMapping("/manageDataMantain")
 @RestController
@@ -139,19 +139,6 @@ public class ManageDataMantainController {
         return reportManageDataMantainService.insertAbnormalData();
     }
 
-    /*
-
-        @ApiOperation(value = "表二删除", httpMethod = "GET", notes = "表二删除")
-        @PostMapping("/getSelect")
-        public Map<Integer, String> getSelect() {
-            List<ConfigSensorSectionModule> station = dayDataMapper.getStation();
-            Map<Integer, String> map = new HashMap<>();
-            station.forEach(s -> {
-                map.put(s.getStationCode(), s.getSectionName());
-            });
-            return map;
-        }
-    */
     @ApiOperation(value = "表二模板导出", httpMethod = "GET", notes = "表二模板导出")
     @GetMapping("/getExcel")
     @ResponseBody

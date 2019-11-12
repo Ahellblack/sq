@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.operation.vo;
 
 /**
- * Created by dell on 2019/10/22.
+ * Created by zyw on 2019/10/22.
  */
 public class RealDeviceStatus {
 

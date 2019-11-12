@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * Created by dell on 2019/9/20.
+ * Created by zyw on 2019/9/20.
  */
 public interface PatencyMapper {
 

@@ -9,7 +9,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/8/15.
+ * Created by zyw on 2019/8/15.
  */
 public interface ConfigSensorSectionModuleMapper extends Mapper<ConfigSensorSectionModule> {
 

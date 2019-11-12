@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Created by dell on 2019/10/23.
+ * Created by zyw on 2019/10/23.
  */
 public class RateUtils {
 

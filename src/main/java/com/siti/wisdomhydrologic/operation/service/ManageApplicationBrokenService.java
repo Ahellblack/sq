@@ -6,7 +6,7 @@ import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 public interface ManageApplicationBrokenService {
     PageInfo<ReportManageApplicationBroken> getAll(HttpSession session,int page, int pageSize, String createDate, String stationName,Integer status);

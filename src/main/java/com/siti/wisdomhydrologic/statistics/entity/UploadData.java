@@ -2,7 +2,7 @@ package com.siti.wisdomhydrologic.statistics.entity;
 
 
 /**
- * Created by dell on 2019/11/7.
+ * Created by zyw on 2019/11/7.
  */
 public class UploadData {
      private Integer dataType;

@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by dell on 2019/8/23.
+ * Created by zyw on 2019/8/23.
  * 表8
  */
 @RequestMapping("/recordDevice")
@@ -123,28 +123,24 @@ public class RecordDeviceReplaceController {
         }
         configSensorDatabaseMapper.update(newDatabase);
         //为设备更替记录赋值
-        RecordDeviceReplace entity = new RecordDeviceReplace();
-        entity.setReplaceDate(vo.getReplaceDate());
-        entity.setCreateBy(vo.getCreateBy());
-        entity.setCreateTime(vo.getCreateTime());
-        entity.setReplaceReason(vo.getReplaceReason());
+        RecordDeviceReplace entity = new RecordDeviceReplace.Builder()
+                .replaceDate(vo.getReplaceDate())
+                .createBy(vo.getCreateBy())
+                .replaceReason(vo.getReplaceReason())
+                //根据旧资产表赋值
+                .stationCode(oldDatabase.getManageOrgId()+"")
+                .stationName(oldDatabase.getManageOrgName())
+                .originDeviceCode(oldDatabase.getPropertyCode())
+                .originDeviceName(oldDatabase.getSensorTypeName())
+                .originDeviceTypeCode(oldDatabase.getSensorModelType())
+                .originOrgName(oldDatabase.getSubordinateCompany())
+                //根据替换资产赋值
+                .newDeviceCode(newDatabase.getPropertyCode())
+                .newDeviceName(newDatabase.getSensorTypeName())
+                .newDeviceTypeCode(newDatabase.getSensorModelType())
+                .newOrgName(newDatabase.getSubordinateCompany())
+                .createTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss")).build();
 
-        //根据旧资产表赋值
-        entity.setStationCode(oldDatabase.getManageOrgId()+"");
-        entity.setStationName(oldDatabase.getManageOrgName());
-        entity.setOriginDeviceCode(oldDatabase.getPropertyCode());
-        entity.setOriginDeviceName(oldDatabase.getSensorTypeName());
-        entity.setOriginDeviceTypeCode(oldDatabase.getSensorModelType());
-        entity.setOriginOrgName(oldDatabase.getSubordinateCompany());
-
-        //根据替换资产赋值
-        entity.setNewDeviceCode(newDatabase.getPropertyCode());
-        entity.setNewDeviceName(newDatabase.getSensorTypeName());
-        entity.setNewDeviceTypeCode(newDatabase.getSensorModelType());
-        entity.setNewOrgName(newDatabase.getSubordinateCompany());
-
-
-        entity.setCreateTime(DateTransform.Date2String(new Date(),"yyyy-MM-dd HH:mm:ss"));
         //修改设备记录在资产表
         try {
             User user = (User) userInfoService.get();

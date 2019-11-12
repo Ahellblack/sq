@@ -3,7 +3,7 @@ package com.siti.wisdomhydrologic.user.vo;
 import javax.persistence.Id;
 
 /**
- * Created by dell on 2019/11/6.
+ * Created by zyw on 2019/11/6.
  */
 public class UserVo {
 

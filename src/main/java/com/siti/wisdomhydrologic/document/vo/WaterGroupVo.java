@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.document.vo;
 
 /**
- * Created by dell on 2019/10/16.
+ * Created by zyw on 2019/10/16.
  */
 public class WaterGroupVo {
 

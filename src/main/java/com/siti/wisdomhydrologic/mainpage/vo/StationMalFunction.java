@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
 /**
- * Created by dell on 2019/8/21.
+ * Created by zyw on 2019/8/21.
  */
 public class StationMalFunction {
 //北站

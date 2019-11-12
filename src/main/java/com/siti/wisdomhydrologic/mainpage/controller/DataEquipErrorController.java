@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.mainpage.vo.DataEquipErrorVo;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
-import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
@@ -13,15 +12,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Created by dell on 2019/8/23.
+ * Created by zyw on 2019/8/23.
  */
 @RequestMapping("/dataEquip")
 @RestController
@@ -57,6 +56,7 @@ public class DataEquipErrorController {
             String createDate = DateOrTimeTrans.Year2String(new Date());
             list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, null);
         }
+
         list.forEach(data -> {
             if (data.getBrokenAccordingId() != null) {
                 String[] splitStr = data.getBrokenAccordingId().split("_");

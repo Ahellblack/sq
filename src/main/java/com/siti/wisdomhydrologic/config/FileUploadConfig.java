@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Created by dell on 2019/11/1.
+ * Created by zyw on 2019/11/1.
  */
 @Configuration
 public class FileUploadConfig extends WebMvcConfigurerAdapter {

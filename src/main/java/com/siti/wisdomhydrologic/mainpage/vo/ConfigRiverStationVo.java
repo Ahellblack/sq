@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Date;
 
 /**
- * Created by dell on 2019/8/20.
+ * Created by zyw on 2019/8/20.
  */
 public class ConfigRiverStationVo {
 

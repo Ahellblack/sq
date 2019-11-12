@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by dell on 2019/10/12.
+ * Created by zyw on 2019/10/12.
  */
 @Component
 public interface WarningAbnormalConfigMapper {

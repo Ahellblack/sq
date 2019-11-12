@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * Created by dell on 2019/8/7.
+ * Created by zyw on 2019/8/7.
  */
 @RestController
 @RequestMapping("/haikang")

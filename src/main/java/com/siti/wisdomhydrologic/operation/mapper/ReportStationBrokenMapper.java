@@ -7,7 +7,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 public interface ReportStationBrokenMapper extends Mapper<ReportStationBroken>{
     @Delete("delete from report_manage_application_broken where report_id = #{reportId}")

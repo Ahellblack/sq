@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 /**
- * Created by dell on 2019/8/1.
+ * Created by zyw on 2019/8/1.
  */
 @Service
 public class StationRainConstrastServiceImpl implements StationRainConstrastService {
@@ -31,27 +31,6 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     private ConfigRiverStationMapper configRiverStationMapper;
 
     Logger logger = LoggerFactory.getLogger(ReportStationRainConstrast.class);
-
-
-    @Override
-    public List<ReportStationRainConstrastVo> getAutoByMonth(Date date) {
-        return stationRainConstrastMapper.getAutoByMonth(date);
-    }
-
-    @Override
-    public List<ReportStationRainConstrastVo> getBaseByMonth(Date date) {
-        return stationRainConstrastMapper.getBaseByMonth(date);
-    }
-
-    @Override
-    public List<ReportStationRainConstrastVo> getDiffByMonth(Date date) {
-        return stationRainConstrastMapper.getDiffByMonth(date);
-    }
-
-    @Override
-    public List<ReportStationRainConstrast> getAll(Date date) {
-        return null;
-    }
 
     public List<ReportStationRainConstrastVo> getExcel(String date) {
         if (date == null) {
@@ -113,10 +92,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
         DecimalFormat df = new DecimalFormat("0.0");
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
-
         ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationName(), vo.getDataYearMonth());
-        // station.setDay1Diff((Double.parseDouble(station.getDay1Auto()) - Double.parseDouble(vo.getDay1Base())) + "");
-
         ReportStationRainConstrast stationdata = stationRainConstrastMapper.getData(vo.getStationName(), vo.getDataYearMonth());
 
         /**
@@ -200,12 +176,13 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         }
     }
 
-    public void insertOrUpdateData() throws Exception {
-        Date today = new Date();
+    public void insertOrUpdateData(String today) throws Exception {
+        if(today==null){
+            today = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        }
         Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
+        cal.setTime(DateTransform.String2Date(today,"yyyy-MM-dd"));
         List<Integer> idList = StationIdUtils.getTable7StationList();
-
         //每个测站id对应的day数据获取
         idList.forEach(data -> {
             Calendar calendar = Calendar.getInstance();
@@ -283,28 +260,6 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         });
     }
 
-   /* public static void main(String[] args) {
-        Date today = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
-        ReportStationRainConstrast entity = new ReportStationRainConstrast();
-
-        if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
-            //月初赋值
-            entity.setTotal("0,0,0");
-            for (int i = 1; i <= 31; i++) {
-                try {
-                    Method method = entity.getClass().getMethod("setDay" + i, String.class);
-                    method.invoke(entity, "0,0,0");
-
-                    System.out.println(entity);
-                } catch (Exception e) {
-                    System.out.println("月初表7数据自动添加出错");
-                }
-            }
-        }
-    }*/
 }
 
 

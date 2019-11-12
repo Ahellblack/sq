@@ -48,6 +48,28 @@ public class RecordDeviceReplace {
     @ApiModelProperty(value = "原设备名称")
     private String originDeviceName;
 
+    private RecordDeviceReplace(Builder builder) {
+        setReportId(builder.reportId);
+        setStationCode(builder.stationCode);
+        setStationName(builder.stationName);
+        setManageOrgId(builder.manageOrgId);
+        setManageOrgName(builder.manageOrgName);
+        setReplaceDate(builder.replaceDate);
+        setOriginDeviceTypeCode(builder.originDeviceTypeCode);
+        setOriginDeviceCode(builder.originDeviceCode);
+        setOriginOrgId(builder.originOrgId);
+        setOriginOrgName(builder.originOrgName);
+        setNewDeviceTypeCode(builder.newDeviceTypeCode);
+        setNewDeviceCode(builder.newDeviceCode);
+        setNewOrgId(builder.newOrgId);
+        setNewOrgName(builder.newOrgName);
+        setReplaceReason(builder.replaceReason);
+        setCreateBy(builder.createBy);
+        setCreateTime(builder.createTime);
+        setUpdateBy(builder.updateBy);
+        setNewDeviceName(builder.newDeviceName);
+        setOriginDeviceName(builder.originDeviceName);
+    }
 
 
     public String getNewDeviceName() {
@@ -229,5 +251,136 @@ public class RecordDeviceReplace {
     @Override
     public String toString() {
         return "RecordDeviceReplace{" + "reportId=" + reportId + ", stationCode='" + stationCode + '\'' + ", stationName='" + stationName + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", replaceDate='" + replaceDate + '\'' + ", originDeviceTypeCode='" + originDeviceTypeCode + '\'' + ", originDeviceCode='" + originDeviceCode + '\'' + ", originOrgId=" + originOrgId + ", originOrgName='" + originOrgName + '\'' + ", newDeviceTypeCode='" + newDeviceTypeCode + '\'' + ", newDeviceCode='" + newDeviceCode + '\'' + ", newOrgId=" + newOrgId + ", newOrgName='" + newOrgName + '\'' + ", replaceReason='" + replaceReason + '\'' + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + ", updateBy=" + updateBy + ", newDeviceName='" + newDeviceName + '\'' + ", originDeviceName='" + originDeviceName + '\'' + '}';
+    }
+
+
+    public static final class Builder {
+        private int reportId;
+        private String stationCode;
+        private String stationName;
+        private int manageOrgId;
+        private String manageOrgName;
+        private String replaceDate;
+        private String originDeviceTypeCode;
+        private String originDeviceCode;
+        private int originOrgId;
+        private String originOrgName;
+        private String newDeviceTypeCode;
+        private String newDeviceCode;
+        private int newOrgId;
+        private String newOrgName;
+        private String replaceReason;
+        private String createBy;
+        private String createTime;
+        private int updateBy;
+        private String newDeviceName;
+        private String originDeviceName;
+
+        public Builder() {
+        }
+
+        public Builder reportId(int val) {
+            reportId = val;
+            return this;
+        }
+
+        public Builder stationCode(String val) {
+            stationCode = val;
+            return this;
+        }
+
+        public Builder stationName(String val) {
+            stationName = val;
+            return this;
+        }
+
+        public Builder manageOrgId(int val) {
+            manageOrgId = val;
+            return this;
+        }
+
+        public Builder manageOrgName(String val) {
+            manageOrgName = val;
+            return this;
+        }
+
+        public Builder replaceDate(String val) {
+            replaceDate = val;
+            return this;
+        }
+
+        public Builder originDeviceTypeCode(String val) {
+            originDeviceTypeCode = val;
+            return this;
+        }
+
+        public Builder originDeviceCode(String val) {
+            originDeviceCode = val;
+            return this;
+        }
+
+        public Builder originOrgId(int val) {
+            originOrgId = val;
+            return this;
+        }
+
+        public Builder originOrgName(String val) {
+            originOrgName = val;
+            return this;
+        }
+
+        public Builder newDeviceTypeCode(String val) {
+            newDeviceTypeCode = val;
+            return this;
+        }
+
+        public Builder newDeviceCode(String val) {
+            newDeviceCode = val;
+            return this;
+        }
+
+        public Builder newOrgId(int val) {
+            newOrgId = val;
+            return this;
+        }
+
+        public Builder newOrgName(String val) {
+            newOrgName = val;
+            return this;
+        }
+
+        public Builder replaceReason(String val) {
+            replaceReason = val;
+            return this;
+        }
+
+        public Builder createBy(String val) {
+            createBy = val;
+            return this;
+        }
+
+        public Builder createTime(String val) {
+            createTime = val;
+            return this;
+        }
+
+        public Builder updateBy(int val) {
+            updateBy = val;
+            return this;
+        }
+
+        public Builder newDeviceName(String val) {
+            newDeviceName = val;
+            return this;
+        }
+
+        public Builder originDeviceName(String val) {
+            originDeviceName = val;
+            return this;
+        }
+
+        public RecordDeviceReplace build() {
+            return new RecordDeviceReplace(this);
+        }
     }
 }

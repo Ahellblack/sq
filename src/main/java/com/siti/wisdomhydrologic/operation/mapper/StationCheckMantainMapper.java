@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 public interface StationCheckMantainMapper extends Mapper<ReportStationCheckMantain>{
 
@@ -23,7 +23,6 @@ public interface StationCheckMantainMapper extends Mapper<ReportStationCheckMant
     @Select("select * from report_station_check_mantain where station_code = #{stationId}" +
             " and mantain_date = #{mantainDate}")
     RainVo getByStationIdVo(@Param("mantainDate") String mantainDate, @Param("stationId") Integer stationId);
-
 
     @Update("update report_station_check_mantain SET `station_manange_org_id` = #{data.stationManangeOrgId}, " +
             "`station_manage_org_name` = #{data.stationManageOrgName}, `rtu_type` = #{data.rtuType}," +

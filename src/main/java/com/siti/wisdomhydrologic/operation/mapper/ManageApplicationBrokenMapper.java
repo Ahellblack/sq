@@ -11,7 +11,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplicationBroken>{
 
@@ -164,7 +164,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             " WHERE report_id = #{data.reportId}")
     int updateStatus(@Param("data") ReportManageApplicationBroken broken);
 
-
     @Select("select * from report_station_broken where station_id = #{stationId} " +
             "and broken_according_id = #{accordingId} " +
             "and error_lastest_appear_time > #{last24HourTime} ")
@@ -173,7 +172,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Update("UPDATE `report_station_broken` SET `error_lastest_appear_time` = #{date}  " +
             "WHERE report_id = #{reportId}")
     void updateTime(@Param("reportId") Integer reportId, @Param("date") String date);
-
 
     @Select("select a.phone_num " +
             "from sys_user as a " +
@@ -206,7 +204,6 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     @Select("<script>select * from report_station_broken where report_id in (" +
             "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)</script>")
     List<ReportManageApplicationBroken> getById(@Param("idList") List<Integer> idList);
-
 
     @Delete("DELETE from report_station_broken where report_id in (" +
             "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)")

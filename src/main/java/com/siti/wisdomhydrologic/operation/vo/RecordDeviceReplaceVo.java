@@ -3,7 +3,7 @@ package com.siti.wisdomhydrologic.operation.vo;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Created by dell on 2019/9/11.
+ * Created by zyw on 2019/9/11.
  */
 public class RecordDeviceReplaceVo {
 

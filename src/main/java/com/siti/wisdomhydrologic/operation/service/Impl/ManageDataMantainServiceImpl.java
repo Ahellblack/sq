@@ -32,10 +32,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Created by dell on 2019/7/30.
+ * Created by zyw on 2019/7/30.
  */
 @Service
 public class ManageDataMantainServiceImpl implements ManageDataMantainService {
@@ -119,15 +120,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Override
     public int update(ReportManageDataMantain reportManageDataMantain) {
         //数据发生修改时,altertime数据更新为当前时间
-        Date date = new Date();
-        //格式为YYYY-MM-dd
-        /*reportManageDataMantain.setAlterDate(DateOrTimeTrans.Date2TimeString(date));
-        if (reportManageDataMantain.getConfirValue() != null && (!"".equals(reportManageDataMantain.getConfirValue()))) {
-            reportManageDataMantain.setErrorDataReRun(1);
-        }
-        if (reportManageDataMantain.getMissDataType() != null && (!"".equals(reportManageDataMantain.getMissDataType()))) {
-            reportManageDataMantain.setMissDataReRun(1);
-        }*/
+
         String createTime = reportManageDataMantain.getCreateTime();
         String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
 
@@ -153,24 +146,23 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         List<ModuleAndStation> moduleList = configSensorSectionModuleMapper.getStationAndModule();
         List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get2Lastest();
         List<ReportManageDataMantainVo> brokenList = new ArrayList();
-        List<Integer> idList = new ArrayList<>();
         if (lastest.size() > 0) {
             try {
-                lastest.forEach(data -> idList.add(data.getId()));
-                List<ReportManageDataMantainVo> histroyList = reportManageDataMantainMapper.getById(idList);
+                List<Integer> idList = lastest.stream()
+                        .map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
+                List<ReportManageDataMantainVo> histroyList =
+                        reportManageDataMantainMapper.getById(idList);
                 if (histroyList.size() > 0) {
-                    histroyList.forEach(data -> {
-                        lastest.forEach(lasttime -> {
-                            if (data.getReportId() == lasttime.getId()) {
-                                String errorSpace = data.getCreateTime() + "," + lasttime.getLastDate();
-                                data.setErrorTimeSpace(errorSpace);
-                                data.setErrorLastestAppearTime(lasttime.getLastDate());
-                                reportManageDataMantainMapper.updateTime(data);
-                                abnormalDetailCurrentMapper.update2Status(lasttime.getId());
-                                //System.out.println("表二数据错误时间更替" + lasttime.getLastDate());
-                            }
-                        });
-                    });
+                    histroyList.forEach(data -> lastest.forEach(lasttime -> {
+                        if (data.getReportId() == lasttime.getId()) {
+                            String errorSpace = data.getCreateTime() + "," + lasttime.getLastDate();
+                            data.setErrorTimeSpace(errorSpace);
+                            data.setErrorLastestAppearTime(lasttime.getLastDate());
+                            reportManageDataMantainMapper.updateTime(data);
+                            abnormalDetailCurrentMapper.update2Status(lasttime.getId());
+                            //System.out.println("表二数据错误时间更替" + lasttime.getLastDate());
+                        }
+                    }));
                 }
                 List<AbnormalDetailCurrent> newlastest = abnormalDetailCurrentMapper.get2Lastest();
                 if (newlastest.size() > 0) {
@@ -185,21 +177,17 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                             errorType = data.getDataError().split("_")[0];
                         }
                         if ("data".equals(errorType) || "md".equals(errorType)) {
+                            ReportManageDataMantainVo entity = new ReportManageDataMantainVo.Builder()
+                                        .reportId(data.getId())
+                                        .brokenAccordingId(data.getBrokenAccordingId())
+                                        .errorDataReason(data.getErrorName())
+                                        .errorDataType(data.getErrorDataId())
+                                        .createTime(data.getDate())
+                                        .errorDataReRun(0)
+                                        .missDataReRun(0)
+                                        .errorLastestAppearTime(data.getLastDate())
+                                        .alterDate(data.getDate().substring(0,10)).build();
 
-                            ReportManageDataMantainVo entity = new ReportManageDataMantainVo();
-                            entity.setReportId(data.getId());
-                            entity.setBrokenAccordingId(data.getBrokenAccordingId());
-                            entity.setErrorDataReason(data.getErrorName());
-                            entity.setBrokenAccordingId(data.getBrokenAccordingId());
-                            entity.setErrorDataType(data.getErrorDataId());
-
-                            entity.setCreateTime(data.getDate());
-                            entity.setErrorDataReRun(0);
-                            entity.setMissDataReRun(0);
-                            entity.setErrorLastestAppearTime(data.getLastDate());
-                            //修改日期添加时精确到某日
-                            entity.setAlterDate(entity.getCreateTime().substring(0, 10));
-                            entity.setErrorLastestAppearTime(entity.getCreateTime());
                             //状态为实时或小时时,错误时段为时间段
                             //实时时段精度到时分秒
                             if (entity.getErrorDataType() == 1) {

@@ -54,6 +54,47 @@ public class ReportManageDataMantainVo {
     private String sectionDataUnit;
     private String sectionStatus;
 
+    private ReportManageDataMantainVo(Builder builder) {
+        setReportId(builder.reportId);
+        setStationCode(builder.stationCode);
+        setAlterDate(builder.alterDate);
+        setStationName(builder.stationName);
+        setAlterSensorTypeId(builder.alterSensorTypeId);
+        setAlterSensorTypeName(builder.alterSensorTypeName);
+        setErrorDataReason(builder.errorDataReason);
+        setErrorDataType(builder.errorDataType);
+        setErrorTimeSpace(builder.errorTimeSpace);
+        setErrorValue(builder.errorValue);
+        setConfirValue(builder.confirValue);
+        setErrorUnit(builder.errorUnit);
+        setErrorDataReRun(builder.errorDataReRun);
+        setMissDataType(builder.missDataType);
+        setMissTimeSpace(builder.missTimeSpace);
+        setMissDataReRun(builder.missDataReRun);
+        setCreateTime(builder.createTime);
+        setCreateBy(builder.createBy);
+        setManageOrgId(builder.manageOrgId);
+        setManageOrgName(builder.manageOrgName);
+        setBrokenAccordingId(builder.brokenAccordingId);
+        setErrorDataTypeName(builder.errorDataTypeName);
+        setErrorDataReRunName(builder.errorDataReRunName);
+        setMissDataReRunName(builder.missDataReRunName);
+        setDescription(builder.description);
+        setErrorLastestAppearTime(builder.errorLastestAppearTime);
+        setId(builder.id);
+        setDate(builder.date);
+        setSensorCode(builder.sensorCode);
+        setContinueInterrupt(builder.continueInterrupt);
+        setUpdateTime(builder.updateTime);
+        setDataError(builder.dataError);
+        setEquipmentError(builder.equipmentError);
+        setSectionCode(builder.sectionCode);
+        setSectionName(builder.sectionName);
+        setSensorName(builder.sensorName);
+        setSectionDataUnit(builder.sectionDataUnit);
+        setSectionStatus(builder.sectionStatus);
+    }
+
     @Override
     public String toString() {
         return "ReportManageDataMantainVo{" + "reportId=" + reportId + ", stationCode=" + stationCode + ", alterDate='" + alterDate + '\'' + ", stationName='" + stationName + '\'' + ", alterSensorTypeId=" + alterSensorTypeId + ", alterSensorTypeName='" + alterSensorTypeName + '\'' + ", errorDataReason='" + errorDataReason + '\'' + ", errorDataType=" + errorDataType + ", errorTimeSpace='" + errorTimeSpace + '\'' + ", errorValue='" + errorValue + '\'' + ", confirValue='" + confirValue + '\'' + ", errorUnit='" + errorUnit + '\'' + ", errorDataReRun=" + errorDataReRun + ", missDataType='" + missDataType + '\'' + ", missTimeSpace='" + missTimeSpace + '\'' + ", missDataReRun=" + missDataReRun + ", createTime='" + createTime + '\'' + ", createBy='" + createBy + '\'' + ", manageOrgId=" + manageOrgId + ", manageOrgName='" + manageOrgName + '\'' + ", brokenAccordingId='" + brokenAccordingId + '\'' + ", errorDataTypeName='" + errorDataTypeName + '\'' + ", errorDataReRunName='" + errorDataReRunName + '\'' + ", missDataReRunName='" + missDataReRunName + '\'' + ", description='" + description + '\'' + ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' + ", id=" + id + ", date='" + date + '\'' + ", sensorCode=" + sensorCode + ", continueInterrupt=" + continueInterrupt + ", updateTime=" + updateTime + ", dataError='" + dataError + '\'' + ", equipmentError='" + equipmentError + '\'' + ", sectionCode=" + sectionCode + ", sectionName='" + sectionName + '\'' + ", sensorName='" + sensorName + '\'' + ", sectionDataUnit='" + sectionDataUnit + '\'' + ", sectionStatus='" + sectionStatus + '\'' + '}';
@@ -364,4 +405,242 @@ public class ReportManageDataMantainVo {
         this.manageOrgName = manageOrgName;
     }
 
+
+    public static final class Builder {
+        private Integer reportId;
+        private int stationCode;
+        private String alterDate;
+        private String stationName;
+        private Integer alterSensorTypeId;
+        private String alterSensorTypeName;
+        private String errorDataReason;
+        private Integer errorDataType;
+        private String errorTimeSpace;
+        private String errorValue;
+        private String confirValue;
+        private String errorUnit;
+        private Integer errorDataReRun;
+        private String missDataType;
+        private String missTimeSpace;
+        private Integer missDataReRun;
+        private String createTime;
+        private String createBy;
+        private Integer manageOrgId;
+        private String manageOrgName;
+        private String brokenAccordingId;
+        private String errorDataTypeName;
+        private String errorDataReRunName;
+        private String missDataReRunName;
+        private String description;
+        private String errorLastestAppearTime;
+        private Integer id;
+        private String date;
+        private int sensorCode;
+        private int continueInterrupt;
+        private int updateTime;
+        private String dataError;
+        private String equipmentError;
+        private int sectionCode;
+        private String sectionName;
+        private String sensorName;
+        private String sectionDataUnit;
+        private String sectionStatus;
+
+        public Builder() {
+        }
+
+        public Builder reportId(Integer val) {
+            reportId = val;
+            return this;
+        }
+
+        public Builder stationCode(int val) {
+            stationCode = val;
+            return this;
+        }
+
+        public Builder alterDate(String val) {
+            alterDate = val;
+            return this;
+        }
+
+        public Builder stationName(String val) {
+            stationName = val;
+            return this;
+        }
+
+        public Builder alterSensorTypeId(Integer val) {
+            alterSensorTypeId = val;
+            return this;
+        }
+
+        public Builder alterSensorTypeName(String val) {
+            alterSensorTypeName = val;
+            return this;
+        }
+
+        public Builder errorDataReason(String val) {
+            errorDataReason = val;
+            return this;
+        }
+
+        public Builder errorDataType(Integer val) {
+            errorDataType = val;
+            return this;
+        }
+
+        public Builder errorTimeSpace(String val) {
+            errorTimeSpace = val;
+            return this;
+        }
+
+        public Builder errorValue(String val) {
+            errorValue = val;
+            return this;
+        }
+
+        public Builder confirValue(String val) {
+            confirValue = val;
+            return this;
+        }
+
+        public Builder errorUnit(String val) {
+            errorUnit = val;
+            return this;
+        }
+
+        public Builder errorDataReRun(Integer val) {
+            errorDataReRun = val;
+            return this;
+        }
+
+        public Builder missDataType(String val) {
+            missDataType = val;
+            return this;
+        }
+
+        public Builder missTimeSpace(String val) {
+            missTimeSpace = val;
+            return this;
+        }
+
+        public Builder missDataReRun(Integer val) {
+            missDataReRun = val;
+            return this;
+        }
+
+        public Builder createTime(String val) {
+            createTime = val;
+            return this;
+        }
+
+        public Builder createBy(String val) {
+            createBy = val;
+            return this;
+        }
+
+        public Builder manageOrgId(Integer val) {
+            manageOrgId = val;
+            return this;
+        }
+
+        public Builder manageOrgName(String val) {
+            manageOrgName = val;
+            return this;
+        }
+
+        public Builder brokenAccordingId(String val) {
+            brokenAccordingId = val;
+            return this;
+        }
+
+        public Builder errorDataTypeName(String val) {
+            errorDataTypeName = val;
+            return this;
+        }
+
+        public Builder errorDataReRunName(String val) {
+            errorDataReRunName = val;
+            return this;
+        }
+
+        public Builder missDataReRunName(String val) {
+            missDataReRunName = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public Builder errorLastestAppearTime(String val) {
+            errorLastestAppearTime = val;
+            return this;
+        }
+
+        public Builder id(Integer val) {
+            id = val;
+            return this;
+        }
+
+        public Builder date(String val) {
+            date = val;
+            return this;
+        }
+
+        public Builder sensorCode(int val) {
+            sensorCode = val;
+            return this;
+        }
+
+        public Builder continueInterrupt(int val) {
+            continueInterrupt = val;
+            return this;
+        }
+
+        public Builder updateTime(int val) {
+            updateTime = val;
+            return this;
+        }
+
+        public Builder dataError(String val) {
+            dataError = val;
+            return this;
+        }
+
+        public Builder equipmentError(String val) {
+            equipmentError = val;
+            return this;
+        }
+
+        public Builder sectionCode(int val) {
+            sectionCode = val;
+            return this;
+        }
+
+        public Builder sectionName(String val) {
+            sectionName = val;
+            return this;
+        }
+
+        public Builder sensorName(String val) {
+            sensorName = val;
+            return this;
+        }
+
+        public Builder sectionDataUnit(String val) {
+            sectionDataUnit = val;
+            return this;
+        }
+
+        public Builder sectionStatus(String val) {
+            sectionStatus = val;
+            return this;
+        }
+
+        public ReportManageDataMantainVo build() {
+            return new ReportManageDataMantainVo(this);
+        }
+    }
 }

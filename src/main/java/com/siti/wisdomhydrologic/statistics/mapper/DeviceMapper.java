@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * Created by dell on 2019/9/23.
+ * Created by zyw on 2019/9/23.
  */
 public interface DeviceMapper {
 

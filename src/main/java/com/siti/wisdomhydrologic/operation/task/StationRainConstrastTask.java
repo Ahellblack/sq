@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * Created by dell on 2019/8/26.
+ * Created by zyw on 2019/8/26.
  */
 @Component
 public class StationRainConstrastTask {
@@ -20,6 +20,6 @@ public class StationRainConstrastTask {
      * */
     @Scheduled(cron = "0 0 13 1/1 * ? ")
     public void insertData() throws Exception {
-        stationRainConstrastService.insertOrUpdateData();
+        stationRainConstrastService.insertOrUpdateData(null);
     }
 }

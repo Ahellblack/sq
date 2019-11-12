@@ -10,7 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/7/26.
+ * Created by zyw on 2019/7/26.
  */
 public interface HyetometerMapper extends Mapper<ReportHyetometerTest>{
 

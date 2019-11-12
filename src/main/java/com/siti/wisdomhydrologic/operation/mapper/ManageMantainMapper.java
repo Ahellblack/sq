@@ -10,12 +10,9 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * Created by dell on 2019/7/31.
+ * Created by zyw on 2019/7/31.
  */
 public interface ManageMantainMapper extends Mapper<ReportManageMantain> {
-    @Select("<script>select * from report_manage_mantain " +
-            "<if test=\"date!=null and date!=''\"> where mantain_month = #{date}</if></script>")
-    List<ReportManageMantain> getByDate(@Param("date") String date);
 
     @Delete("delete from report_manage_mantain where report_id = #{reportId}")
     int deleteById(@Param("reportId") Integer reportId);
@@ -30,8 +27,6 @@ public interface ManageMantainMapper extends Mapper<ReportManageMantain> {
             " and mantain_hour = #{hour} " +
             " and manage_org_id = #{sysOrg} ")
     ReportManageMantain getOneData(@Param("yearMonthDay") String yearMonthDay,@Param("hour") String hour, @Param("sysOrg") int sysOrg);
-
-
 
     @Update("UPDATE `report_manage_mantain` SET " +
             "`temp_huimidity_exception` = #{entity.tempHuimidityException}, `server_time_exception` = #{entity.serverTimeException}, " +

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * Created by dell on 2019/10/14.
+ * Created by zyw on 2019/10/14.
  */
 @RestController
 @RequestMapping("region")

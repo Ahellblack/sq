@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by dell on 2019/9/20.
+ * Created by zyw on 2019/9/20.
  */
 public class DateDistance {
 

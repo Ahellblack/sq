@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.mainpage.vo;
 
 /**
- * Created by dell on 2019/8/23.
+ * Created by zyw on 2019/8/23.
  */
 public class DeviceVo {
     private String device_real_status;

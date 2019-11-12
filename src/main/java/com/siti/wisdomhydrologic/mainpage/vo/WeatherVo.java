@@ -3,7 +3,7 @@ package com.siti.wisdomhydrologic.mainpage.vo;
 import java.util.Map;
 
 /**
- * Created by dell on 2019/9/5.
+ * Created by zyw on 2019/9/5.
  */
 public class WeatherVo {
 

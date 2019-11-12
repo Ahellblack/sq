@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * Created by dell on 2019/10/14.
+ * Created by zyw on 2019/10/14.
  */
 public interface ConfigRegionMapper {
 

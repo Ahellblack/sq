@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dell on 2019/8/13.
+ * Created by zyw on 2019/8/13.
  */
 public class StationIdUtils {
     /**
@@ -12,17 +12,7 @@ public class StationIdUtils {
      */
     public static List<Integer> getTable7StationList() {
         /*** idList*/
-        Integer[] idArray = {18806,
-                18404,
-                18402,
-                18319,
-                18315,
-                16853,
-                16702,
-                16401,
-                18323,
-                16308,
-                16101};
+        Integer[] idArray = {18806, 18404, 18402, 18319, 18315, 16853, 16702, 16401, 18323, 16308, 16101};
         List<Integer> idList = new ArrayList<>();
         for (Integer stationId : idArray) {
             idList.add(stationId);

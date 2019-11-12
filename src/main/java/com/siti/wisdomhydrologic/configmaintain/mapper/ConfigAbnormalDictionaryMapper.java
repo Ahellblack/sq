@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * Created by dell on 2019/8/14.
+ * Created by zyw on 2019/8/14.
  */
 public interface ConfigAbnormalDictionaryMapper {
 

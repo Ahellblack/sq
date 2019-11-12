@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * Created by dell on 2019/8/15.
+ * Created by zyw on 2019/8/15.
  */
 public interface StationDataMapper {
 
@@ -40,7 +40,7 @@ public interface StationDataMapper {
             "<if test=\"snId!=null\"> and a.region_id = #{snId} </if>" +
             "<if test=\"stationId!=null\"> and a.station_id = #{stationId} </if>" +
             "</script>")
-    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status, @Param("time") String time,@Param("snId") Integer snId,@Param("orgId") Integer orgId,@Param("stationId")Integer stationId);
+    List<ConfigRiverStationVo> getStationLocation(@Param("level") Integer level, @Param("status") Integer status,@Param("snId") Integer snId,@Param("orgId") Integer orgId,@Param("stationId")Integer stationId);
 
 
 

@@ -1,7 +1,7 @@
 package com.siti.wisdomhydrologic.operation.entity;
 
 /**
- * Created by dell on 2019/10/24.
+ * Created by zyw on 2019/10/24.
  */
 public class AbnormalDetailCurrent {
 

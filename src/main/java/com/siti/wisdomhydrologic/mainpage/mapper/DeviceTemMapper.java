@@ -4,7 +4,7 @@ import com.siti.wisdomhydrologic.mainpage.vo.DeviceVo;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * Created by dell on 2019/10/25.
+ * Created by zyw on 2019/10/25.
  */
 public interface DeviceTemMapper {
 
