@@ -114,7 +114,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     }
 
     public int insert(ReportManageDataMantain reportManageDataMantain) {
-        System.out.println(reportManageDataMantain);
         try {
             return reportManageDataMantainMapper.insert(reportManageDataMantain);
         } catch (Exception e) {
@@ -125,7 +124,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     @Override
     public int update(ReportManageDataMantain reportManageDataMantain) {
         //数据发生修改时,altertime数据更新为当前时间
-
+        try {
         String createTime = reportManageDataMantain.getCreateTime();
         String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
 
@@ -134,10 +133,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         } else {
             reportManageDataMantain.setErrorTimeSpace(createTime);
         }
-
         System.out.println("修改后的ReportManageDataMantain:" + reportManageDataMantain);
-
-        try {
             int result = reportManageDataMantainMapper.update(reportManageDataMantain);
             return result;
         } catch (Exception e) {

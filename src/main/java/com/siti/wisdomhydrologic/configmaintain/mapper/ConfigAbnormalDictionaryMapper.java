@@ -15,7 +15,6 @@ public interface ConfigAbnormalDictionaryMapper {
     @Select("select * from config_abnormal_dictionary")
     List<ConfigAbnormalDictionary> getList();
 
-
     @Select("select * from config_abnormal_dictionary where table1_relate is not null")
     List<ConfigAbnormalDictionary> getTableList();
 

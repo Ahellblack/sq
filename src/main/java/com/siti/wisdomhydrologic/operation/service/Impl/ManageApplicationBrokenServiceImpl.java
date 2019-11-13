@@ -108,11 +108,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int insert(ReportManageApplicationBroken entity) {
-        ConfigAbnormalDictionary according = configAbnormalDictionaryMapper.getOneByAccording(entity.getBrokenAccording());
-        entity.setBrokenAccordingId(according.getBrokenAccordingId());
-        entity.setRequestDesignatingStatus(1);
-        entity.setErrorLastestAppearTime(entity.getCreateTime());
         try {
+            entity.setRequestDesignatingStatus(4);
+            entity.setErrorLastestAppearTime(entity.getCreateTime());
             reportManageApplicationBrokenMapper.insert(entity);
         } catch (Exception e) {
             return 0;
@@ -122,12 +120,9 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int update(ReportManageApplicationBroken entity) {
-        ConfigAbnormalDictionary according = configAbnormalDictionaryMapper.getOneByAccording(entity.getBrokenAccording());
-        entity.setBrokenAccordingId(according.getBrokenAccordingId());
-        entity.setRequestDesignatingStatus(1);
-        entity.setErrorLastestAppearTime(entity.getCreateTime());
 
         try {
+            entity.setErrorLastestAppearTime(entity.getCreateTime());
             reportManageApplicationBrokenMapper.update(entity);
         } catch (Exception e) {
             return 0;
@@ -137,37 +132,37 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
 
     public int updateMalStatus(Integer reportId) {
-
-        ReportManageApplicationBroken entity = reportManageApplicationBrokenMapper.getOne(reportId);
-
-        ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(entity.getStationId());
-        List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
         try {
+            ReportManageApplicationBroken entity = reportManageApplicationBrokenMapper.getOne(reportId);
 
-                /**
-                 *派单后状态直接更改为3，派单时间 == 处理中时间
-                 * */
-                entity.setMalStatus(1);
-                entity.setRequestDesignatingStatus(3);
-                entity.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
-                entity.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
-                String numberStr = "";
-                for (int i = 0; i < phoneNumber.size(); i++) {
-                    numberStr = numberStr + "," + phoneNumber.get(i);
-                }
-                if (numberStr.length() > 1) {
-                    numberStr = numberStr.substring(1, numberStr.length());
-                }
-                if (numberStr == "") {
-                    return 0;
-                }
-                if (entity.getStationName() != null && entity.getCreateTime() != null && entity.getBrokenAccording() != null) {
-                    //发送短信
-                    ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
+            ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(entity.getStationId());
+            List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
 
-                    PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(), reportId + "");
-                }
-                return reportManageApplicationBrokenMapper.updateStatus(entity);
+
+            /**
+             *派单后状态直接更改为3，派单时间 == 处理中时间
+             * */
+            entity.setMalStatus(1);
+            entity.setRequestDesignatingStatus(3);
+            entity.setRequestDesignatingTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            entity.setBrokenOnResolveTime(DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            String numberStr = "";
+            for (int i = 0; i < phoneNumber.size(); i++) {
+                numberStr = numberStr + "," + phoneNumber.get(i);
+            }
+            if (numberStr.length() > 1) {
+                numberStr = numberStr.substring(1, numberStr.length());
+            }
+            if (numberStr == "") {
+                return 0;
+            }
+            if (entity.getStationName() != null && entity.getCreateTime() != null && entity.getBrokenAccording() != null) {
+                //发送短信
+                ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
+
+                PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(), reportId + "");
+            }
+            return reportManageApplicationBrokenMapper.updateStatus(entity);
 
         } catch (Exception e) {
             return 0;
@@ -200,14 +195,13 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     }
 
 
-    public Map<String,Object> updateModuleStatus(Integer reportId) {
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> updateModuleStatus(Integer reportId) {
+        Map<String, Object> map = new HashMap<>();
         try {
             /**
              * 对审核的设备故障，替换成已完成状态
              * */
-            Optional<ReportManageApplicationBroken> optional =
-                    Optional.ofNullable(reportManageApplicationBrokenMapper.getOne(reportId));
+            Optional<ReportManageApplicationBroken> optional = Optional.ofNullable(reportManageApplicationBrokenMapper.getOne(reportId));
 
             ReportManageApplicationBroken data = optional.get();
             String today = DateTransform.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
@@ -224,13 +218,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
              * 关联异常表找到故障模组,设置该模组为灰名单。
              * */
             Integer sensorCode = reportManageApplicationBrokenMapper.findModule(reportId);
-            if(configSensorSectionModuleMapper.updateStatus(sensorCode)==0){
-                map.put("status",0);
-                map.put("msg","灰名单已被添加");
-            }else {
+            if (configSensorSectionModuleMapper.updateStatus(sensorCode) == 0) {
+                map.put("status", 0);
+                map.put("msg", "灰名单已被添加");
+            } else {
                 map.put("status", 1);
                 map.put("msg", "模组添加至灰名单");
-            }return map;
+            }
+            return map;
 
         } catch (Exception e) {
             map.put("status", -1);
@@ -242,7 +237,6 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
 
     @Override
     public int delete(Integer reportId) {
-        //return reportManageApplicationBrokenMapper.deleteById(reportId);
         return reportManageApplicationBrokenMapper.updateDisplayStatus(reportId);
     }
 
@@ -252,70 +246,64 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      */
     @Override
     public int insertDataMantain() {
-        List<ModuleAndStation> moduleList = configSensorSectionModuleMapper.getStationAndModule();
-        //根据异常表表四展示状态字段 获取数据
-        //获取到的数据状态更新为1
-        List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();
-        List<ReportManageApplicationBroken> brokenList = new ArrayList();
-        List<Integer> idList = lastest.stream()
-                .map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
-        if (lastest.size() > 0) {
-            //新建拷贝筛选队列
-            List<ReportManageApplicationBroken> histroyList = reportManageApplicationBrokenMapper.getById(idList);
-            if (histroyList.size() > 0) {
-                histroyList.forEach(data -> lastest.forEach(lasttime -> {
-                    if (data.getReportId() == lasttime.getId()) {
-                        reportManageApplicationBrokenMapper.updateTime(data.getReportId(), lasttime.getLastDate());
-                        abnormalDetailCurrentMapper.update4Status(lasttime.getId());
-                    }
-                }));
-            }
-            List<AbnormalDetailCurrent> newlastest = abnormalDetailCurrentMapper.get4Lastest();
-            if (newlastest.size() > 0) {
-                List<Integer> idList2 = newlastest.stream()
-                        .map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
-                newlastest.forEach(data -> {
-                    ReportManageApplicationBroken entity =
-                            new ReportManageApplicationBroken.Builder()
-                                    .reportId(data.getId())
-                                    .brokenAccordingId(data.getBrokenAccordingId())
-                                    .brokenAccording(data.getBrokenAccording())
-                                    .description(data.getDescription())
-                                    .createTime(data.getDate())
-                                    .brokenName(data.getErrorName())
-                                    .errorLastestAppearTime(data.getLastDate()).build();
-
-                    moduleList.forEach(module -> {
-                        Calendar calendar = Calendar.getInstance();
-                        if (data.getSensorCode() == module.getSectionCode()) {
-                            calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                            if (module.getStationLevel() == 2) {
-                                //一般站往后3小时内
-                                calendar.add(calendar.HOUR, 3);
-                            } else {
-                                //基本站往后1小时内
-                                calendar.add(calendar.HOUR, 1);
-                            }
-                            entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
-                            entity.setStationName(module.getStationName());
-                            entity.setStationId(module.getStationId());
+        try {
+            List<ModuleAndStation> moduleList = configSensorSectionModuleMapper.getStationAndModule();
+            //根据异常表表四展示状态字段 获取数据
+            //获取到的数据状态更新为1
+            List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();
+            List<ReportManageApplicationBroken> brokenList = new ArrayList();
+            List<Integer> idList = lastest.stream().map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
+            if (lastest.size() > 0) {
+                //新建拷贝筛选队列
+                List<ReportManageApplicationBroken> histroyList = reportManageApplicationBrokenMapper.getById(idList);
+                if (histroyList.size() > 0) {
+                    histroyList.forEach(data -> lastest.forEach(lasttime -> {
+                        if (data.getReportId() == lasttime.getId()) {
+                            reportManageApplicationBrokenMapper.updateTime(data.getReportId(), lasttime.getLastDate());
+                            abnormalDetailCurrentMapper.update4Status(lasttime.getId());
                         }
-                    });
-                    brokenList.add(entity);
-                });
-                //修改状态
-                abnormalDetailCurrentMapper.update4StatusList(idList2);
-            }
-            int allsize = brokenList.size();
-            brokenList.forEach(data -> {
-                try {
-                    reportManageApplicationBrokenMapper.insertDataMantain(data);
-                } catch (Exception e) {
-                    System.out.println("数据插入异常");
+                    }));
                 }
-            });
-            return allsize;
-        } else {
+                List<AbnormalDetailCurrent> newlastest = abnormalDetailCurrentMapper.get4Lastest();
+                if (newlastest.size() > 0) {
+                    List<Integer> idList2 = newlastest.stream().map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
+                    newlastest.forEach(data -> {
+                        ReportManageApplicationBroken entity = new ReportManageApplicationBroken.Builder().reportId(data.getId()).brokenAccordingId(data.getBrokenAccordingId()).brokenAccording(data.getBrokenAccording()).description(data.getDescription()).createTime(data.getDate()).brokenName(data.getErrorName()).errorLastestAppearTime(data.getLastDate()).build();
+
+                        moduleList.forEach(module -> {
+                            Calendar calendar = Calendar.getInstance();
+                            if (data.getSensorCode() == module.getSectionCode()) {
+                                calendar.setTime(DateTransform.String2Date(data.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                                if (module.getStationLevel() == 2) {
+                                    //一般站往后3小时内
+                                    calendar.add(calendar.HOUR, 3);
+                                } else {
+                                    //基本站往后1小时内
+                                    calendar.add(calendar.HOUR, 1);
+                                }
+                                entity.setBrokenResponseTime(DateTransform.Date2String(calendar.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                                entity.setStationName(module.getStationName());
+                                entity.setStationId(module.getStationId());
+                            }
+                        });
+                        brokenList.add(entity);
+                    });
+                    //修改状态
+                    abnormalDetailCurrentMapper.update4StatusList(idList2);
+                }
+                int allsize = brokenList.size();
+                brokenList.forEach(data -> {
+                    try {
+                        reportManageApplicationBrokenMapper.insertDataMantain(data);
+                    } catch (Exception e) {
+                        System.out.println("数据插入异常");
+                    }
+                });
+                return allsize;
+            } else {
+                return 0;
+            }
+        }catch (Exception e){
             return 0;
         }
     }
@@ -358,14 +346,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      * @return
      */
     public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId, Integer status) {
-        if(createTime == null){
-            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        if (createTime == null) {
+            createTime = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         }
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId, orgList.get(0).getId(), status, 1);
 
         for (int i = 0; i < list.size(); i++) {
             ReportManageApplicationBroken data = list.get(i);
@@ -408,14 +396,14 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
      * @return
      */
     public Workbook exportSheetByTemplate(HttpSession session, String createTime, String stationId, @RequestParam List<Integer> reportIdList, Integer status) {
-        if(createTime == null){
-            createTime = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        if (createTime == null) {
+            createTime = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         }
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
 
         // 查询数据,此处省略
-        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId,orgList.get(0).getId(),status,1);
+        List<ReportManageApplicationBroken> list = manageApplicationBrokenMapper.getAll(createTime, stationId, orgList.get(0).getId(), status, 1);
         /**
          * 选择导出reportList替换全部list
          * */
