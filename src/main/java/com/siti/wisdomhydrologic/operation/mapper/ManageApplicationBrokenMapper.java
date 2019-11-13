@@ -136,13 +136,13 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "`broken_response_time`, `broken_on_resolve_time`,`request_designating_time`, `broken_resolve_time`," +
             " `resolve_method`, `resolve_user_id`, `remark`, " +
             "`request_designating_status`, `broken_ask_to_resolve_time`," +
-            " `broken_request_report_time`,`error_lastest_appear_time`) VALUES " +
+            " `broken_request_report_time`,`error_lastest_appear_time`,`builder_code`) VALUES " +
             "(#{data.stationId},#{data.stationName}, #{data.brokenName}," +
             " #{data.brokenAccordingId}, #{data.brokenAccording}, #{data.createTime}," +
             "#{data.brokenResponseTime},#{data.brokenOnResolveTime}, #{data.requestDesignatingTime}," +
             " #{data.brokenResolveTime}, #{data.resolveMethod}, #{data.resolveUserId}," +
             " #{data.remark}, #{data.requestDesignatingStatus},#{data.brokenAskToResolveTime}," +
-            "#{data.brokenRequestReportTime},#{data.errorLastestAppearTime})")
+            "#{data.brokenRequestReportTime},#{data.errorLastestAppearTime},#{data.builderCode})")
     int insert(@Param("data") ReportManageApplicationBroken broken);
 
 
@@ -201,8 +201,14 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
             "where station_id = #{stationId}")
     List<RealDeviceStatus> getRealDeviceList(@Param("stationId")Integer stationId);
 
+
+    /**
+     * 只修改系统判定的故障异常
+     * builder_code 0
+     * */
     @Select("<script>select * from report_station_broken where report_id in (" +
-            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)</script>")
+            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>) " +
+            " and builder_code = 0 </script>")
     List<ReportManageApplicationBroken> getById(@Param("idList") List<Integer> idList);
 
     @Delete("DELETE from report_station_broken where report_id in (" +
@@ -210,7 +216,7 @@ public interface ManageApplicationBrokenMapper extends Mapper<ReportManageApplic
     int deleteById(@Param("idList") List<Integer> idList);
 
     @Select("SELECT sensor_code FROM `abnormal_detail_current` adc " +
-            "left join `report_manage_application_broken` rmab  on adc.id = rmab.report_id " +
-            "where id = #{reportId} ")
+            "left join `report_station_broken` rsb  on adc.id = rsb.report_id " +
+            "where id = #{reportId} and rsb.builder_code <> 1 ")
     Integer findModule(@Param("reportId")Integer reportId);
 }

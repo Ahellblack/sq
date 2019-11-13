@@ -78,10 +78,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         /**
          * 把页面查询的依据id 替换成依据内容
          * */
-     /*   list.forEach(data -> {
-            data.setBrokenAccordingId(data.getDescription());
-        });
-*/
+
         return new PageInfo<ReportManageDataMantain>(list);
     }
 
@@ -115,6 +112,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
 
     public int insert(ReportManageDataMantain reportManageDataMantain) {
         try {
+            reportManageDataMantain.setBuilderCode(1);//人为添加
             return reportManageDataMantainMapper.insert(reportManageDataMantain);
         } catch (Exception e) {
             return 0;

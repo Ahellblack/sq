@@ -64,6 +64,17 @@ public class ReportManageApplicationBroken {
 
     private Integer malStatus;
 
+    private Integer builderCode;
+
+    public Integer getBuilderCode() {
+        return builderCode;
+    }
+
+    public void setBuilderCode(Integer builderCode) {
+        this.builderCode = builderCode;
+    }
+
+
     private ReportManageApplicationBroken(Builder builder) {
         setReportId(builder.reportId);
         setStationId(builder.stationId);

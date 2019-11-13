@@ -71,7 +71,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         Calendar calHour = Calendar.getInstance();
         cal.setTime(date);
         //cal.add(Calendar.MONTH, -1);
-        List<ConfigRiverStation> all = configRiverStationMapper.getBySysOrg();
+        //List<ConfigRiverStation> all = configRiverStationMapper.getBySysOrg();
         String LastMonthDate = DateTransform.Date2String(cal.getTime(), "yyyy-MM");
 
         //依据区域号修改

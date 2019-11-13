@@ -107,7 +107,7 @@ public class ManageDataMantainController {
     }
 
     @PostMapping("/update")
-    public int update(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
+    public int update(@RequestBody ReportManageDataMantain reportManageDataMantain) {
 
         User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()
@@ -121,7 +121,7 @@ public class ManageDataMantainController {
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain,HttpSession session) {
+    public int insert(@RequestBody ReportManageDataMantain reportManageDataMantain) {
 
         User user = (User) userInfoService.get();
         sysLogMapper.insertUserOprLog( new SysLog.builder()

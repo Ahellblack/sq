@@ -62,6 +62,7 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
     int updateDisplayStatus(@Param("reportId") Integer reportId);
 
     @Select("<script>Select * from report_manage_data_mantain where report_id in(" +
-            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)</script>")
+            "<foreach collection=\"idList\" item=\"item\" separator=\",\">#{item}</foreach>)" +
+            " and builder_code = 0</script>")
     List<ReportManageDataMantainVo> getById(@Param("idList") List<Integer> idList);
 }

@@ -31,48 +31,13 @@ public class ManageApplicationBrokenTask {
 
     @Scheduled(cron = "0 0/5 * * * ? ")
     public int insertAbnormal() throws Exception {
-        Date today = new Date();
-        String date = getCloseDate("yyyy-MM-dd HH:mm:ss", today, 5);
-        int i = manageApplicationBrokenService.insertDataMantain();
-        //if(i>0) System.out.println("在 " + date + " 时插入5分钟内的异常数据至表四" + i + "条");
-        /*
-        //系统开关门状态录入
-        manageApplicationBrokenService.updateUnpackStatus();*/
 
+        int i = manageApplicationBrokenService.insertDataMantain();
+        //系统开关门状态录入
+        /*manageApplicationBrokenService.updateUnpackStatus();*/
         //异常状态恢复方法
         manageApplicationBrokenService.updateBrokenStatus();
-
         return i;
-    }
-
-    /**
-     * 取当前日期的年月日
-     *
-     * @return
-     * @throws ParseException
-     */
-    public static Date getMinDate(Date date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date newDate = sdf.parse(sdf.format(date));
-        return newDate;
-    }
-
-    /**
-     * 获取最近的整5分时间点real表数据
-     *
-     * @Param dateFormat dateFormat的格式 如 YYYY-MM-dd
-     * @Param date 当前时间
-     * @Param min 相隔时间
-     */
-    public static String getCloseDate(String dateFormat, Date date, long min) throws Exception {
-        long dateTime = date.getTime();
-        long needTime = 0;
-        if (min >= 8 * 60) {
-            return new SimpleDateFormat(dateFormat).format(getMinDate(date));
-        } else {
-            needTime = dateTime - dateTime % (min * 60L * 1000L);
-        }
-        return new SimpleDateFormat(dateFormat).format(new Date(needTime));
     }
 
 }

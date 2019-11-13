@@ -109,7 +109,8 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     @Override
     public int insert(ReportManageApplicationBroken entity) {
         try {
-            entity.setRequestDesignatingStatus(4);
+            entity.setBuilderCode(1);//设为手动添加
+            entity.setRequestDesignatingStatus(4);//数据状态为已完成
             entity.setErrorLastestAppearTime(entity.getCreateTime());
             reportManageApplicationBrokenMapper.insert(entity);
         } catch (Exception e) {
@@ -134,13 +135,10 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
     public int updateMalStatus(Integer reportId) {
         try {
             ReportManageApplicationBroken entity = reportManageApplicationBrokenMapper.getOne(reportId);
-
             ConfigRiverStation malStation = configRiverStationMapper.getAllByCode(entity.getStationId());
             List<String> phoneNumber = reportManageApplicationBrokenMapper.getNumberByRegionId(malStation.getRegionId());
-
-
             /**
-             *派单后状态直接更改为3，派单时间 == 处理中时间
+             *派单后状态直接更改为3，派单时间=处理中时间
              * */
             entity.setMalStatus(1);
             entity.setRequestDesignatingStatus(3);
@@ -154,17 +152,29 @@ public class ManageApplicationBrokenServiceImpl implements ManageApplicationBrok
                 numberStr = numberStr.substring(1, numberStr.length());
             }
             if (numberStr == "") {
+                System.out.println("配置电话信息错误");
                 return 0;
             }
-            if (entity.getStationName() != null && entity.getCreateTime() != null && entity.getBrokenAccording() != null) {
+            ConfigAbnormalDictionary oneByAccordingId = new ConfigAbnormalDictionary();
+            if (entity.getStationName() != null && entity.getCreateTime() != null && entity.getBrokenAccordingId() != null) {
                 //发送短信
-                ConfigAbnormalDictionary oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
-
-                PushMsg.pushMsgToClient(numberStr, entity.getStationName(), entity.getCreateTime(), entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(), reportId + "");
+                oneByAccordingId = configAbnormalDictionaryMapper.getOneByAccordingId(entity.getBrokenAccordingId());
             }
+            if(oneByAccordingId.getDescription() == null){
+                oneByAccordingId.setDescription("无");
+            }if(oneByAccordingId.getBrokenAccording() == null || oneByAccordingId.getBrokenAccording() ==""){
+                entity.setBrokenAccording(entity.getBrokenName());
+            }
+            PushMsg.pushMsgToClient(
+                    numberStr,
+                    entity.getStationName(),
+                    entity.getCreateTime(),
+                    entity.getBrokenAccording() + "," + oneByAccordingId.getDescription(),
+                    reportId + "");
             return reportManageApplicationBrokenMapper.updateStatus(entity);
 
         } catch (Exception e) {
+            System.out.println("派单异常");
             return 0;
         }
     }

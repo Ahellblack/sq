@@ -52,10 +52,18 @@ public class ReportManageDataMantain {
     private String manageOrgName;
     @ApiModelProperty("value=数据错误判断依据")
     private String brokenAccordingId;
-
     @ApiModelProperty("value=数据错误最后发生时间")
     private String errorLastestAppearTime;
     private String description;
+    private int builderCode;
+
+    public int getBuilderCode() {
+        return builderCode;
+    }
+
+    public void setBuilderCode(int builderCode) {
+        this.builderCode = builderCode;
+    }
 
     public String getDescription() {
         return description;
