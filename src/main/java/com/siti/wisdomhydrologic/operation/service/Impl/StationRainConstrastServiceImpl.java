@@ -182,6 +182,22 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         }
     }
 
+    public void insertOrUpdateMonthData(String month) throws Exception {
+        if(month ==null){
+            month = DateTransform.Date2String(new Date(),"yyyy-MM");
+        }
+        String startDay = month +"-01";
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(DateTransform.String2Date(startDay,"yyyy-MM-dd"));
+        for(int i = 0 ;i<cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1;i++){
+            String date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd");
+            insertOrUpdateData(date);
+            cal.add(Calendar.DAY_OF_MONTH,1);
+        }
+
+    }
+
+
     public void insertOrUpdateData(String today) throws Exception {
         if(today==null){
             today = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
@@ -202,7 +218,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             //获取每个测站的日雨量数据
             String sensorCode = data + "84";
             //System.out.println(sensorCode);
-            List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName);
+            List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName,DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd"));
             //新建雨量对比对象
             ReportStationRainConstrast entity = new ReportStationRainConstrast();
             //赋值测站信息
@@ -227,7 +243,10 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                     }
                 }
                 // 月初数据添加 day1 至 day31,total修改为 0,0,0
-                stationRainConstrastMapper.insert(entity);
+                try {
+                    stationRainConstrastMapper.insert(entity);
+                }catch (Exception e){
+                }
             }
             //当获取日雨量成功时
             if (dayVo.size() > 0) {

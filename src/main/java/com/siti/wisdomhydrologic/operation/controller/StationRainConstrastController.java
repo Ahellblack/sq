@@ -75,10 +75,20 @@ public class StationRainConstrastController {
      * 手动补充某日期的雨量数据
      * @param day 补充日期
      */
-    @GetMapping("/insertOrUpdate")
-    public void insertData(String day) throws Exception {
+    @GetMapping("/insertOrUpdateDay")
+    public void insertDayData(String day) throws Exception {
         stationRainConstrastService.insertOrUpdateData(day);
     }
+
+    /**
+     * 手动批量生产某月的雨量数据
+     * @param month 补充日期
+     */
+    @GetMapping("/insertOrUpdateMonth")
+    public void insertMonthData(String month) throws Exception {
+        stationRainConstrastService.insertOrUpdateMonthData(month);
+    }
+
 
     @ApiOperation(value = "表七测站降水量数据比对表，默认查询上月数据导出", httpMethod = "GET", notes = "表七测站降水量数据比对表查询导出excel")
     @GetMapping("/getExcelAll")
