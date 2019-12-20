@@ -34,6 +34,9 @@ public interface UserMapper extends Mapper<User> {
             "where suo.uid = #{id}</script>")
     List<Org> findOrg(@Param("id") int id);
 
+    @Select("select id from sys_org where find_in_set((select org_id from sys_user_org where uid = #{id}), path) ")
+    List<Integer> getOrgIdList(@Param("id") int id);
+
     /**
      * 只查询角色为运维人员的数据
      * */

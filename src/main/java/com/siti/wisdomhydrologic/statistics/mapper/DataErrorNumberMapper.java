@@ -1,6 +1,5 @@
 package com.siti.wisdomhydrologic.statistics.mapper;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.statistics.entity.DataError;
 import java.util.List;

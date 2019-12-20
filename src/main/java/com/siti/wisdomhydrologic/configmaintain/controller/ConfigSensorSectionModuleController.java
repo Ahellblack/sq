@@ -97,7 +97,6 @@ public class ConfigSensorSectionModuleController {
                     return jsonObject;
                 }
             }
-
         } catch (Exception e) {
             jsonObject.put("status", -1);
             jsonObject.put("message", "异常错误！");
@@ -106,7 +105,7 @@ public class ConfigSensorSectionModuleController {
     }
 
     // 修改数据，部分字段不修改
-    @PostMapping("/update")
+    @RequestMapping("/update")
     public JSONObject update(@RequestBody ConfigSensorSectionModule configSensorSectionModule,HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -136,14 +135,42 @@ public class ConfigSensorSectionModuleController {
     }
 
     // 后续不建议开放删除接口，仅供内部使用
-    @GetMapping("/delete")
-    public int delete(@RequestParam(value = "sectionCode") Integer sectionCode) {
+    @RequestMapping("/delete")
+    public JSONObject delete(@RequestParam(value = "sectionCode") Integer sectionCode) {
+        JSONObject jsonObject = new JSONObject();
         try {
-            return configSensorSectionModuleMapper.deleteBySectionCode(sectionCode);
+            User user = (User) userInfoService.get();
+            if (user.getRoles().get(0).getType().equals("system") ||
+                    user.getRoles().get(0).getType().equals("infocheck")) {
+                if (0 != configSensorSectionModuleMapper.deleteBySectionCode(sectionCode)) {
+                    sysLogMapper.insertUserOprLog( new SysLog.builder()
+                            .setUsername(user.getUserName())
+                            .setOperateDes("测站传感器模组配置表删除")
+                            .setFreshVal(sectionCode+"")
+                            .setAction("删除")
+                            .setPreviousVal("")
+                            .build());
+                    jsonObject.put("status", 1);
+                    jsonObject.put("message", "删除成功！");
+                    return jsonObject;
+                }else{
+
+                    jsonObject.put("status", 2);
+                    jsonObject.put("message", "其它原因，删除失败！");
+                    return jsonObject;
+                }
+            }
+            else {
+                    jsonObject.put("status", 2);
+                    jsonObject.put("message", "权限不足，无法删除！");
+                    return jsonObject;
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        jsonObject.put("status", -1);
+        jsonObject.put("message", "异常错误！");
+        return jsonObject;
     }
 
     // 根据测站ID，查询某测站下所有元素数据

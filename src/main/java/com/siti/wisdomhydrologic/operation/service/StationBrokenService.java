@@ -1,18 +1,22 @@
 package com.siti.wisdomhydrologic.operation.service;
 
+import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by zyw on 2019/7/31.
  */
 public interface StationBrokenService {
-    List<ReportStationBroken> getAll(String createDate,String stationId);
+    PageInfo<ReportStationBroken> getAll(HttpSession session, int page, int pageSize, String createDate, String stationName, Integer status);
 
-    int delete(Integer reportId);
+    int insert(ReportStationBroken reportStationBroken);
 
     int update(ReportStationBroken reportStationBroken);
 
-    int insert(ReportStationBroken reportStationBroken);
+    int delete(Integer reportId);
+
+    int insertDataMantain();
+
 }

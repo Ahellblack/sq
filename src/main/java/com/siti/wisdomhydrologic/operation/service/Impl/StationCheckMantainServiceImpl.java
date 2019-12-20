@@ -1,23 +1,23 @@
 package com.siti.wisdomhydrologic.operation.service.Impl;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportStationCheckMantain;
 import com.siti.wisdomhydrologic.operation.mapper.StationCheckMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.StationCheckMantainService;
-import com.siti.wisdomhydrologic.operation.vo.RainVo;
+import com.siti.wisdomhydrologic.user.entity.User;
+import com.siti.wisdomhydrologic.user.mapper.UserMapper;
+import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,91 +32,95 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
     private StationCheckMantainMapper stationCheckMantainMapper;
-
-
-    public int insert(ReportStationCheckMantain reportStationCheckMantain) {
-        ConfigRiverStation allByStationName = configRiverStationMapper.getAllByCode(reportStationCheckMantain.getStationCode());
-
-        if (allByStationName != null) {
-            reportStationCheckMantain.setStationName(allByStationName.getStationName());
-        }
-        try {
-            return stationCheckMantainMapper.insert(reportStationCheckMantain);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    public int delete(Integer reportId) {
-        return stationCheckMantainMapper.deleteById(reportId);
-    }
-
-    public int update(ReportStationCheckMantain reportStationCheckMantain) {
-        ConfigRiverStation allByStationName = configRiverStationMapper.getAllByCode(reportStationCheckMantain.getStationCode());
-
-        if (allByStationName != null) {
-            reportStationCheckMantain.setStationName(allByStationName.getStationName());
-        }
-        try {
-            return stationCheckMantainMapper.update(reportStationCheckMantain);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
+    @Resource
+    private UserInfoService userInfoService;
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 模版单sheet导出示例
      *
      * @return
      */
-    public Workbook exportSheetByTemplate(@Param("mantainDate") String mantainDate, @Param("stationId") Integer stationId) {
+    public Workbook exportSheetByTemplate(Integer reportId) {
         // 查询数据,此处省略
-        RainVo entity = stationCheckMantainMapper.getByStationIdVo(mantainDate, stationId);
-        /*for (int i = 0; i < list.size(); i++) {
-            ReportInspectionMaintenance data = list.get(i);
-            data.setReportId(i+1);
-         }*/
-        int count1 = 0;
-        // 设置导出配置
+        ReportStationCheckMantain entity = stationCheckMantainMapper.getByReportId(31);
+
         // 获取导出excel指定模版
-        URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath();
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String rootPath = request.getSession().getServletContext().getRealPath("/").replace("\\", "/");
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model5.xls");
-        File f = new File(this.getClass().getResource("/").getPath());
-        // 标题开始行
-        // params.setHeadingStartRow(0);
-        // 标题行数
-        // params.setHeadingRows(2);
-        // 设置sheetName,若不设置该参数,则使用得原本得sheet名称
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model5.xls");
         params.setSheetName("表五");
-
-
-        if(entity.getSolarEnergyVoltageCheck() ==1){
-            entity.setSolarEnergyVoltageCheckRightName("☑ 正常"+entity.getSolarEnergyVoltageValue()+"V");
-            entity.setSolarEnergyVoltageCheckWrongName("□ 不正常");
-        }else{
-            entity.setSolarEnergyVoltageCheckRightName("□正常");
-            entity.setSolarEnergyVoltageCheckWrongName("☑ 不正常"+entity.getSolarEnergyVoltageValue()+"V");
-        }
-        if(entity.getStorageBatteryVoltageCheck() ==1){
-            entity.setStorageBatteryVoltageCheckRightName("☑ 正常"+entity.getStorageBatteryValue()+"V");
-            entity.setStorageBatteryVoltageCheckWrongName("□ 不正常");
-        }else{
-            entity.setStorageBatteryVoltageCheckRightName("□ 正常");
-            entity.setStorageBatteryVoltageCheckWrongName("☑ 不正常"+entity.getStorageBatteryValue()+"V");
-        }
-
+//
+//        if(entity.getSolarEnergyVoltageCheck() ==1){
+//            entity.setSolarEnergyVoltageCheckRightName("☑ 正常"+entity.getSolarEnergyVoltageValue()+"V");
+//            entity.setSolarEnergyVoltageCheckWrongName("□ 不正常");
+//        }else{
+//            entity.setSolarEnergyVoltageCheckRightName("□正常");
+//            entity.setSolarEnergyVoltageCheckWrongName("☑ 不正常"+entity.getSolarEnergyVoltageValue()+"V");
+//        }
+//        if(entity.getStorageBatteryVoltageCheck() ==1){
+//            entity.setStorageBatteryVoltageCheckRightName("☑ 正常"+entity.getStorageBatteryValue()+"V");
+//            entity.setStorageBatteryVoltageCheckWrongName("□ 不正常");
+//        }else{
+//            entity.setStorageBatteryVoltageCheckRightName("□ 正常");
+//            entity.setStorageBatteryVoltageCheckWrongName("☑ 不正常"+entity.getStorageBatteryValue()+"V");
+//        }
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("data", entity);
-        map.put("date", mantainDate);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         // 导出excel
         return workbook;
+    }
+
+
+    /**
+     * 模版多sheet导出,暂未完成
+     *
+     * @return
+     */
+    public Workbook exportAllRecord(@Param("mantainDate") String mantainDate, @Param("stationId") String stationId) {
+        User user = (User) userInfoService.get();
+        List<Integer> orgList = userMapper.getOrgIdList(user.getId());
+
+        List<ReportStationCheckMantain> list = new ArrayList<>();
+        if(orgList != null){
+            list = stationCheckMantainMapper.getListByDateAndStationId(mantainDate,stationId,orgList);
+        }
+
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model5.xls",
+                true);
+
+        List<String> sheetNameList = new ArrayList<>();
+        List<Map<String, Object>> sheetsList = new ArrayList<>() ;
+        for (ReportStationCheckMantain entity: list) {
+            // 设置sheet名称
+            sheetNameList.add(entity.getMantainDate().substring(0,10));
+
+            ExportParams exportParams = new ExportParams() ;
+            exportParams.setSheetName(entity.getMantainDate().substring(0,10));
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("title", exportParams);
+            map.put("entity", params.getStyle());
+            map.put("data", entity);
+            sheetsList.add(map);
+        }
+
+        Workbook workbook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.XSSF);
+        // 导出excel
+        return workbook;
+    }
+
+    public PageInfo<ReportStationCheckMantain> getList(String maintainDate, String stationId, int page, int pageSize){
+        User user = (User) userInfoService.get();
+        List<Integer> orgList = userMapper.getOrgIdList(user.getId());
+
+        List<ReportStationCheckMantain> list = new ArrayList<>();
+        if(orgList != null){
+            PageHelper.startPage(page, pageSize);
+            list = stationCheckMantainMapper.getListByDateAndStationId(maintainDate,stationId,orgList);
+        }
+        return new PageInfo<>(list);
     }
 
 }

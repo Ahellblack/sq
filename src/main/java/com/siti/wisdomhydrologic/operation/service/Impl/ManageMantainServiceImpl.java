@@ -3,15 +3,13 @@ package com.siti.wisdomhydrologic.operation.service.Impl;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalErrorMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageMantain;
-import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
-import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
+import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.mapper.ManageMantainMapper;
+import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ManageMantainVo;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
@@ -34,9 +32,9 @@ public class ManageMantainServiceImpl implements ManageMantainService {
     @Resource
     private ManageMantainMapper reportManageMantainMapper;
     @Resource
-    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
-    @Resource
     private ReportStationBrokenMapper reportStationBrokenMapper;
+    @Resource
+    private ManageApplicationBrokenMapper manageApplicationBrokenMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
 
@@ -96,7 +94,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         List<ReportManageMantain> updateList = reportManageMantainMapper.getDataByMonth(LastMonthDate, SYSORG);
 
         updateList.forEach(mantain -> {
-            reportManageApplicationBrokenMapper.getLastMonthList(LastMonthDate, SYSORG).forEach(table4 -> {
+            reportStationBrokenMapper.getLastMonthList(LastMonthDate, SYSORG).forEach(table4 -> {
 
                 String yearMonthDay = table4.getCreateTime().substring(0, 10);
                 String hourMinuteSecond = table4.getCreateTime().substring(11, 13);
@@ -123,7 +121,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
                     }
                 }
             });
-            reportStationBrokenMapper.getLastMonthAll(DateTransform.Date2String(cal.getTime(), "yyyy-MM")).forEach(table3 -> {
+            manageApplicationBrokenMapper.getLastMonthAll(DateTransform.Date2String(cal.getTime(), "yyyy-MM")).forEach(table3 -> {
                 String yearMonthDay = table3.getBrokenHappenTime().substring(0, 10);
                 String hourMinuteSecond = table3.getCreateTime().substring(11, 13);
                 int hour = Integer.parseInt(hourMinuteSecond);
@@ -193,7 +191,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model1.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model1.xls");
 
         // 标题开始行
         // params.setHeadingStartRow(0);
@@ -241,7 +239,7 @@ public class ManageMantainServiceImpl implements ManageMantainService {
         }
     }
 
-    public static void setTable3Status(Map<String, String> map, ReportStationBroken vo, ReportManageMantain entity) {
+    public static void setTable3Status(Map<String, String> map, ReportManageApplicationBroken vo, ReportManageMantain entity) {
         if (map.containsKey(vo.getApplicationEquipName())) {
             switch (map.get(vo.getApplicationEquipName())) {
                 case "1":

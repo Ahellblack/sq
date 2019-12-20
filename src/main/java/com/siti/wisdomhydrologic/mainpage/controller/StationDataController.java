@@ -3,22 +3,8 @@ package com.siti.wisdomhydrologic.mainpage.controller;
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
-import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.StationDataServiceImpl;
-import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
-import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
-import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
-import com.siti.wisdomhydrologic.user.entity.Org;
-import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.mapper.UserMapper;
-import com.siti.wisdomhydrologic.user.service.UserInfoService;
-import com.siti.wisdomhydrologic.util.DateTransform;
-import com.siti.wisdomhydrologic.util.DatesUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,12 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

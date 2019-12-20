@@ -2,8 +2,6 @@ package com.siti.wisdomhydrologic.document.mapper;
 
 import com.siti.wisdomhydrologic.document.vo.RainGroupVo;
 import com.siti.wisdomhydrologic.document.vo.RainMaxVo;
-import com.siti.wisdomhydrologic.operation.vo.RainVo;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

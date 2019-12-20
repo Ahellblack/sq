@@ -1,6 +1,6 @@
 package com.siti.wisdomhydrologic.statistics.controller;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
 import com.siti.wisdomhydrologic.statistics.mapper.BrokenNumberMapper;
 
@@ -115,7 +115,7 @@ public class BrokenNumberController {
             User user = (User) userInfoService.get();
             List<Org> orgList = userMapper.findOrg(user.getId());
 
-            List<ReportManageApplicationBroken> dataList = brokenNumberMapper.getRecoverTime(stationId, year, list, orgList.get(0).getId());
+            List<ReportStationBroken> dataList = brokenNumberMapper.getRecoverTime(stationId, year, list, orgList.get(0).getId());
 
             Integer sum = dataList.size();
             Integer hour1 = 0;
@@ -123,7 +123,7 @@ public class BrokenNumberController {
             Integer hour3 = 0;
             Integer over4hour = 0;
             for (int i = 0; i < sum; i++) {
-                ReportManageApplicationBroken data = dataList.get(i);
+                ReportStationBroken data = dataList.get(i);
                 long[] distanceTimes = DateDistance.getDistanceTimes(data.getCreateTime(), data.getBrokenResolveTime());
                 long hour = distanceTimes[1];
 

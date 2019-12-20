@@ -227,28 +227,38 @@ public class ConfigRiverStationController {
     public JSONObject delete(@RequestParam(value = "stationCode") String stationCode,HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         try {
-            if (null == stationCode || "".equals(stationCode)) {
-                jsonObject.put("status", 0);
-                jsonObject.put("message", "stationCode缺失，删除失败！");
-                return jsonObject;
-            } else{
-                if (0 != configRiverStationMapper.deleteByStationCode(stationCode)) {
-                    jsonObject.put("status", 1);
-                    jsonObject.put("message", "删除成功！");
-                    User user = (User) userInfoService.get();
-                    sysLogMapper.insertUserOprLog( new SysLog.builder()
-                            .setUsername(user.getUserName())
-                            .setOperateDes("测站配置表删除")
-                            .setFreshVal(stationCode+"")
-                            .setAction("删除")
-                            .setPreviousVal("")
-                            .build());
-                }else{
 
-                    jsonObject.put("status", 2);
-                    jsonObject.put("message", "其它原因，删除失败！");
-                    return jsonObject;
-                }
+            User user = (User) userInfoService.get();
+            if (user.getRoles().get(0).getType().equals("system") ||
+                    user.getRoles().get(0).getType().equals("infocheck")) {
+                    if (null == stationCode || "".equals(stationCode)) {
+                        jsonObject.put("status", 0);
+                        jsonObject.put("message", "stationCode缺失，删除失败！");
+                        return jsonObject;
+                    } else{
+                        if (0 != configRiverStationMapper.deleteByStationCode(stationCode)) {
+                            sysLogMapper.insertUserOprLog( new SysLog.builder()
+                                    .setUsername(user.getUserName())
+                                    .setOperateDes("测站配置表删除")
+                                    .setFreshVal(stationCode+"")
+                                    .setAction("删除")
+                                    .setPreviousVal("")
+                                    .build());
+                            jsonObject.put("status", 1);
+                            jsonObject.put("message", "删除成功！");
+                            return jsonObject;
+                        }else{
+
+                            jsonObject.put("status", 2);
+                            jsonObject.put("message", "其它原因，删除失败！");
+                            return jsonObject;
+                        }
+                    }
+            }
+            else {
+                jsonObject.put("status", 2);
+                jsonObject.put("message", "权限不足，无法删除！");
+                return  jsonObject;
             }
         } catch (Exception e) {
             e.printStackTrace();

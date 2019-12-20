@@ -1,6 +1,6 @@
 package com.siti.wisdomhydrologic.statistics.mapper;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.statistics.entity.BrokenType;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -47,9 +47,9 @@ public interface BrokenNumberMapper {
             " AND SUBSTR( a.create_time, 1, 4 ) = #{year} " +
             " AND SUBSTR( a.create_time, 6, 2 ) IN (<foreach collection=\"list\" item=\"item\" separator=\",\">#{item}</foreach>)" +
             " </script>")
-    List<ReportManageApplicationBroken> getRecoverTime(@Param("stationId") Integer stationId,
-                                                       @Param("year")Integer year,
-                                                       @Param("list")List<String> list,
-                                                       @Param("orgId")Integer orgId);
+    List<ReportStationBroken> getRecoverTime(@Param("stationId") Integer stationId,
+                                             @Param("year")Integer year,
+                                             @Param("list")List<String> list,
+                                             @Param("orgId")Integer orgId);
 
 }

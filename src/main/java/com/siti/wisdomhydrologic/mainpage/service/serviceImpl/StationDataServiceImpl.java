@@ -2,33 +2,28 @@ package com.siti.wisdomhydrologic.mainpage.service.serviceImpl;
 
 import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
+import com.siti.wisdomhydrologic.mainpage.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
+import com.siti.wisdomhydrologic.mainpage.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.mapper.StationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.StationDataService;
 import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
 import com.siti.wisdomhydrologic.mainpage.vo.ConfigRiverStationVo;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.mainpage.vo.RealVo;
+import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.vo.RealDeviceStatus;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateTransform;
-import com.siti.wisdomhydrologic.util.DatesUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -52,7 +47,7 @@ public class StationDataServiceImpl implements StationDataService {
     @Resource
     private UserInfoService userInfoService;
     @Resource
-    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
+    private ReportStationBrokenMapper reportStationBrokenMapper;
     //现展示浦东数据
     private final Integer SYSORG = 1002;
 
@@ -270,7 +265,7 @@ public class StationDataServiceImpl implements StationDataService {
                     data.setDescriptionList(description);
                 }
                 //箱门状态展示
-                List<RealDeviceStatus> devList = reportManageApplicationBrokenMapper.getRealDeviceList(data.getStationId());
+                List<RealDeviceStatus> devList = reportStationBrokenMapper.getRealDeviceList(data.getStationId());
                 if (devList.size() > 0) {
                     data.setRealDeviceStatusList(devList);
                 }

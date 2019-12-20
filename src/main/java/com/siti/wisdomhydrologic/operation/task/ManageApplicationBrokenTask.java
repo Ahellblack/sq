@@ -1,18 +1,12 @@
 package com.siti.wisdomhydrologic.operation.task;
 
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
-import com.siti.wisdomhydrologic.operation.service.Impl.ManageApplicationBrokenServiceImpl;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
-import com.siti.wisdomhydrologic.util.DateTransform;
+import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.service.Impl.StationBrokenServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by zyw on 2019/8/12.
@@ -21,13 +15,11 @@ import java.util.Date;
 public class ManageApplicationBrokenTask {
 
     @Resource
-    private ManageApplicationBrokenServiceImpl manageApplicationBrokenService;
+    private StationBrokenServiceImpl manageApplicationBrokenService;
     @Resource
     private ConfigAbnormalDictionaryMapper configAbnormalDictionaryMapper;
     @Resource
-    private AbnormalDetailMapper abnormalDetailMapper;
-    @Resource
-    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
+    private ReportStationBrokenMapper reportStationBrokenMapper;
 
     @Scheduled(cron = "0 0/5 * * * ? ")
     public int insertAbnormal() throws Exception {

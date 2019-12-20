@@ -5,19 +5,15 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalDictionary;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigSensorSectionModule;
 import com.siti.wisdomhydrologic.configmaintain.entity.ModuleAndStation;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.operation.entity.AbnormalDetailCurrent;
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
 import com.siti.wisdomhydrologic.operation.mapper.AbnormalDetailCurrentMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.ManageDataMantainService;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.AbnormalDetailEntity;
-import com.siti.wisdomhydrologic.realmessageprocess.mapper.AbnormalDetailMapper;
 import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
@@ -49,8 +45,6 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private ManageDataMantainMapper reportManageDataMantainMapper;
-    @Resource
-    private AbnormalDetailMapper abnormalDetailMapper;
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
     @Resource
@@ -121,16 +115,16 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
 
     @Override
     public int update(ReportManageDataMantain reportManageDataMantain) {
-        //数据发生修改时,altertime数据更新为当前时间
+//        //数据发生修改时,altertime数据更新为当前时间
         try {
-        String createTime = reportManageDataMantain.getCreateTime();
-        String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
-
-        if (errorLastestAppearTime != null) {
-            reportManageDataMantain.setErrorTimeSpace(createTime + "," + errorLastestAppearTime);
-        } else {
-            reportManageDataMantain.setErrorTimeSpace(createTime);
-        }
+//        String createTime = reportManageDataMantain.getCreateTime();
+//        String errorLastestAppearTime = reportManageDataMantain.getErrorLastestAppearTime();
+//
+//        if (errorLastestAppearTime != null) {
+//            reportManageDataMantain.setErrorTimeSpace(createTime + "," + errorLastestAppearTime);
+//        } else {
+//            reportManageDataMantain.setErrorTimeSpace(createTime);
+//        }
         System.out.println("修改后的ReportManageDataMantain:" + reportManageDataMantain);
             int result = reportManageDataMantainMapper.update(reportManageDataMantain);
             return result;
@@ -267,15 +261,13 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
                 System.out.println("error");
             }
         }
-        int count1 = 0;
-        // 设置导出配置
-        // 获取导出excel指定模版
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        URL url = this.getClass().getClassLoader().getResource("");
-        String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model2.xls");
-        System.out.println(logFilePath + "sqexcelmodel/model2.xls");
-
+//        int count1 = 0;
+//        // 设置导出配置
+//        // 获取导出excel指定模版
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        URL url = this.getClass().getClassLoader().getResource("");
+//        String logFilePath = url.getPath();
+        TemplateExportParams params = new TemplateExportParams("sqexcelmodel/model2.xls");
         // 标题开始行
         // params.setHeadingStartRow(0);
         // 标题行数
@@ -347,7 +339,7 @@ public class ManageDataMantainServiceImpl implements ManageDataMantainService {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model2.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model2.xls");
         System.out.println(logFilePath + "sqexcelmodel/model2.xls");
 
         // 标题开始行

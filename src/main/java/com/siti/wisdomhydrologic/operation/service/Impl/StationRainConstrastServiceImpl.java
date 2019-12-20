@@ -308,7 +308,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             // 获取导出excel指定模版
             URL url = this.getClass().getClassLoader().getResource("");
             String logFilePath = url.getPath();
-            TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model7.xls");
+            TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model7.xls");
             // 标题开始行
             // params.setHeadingStartRow(0);
             // 标题行数

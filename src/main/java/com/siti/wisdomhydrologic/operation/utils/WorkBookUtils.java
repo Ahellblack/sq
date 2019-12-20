@@ -28,7 +28,7 @@ public class WorkBookUtils {
         String dateStr = excelName + "_" + sdf.format(new Date());
         String DownName = URLEncoder.encode(dateStr, "UTF-8");
         // 指定下载的文件名--设置响应头
-        response.setHeader("Content-Disposition", "attachment;filename=" + DownName + ".xls");
+        response.setHeader("Content-Disposition", "attachment;filename=" +DownName + ".xls");
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");

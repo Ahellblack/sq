@@ -1,22 +1,13 @@
 package com.siti.wisdomhydrologic.user.interceptor;
 
-import com.siti.wisdomhydrologic.config.ConstantConfig;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import ytx.org.apache.http.client.HttpResponseException;
-import java.util.List;
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 
 @Component
 public class SecurityInteceptor implements HandlerInterceptor {

@@ -47,7 +47,9 @@ public class RecordDeviceReplace {
     private String newDeviceName;
     @ApiModelProperty(value = "原设备名称")
     private String originDeviceName;
-
+    public RecordDeviceReplace() {
+        super();
+    }
     private RecordDeviceReplace(Builder builder) {
         setReportId(builder.reportId);
         setStationCode(builder.stationCode);

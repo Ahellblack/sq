@@ -1,11 +1,8 @@
 package com.siti.wisdomhydrologic.operation.mapper;
 
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
 import org.apache.ibatis.annotations.*;
-import org.springframework.security.access.method.P;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -34,11 +31,26 @@ public interface ManageDataMantainMapper extends Mapper<ReportManageDataMantain>
             "</script>")
     List<ReportManageDataMantainVo> getVoByCreateDate(@Param("stationId") String stationId, @Param("alterType") String alterType, @Param("createDate") String createDate,@Param("orgId") Integer orgId);
 
-    @Update("UPDATE `report_manage_data_mantain` " +
-            "SET `station_code` = #{manage.stationCode}, `alter_date`= #{manage.alterDate}, `station_name`= #{manage.stationName}, `alter_sensor_type_id`=#{manage.alterSensorTypeId}, `alter_sensor_type_name`=#{manage.alterSensorTypeName}, `error_data_reason`=#{manage.errorDataReason}, `error_data_type`=#{manage.errorDataType}, `error_time_space` = #{manage.errorTimeSpace} ," +
-            "`error_value` = #{manage.errorValue}, `confir_value` = #{manage.confirValue}, `error_unit` = #{manage.errorUnit}, `error_data_re_run` = #{manage.errorDataReRun}, " +
-            "`miss_data_type` = #{manage.missDataType}, `miss_time_space` = #{manage.missTimeSpace}, `miss_data_re_run` =#{manage.missDataReRun} , `create_by` = #{manage.createBy}, " +
-            "`manage_org_id` = #{manage.manageOrgId}, `manage_org_name` = #{manage.manageOrgName} WHERE `report_id` = #{manage.reportId}")
+    @Update("UPDATE `report_manage_data_mantain` SET " +
+            "`station_code` = #{manage.stationCode}, " +
+            "`alter_date`= #{manage.alterDate}, " +
+            "`station_name`= #{manage.stationName}, " +
+            "`alter_sensor_type_id`=#{manage.alterSensorTypeId}, " +
+            "`alter_sensor_type_name`=#{manage.alterSensorTypeName}, " +
+            "`error_data_reason`=#{manage.errorDataReason}, " +
+            "`error_data_type`=#{manage.errorDataType}, " +
+            "`error_time_space` = #{manage.errorTimeSpace} ," +
+            "`error_value` = #{manage.errorValue}, " +
+            "`confir_value` = #{manage.confirValue}, " +
+            "`error_unit` = #{manage.errorUnit}, " +
+            "`error_data_re_run` = #{manage.errorDataReRun}, " +
+            "`miss_data_type` = #{manage.missDataType}, " +
+            "`miss_time_space` = #{manage.missTimeSpace}, " +
+            "`miss_data_re_run` =#{manage.missDataReRun} , " +
+            "`create_by` = #{manage.createBy}, " +
+            "`create_time` = #{manage.createTime}, " +
+            "`manage_org_id` = #{manage.manageOrgId}, " +
+            "`manage_org_name` = #{manage.manageOrgName} WHERE `report_id` = #{manage.reportId}")
     int update(@Param("manage") ReportManageDataMantain reportManageDataMantain);
 
     @Update("UPDATE `report_manage_data_mantain` " +

@@ -1,14 +1,9 @@
-package com.siti.wisdomhydrologic.realmessageprocess.mapper;
+package com.siti.wisdomhydrologic.mainpage.mapper;
 
+import com.siti.wisdomhydrologic.mainpage.entity.AbnormalDetailEntity;
 import com.siti.wisdomhydrologic.mainpage.vo.AbnormalDetailVo;
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
-import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
-import com.siti.wisdomhydrologic.realmessageprocess.entity.*;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -36,7 +31,7 @@ public interface AbnormalDetailMapper extends Mapper<AbnormalDetailEntity> {
             "where SUBSTR(sensor_code,1,5) = #{stationId} " +
             "and date BETWEEN #{latest30minute} and #{date} " +
             "and data_error = #{accordingId}")
-    List<AbnormalDetailEntity> get30MinuteDate(@Param("stationId")String stationId,@Param("accordingId")String accordingId,@Param("date")String date,@Param("latest30minute") String latest30minute);
+    List<AbnormalDetailEntity> get30MinuteDate(@Param("stationId") String stationId, @Param("accordingId") String accordingId, @Param("date") String date, @Param("latest30minute") String latest30minute);
 
 /*
     @Update("<script>update abnormal_detail set table4_display_status = 1 " +

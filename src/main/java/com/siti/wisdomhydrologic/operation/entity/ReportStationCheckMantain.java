@@ -5,7 +5,52 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 public class ReportStationCheckMantain {
     @Override
     public String toString() {
-        return "ReportStationCheckMantain{" + "reportId=" + reportId + ", mantainDate='" + mantainDate + '\'' + ", stationCode=" + stationCode + ", stationName='" + stationName + '\'' + ", stationManangeOrgId=" + stationManangeOrgId + ", stationManageOrgName='" + stationManageOrgName + '\'' + ", rtuType='" + rtuType + '\'' + ", checkRainSensor=" + checkRainSensor + ", checkWaterLevelSensor=" + checkWaterLevelSensor + ", checkSpeedDirectionSensor=" + checkSpeedDirectionSensor + ", checkFlowSensor=" + checkFlowSensor + ", checkOtherSensor='" + checkOtherSensor + '\'' + ", dataCollectionCorrect=" + dataCollectionCorrect + ", dataCollectionParameterCheck=" + dataCollectionParameterCheck + ", dataCollectionNormal=" + dataCollectionNormal + ", dataCommunicateParameterCheck=" + dataCommunicateParameterCheck + ", dataCommunicateChannel=" + dataCommunicateChannel + ", solarEnergyVoltageCheck=" + solarEnergyVoltageCheck + ", solarEnergyVoltageValue=" + solarEnergyVoltageValue + ", storageBatteryVoltageCheck=" + storageBatteryVoltageCheck + ", storageBatteryValue=" + storageBatteryValue + ", rainfallSensorNormal=" + rainfallSensorNormal + ", rainfallSensorCleanCheck=" + rainfallSensorCleanCheck + ", rainfallSensorRangeCheck=" + rainfallSensorRangeCheck + ", waterLevelCheckNormal=" + waterLevelCheckNormal + ", waterLevelCheckShaft=" + waterLevelCheckShaft + ", waterLevelCleanCheck=" + waterLevelCleanCheck + ", waterLevelAdjust=" + waterLevelAdjust + ", speedDirectionCheckNormal=" + speedDirectionCheckNormal + ", speedDirectionCheckLightingProtection=" + speedDirectionCheckLightingProtection + ", flowmeterDataCheckNormal=" + flowmeterDataCheckNormal + ", flowmeterPitchGesture=" + flowmeterPitchGesture + ", flowmeterRollingGesture=" + flowmeterRollingGesture + ", flowmeterSignalStrength=" + flowmeterSignalStrength + ", flowmeterRecordTimeWarp=" + flowmeterRecordTimeWarp + ", linePipeCheckNormal=" + linePipeCheckNormal + ", stationEnviroment=" + stationEnviroment + ", stationCleanCheck=" + stationCleanCheck + ", remark='" + remark + '\'' + ", createBy='" + createBy + '\'' + ", createTime='" + createTime + '\'' + ", waterLevelZeroHeight='" + waterLevelZeroHeight + '\'' + ", waterLevelStaffValue='" + waterLevelStaffValue + '\'' + ", waterLevelTime='" + waterLevelTime + '\'' + ", waterLevelIndicatorValue='" + waterLevelIndicatorValue + '\'' + ", waterLevelValue='" + waterLevelValue + '\'' + '}';
+        return "ReportStationCheckMantain{" +
+                "reportId=" + reportId +
+                ", mantainDate='" + mantainDate + '\'' +
+                ", stationId=" + stationId +
+                ", stationName='" + stationName + '\'' +
+                ", rtuType='" + rtuType + '\'' +
+                ", checkRainSensor=" + checkRainSensor +
+                ", checkWaterLevelSensor=" + checkWaterLevelSensor +
+                ", checkSpeedDirectionSensor=" + checkSpeedDirectionSensor +
+                ", checkFlowSensor=" + checkFlowSensor +
+                ", checkOtherSensor='" + checkOtherSensor + '\'' +
+                ", dataCollectionCorrect=" + dataCollectionCorrect +
+                ", dataCollectionParameterCheck=" + dataCollectionParameterCheck +
+                ", dataCollectionNormal=" + dataCollectionNormal +
+                ", dataCommunicateParameterCheck=" + dataCommunicateParameterCheck +
+                ", dataCommunicateChannel=" + dataCommunicateChannel +
+                ", solarEnergyVoltageCheck=" + solarEnergyVoltageCheck +
+                ", solarEnergyVoltageValue=" + solarEnergyVoltageValue +
+                ", storageBatteryVoltageCheck=" + storageBatteryVoltageCheck +
+                ", storageBatteryValue=" + storageBatteryValue +
+                ", rainfallSensorNormal=" + rainfallSensorNormal +
+                ", rainfallSensorCleanCheck=" + rainfallSensorCleanCheck +
+                ", rainfallSensorRangeCheck=" + rainfallSensorRangeCheck +
+                ", waterLevelCheckNormal=" + waterLevelCheckNormal +
+                ", waterLevelCheckShaft=" + waterLevelCheckShaft +
+                ", waterLevelCleanCheck=" + waterLevelCleanCheck +
+                ", waterLevelAdjust=" + waterLevelAdjust +
+                ", waterLevelZeroHeight='" + waterLevelZeroHeight + '\'' +
+                ", waterLevelStaffValue='" + waterLevelStaffValue + '\'' +
+                ", waterLevelTime='" + waterLevelTime + '\'' +
+                ", waterLevelIndicatorValue='" + waterLevelIndicatorValue + '\'' +
+                ", waterLevelValue='" + waterLevelValue + '\'' +
+                ", speedDirectionCheckNormal=" + speedDirectionCheckNormal +
+                ", speedDirectionCheckLightingProtection=" + speedDirectionCheckLightingProtection +
+                ", flowmeterDataCheckNormal=" + flowmeterDataCheckNormal +
+                ", flowmeterPitchGesture=" + flowmeterPitchGesture +
+                ", flowmeterRollingGesture=" + flowmeterRollingGesture +
+                ", flowmeterSignalStrength=" + flowmeterSignalStrength +
+                ", flowmeterRecordTimeWarp=" + flowmeterRecordTimeWarp +
+                ", linePipeCheckNormal=" + linePipeCheckNormal +
+                ", stationEnviroment=" + stationEnviroment +
+                ", stationCleanCheck=" + stationCleanCheck +
+                ", remark='" + remark + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 
     @Excel(name = "reportId", height = 11, width = 10)
@@ -14,17 +59,12 @@ public class ReportStationCheckMantain {
     @Excel(name = "mantainDate", height = 11, width = 10)
     private String mantainDate;
 
-    @Excel(name = "stationCode", height = 11, width = 10)
-    private int stationCode;
+    @Excel(name = "stationId", height = 11, width = 10)
+    private String stationId;
 
     @Excel(name = "stationName", height = 11, width = 10)
     private String stationName;
 
-    @Excel(name = "stationManangeOrgId", height = 11, width = 10)
-    private int stationManangeOrgId;
-
-    @Excel(name = "stationManageOrgName", height = 11, width = 10)
-    private String stationManageOrgName;
 
     @Excel(name = "rtuType", height = 11, width = 10)
     private String rtuType;
@@ -63,13 +103,13 @@ public class ReportStationCheckMantain {
     private int solarEnergyVoltageCheck;
 
     @Excel(name = "solarEnergyVoltageValue", height = 11, width = 10)
-    private double solarEnergyVoltageValue;
+    private String solarEnergyVoltageValue;
 
     @Excel(name = "storageBatteryVoltageCheck", height = 11, width = 10)
     private int storageBatteryVoltageCheck;
 
     @Excel(name = "storageBatteryValue", height = 11, width = 10)
-    private double storageBatteryValue;
+    private String storageBatteryValue;
 
     @Excel(name = "rainfallSensorNormal", height = 11, width = 10)
     private int rainfallSensorNormal;
@@ -92,6 +132,12 @@ public class ReportStationCheckMantain {
     @Excel(name = "waterLevelAdjust", height = 11, width = 10)
     private int waterLevelAdjust;
 
+    private String waterLevelZeroHeight;
+    private String waterLevelStaffValue;
+    private String waterLevelTime;
+    private String waterLevelIndicatorValue;
+    private String waterLevelValue;
+
     @Excel(name = "speedDirectionCheckNormal", height = 11, width = 10)
     private int speedDirectionCheckNormal;
 
@@ -102,10 +148,10 @@ public class ReportStationCheckMantain {
     private int flowmeterDataCheckNormal;
 
     @Excel(name = "flowmeterPitchGesture", height = 11, width = 10)
-    private double flowmeterPitchGesture;
+    private String flowmeterPitchGesture;
 
     @Excel(name = "flowmeterRollingGesture", height = 11, width = 10)
-    private double flowmeterRollingGesture;
+    private String flowmeterRollingGesture;
 
     @Excel(name = "flowmeterSignalStrength", height = 11, width = 10)
     private int flowmeterSignalStrength;
@@ -130,14 +176,6 @@ public class ReportStationCheckMantain {
 
     @Excel(name = "createTime", height = 11, width = 10)
     private String createTime;
-
-
-    private String waterLevelZeroHeight;
-    private String waterLevelStaffValue;
-    private String waterLevelTime;
-    private String waterLevelIndicatorValue;
-    private String waterLevelValue;
-
 
 
     public String getWaterLevelZeroHeight() {
@@ -198,12 +236,12 @@ public class ReportStationCheckMantain {
     }
 
 
-    public int getStationCode() {
-        return stationCode;
+    public String getStationId() {
+        return stationId;
     }
 
-    public void setStationCode(int stationCode) {
-        this.stationCode = stationCode;
+    public void setStationId(String stationId) {
+        this.stationId = stationId;
     }
 
     public String getStationName() {
@@ -212,24 +250,6 @@ public class ReportStationCheckMantain {
 
     public void setStationName(String stationName) {
         this.stationName = stationName;
-    }
-
-
-    public int getStationManangeOrgId() {
-        return stationManangeOrgId;
-    }
-
-    public void setStationManangeOrgId(int stationManangeOrgId) {
-        this.stationManangeOrgId = stationManangeOrgId;
-    }
-
-
-    public String getStationManageOrgName() {
-        return stationManageOrgName;
-    }
-
-    public void setStationManageOrgName(String stationManageOrgName) {
-        this.stationManageOrgName = stationManageOrgName;
     }
 
 
@@ -341,11 +361,11 @@ public class ReportStationCheckMantain {
     }
 
 
-    public double getSolarEnergyVoltageValue() {
+    public String getSolarEnergyVoltageValue() {
         return solarEnergyVoltageValue;
     }
 
-    public void setSolarEnergyVoltageValue(double solarEnergyVoltageValue) {
+    public void setSolarEnergyVoltageValue(String solarEnergyVoltageValue) {
         this.solarEnergyVoltageValue = solarEnergyVoltageValue;
     }
 
@@ -359,11 +379,11 @@ public class ReportStationCheckMantain {
     }
 
 
-    public double getStorageBatteryValue() {
+    public String getStorageBatteryValue() {
         return storageBatteryValue;
     }
 
-    public void setStorageBatteryValue(double storageBatteryValue) {
+    public void setStorageBatteryValue(String storageBatteryValue) {
         this.storageBatteryValue = storageBatteryValue;
     }
 
@@ -458,20 +478,20 @@ public class ReportStationCheckMantain {
     }
 
 
-    public double getFlowmeterPitchGesture() {
+    public String getFlowmeterPitchGesture() {
         return flowmeterPitchGesture;
     }
 
-    public void setFlowmeterPitchGesture(double flowmeterPitchGesture) {
+    public void setFlowmeterPitchGesture(String flowmeterPitchGesture) {
         this.flowmeterPitchGesture = flowmeterPitchGesture;
     }
 
 
-    public double getFlowmeterRollingGesture() {
+    public String getFlowmeterRollingGesture() {
         return flowmeterRollingGesture;
     }
 
-    public void setFlowmeterRollingGesture(double flowmeterRollingGesture) {
+    public void setFlowmeterRollingGesture(String flowmeterRollingGesture) {
         this.flowmeterRollingGesture = flowmeterRollingGesture;
     }
 
@@ -550,9 +570,9 @@ public class ReportStationCheckMantain {
     public ReportStationCheckMantain() {
     }
 
-    public ReportStationCheckMantain(String mantainDate, int stationCode, String stationName) {
+    public ReportStationCheckMantain(String mantainDate, String stationId, String stationName) {
         this.mantainDate = mantainDate;
-        this.stationCode = stationCode;
+        this.stationId = stationId;
         this.stationName = stationName;
     }
 }

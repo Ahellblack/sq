@@ -103,17 +103,22 @@ public class HyetometerServiceImpl  {
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i + 1);
-            data.getTimeDuration();
-            data.getStartTime();
-            data.getEndTime();
-            if (data.getTimeDuration() != null)
-                data.setTimeDuration(data.getTimeDuration().substring(11, 13) + "时" + data.getTimeDuration().substring(14, 16) + "分" + data.getTimeDuration().substring(17, 19) + "秒");
             if (data.getStartTime() != null)
-                data.setStartTime(data.getStartTime().substring(11, 13) + "时" + data.getStartTime().substring(14, 16) + "分" + data.getStartTime().substring(17, 19) + "秒");
+                data.setStartTime(data.getStartTime().substring(11, 19) );
             if (data.getEndTime() != null)
-                data.setEndTime(data.getEndTime().substring(11, 13) + "时" + data.getEndTime().substring(14, 16) + "分" + data.getEndTime().substring(17, 19) + "秒");
-            if (data.getCreateTime() != null)
-                data.setCreateTime(data.getCreateTime().substring(0, 4) + "年" + data.getCreateTime().substring(5, 7) + "月" + data.getCreateTime().substring(8, 10) + "日");
+                data.setEndTime(data.getEndTime().substring(11, 19) );
+
+//            data.getTimeDuration();
+//            data.getStartTime();
+//            data.getEndTime();
+//            if (data.getTimeDuration() != null)
+//                data.setTimeDuration(data.getTimeDuration().substring(11, 13) + "时" + data.getTimeDuration().substring(14, 16) + "分" + data.getTimeDuration().substring(17, 19) + "秒");
+//            if (data.getStartTime() != null)
+//                data.setStartTime(data.getStartTime().substring(11, 13) + "时" + data.getStartTime().substring(14, 16) + "分" + data.getStartTime().substring(17, 19) + "秒");
+//            if (data.getEndTime() != null)
+//                data.setEndTime(data.getEndTime().substring(11, 13) + "时" + data.getEndTime().substring(14, 16) + "分" + data.getEndTime().substring(17, 19) + "秒");
+//            if (data.getCreateTime() != null)
+//                data.setCreateTime(data.getCreateTime().substring(0, 4) + "年" + data.getCreateTime().substring(5, 7) + "月" + data.getCreateTime().substring(8, 10) + "日");
         }
         int count1 = 0;
         // 设置导出配置
@@ -127,7 +132,7 @@ public class HyetometerServiceImpl  {
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
         // 获取导出excel指定模版
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model6.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model6.xls");
         // 标题开始行
         // params.setHeadingStartRow(0);
         // 标题行数
@@ -168,17 +173,21 @@ public class HyetometerServiceImpl  {
         for (int i = 0; i < list.size(); i++) {
             ReportHyetometerTest data = list.get(i);
             data.setReportId(i + 1);
-            data.getTimeDuration();
-            data.getStartTime();
-            data.getEndTime();
-            if (data.getTimeDuration() != null)
-                data.setTimeDuration(data.getTimeDuration().substring(11, 13) + "时" + data.getTimeDuration().substring(14, 16) + "分" + data.getTimeDuration().substring(17, 19) + "秒");
             if (data.getStartTime() != null)
-                data.setStartTime(data.getStartTime().substring(11, 13) + "时" + data.getStartTime().substring(14, 16) + "分" + data.getStartTime().substring(17, 19) + "秒");
+                data.setStartTime(data.getStartTime().substring(11, 19) );
             if (data.getEndTime() != null)
-                data.setEndTime(data.getEndTime().substring(11, 13) + "时" + data.getEndTime().substring(14, 16) + "分" + data.getEndTime().substring(17, 19) + "秒");
-            if (data.getCreateTime() != null)
-                data.setCreateTime(data.getCreateTime().substring(0, 4) + "年" + data.getCreateTime().substring(5, 7) + "月" + data.getCreateTime().substring(8, 10) + "日");
+                data.setEndTime(data.getEndTime().substring(11, 19) );
+//            data.getTimeDuration();
+//            data.getStartTime();
+//            data.getEndTime();
+//            if (data.getTimeDuration() != null)
+//                data.setTimeDuration(data.getTimeDuration().substring(11, 13) + "时" + data.getTimeDuration().substring(14, 16) + "分" + data.getTimeDuration().substring(17, 19) + "秒");
+//            if (data.getStartTime() != null)
+//                data.setStartTime(data.getStartTime().substring(11, 13) + "时" + data.getStartTime().substring(14, 16) + "分" + data.getStartTime().substring(17, 19) + "秒");
+//            if (data.getEndTime() != null)
+//                data.setEndTime(data.getEndTime().substring(11, 13) + "时" + data.getEndTime().substring(14, 16) + "分" + data.getEndTime().substring(17, 19) + "秒");
+//            if (data.getCreateTime() != null)
+//                data.setCreateTime(data.getCreateTime().substring(0, 4) + "年" + data.getCreateTime().substring(5, 7) + "月" + data.getCreateTime().substring(8, 10) + "日");
 
             // if (data.getCreateTime()!= null)data.setCreateTime(data.getCreateTime().substring(8,10)+"日"+data.getCreateTime().substring(11,13)+"时");
         }
@@ -195,7 +204,7 @@ public class HyetometerServiceImpl  {
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
         // 获取导出excel指定模版
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model6.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model6.xls");
         // 标题开始行
         // params.setHeadingStartRow(0);
         // 标题行数

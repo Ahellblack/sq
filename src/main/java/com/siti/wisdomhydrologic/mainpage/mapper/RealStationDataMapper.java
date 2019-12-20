@@ -2,7 +2,7 @@ package com.siti.wisdomhydrologic.mainpage.mapper;
 
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.vo.RealStationVo;
-import com.siti.wisdomhydrologic.realmessageprocess.vo.RealVo;
+import com.siti.wisdomhydrologic.mainpage.vo.RealVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -73,6 +73,6 @@ public interface RealStationDataMapper {
     @Select("<script>select * FROM `real` " +
             " WHERE time &gt;= #{startTime} and time &lt; #{endTime} " +
             " and sensor_code = #{sensorCode}</script> ")
-    List<RealVo> getLastDayList(@Param("sensorCode") String sensorCode,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    List<RealVo> getLastDayList(@Param("sensorCode") String sensorCode, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
 }

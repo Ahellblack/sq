@@ -1,16 +1,11 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
-import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportHyetometerTest;
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.HyetometerMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.HyetometerServiceImpl;
 import com.siti.wisdomhydrologic.operation.utils.WorkBookUtils;
-import com.siti.wisdomhydrologic.operation.vo.ReportListVo;
-import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
@@ -23,9 +18,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

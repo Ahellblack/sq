@@ -3,8 +3,7 @@ package com.siti.wisdomhydrologic.mainpage.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.siti.wisdomhydrologic.mainpage.vo.DataEquipErrorVo;
-import com.siti.wisdomhydrologic.operation.entity.ReportManageApplicationBroken;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
 import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
@@ -17,8 +16,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by zyw on 2019/8/23.
@@ -32,7 +29,7 @@ public class DataEquipErrorController {
     private UserInfoService userInfoService;
 
     @Resource
-    private ManageApplicationBrokenMapper reportManageApplicationBrokenMapper;
+    private ReportStationBrokenMapper reportStationBrokenMapper;
 
     @GetMapping("/get")
     @ApiOperation(value = "首页数据异常接口", httpMethod = "GET", notes = "数据异常接口," + "dataErrorNumber年数据异常数" + "equipErrorNumber年设备异常数" + "dataAnalystNumber年数据分析发现异常数" + "equipAnalystNumber年设备分析发现异常数" + "modelNumber模型发现异常数量" + "typicalValueNumber典型值发现异常数" + "dataErrorNumberMonth月数据异常数" + "equipErrorNumberMonth月设备异常数")
@@ -44,20 +41,20 @@ public class DataEquipErrorController {
         DataEquipErrorVo vo = new DataEquipErrorVo(0, 0, 0, 0, 0, 0);
         //默认查询本月
 
-        List<ReportManageApplicationBroken> list = new ArrayList<>();
+        List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken> list = new ArrayList<>();
         if (date == 1) {
             String createDate = DateOrTimeTrans.Date2TimeString(new Date());
-            list = reportManageApplicationBrokenMapper
+            list = reportStationBrokenMapper
                     .getAllDay(createDate, 1, null);
         }
         if (date == 2) {
             String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
-            list = reportManageApplicationBrokenMapper
+            list = reportStationBrokenMapper
                     .getAllMonth(createDate, 1, null);
         }
         if (date == 3) {
             String createDate = DateOrTimeTrans.Year2String(new Date());
-            list = reportManageApplicationBrokenMapper
+            list = reportStationBrokenMapper
                     .getAllYear(createDate, 1, null);
         }
 
@@ -86,7 +83,7 @@ public class DataEquipErrorController {
     }
 
     @GetMapping("brokenRealData")
-    public PageInfo<ReportManageApplicationBroken> getRealData(Integer type, Integer date, Integer page, Integer pageSize) {
+    public PageInfo<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken> getRealData(Integer type, Integer date, Integer page, Integer pageSize) {
         try {
             if (page == null || pageSize == null) {
                 return null;
@@ -94,19 +91,19 @@ public class DataEquipErrorController {
             PageHelper.startPage(page, pageSize);
 
             getTypeList(type);
-            List<ReportManageApplicationBroken> list = new ArrayList<>();
+            List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken> list = new ArrayList<>();
 
             if (date == 1) {
                 String createDate = DateOrTimeTrans.Date2TimeString(new Date());
-                list = reportManageApplicationBrokenMapper.getAllDay(createDate, 1, getTypeList(type));
+                list = reportStationBrokenMapper.getAllDay(createDate, 1, getTypeList(type));
             }
             if (date == 2) {
                 String createDate = DateOrTimeTrans.Date2TimeString3(new Date());
-                list = reportManageApplicationBrokenMapper.getAllMonth(createDate, 1, getTypeList(type));
+                list = reportStationBrokenMapper.getAllMonth(createDate, 1, getTypeList(type));
             }
             if (date == 3) {
                 String createDate = DateOrTimeTrans.Year2String(new Date());
-                list = reportManageApplicationBrokenMapper.getAllYear(createDate, 1, getTypeList(type));
+                list = reportStationBrokenMapper.getAllYear(createDate, 1, getTypeList(type));
             }
             return new PageInfo<>(list);
         } catch (Exception e) {

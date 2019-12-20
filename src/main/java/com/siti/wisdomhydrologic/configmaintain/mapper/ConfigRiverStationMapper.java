@@ -2,6 +2,7 @@ package com.siti.wisdomhydrologic.configmaintain.mapper;
 
 
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -19,6 +20,19 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
             " order by station_name asc   " +
             "</script>")
     List<ConfigRiverStation> getAll(@Param("orgId") Integer orgId);
+
+    @Select("<script> select station_id,station_name from config_river_station  " +
+            " where 1 " +
+            "<if test=\"orgList!=null and orgList.size()>0\">" +
+            "   and sys_org in " +
+            "   <foreach collection=\"orgList\" item=\"org\" " +
+            "       index=\"index\" open=\"(\" close=\")\" separator=\",\">" +
+            "       #{org}" +
+            "   </foreach>" +
+            "</if> " +
+            "  ORDER BY  convert(station_name using gbk) asc "+
+            "</script>")
+    List<ConfigRiverStation> getAllStationIDAndNameByOrgList(@Param("orgList") List<Integer> orgList);
 
     @Select("select * from config_river_station ")
     List<ConfigRiverStation> getAllstation();

@@ -89,6 +89,7 @@ public class RecordDeviceReplaceController {
             return 0;
         }
     }
+
     @ApiOperation(value = "表八原设备资产选择下拉框", httpMethod = "GET", notes = "表八原设备资产选择下拉框")
     @GetMapping("/getOriginDatabase")
     public List<ConfigSensorDatabase> getOriginList(String originDeviceId,String manageOrgId) {
@@ -231,7 +232,7 @@ public class RecordDeviceReplaceController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model8.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model8.xls");
 
         // 标题开始行
         // params.setHeadingStartRow(0);
@@ -274,7 +275,7 @@ public class RecordDeviceReplaceController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         URL url = this.getClass().getClassLoader().getResource("");
         String logFilePath = url.getPath();
-        TemplateExportParams params = new TemplateExportParams(logFilePath + "sqexcelmodel/model8.xls");
+        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model8.xls");
 
         // 标题开始行
         // params.setHeadingStartRow(0);

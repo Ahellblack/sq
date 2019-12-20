@@ -25,7 +25,7 @@ public class StationRainConstrastTask {
     public void insertData() throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DAY_OF_MONTH,-1);
+        cal.add(Calendar.DAY_OF_MONTH,0);
         String yesterday = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd");
         stationRainConstrastService.insertOrUpdateData(yesterday);
     }

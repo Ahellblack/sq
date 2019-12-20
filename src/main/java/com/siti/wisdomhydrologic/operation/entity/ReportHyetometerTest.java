@@ -34,13 +34,13 @@ public class ReportHyetometerTest {
     @Excel(name = "timeDuration", height = 11, width = 20)
     private String timeDuration;
     @Excel(name = "waterPoll", height = 11, width = 20)
-    private double waterPoll;
+    private String waterPoll;
     @Excel(name = "waterPollStrength", height = 11, width = 20)
-    private double waterPollStrength;
+    private String waterPollStrength;
     @Excel(name = "waterDisplay", height = 11, width = 20)
-    private double waterDisplay;
+    private String waterDisplay;
     @Excel(name = "errorValue", height = 11, width = 20)
-    private double errorValue;
+    private String errorValue;
     @Excel(name = "createBy", height = 11, width = 20)
     private String createBy;
     @Excel(name = "createTime", height = 11, width = 20)
@@ -135,35 +135,35 @@ public class ReportHyetometerTest {
         this.timeDuration = timeDuration;
     }
 
-    public double getWaterPoll() {
+    public String getWaterPoll() {
         return waterPoll;
     }
 
-    public void setWaterPoll(double waterPoll) {
+    public void setWaterPoll(String waterPoll) {
         this.waterPoll = waterPoll;
     }
 
-    public double getWaterPollStrength() {
+    public String getWaterPollStrength() {
         return waterPollStrength;
     }
 
-    public void setWaterPollStrength(double waterPollStrength) {
+    public void setWaterPollStrength(String waterPollStrength) {
         this.waterPollStrength = waterPollStrength;
     }
 
-    public double getWaterDisplay() {
+    public String getWaterDisplay() {
         return waterDisplay;
     }
 
-    public void setWaterDisplay(double waterDisplay) {
+    public void setWaterDisplay(String waterDisplay) {
         this.waterDisplay = waterDisplay;
     }
 
-    public double getErrorValue() {
+    public String getErrorValue() {
         return errorValue;
     }
 
-    public void setErrorValue(double errorValue) {
+    public void setErrorValue(String errorValue) {
         this.errorValue = errorValue;
     }
 

@@ -1,4 +1,4 @@
-package com.siti.wisdomhydrologic.realmessageprocess.vo;
+package com.siti.wisdomhydrologic.mainpage.vo;
 
 import java.util.Date;
 

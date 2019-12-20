@@ -1,40 +1,22 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
-import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.github.pagehelper.PageInfo;
-import com.siti.wisdomhydrologic.datepull.mapper.DayDataMapper;
 import com.siti.wisdomhydrologic.log.entity.SysLog;
 import com.siti.wisdomhydrologic.log.mapper.SysLogMapper;
 import com.siti.wisdomhydrologic.operation.entity.ReportManageDataMantain;
-import com.siti.wisdomhydrologic.operation.mapper.ManageDataMantainMapper;
 import com.siti.wisdomhydrologic.operation.service.Impl.ManageDataMantainServiceImpl;
 import com.siti.wisdomhydrologic.operation.utils.WorkBookUtils;
-import com.siti.wisdomhydrologic.operation.vo.RecordDeviceReplaceVo;
-import com.siti.wisdomhydrologic.operation.vo.ReportManageDataMantainVo;
-import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
-import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
-import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -45,17 +27,9 @@ import java.util.*;
 @Api(value = "系统数据修正登记表controller", tags = {"系统数据修正登记表"})
 public class ManageDataMantainController {
     @Resource
-    private ManageDataMantainMapper manageDataMantainMapper;
-    @Resource
     private ManageDataMantainServiceImpl reportManageDataMantainService;
     @Resource
-    private DayDataMapper dayDataMapper;
-    @Resource
-    private ManageDataMantainMapper reportManageDataMantainMapper;
-    @Resource
     private UserInfoService userInfoService;
-    @Resource
-    private UserMapper userMapper;
     @Resource
     private SysLogMapper sysLogMapper;
     /**
@@ -167,9 +141,4 @@ public class ManageDataMantainController {
         String excelName = "系统数据修正登记表";
         return WorkBookUtils.download(response, workbook, excelName);
     }
-
-
-
-
-
 }

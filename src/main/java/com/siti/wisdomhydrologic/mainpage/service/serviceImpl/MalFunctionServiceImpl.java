@@ -5,11 +5,8 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.mainpage.entity.RealStationData;
 import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.vo.StationMalFunction;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import java.util.List;
 public class MalFunctionServiceImpl {
 
     @Resource
-    private ManageApplicationBrokenMapper manageApplicationBrokenMapper;
+    private ReportStationBrokenMapper reportStationBrokenMapper;
     @Resource
     private ConfigRiverStationMapper configRiverStationMapper;
     @Resource
@@ -38,13 +35,13 @@ public class MalFunctionServiceImpl {
         }
         List<StationMalFunction> regAndStatusList = new ArrayList<>();
         if (DATE == 1) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListDay();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListDay();
         }
         if (DATE == 2) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListMonth();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListMonth();
         }
         if (DATE == 3) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListYear();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListYear();
         }
         StationMalFunction stationMalFunction = new StationMalFunction(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         List<ConfigRiverStation> list = configRiverStationMapper.getAllstation();
@@ -87,13 +84,13 @@ public class MalFunctionServiceImpl {
         }
         List<StationMalFunction> regAndStatusList = new ArrayList<>();
         if (DATE == 1) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListDay();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListDay();
         }
         if (DATE == 2) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListMonth();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListMonth();
         }
         if (DATE == 3) {
-            regAndStatusList = manageApplicationBrokenMapper.getRegAndStatusListYear();
+            regAndStatusList = reportStationBrokenMapper.getRegAndStatusListYear();
         }
         StationMalFunction stationMalFunction = new StationMalFunction(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         List<ConfigRiverStation> list = configRiverStationMapper.getAllstation();

@@ -5,9 +5,7 @@ import com.siti.wisdomhydrologic.mainpage.mapper.RealStationDataMapper;
 import com.siti.wisdomhydrologic.mainpage.service.serviceImpl.MalFunctionServiceImpl;
 import com.siti.wisdomhydrologic.mainpage.vo.ReportManageApplicationBrokenVo;
 import com.siti.wisdomhydrologic.mainpage.vo.StationMalFunction;
-import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
-import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
-import com.siti.wisdomhydrologic.operation.mapper.ManageApplicationBrokenMapper;
+import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +27,7 @@ import java.util.Map;
 public class MalFunctionController {
 
     @Resource
-    private ManageApplicationBrokenMapper manageApplicationBrokenMapper;
+    private ReportStationBrokenMapper reportStationBrokenMapper;
     @Resource
     private RealStationDataMapper realStationDataMapper;
     @Resource
@@ -38,17 +35,17 @@ public class MalFunctionController {
 
     @GetMapping("/getLatest10")
     public List<ReportManageApplicationBrokenVo> getList() {
-        return manageApplicationBrokenMapper.getLatest10(null);
+        return reportStationBrokenMapper.getLatest10(null);
     }
 
     @GetMapping("/getLatest10S")
     public List<ReportManageApplicationBrokenVo> getListS() {
-        return manageApplicationBrokenMapper.getLatest10(43);
+        return reportStationBrokenMapper.getLatest10(43);
     }
 
     @GetMapping("/getLatest10N")
     public List<ReportManageApplicationBrokenVo> getListN() {
-        return manageApplicationBrokenMapper.getLatest10(42);
+        return reportStationBrokenMapper.getLatest10(42);
     }
 
     @ApiOperation(value = "首页北片的派单状况", httpMethod = "GET", notes = "北片数据派单状况,默认展示年派单数据," + " NstationNumber北测站数" + " NmalNumber北派单数" + " NonResolveNumber北维护中数" + " NendResolveNumber北已解决数" + " NnormalStationNumber北正常测站数" + " NabnormalStationNumber北异常测站数" + " NdownStationNumber北离线测站数")

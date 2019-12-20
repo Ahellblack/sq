@@ -1,5 +1,7 @@
 package com.siti.wisdomhydrologic.operation.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalDictionary;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigAbnormalError;
 import com.siti.wisdomhydrologic.configmaintain.entity.ConfigRiverStation;
@@ -52,8 +54,30 @@ public class DropDownBoxController {
     {
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
-
         return configRiverStationMapper.getAll(orgList.get(0).getId());
+    }
+
+    @ApiOperation(value = "测站信息下拉框", httpMethod = "GET", notes = "测站信息下拉框获取")
+    @GetMapping("/getAllStationIDAndName")
+    public JSONArray getAllStationIDAndName()
+    {
+        JSONArray jsonArray = null;
+        try {
+            User user = (User) userInfoService.get();
+            List<Integer> orgList = userMapper.getOrgIdList(user.getId());
+            List<ConfigRiverStation> list = configRiverStationMapper.getAllStationIDAndNameByOrgList(orgList);
+
+            jsonArray = new JSONArray();
+            for(ConfigRiverStation configRiverStation : list){
+                JSONObject json = new JSONObject();
+                json.put("stationId",String.valueOf(configRiverStation.getStationId()));
+                json.put("stationName",configRiverStation.getStationName());
+                jsonArray.add(json);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
     }
 
     @ApiOperation(value = "错误名称", httpMethod = "GET", notes = "数据异常下拉框获取,运维表2下拉框")
