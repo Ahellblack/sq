@@ -44,26 +44,26 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
      */
     public Workbook exportSheetByTemplate(Integer reportId) {
         // 查询数据,此处省略
-        ReportStationCheckMantain entity = stationCheckMantainMapper.getByReportId(31);
+        ReportStationCheckMantain entity = stationCheckMantainMapper.getByReportId(reportId);
 
         // 获取导出excel指定模版
         TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model5.xls");
         params.setSheetName("表五");
-//
-//        if(entity.getSolarEnergyVoltageCheck() ==1){
-//            entity.setSolarEnergyVoltageCheckRightName("☑ 正常"+entity.getSolarEnergyVoltageValue()+"V");
-//            entity.setSolarEnergyVoltageCheckWrongName("□ 不正常");
-//        }else{
-//            entity.setSolarEnergyVoltageCheckRightName("□正常");
-//            entity.setSolarEnergyVoltageCheckWrongName("☑ 不正常"+entity.getSolarEnergyVoltageValue()+"V");
-//        }
-//        if(entity.getStorageBatteryVoltageCheck() ==1){
-//            entity.setStorageBatteryVoltageCheckRightName("☑ 正常"+entity.getStorageBatteryValue()+"V");
-//            entity.setStorageBatteryVoltageCheckWrongName("□ 不正常");
-//        }else{
-//            entity.setStorageBatteryVoltageCheckRightName("□ 正常");
-//            entity.setStorageBatteryVoltageCheckWrongName("☑ 不正常"+entity.getStorageBatteryValue()+"V");
-//        }
+
+        if(entity.getSolarEnergyVoltageCheck() ==1){
+            entity.setSolarEnergyVoltageCheckRightName("☑ 正常"+entity.getSolarEnergyVoltageValue()+"V");
+            entity.setSolarEnergyVoltageCheckWrongName("□ 不正常");
+        }else{
+            entity.setSolarEnergyVoltageCheckRightName("□正常");
+            entity.setSolarEnergyVoltageCheckWrongName("☑ 不正常"+entity.getSolarEnergyVoltageValue()+"V");
+        }
+        if(entity.getStorageBatteryVoltageCheck() ==1){
+            entity.setStorageBatteryVoltageCheckRightName("☑ 正常"+entity.getStorageBatteryValue()+"V");
+            entity.setStorageBatteryVoltageCheckWrongName("□ 不正常");
+        }else{
+            entity.setStorageBatteryVoltageCheckRightName("□ 正常");
+            entity.setStorageBatteryVoltageCheckWrongName("☑ 不正常"+entity.getStorageBatteryValue()+"V");
+        }
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("data", entity);
@@ -79,32 +79,32 @@ public class StationCheckMantainServiceImpl implements StationCheckMantainServic
      * @return
      */
     public Workbook exportAllRecord(@Param("mantainDate") String mantainDate, @Param("stationId") String stationId) {
-        User user = (User) userInfoService.get();
-        List<Integer> orgList = userMapper.getOrgIdList(user.getId());
-
-        List<ReportStationCheckMantain> list = new ArrayList<>();
-        if(orgList != null){
-            list = stationCheckMantainMapper.getListByDateAndStationId(mantainDate,stationId,orgList);
-        }
-
-        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model5.xls",
-                true);
-
-        List<String> sheetNameList = new ArrayList<>();
+//        User user = (User) userInfoService.get();
+//        List<Integer> orgList = userMapper.getOrgIdList(user.getId());
+//
+//        List<ReportStationCheckMantain> list = new ArrayList<>();
+//        if(orgList != null){
+//            list = stationCheckMantainMapper.getListByDateAndStationId(mantainDate,stationId,orgList);
+//        }
+//
+//        TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model5.xls",
+//                true);
+//
+//        List<String> sheetNameList = new ArrayList<>();
         List<Map<String, Object>> sheetsList = new ArrayList<>() ;
-        for (ReportStationCheckMantain entity: list) {
-            // 设置sheet名称
-            sheetNameList.add(entity.getMantainDate().substring(0,10));
-
-            ExportParams exportParams = new ExportParams() ;
-            exportParams.setSheetName(entity.getMantainDate().substring(0,10));
-
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("title", exportParams);
-            map.put("entity", params.getStyle());
-            map.put("data", entity);
-            sheetsList.add(map);
-        }
+//        for (ReportStationCheckMantain entity: list) {
+//            // 设置sheet名称
+//            sheetNameList.add(entity.getMantainDate().substring(0,10));
+//
+//            ExportParams exportParams = new ExportParams() ;
+//            exportParams.setSheetName(entity.getMantainDate().substring(0,10));
+//
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("title", exportParams);
+//            map.put("entity", params.getStyle());
+//            map.put("data", entity);
+//            sheetsList.add(map);
+//        }
 
         Workbook workbook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.XSSF);
         // 导出excel

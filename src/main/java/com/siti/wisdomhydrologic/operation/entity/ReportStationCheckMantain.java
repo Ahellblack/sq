@@ -53,6 +53,11 @@ public class ReportStationCheckMantain {
                 '}';
     }
 
+    private String solarEnergyVoltageCheckRightName;
+    private String solarEnergyVoltageCheckWrongName;
+    private String storageBatteryVoltageCheckRightName;
+    private String storageBatteryVoltageCheckWrongName;
+
     @Excel(name = "reportId", height = 11, width = 10)
     private int reportId;
 
@@ -566,6 +571,37 @@ public class ReportStationCheckMantain {
         this.createTime = createTime;
     }
 
+    public String getSolarEnergyVoltageCheckRightName() {
+        return solarEnergyVoltageCheckRightName;
+    }
+
+    public void setSolarEnergyVoltageCheckRightName(String solarEnergyVoltageCheckRightName) {
+        this.solarEnergyVoltageCheckRightName = solarEnergyVoltageCheckRightName;
+    }
+
+    public String getSolarEnergyVoltageCheckWrongName() {
+        return solarEnergyVoltageCheckWrongName;
+    }
+
+    public void setSolarEnergyVoltageCheckWrongName(String solarEnergyVoltageCheckWrongName) {
+        this.solarEnergyVoltageCheckWrongName = solarEnergyVoltageCheckWrongName;
+    }
+
+    public String getStorageBatteryVoltageCheckRightName() {
+        return storageBatteryVoltageCheckRightName;
+    }
+
+    public void setStorageBatteryVoltageCheckRightName(String storageBatteryVoltageCheckRightName) {
+        this.storageBatteryVoltageCheckRightName = storageBatteryVoltageCheckRightName;
+    }
+
+    public String getStorageBatteryVoltageCheckWrongName() {
+        return storageBatteryVoltageCheckWrongName;
+    }
+
+    public void setStorageBatteryVoltageCheckWrongName(String storageBatteryVoltageCheckWrongName) {
+        this.storageBatteryVoltageCheckWrongName = storageBatteryVoltageCheckWrongName;
+    }
 
     public ReportStationCheckMantain() {
     }
