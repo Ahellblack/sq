@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -228,10 +229,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             entity.setManageOrgName(station.getOrgName());
             entity.setManageOrgId(station.getOrgId());
             entity.setDataYearMonth(DateTransform.Date2String(cal.getTime(), "yyyy-MM"));
+            cal.add(Calendar.MONTH,-1);
             entity.setCreateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
             entity.setUpdateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
-            if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
-                //月初赋值 对每个月的每天分别循环改值
+            if(stationRainConstrastMapper.getAll(entity.getDataYearMonth(),data).size()==0){
+          //  if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
                 entity.setTotal("0,0,0");
                 for (int i = 1; i <= 31; i++) {
                     try {
@@ -247,14 +249,36 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                     stationRainConstrastMapper.insert(entity);
                 }catch (Exception e){
                 }
+            }else if(stationRainConstrastMapper.getAll(DateOrTimeTrans.Date2TimeString3(cal.getTime()),data).size()==0 ){
+                entity.setTotal("0,0,0");
+                entity.setDataYearMonth(DateOrTimeTrans.Date2TimeString3(cal.getTime()));
+                for (int i = 1; i <= 31; i++) {
+                    try {
+                        Method method = entity.getClass().getMethod("setDay" + i, String.class);
+                        method.invoke(entity, "0,0,0");
+                    } catch (Exception e) {
+                        System.out.println("月初表7数据自动添加出错");
+                        logger.error("错误信息{}", e);
+                    }
+                }
+                // 月初数据添加 day1 至 day31,total修改为 0,0,0
+                try {
+                    stationRainConstrastMapper.insert(entity);
+                }catch (Exception e){
+                }
             }
-            //当获取日雨量成功时
+            //当获取日雨量成功时a
             if (dayVo.size() > 0) {
                 entity.setCreateTime(dayVo.get(0).getSensorDataUploadTime());
                 entity.setUpdateTime(dayVo.get(0).getSensorDataUploadTime());
                 entity.setDataYearMonth(dayVo.get(0).getSensorDataUploadTime().substring(0, 7));
+                Calendar cal1 = Calendar.getInstance();
+                cal1.setTime(DateOrTimeTrans.String2Date(dayVo.get(0).getSensorDataUploadTime()));
+                cal1.add(Calendar.DAY_OF_MONTH,-1);
                 //nowaday每月的第几天
-                int nowaday = cal.get(Calendar.DAY_OF_MONTH);
+                int nowaday =  cal1.get(Calendar.DAY_OF_MONTH);
+                entity.setDataYearMonth(DateOrTimeTrans.Date2TimeString3(cal1.getTime()));
+
 
                 Method marray = null;
                 try {
