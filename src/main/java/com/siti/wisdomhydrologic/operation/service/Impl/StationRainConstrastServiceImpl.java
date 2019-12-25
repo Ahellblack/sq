@@ -203,11 +203,14 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
         if (today == null) {
             today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(DateTransform.String2Date(today, "yyyy-MM-dd"));
+        //Calendar cal = Calendar.getInstance();
+        //cal.setTime(DateTransform.String2Date(today, "yyyy-MM-dd"));
         List<Integer> idList = StationIdUtils.getTable7StationList();
         //每个测站id对应的day数据获取
-        idList.forEach(data -> {
+        for (Integer data : idList) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(DateTransform.String2Date(today, "yyyy-MM-dd"));
+
             Calendar calendar = Calendar.getInstance();
             String databaseName = null;
             if (calendar.get(Calendar.YEAR) <= 2020) {
@@ -301,7 +304,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 entity.setTotal((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1] + "," + (Double.parseDouble(total.split(",")[2]) + dayVo.get(0).getSensorDataValue()));                //修改当前月 当天的日数据
                 stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
             }
-        });
+        }
     }
 
     /**
