@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.user.entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @data ${DATA}-11:34
  */
 @Table(name="sys_permission")
-public class Permission {
+public class Permission implements Serializable{
 
     @Id
     private int id;

@@ -40,9 +40,7 @@ public class PatencyController {
 
     @RequestMapping("/getPatency")
     public Map<String, Object> getPatency(Integer stationId, String date) {
-        String endTime;
-        String startTime;
-        String year;
+        String endTime,startTime,year;
         String yearmonth = "";
         Map<String, Object> map = new HashMap<>();
         List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
@@ -58,7 +56,6 @@ public class PatencyController {
                 year = date.substring(0, 4);
                 yearmonth = year + date.substring(5, 7);
             }
-
             for (int i = 0; i < 7; i++) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
@@ -81,7 +78,6 @@ public class PatencyController {
                 }
 
                 Patency entity = patencyMapper.getPatency("history_real_sensor_data_" + yearmonth, stationIdList, startTime, endTime);
-
                 if (entity != null) {
                     entity.setStationId(stationId);
                     entity.setPatencyRate(Double.parseDouble(entity.getNumber() / timeDiff + "") * 100);
@@ -141,7 +137,6 @@ public class PatencyController {
             map.put("status", 1);
             return map;
         } catch (Exception e) {
-
             map.put("status", -1);
             map.put("msg", "查询出错");
         }
@@ -164,8 +159,6 @@ public class PatencyController {
                 System.out.println();
             }
         }
-
-
         return vo;
     }
 

@@ -184,27 +184,27 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     }
 
     public void insertOrUpdateMonthData(String month) throws Exception {
-        if(month ==null){
-            month = DateTransform.Date2String(new Date(),"yyyy-MM");
+        if (month == null) {
+            month = DateTransform.Date2String(new Date(), "yyyy-MM");
         }
-        String startDay = month +"-01";
+        String startDay = month + "-01";
         Calendar cal = Calendar.getInstance();
-        cal.setTime(DateTransform.String2Date(startDay,"yyyy-MM-dd"));
-        for(int i = 0 ;i<cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1;i++){
-            String date = DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd");
+        cal.setTime(DateTransform.String2Date(startDay, "yyyy-MM-dd"));
+        for (int i = 0; i < cal.getActualMaximum(Calendar.DAY_OF_MONTH) - 1; i++) {
+            String date = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd");
             insertOrUpdateData(date);
-            cal.add(Calendar.DAY_OF_MONTH,1);
+            cal.add(Calendar.DAY_OF_MONTH, 1);
         }
 
     }
 
 
     public void insertOrUpdateData(String today) throws Exception {
-        if(today==null){
-            today = DateTransform.Date2String(new Date(),"yyyy-MM-dd");
+        if (today == null) {
+            today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         }
         Calendar cal = Calendar.getInstance();
-        cal.setTime(DateTransform.String2Date(today,"yyyy-MM-dd"));
+        cal.setTime(DateTransform.String2Date(today, "yyyy-MM-dd"));
         List<Integer> idList = StationIdUtils.getTable7StationList();
         //每个测站id对应的day数据获取
         idList.forEach(data -> {
@@ -219,7 +219,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             //获取每个测站的日雨量数据
             String sensorCode = data + "84";
             //System.out.println(sensorCode);
-            List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName,DateTransform.Date2String(cal.getTime(),"yyyy-MM-dd"));
+            List<DayData> dayVo = stationRainConstrastMapper.getDayData(sensorCode, databaseName, DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd"));
             //新建雨量对比对象
             ReportStationRainConstrast entity = new ReportStationRainConstrast();
             //赋值测站信息
@@ -229,11 +229,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             entity.setManageOrgName(station.getOrgName());
             entity.setManageOrgId(station.getOrgId());
             entity.setDataYearMonth(DateTransform.Date2String(cal.getTime(), "yyyy-MM"));
-            cal.add(Calendar.MONTH,-1);
+            cal.add(Calendar.MONTH, -1);
             entity.setCreateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
             entity.setUpdateTime(DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss"));
-            if(stationRainConstrastMapper.getAll(entity.getDataYearMonth(),data).size()==0){
-          //  if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
+            if (stationRainConstrastMapper.getAll(entity.getDataYearMonth(), data).size() == 0) {
+                //  if (cal.get(Calendar.DAY_OF_MONTH) == 1) {
                 entity.setTotal("0,0,0");
                 for (int i = 1; i <= 31; i++) {
                     try {
@@ -247,9 +247,10 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 // 月初数据添加 day1 至 day31,total修改为 0,0,0
                 try {
                     stationRainConstrastMapper.insert(entity);
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
-            }else if(stationRainConstrastMapper.getAll(DateOrTimeTrans.Date2TimeString3(cal.getTime()),data).size()==0 ){
+            }
+            if (stationRainConstrastMapper.getAll(DateOrTimeTrans.Date2TimeString3(cal.getTime()), data).size() == 0) {
                 entity.setTotal("0,0,0");
                 entity.setDataYearMonth(DateOrTimeTrans.Date2TimeString3(cal.getTime()));
                 for (int i = 1; i <= 31; i++) {
@@ -264,7 +265,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 // 月初数据添加 day1 至 day31,total修改为 0,0,0
                 try {
                     stationRainConstrastMapper.insert(entity);
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
             }
             //当获取日雨量成功时a
@@ -274,9 +275,9 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 entity.setDataYearMonth(dayVo.get(0).getSensorDataUploadTime().substring(0, 7));
                 Calendar cal1 = Calendar.getInstance();
                 cal1.setTime(DateOrTimeTrans.String2Date(dayVo.get(0).getSensorDataUploadTime()));
-                cal1.add(Calendar.DAY_OF_MONTH,-1);
+                cal1.add(Calendar.DAY_OF_MONTH, -1);
                 //nowaday每月的第几天
-                int nowaday =  cal1.get(Calendar.DAY_OF_MONTH);
+                int nowaday = cal1.get(Calendar.DAY_OF_MONTH);
                 entity.setDataYearMonth(DateOrTimeTrans.Date2TimeString3(cal1.getTime()));
 
 
@@ -297,17 +298,12 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 String daynumber = "day" + nowaday;
 
                 //update时赋值 total的值为原数据+dayVo数据
-                entity.setTotal(
-                        (Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue())
-                                + ","
-                                + total.split(",")[1]
-                                + ","
-                                + (Double.parseDouble(total.split(",")[2])+ dayVo.get(0).getSensorDataValue())
-                );                //修改当前月 当天的日数据
+                entity.setTotal((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1] + "," + (Double.parseDouble(total.split(",")[2]) + dayVo.get(0).getSensorDataValue()));                //修改当前月 当天的日数据
                 stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
             }
         });
     }
+
     /**
      * 模版单sheet导出示例
      *
@@ -332,7 +328,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
             // 获取导出excel指定模版
             URL url = this.getClass().getClassLoader().getResource("");
             String logFilePath = url.getPath();
-            TemplateExportParams params = new TemplateExportParams( "sqexcelmodel/model7.xls");
+            TemplateExportParams params = new TemplateExportParams("sqexcelmodel/model7.xls");
             // 标题开始行
             // params.setHeadingStartRow(0);
             // 标题行数
