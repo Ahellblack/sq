@@ -160,16 +160,16 @@ public class StationDataServiceImpl implements StationDataService {
         realStationDataMapper.updateStationData(updateList);
     }
 
-    public void patencyRateInstall(String endTime,Integer timeDiff,Float f){
+    public void patencyRateInstall(String endTime,Integer hourDiff,Float f){
         List<RealStationVo> stationData = stationDataMapper.getStationData();
         Calendar cal = Calendar.getInstance();
         cal.setTime(DateOrTimeTrans.String2DateTime(endTime));
-        cal.add(Calendar.HOUR, -timeDiff);
+        cal.add(Calendar.HOUR, -hourDiff);
         String startTime = DateOrTimeTrans.Date2TimeString2(cal.getTime());
         stationData.forEach(station->{
             RealStationData realDTO = new RealStationData();
             realDTO.setStationId(Integer.parseInt(station.getStationCode()));
-            Integer num = realStationDataMapper.getLastDayList(station + "89", startTime, endTime);
+            Integer num = realStationDataMapper.getLastDayList(station.getStationCode() + "89", startTime, endTime);
             //通畅率变化
             realDTO.setPatencyRate((num * 100) / f);
             realStationDataMapper.updateStationPatency(realDTO);
