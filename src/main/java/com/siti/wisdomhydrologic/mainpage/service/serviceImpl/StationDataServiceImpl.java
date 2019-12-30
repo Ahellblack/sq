@@ -20,6 +20,7 @@ import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
+import com.siti.wisdomhydrologic.util.DateOrTimeTrans;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.stereotype.Service;
 
@@ -150,39 +151,8 @@ public class StationDataServiceImpl implements StationDataService {
                 } else {
                     realDTO.setStatus(1);
                 }
-                /**
-                 * 分别在 12:10:00 08:10:00 15:10:00修改畅通率数据
-                 * */
-                String endTime = realtime;
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(DateTransform.String2Date(endTime, "yyyy-MM-dd HH:mm:ss"));
-                if ("08:10:00".equals(realtime.substring(11, 19))) {/*"08:10:00".equals(realtime.substring(11, 19))*/
-                    cal.add(Calendar.HOUR, -12);
-                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(station + "89", startTime, endTime);
-                    //通畅率变化
-                    realDTO.setPatencyRate(((LastDayRealList.size() * 100) / 144f));
-                    realStationDataMapper.updateStationPatency(realDTO);
-                }
-                if ("12:10:00".equals(realtime.substring(11, 19))) {
-                    cal.add(Calendar.HOUR, -4);
-                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(station + "89", startTime, endTime);
-                    //通畅率变化
-                    realDTO.setPatencyRate(((LastDayRealList.size() * 100) / 48f));
-                    realStationDataMapper.updateStationPatency(realDTO);
-                }
-                if ("15:10:00".equals(realtime.substring(11, 19))) {
-                    cal.add(Calendar.HOUR, -3);
-                    String startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-                    List<RealVo> LastDayRealList = realStationDataMapper.getLastDayList(station + "89", startTime, endTime);
-                    //通畅率变化
-                    realDTO.setPatencyRate(((LastDayRealList.size() * 100) / 36f));
-                    realStationDataMapper.updateStationPatency(realDTO);
-                }
                 // 数据更新添加
                 updateList.add(realDTO);
-
             } catch (Exception e) {
                 System.out.println("更新出现异常");
             }
@@ -190,6 +160,21 @@ public class StationDataServiceImpl implements StationDataService {
         realStationDataMapper.updateStationData(updateList);
     }
 
+    public void patencyRateInstall(String endTime,Integer timeDiff,Float f){
+        List<RealStationVo> stationData = stationDataMapper.getStationData();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(DateOrTimeTrans.String2DateTime(endTime));
+        cal.add(Calendar.HOUR, -timeDiff);
+        String startTime = DateOrTimeTrans.Date2TimeString2(cal.getTime());
+        stationData.forEach(station->{
+            RealStationData realDTO = new RealStationData();
+            realDTO.setStationId(Integer.parseInt(station.getStationCode()));
+            Integer num = realStationDataMapper.getLastDayList(station + "89", startTime, endTime);
+            //通畅率变化
+            realDTO.setPatencyRate((num * 100) / f);
+            realStationDataMapper.updateStationPatency(realDTO);
+        });
+    }
 
     public List<ConfigRiverStationVo> getLocationStation(Integer level, Integer status, Integer snId, Integer stationId) throws Exception {
 
@@ -276,4 +261,6 @@ public class StationDataServiceImpl implements StationDataService {
         return stationLocation;
 
     }
+
+
 }
