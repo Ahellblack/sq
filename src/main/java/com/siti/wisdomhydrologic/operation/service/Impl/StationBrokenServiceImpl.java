@@ -11,6 +11,7 @@ import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigAbnormalDictionaryM
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigRiverStationMapper;
 import com.siti.wisdomhydrologic.configmaintain.mapper.ConfigSensorSectionModuleMapper;
 import com.siti.wisdomhydrologic.operation.entity.AbnormalDetailCurrent;
+import com.siti.wisdomhydrologic.operation.entity.ReportStationBroken;
 import com.siti.wisdomhydrologic.operation.mapper.AbnormalDetailCurrentMapper;
 import com.siti.wisdomhydrologic.operation.mapper.ReportStationBrokenMapper;
 import com.siti.wisdomhydrologic.operation.service.StationBrokenService;
@@ -247,12 +248,12 @@ public class StationBrokenServiceImpl implements StationBrokenService {
             List<ModuleAndStation> moduleList = configSensorSectionModuleMapper.getStationAndModule();
             //根据异常表表四展示状态字段 获取数据
             //获取到的数据状态更新为1
-            List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();
-            List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken> brokenList = new ArrayList();
+            List<AbnormalDetailCurrent> lastest = abnormalDetailCurrentMapper.get4Lastest();  // 查询未处理的异常结果数据
+            List<ReportStationBroken> brokenList = new ArrayList();
             List<Integer> idList = lastest.stream().map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
             if (lastest.size() > 0) {
                 //新建拷贝筛选队列
-                List<com.siti.wisdomhydrologic.operation.entity.ReportStationBroken> histroyList = reportStationBrokenMapper.getById(idList);
+                List<ReportStationBroken> histroyList = reportStationBrokenMapper.getById(idList);
                 if (histroyList.size() > 0) {
                     histroyList.forEach(data -> lastest.forEach(lasttime -> {
                         if (data.getReportId() == lasttime.getId()) {
@@ -265,7 +266,7 @@ public class StationBrokenServiceImpl implements StationBrokenService {
                 if (newlastest.size() > 0) {
                     List<Integer> idList2 = newlastest.stream().map(AbnormalDetailCurrent::getId).collect(Collectors.toList());
                     newlastest.forEach(data -> {
-                        com.siti.wisdomhydrologic.operation.entity.ReportStationBroken entity = new com.siti.wisdomhydrologic.operation.entity.ReportStationBroken.Builder().reportId(data.getId()).brokenAccordingId(data.getBrokenAccordingId()).brokenAccording(data.getBrokenAccording()).description(data.getDescription()).createTime(data.getDate()).brokenName(data.getErrorName()).errorLastestAppearTime(data.getLastDate()).build();
+                        ReportStationBroken entity = new ReportStationBroken.Builder().reportId(data.getId()).brokenAccordingId(data.getBrokenAccordingId()).brokenAccording(data.getBrokenAccording()).description(data.getDescription()).createTime(data.getDate()).brokenName(data.getErrorName()).errorLastestAppearTime(data.getLastDate()).build();
 
                         moduleList.forEach(module -> {
                             Calendar calendar = Calendar.getInstance();
@@ -284,11 +285,8 @@ public class StationBrokenServiceImpl implements StationBrokenService {
                             }
                         });
                         brokenList.add(entity);
-//                        // 入库之后 即发短信
-//                        if(updateMalStatus(entity.getReportId())==1)
-//                        {
-//                            System.out.println(entity.getReportId()+" 发送结束！");
-//                        }
+
+
                     });
                     //修改状态
                     abnormalDetailCurrentMapper.update4StatusList(idList2);
@@ -296,7 +294,21 @@ public class StationBrokenServiceImpl implements StationBrokenService {
                 int allsize = brokenList.size();
                 brokenList.forEach(data -> {
                     try {
-                        reportStationBrokenMapper.insertDataMantain(data);
+                        int resule = reportStationBrokenMapper.insertDataMantain(data);
+                        // 入库之后 即发短信
+                        if(resule == 1)
+                        {
+                            if(updateMalStatus(data.getReportId())==1)
+                            {
+                                logger.info("发送结束！");
+                            }
+                            else{
+                                logger.info("发送失败！");
+                            }
+                        }
+                        else {
+                            logger.info("入库失败！");
+                        }
                     } catch (Exception e) {
                         System.out.println("数据插入异常");
                     }

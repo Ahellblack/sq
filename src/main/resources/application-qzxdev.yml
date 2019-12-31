@@ -5,6 +5,10 @@ spring:
     password: root
     url: jdbc:mysql://10.1.30.205:3306/wisdomhydrologic?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
 
+logback:
+  logHome: F:/Logs/sq_data/log/
+  logName: wh
 
 file:
-  maxFileSize: 8388608  # 8* 1024 * 1024
+  maxFileSize: 8388608
+
