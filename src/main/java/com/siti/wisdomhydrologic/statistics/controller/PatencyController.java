@@ -38,6 +38,10 @@ public class PatencyController {
     @Resource
     private ConfigSensorSectionModuleMapper configSensorSectionModuleMapper;
 
+    private static final String REAL_TABLE_NAME = "history_real_sensor_data_";
+    private static final String TSDB_TABLE_NAME = "history_5min_sensor_data_";
+    private static final String HOUR_TABLE_NAME = "history_hour_sensor_data_";
+
     @RequestMapping("/getPatency")
     public Map<String, Object> getPatency(Integer stationId, String date) {
         String endTime,startTime,year;
@@ -51,6 +55,7 @@ public class PatencyController {
             stationMap.put(data.getStationId(), data.getStationName());
         });
         List<Patency> patency = new ArrayList<>();
+
         try {
             if (date.length() > 10) {
                 year = date.substring(0, 4);
@@ -70,14 +75,15 @@ public class PatencyController {
                 long[] times = DateDistance.getDistanceTimes(startTime, endTime);
                 long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
 
-                List<String> exist = patencyMapper.isExist("history_real_sensor_data_" + yearmonth);
+                List<String> exist = patencyMapper.isExist(REAL_TABLE_NAME + yearmonth);
                 if (exist.size() == 0) {
                     map.put("status", 0);
                     map.put("msg", "暂无数据");
                     return map;
                 }
+                String tablename = REAL_TABLE_NAME + yearmonth;
 
-                Patency entity = patencyMapper.getPatency("history_real_sensor_data_" + yearmonth, stationIdList, startTime, endTime);
+                Patency entity = patencyMapper.getPatency(tablename, stationIdList, startTime, endTime);
                 if (entity != null) {
                     entity.setStationId(stationId);
                     entity.setPatencyRate(Double.parseDouble(entity.getNumber() / timeDiff + "") * 100);
@@ -179,16 +185,16 @@ public class PatencyController {
             Integer moduleNum = configSensorSectionModuleMapper.getStation(stationId).size();
 
             //统计tsdb当天数据
-            Integer time1 = patencyMapper.getRealTSDBData("history_5min_sensor_data_" + year, day, stationId);
+            Integer time1 = patencyMapper.getRealTSDBData(TSDB_TABLE_NAME + year, day, stationId);
             long[] times = DateDistance.getDistanceTimes(day + " 00:00:00", day + " 24:00:00");
             long timeDiff = times[0] * 24;
             map.put("expectTSDB", timeDiff * moduleNum);
             map.put("realTSDB", time1);
-            Integer time2 = patencyMapper.getRealHourData("history_hour_sensor_data_" + year, day, stationId);
+            Integer time2 = patencyMapper.getRealHourData(HOUR_TABLE_NAME + year, day, stationId);
             map.put("expectHour", timeDiff * moduleNum);
             map.put("realHour", time2);
 
-            Integer time3 = patencyMapper.getRealRTSQData("history_real_sensor_data_" + yearmonth, day, stationId);
+            Integer time3 = patencyMapper.getRealRTSQData(REAL_TABLE_NAME + yearmonth, day, stationId);
             long timeRTSQ = times[0] * 288 + times[1] * 12 + times[2] / 5;
             map.put("expectRTSQ", timeRTSQ * moduleNum);
             map.put("realRTSQ", time3);
