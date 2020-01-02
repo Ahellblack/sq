@@ -12,6 +12,7 @@ import com.siti.wisdomhydrologic.user.entity.Org;
 import com.siti.wisdomhydrologic.user.entity.User;
 import com.siti.wisdomhydrologic.user.mapper.UserMapper;
 import com.siti.wisdomhydrologic.user.service.UserInfoService;
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import com.siti.wisdomhydrologic.util.DateDistance;
 import com.siti.wisdomhydrologic.statistics.util.MonthListUtil;
 import com.siti.wisdomhydrologic.util.RateUtils;
@@ -54,7 +55,12 @@ public class BrokenNumberController {
                 map.put("message", "参数错误");
                 return map;
             }
-            List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list, orgList.get(0).getId());
+            List<BrokenType> dataList = (List<BrokenType>)CaffeineUtil.build().getValues("stationBroken,"+stationId+","+dateType+","+year+","+quarter+","+month,(x)->{
+                return brokenNumberMapper.getList(stationId, year, list, orgList.get(0).getId());
+            });
+            //List<BrokenType> dataList = brokenNumberMapper.getList(stationId, year, list, orgList.get(0).getId());
+
+
             Integer sum = 0;
             Integer maxTime = 0;
             String maxAccording = "";
@@ -115,7 +121,9 @@ public class BrokenNumberController {
             User user = (User) userInfoService.get();
             List<Org> orgList = userMapper.findOrg(user.getId());
 
-            List<ReportStationBroken> dataList = brokenNumberMapper.getRecoverTime(stationId, year, list, orgList.get(0).getId());
+            List<ReportStationBroken> dataList = (List<ReportStationBroken>)CaffeineUtil.build().getValues("getRecover,"+stationId+","+dateType+","+year+","+quarter+","+month,(x)->{
+                return brokenNumberMapper.getRecoverTime(stationId, year, list, orgList.get(0).getId());
+            });
 
             Integer sum = dataList.size();
             Integer hour1 = 0;

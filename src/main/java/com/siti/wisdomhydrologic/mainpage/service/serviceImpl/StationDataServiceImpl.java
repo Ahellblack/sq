@@ -50,7 +50,7 @@ public class StationDataServiceImpl implements StationDataService {
     @Resource
     private ReportStationBrokenMapper reportStationBrokenMapper;
     //现展示浦东数据
-    private final Integer SYSORG = 1002;
+    private final Integer PD = 1002;
 
     @Override
     public void updateData() throws Exception {
@@ -181,7 +181,7 @@ public class StationDataServiceImpl implements StationDataService {
         User user = (User) userInfoService.get();
         List<Org> orgList = userMapper.findOrg(user.getId());
         orgList.get(0).getPath();
-        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, snId, SYSORG, stationId);//暂展示浦东点位
+        List<ConfigRiverStationVo> stationLocation = stationDataMapper.getStationLocation(level, status, snId, PD, stationId);//暂展示浦东点位
         try {
             stationLocation.forEach(data -> {
                 //设置字段WindDirectionName

@@ -12,6 +12,7 @@ import com.siti.wisdomhydrologic.statistics.util.MonthListUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import com.siti.wisdomhydrologic.util.RateUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,21 +45,26 @@ public class DataErrorNumberController {
 
         try {
             List<String> list = MonthListUtil.monthList(dateType, year, quarter, month);
-            List<DataError> dataList =new ArrayList<>();
-            if(list.size() >0) {
-                dataList = dataErrorNumberMapper.getList(stationId, year, list, null,orgList.get(0).getId());
-            }else{
-                // list为空,且dateTime不为空时
-                if(dateType == 4 && dataTime != null) {
-                    dataList = dataErrorNumberMapper.getList(stationId, year, null, dataTime, orgList.get(0).getId());
-                }else{
-                    // monthlist无值且dateTime为空时
-                    map.put("status", -2);
-                    map.put("message", "参数错误");
-                    return map;
-                }
-
+            //List<DataError> dataList =new ArrayList<>();
+            if(list.size() == 0 && dateType == 4 && dataTime == null){
+                // monthlist无值且dateTime为空时
+                map.put("status", -2);
+                map.put("message", "参数错误");
+                return map;
             }
+            List<DataError> dataList = (List<DataError>)CaffeineUtil.build().getValues("errorList,"+stationId+","+dateType+","+year+","+quarter+","+month+","+dataTime,(x)->{
+                if(list.size() >0) {
+                    return  dataErrorNumberMapper.getList(stationId, year, list, null,orgList.get(0).getId());
+                }else{
+                    // list为空,且dateTime不为空时
+                    if(dateType == 4 && dataTime != null) {
+                        return dataErrorNumberMapper.getList(stationId, year, null, dataTime, orgList.get(0).getId());
+                    }else{
+                        return null;
+                    }
+                }
+            });
+
             Integer sum = 0;
             for (int i = 0; i < dataList.size(); i++) {
                 sum += dataList.get(i).getNumber();
@@ -113,23 +119,27 @@ public class DataErrorNumberController {
 
             User user = (User) userInfoService.get();
             List<Org> orgList = userMapper.findOrg(user.getId());
-            List<ReportManageDataMantain> dataList =new ArrayList<>();
-            if(list.size() >0) {
-                dataList = dataErrorNumberMapper.getGroupByTime(stationId, year, list, null,orgList.get(0).getId());
-            }else{
-                // list为空,且dateTime不为空时
-                if(dateType == 4 && dataTime != null) {
-                    dataList = dataErrorNumberMapper.getGroupByTime(stationId, year, null, dataTime, orgList.get(0).getId());
-                }else{
-                    // monthlist无值且dateTime为空时
-                    map.put("status", -2);
-                    map.put("message", "参数错误");
-                    map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
-                    map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
-
-                    return map;
-                }
+            //List<ReportManageDataMantain> dataList =new ArrayList<>();
+            if(list.size() == 0 && dateType == 4 && dataTime == null){
+                // monthlist无值且dateTime为空时
+                map.put("status", -2);
+                map.put("message", "参数错误");
+                map.put("space1to4",0);map.put("space5to8",0);map.put("space9to12",0);map.put("space13to16",0);map.put("space17to20",0);map.put("space21to24",0);
+                map.put("proport1to4", "0%");map.put("proport5to8", "0%");map.put("proport9to12", "0%");map.put("proport13to16", "0%");map.put("proport17to20","0%");map.put("proport21to24", "0%");
+                return map;
             }
+            List<ReportManageDataMantain> dataList = (List<ReportManageDataMantain>)CaffeineUtil.build().getValues("getEasierTimeSpace,"+stationId+","+dateType+","+year+","+quarter+","+month+","+dataTime,(x)->{
+                if(list.size() >0) {
+                    return dataErrorNumberMapper.getGroupByTime(stationId, year, list, null,orgList.get(0).getId());
+                }else{
+                    // list为空,且dateTime不为空时
+                    if(dateType == 4 && dataTime != null) {
+                        return dataErrorNumberMapper.getGroupByTime(stationId, year, null, dataTime, orgList.get(0).getId());
+                    }
+                }
+                return null;
+            });
+
             Integer sum = dataList.size();
             Integer space1to4 = 0;
             Integer space5to8 = 0;

@@ -114,7 +114,7 @@ public interface OperationFinishMapper {
             "crs.region_name " +
             "FROM " +
             "report_station_check_mantain rscm " +
-            "LEFT JOIN config_river_station crs ON rscm.station_code = crs.station_id " +
+            "LEFT JOIN config_river_station crs ON rscm.station_id = crs.station_id " +
             "WHERE " +
             "create_by IS NOT NULL " +
             "AND region_id IS NOT NULL " +

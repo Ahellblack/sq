@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.siti.wisdomhydrologic.statistics.vo.UploadVo;
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import com.siti.wisdomhydrologic.util.DateDistance;
 import com.siti.wisdomhydrologic.util.DateTransform;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,66 +45,18 @@ public class PatencyController {
 
     @RequestMapping("/getPatency")
     public Map<String, Object> getPatency(Integer stationId, String date) {
-        String endTime,startTime,year;
-        String yearmonth = "";
         Map<String, Object> map = new HashMap<>();
-        List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
-        Map<Integer, String> stationMap = new HashMap<>();
-        List<String> stationIdList = new ArrayList();
-        stationList.forEach(data -> {
-            stationIdList.add(data.getStationId() + "89");
-            stationMap.put(data.getStationId(), data.getStationName());
+        List<Patency> patency = (List<Patency>) CaffeineUtil.build().getValues(stationId+","+date,(x)->{
+            return getPatencyList(stationId,date);
         });
-        List<Patency> patency = new ArrayList<>();
-
-        try {
-            if (date.length() > 10) {
-                year = date.substring(0, 4);
-                yearmonth = year + date.substring(5, 7);
-            }
-            for (int i = 0; i < 7; i++) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
-                cal.add(Calendar.DAY_OF_MONTH, -i + 1);
-
-                endTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-
-                cal.add(Calendar.DAY_OF_MONTH, -1);
-                startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
-
-                //获取起始时间和结束时间的5分钟应有几个
-                long[] times = DateDistance.getDistanceTimes(startTime, endTime);
-                long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
-
-                List<String> exist = patencyMapper.isExist(REAL_TABLE_NAME + yearmonth);
-                if (exist.size() == 0) {
-                    map.put("status", 0);
-                    map.put("msg", "暂无数据");
-                    return map;
-                }
-                String tablename = REAL_TABLE_NAME + yearmonth;
-
-                Patency entity = patencyMapper.getPatency(tablename, stationIdList, startTime, endTime);
-                if (entity != null) {
-                    entity.setStationId(stationId);
-                    entity.setPatencyRate(Double.parseDouble(entity.getNumber() / timeDiff + "") * 100);
-                    BigDecimal b = new BigDecimal(entity.getPatencyRate());
-                    entity.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                    entity.setStationName(stationMap.get(entity.getStationId()));
-                    entity.setTime(startTime);
-                } else {
-                    entity = new Patency(stationMap.get(stationId), stationId, 0.0, 0.0, startTime);
-                }
-                patency.add(entity);
-            }
-            map.put("status", 1);
-            map.put("msg", "查询成功");
-            map.put("list", patency);
-        } catch (Exception e) {
+        if (Objects.isNull(patency) || patency.size()== 0){
             map.put("status", -1);
-            map.put("msg", "查询出错");
-            System.out.println("查询出错");
+            map.put("msg", "查询为空");
         }
+        map.put("status", 1);
+        map.put("msg", "查询成功");
+        map.put("list", patency);
+
         return map;
     }
 
@@ -219,6 +172,64 @@ public class PatencyController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date newDate = sdf.parse(sdf.format(date));
         return newDate;
+    }
+
+
+    List<Patency> getPatencyList(Integer stationId, String date){
+
+        List<Patency> patency = new ArrayList<>();
+        String endTime,startTime,year;
+        String yearmonth = "";
+        Map<String, Object> map = new HashMap<>();
+        List<ConfigRiverStation> stationList = configRiverStationMapper.getStationByStationID(stationId);
+        Map<Integer, String> stationMap = new HashMap<>();
+        List<String> stationIdList = new ArrayList();
+        stationList.forEach(data -> {
+            stationIdList.add(data.getStationId() + "89");
+            stationMap.put(data.getStationId(), data.getStationName());
+        });
+        try{
+        if (date.length() > 10) {
+            year = date.substring(0, 4);
+            yearmonth = year + date.substring(5, 7);
+        }
+        for (int i = 0; i < 7; i++) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(DateTransform.String2Date(date, "yyyy-MM-dd HH:mm:ss"));
+            cal.add(Calendar.DAY_OF_MONTH, -i + 1);
+
+            endTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            startTime = DateTransform.Date2String(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+
+            //获取起始时间和结束时间的5分钟应有几个
+            long[] times = DateDistance.getDistanceTimes(startTime, endTime);
+            long timeDiff = times[0] * 288 + times[1] * 12 + times[2] / 5;
+
+            List<String> exist = patencyMapper.isExist(REAL_TABLE_NAME + yearmonth);
+            if (exist.size() == 0) {
+                map.put("status", 0);
+                map.put("msg", "暂无数据");
+            }
+            String tablename = REAL_TABLE_NAME + yearmonth;
+
+            Patency entity = patencyMapper.getPatency(tablename, stationIdList, startTime, endTime);
+            if (entity != null) {
+                entity.setStationId(stationId);
+                entity.setPatencyRate(Double.parseDouble(entity.getNumber() / timeDiff + "") * 100);
+                BigDecimal b = new BigDecimal(entity.getPatencyRate());
+                entity.setPatencyRate(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                entity.setStationName(stationMap.get(entity.getStationId()));
+                entity.setTime(startTime);
+            } else {
+                entity = new Patency(stationMap.get(stationId), stationId, 0.0, 0.0, startTime);
+            }
+            patency.add(entity);
+        }}catch (Exception e){
+            return null;
+        }
+        return patency;
     }
 
     /**
