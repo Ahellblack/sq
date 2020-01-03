@@ -74,6 +74,32 @@ public class ReportStationBroken {
         this.builderCode = builderCode;
     }
 
+    @Override
+    public String toString() {
+        return "ReportStationBroken{" +
+                "reportId=" + reportId +
+                ", stationId=" + stationId +
+                ", stationName='" + stationName + '\'' +
+                ", brokenName='" + brokenName + '\'' +
+                ", brokenAccording='" + brokenAccording + '\'' +
+                ", brokenAccordingId='" + brokenAccordingId + '\'' +
+                ", brokenResponseTime='" + brokenResponseTime + '\'' +
+                ", brokenResolveTime='" + brokenResolveTime + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", requestDesignatingTime='" + requestDesignatingTime + '\'' +
+                ", resolveMethod='" + resolveMethod + '\'' +
+                ", resolveUserId='" + resolveUserId + '\'' +
+                ", remark='" + remark + '\'' +
+                ", requestDesignatingStatus=" + requestDesignatingStatus +
+                ", brokenAskToResolveTime='" + brokenAskToResolveTime + '\'' +
+                ", brokenRequestReportTime='" + brokenRequestReportTime + '\'' +
+                ", brokenOnResolveTime='" + brokenOnResolveTime + '\'' +
+                ", errorLastestAppearTime='" + errorLastestAppearTime + '\'' +
+                ", description='" + description + '\'' +
+                ", malStatus=" + malStatus +
+                ", builderCode=" + builderCode +
+                '}';
+    }
 
     private ReportStationBroken(Builder builder) {
         setReportId(builder.reportId);
