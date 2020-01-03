@@ -11,16 +11,16 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface StatisticsRainMapper {
 
-    @Select("select sum(sensor_data_value) from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} \n")
+    @Select("select sum(sensor_data_value) from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} and sensor_data_value >0\n")
     Double getYearRainSum(@Param("databaseName") String databaseName,@Param("year") String year);
 
-    @Select("select sum(sensor_data_value) from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year}  and SUBSTR(sensor_data_upload_time,6,2) in ('09','08','07','06')\n")
+    @Select("select sum(sensor_data_value) from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year}  and SUBSTR(sensor_data_upload_time,6,2) in ('09','08','07','06') and sensor_data_value >0\n")
     Double getFloorSeasonRainSum(@Param("databaseName") String databaseName,@Param("year") String year);
 
-    @Select("select count(*) from (select * from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} group by SUBSTR(sensor_data_upload_time,1,10) ) a")
+    @Select("select count(*) from (select * from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} group by SUBSTR(sensor_data_upload_time,1,10) and sensor_data_value >0) a")
     Integer getYearRainNumber(@Param("databaseName") String databaseName,@Param("year") String year);
 
-    @Select("select count(*) from (select * from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} and SUBSTR(sensor_data_upload_time,6,2) in ('09','08','07','06')  group by SUBSTR(sensor_data_upload_time,1,10)) a")
+    @Select("select count(*) from (select * from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} and SUBSTR(sensor_data_upload_time,6,2) in ('09','08','07','06') and sensor_data_value >0 group by SUBSTR(sensor_data_upload_time,1,10)) a")
     Integer getFloorSeasonRainNumber(@Param("databaseName") String databaseName,@Param("year") String year);
 
     @Select("select sum(sensor_data_value) AS sum , SUBSTR(sensor_data_upload_time,6,2) AS month from ${databaseName} where sensor_code like '%84' and SUBSTR(sensor_data_upload_time,1,4) = #{year} group by  SUBSTR(sensor_data_upload_time,6,2) order by sum desc")

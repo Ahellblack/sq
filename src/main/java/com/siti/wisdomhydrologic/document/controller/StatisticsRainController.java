@@ -2,7 +2,9 @@ package com.siti.wisdomhydrologic.document.controller;
 
 import com.siti.wisdomhydrologic.document.mapper.StatisticsRainMapper;
 import com.siti.wisdomhydrologic.document.vo.RainGroupVo;
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import com.siti.wisdomhydrologic.util.RateUtils;
+import io.swagger.models.auth.In;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,11 @@ public class StatisticsRainController {
 
     @GetMapping("getRainStatistics")
     public Map<String,Object> getRainStatistics(){
+        return (Map<String,Object>)CaffeineUtil.build()
+                .getValues("getRainStatistics",(x)-> rainStatisticsMap());
+    }
+
+    Map<String,Object> rainStatisticsMap(){
         Calendar calendar = Calendar.getInstance();
         String databaseName = null;
         String year = calendar.get(Calendar.YEAR)+"";
@@ -37,12 +44,14 @@ public class StatisticsRainController {
 
         Double allyear = statisticsRainMapper.getYearRainSum(databaseName,year);
         Double allFloor = statisticsRainMapper.getFloorSeasonRainSum(databaseName,year);
-
+        Integer yearRainDay = statisticsRainMapper.getYearRainNumber(databaseName, year);
+        Integer floorRainDay = statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year);
+        List<RainGroupVo> rainList = statisticsRainMapper.getRainSumGroupByMonth(databaseName, year);
         map.put("yearRain",allyear);//全年雨量
-        map.put("yearRainDay",statisticsRainMapper.getYearRainNumber(databaseName, year));//全年降雨天数
+        map.put("yearRainDay",yearRainDay);//全年降雨天数
         map.put("floorRain",allFloor);//汛期降雨量
-        map.put("floorRainDay",statisticsRainMapper.getFloorSeasonRainNumber(databaseName, year));//汛期降雨天数
-        map.put("rainList",statisticsRainMapper.getRainSumGroupByMonth(databaseName, year));//各月雨量
+        map.put("floorRainDay",floorRainDay);//汛期降雨天数
+        map.put("rainList",rainList);//各月雨量
         map.put("floorRate", RateUtils.accuracy(allFloor, allyear, 2));//汛期占比
         try {
             if (rainSumGroup.size() > 3) {
@@ -80,6 +89,10 @@ public class StatisticsRainController {
 
     @GetMapping("getRainDistribution")
     public Map<String,Object> getRainDistrbution(){
+        return (Map<String, Object>) CaffeineUtil.build()
+                .getValues("getRainDistribution",(x)->rainDistrbution());
+    }
+    Map<String,Object> rainDistrbution(){
         Map<String,Object> map = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
         String databaseName = null;
@@ -113,6 +126,10 @@ public class StatisticsRainController {
 
     @GetMapping("getMaxStation")
     public Map<String,Object> getMaxStation(){
+        return (Map<String, Object>) CaffeineUtil.build()
+                .getValues("getMaxStation",(x)->maxStation());
+    }
+    Map<String,Object> maxStation(){
         Map<String,Object> map = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
         String databaseName = null;
@@ -124,7 +141,7 @@ public class StatisticsRainController {
         }
         map.put("dayMax",statisticsRainMapper.getMaxRainStation(databaseName, year));   //日降雨量最大数据
 
-            databaseName = "history_hour_sensor_data_"+ calendar.get(Calendar.YEAR);
+        databaseName = "history_hour_sensor_data_"+ calendar.get(Calendar.YEAR);
         map.put("hourMax",statisticsRainMapper.getMaxHourRainStation(databaseName)); // 小时降雨量最大数据
         map.put("year",calendar.get(Calendar.YEAR));
         return map;

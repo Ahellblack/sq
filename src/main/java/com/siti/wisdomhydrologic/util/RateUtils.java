@@ -9,22 +9,33 @@ import java.text.NumberFormat;
  */
 public class RateUtils {
 
-    public static String accuracy(double num, double total, int scale) {
+    public static String accuracy(Object num, Object total, int scale) {
+        if(num==null || total==null){
+            return "0%";
+        }
+        Double d1 = Double.parseDouble(num+"");
+        Double d2 = Double.parseDouble(total+"");
         DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
         //可以设置精确几位小数
         df.setMaximumFractionDigits(scale);
         //模式 例如四舍五入
         df.setRoundingMode(RoundingMode.HALF_UP);
-        double accuracy_num = num / total * 100;
+        if(d2==0){
+            return "0%";
+        }
+        double accuracy_num = d1 / d2 * 100;
         return df.format(accuracy_num) + "%";
     }
 
-    public static Double accuracyTimes(double num, double total, int scale) {
+    public static Double accuracyTimes(Double num, Double total, int scale) {
         DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
         //可以设置精确几位小数
         df.setMaximumFractionDigits(scale);
         //模式 例如四舍五入
         df.setRoundingMode(RoundingMode.HALF_UP);
+        if(total==0 || num==null || total==null){
+            return 0.0;
+        }
         double accuracy_num = num / total ;
         String times = df.format(accuracy_num);
         //数字超过1000会出现蜜汁逗号
@@ -43,12 +54,4 @@ public class RateUtils {
         times = times.replaceAll(",", "");
         return Double.parseDouble(times);
     }
-
-    public static void main(String[] args) {
-
-        String year = "123456";
-        System.out.println(year.substring(0,4));
-
-    }
-
 }

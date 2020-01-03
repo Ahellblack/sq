@@ -3,6 +3,7 @@ package com.siti.wisdomhydrologic.document.controller;
 import com.siti.wisdomhydrologic.document.mapper.StatisticsRainMapper;
 import com.siti.wisdomhydrologic.document.mapper.StatisticsTideMapper;
 import com.siti.wisdomhydrologic.document.vo.TideGroupVo;
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class StatisticsTideController {
 
     @GetMapping("getTideStatistics")
     public Map<String, Object> getTideStatistics() {
+        return (Map<String,Object>) CaffeineUtil.build()
+                .getValues("getTideStatistics",(x)-> tideStatistics());
+    }
+
+    Map<String,Object> tideStatistics(){
         Calendar calendar = Calendar.getInstance();
         String databaseName = null;
         String year = calendar.get(Calendar.YEAR)+"";

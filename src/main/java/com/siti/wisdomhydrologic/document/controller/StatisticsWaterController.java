@@ -1,6 +1,7 @@
 package com.siti.wisdomhydrologic.document.controller;
 
 import com.siti.wisdomhydrologic.document.mapper.StatisticWaterMapper;
+import com.siti.wisdomhydrologic.util.CaffeineUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,11 @@ public class StatisticsWaterController {
 
     @GetMapping("getWaterStatistics")
     public Map<String, Object> getWater() {
+        return (Map<String,Object>)CaffeineUtil.build()
+                .getValues("getWaterStatistics",(x)->waterStatistics());
+    }
+
+    Map<String,Object> waterStatistics(){
         Calendar calendar = Calendar.getInstance();
         String databaseName = null;
         String year = calendar.get(Calendar.YEAR) + "";
