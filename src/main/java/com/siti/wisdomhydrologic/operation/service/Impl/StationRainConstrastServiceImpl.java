@@ -96,10 +96,10 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
     }
 
     public int update(ReportStationRainConstrastVo vo) {
-
+        ConfigRiverStation RiverStation = configRiverStationMapper.getByAllName(vo.getStationName());
         DecimalFormat df = new DecimalFormat("0.0");
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
-        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStationRainConstrast(Integer.parseInt(vo.getStationCode()), vo.getDataYearMonth());
+        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStationRainConstrast(RiverStation.getStationId(), vo.getDataYearMonth());
         ReportStationRainConstrast stationdata = stationRainConstrastMapper.getData(vo.getStationName(), vo.getDataYearMonth());
 
         /**

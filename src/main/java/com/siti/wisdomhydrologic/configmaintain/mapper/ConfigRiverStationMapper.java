@@ -64,7 +64,7 @@ public interface ConfigRiverStationMapper extends Mapper<ConfigRiverStation> {
     ConfigRiverStation getByName(@Param("stationName") String name);
 
     // 修改为模糊查询
-    @Select("select * from config_river_station where station_name = #{stationName}")
+    @Select("select * from config_river_station where station_name = #{stationName} limit 1")
     ConfigRiverStation getByAllName(@Param("stationName") String name);
 
 
