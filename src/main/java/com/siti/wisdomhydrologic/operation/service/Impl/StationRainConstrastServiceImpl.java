@@ -99,7 +99,7 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
         DecimalFormat df = new DecimalFormat("0.0");
         ReportStationRainConstrast entity = new ReportStationRainConstrast();
-        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStation(vo.getStationName(), vo.getDataYearMonth());
+        ReportStationRainConstrastVo station = stationRainConstrastMapper.getStationRainConstrast(Integer.parseInt(vo.getStationCode()), vo.getDataYearMonth());
         ReportStationRainConstrast stationdata = stationRainConstrastMapper.getData(vo.getStationName(), vo.getDataYearMonth());
 
         /**
@@ -200,9 +200,11 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
 
 
     public void insertOrUpdateData(String today) throws Exception {
+
         if (today == null) {
             today = DateTransform.Date2String(new Date(), "yyyy-MM-dd");
         }
+        DecimalFormat df = new DecimalFormat("0.0");
         //Calendar cal = Calendar.getInstance();
         //cal.setTime(DateTransform.String2Date(today, "yyyy-MM-dd"));
         List<Integer> idList = StationIdUtils.getTable7StationList();
@@ -283,7 +285,6 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 int nowaday = cal1.get(Calendar.DAY_OF_MONTH);
                 entity.setDataYearMonth(DateOrTimeTrans.Date2TimeString3(cal1.getTime()));
 
-
                 Method marray = null;
                 try {
                     //反射到entity对象，对当前天的数据进行更改
@@ -297,12 +298,57 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 }
 
                 //查询目前数据的total
-                String total = stationRainConstrastMapper.getTotal(entity.getStationCode(), entity.getDataYearMonth());
+                //String total = stationRainConstrastMapper.getTotal(entity.getStationCode(), entity.getDataYearMonth());
                 String daynumber = "day" + nowaday;
 
+                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth());
                 //update时赋值 total的值为原数据+dayVo数据
-                entity.setTotal((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1] + "," + (Double.parseDouble(total.split(",")[2]) + dayVo.get(0).getSensorDataValue()));                //修改当前月 当天的日数据
-                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth(), entity.getTotal());
+                for (int i = 1; i <= 31; i++) {
+                    try {
+                        Method method = entity.getClass().getMethod("getDay" + i);
+                        method.invoke(entity);
+                    } catch (Exception e) {
+                        System.out.println("月初表7数据自动添加出错");
+                        logger.error("错误信息{}", e);
+                    }
+                }
+
+                ReportStationRainConstrastVo RainConstrast = stationRainConstrastMapper.getStationRainConstrast(entity.getStationCode(),entity.getDataYearMonth());
+                double autototal = 0;
+                double basetotal = 0;
+                double difftotal = 0;
+                Method methodauto;
+                Method methodbase;
+                for (int i = 1; i <= 31; i++) {
+                    try {
+                        if(RainConstrast!=null) {
+                            methodauto = RainConstrast.getClass().getMethod("getDay" + i + "Auto");
+                            methodbase = RainConstrast.getClass().getMethod("getDay" + i + "Base");
+
+                            if (methodauto.invoke(RainConstrast) != null) {
+                                autototal += Double.parseDouble(methodauto.invoke(RainConstrast).toString());
+                                df.format(autototal);
+                            }
+                            if (methodbase.invoke(RainConstrast) != null) {
+                                basetotal += Double.parseDouble(methodbase.invoke(RainConstrast).toString());
+                                df.format(basetotal);
+                            }
+                            difftotal = autototal - basetotal;
+                        }
+                    } catch (Exception e) {
+                        logger.error("异常信息", e);
+                        System.out.println("修改异常");
+                    }
+                }
+                entity.setTotal(df.format(autototal) + "," + df.format(basetotal) + "," + df.format(difftotal));
+
+                try {
+                    stationRainConstrastMapper.updateTotal(entity.getStationCode(), entity.getDataYearMonth(),entity.getTotal());
+
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
+                //entity.setTotal((Double.parseDouble(total.split(",")[0]) + dayVo.get(0).getSensorDataValue()) + "," + total.split(",")[1] + "," + (Double.parseDouble(total.split(",")[2]) + dayVo.get(0).getSensorDataValue())); //修改当前月 当天的日数据
             }
         }
     }

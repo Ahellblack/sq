@@ -55,10 +55,17 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
     List<DayData> getChosenDayData(@Param("day")String day,@Param("sensorCode") String sensorCode, @Param("datebase") String datebase);
 
     @Update("UPDATE `report_station_rain_constrast` " +
-            "SET ${dayNumber} = #{value} , total =#{total}" +
+            "SET ${dayNumber} = #{value} " +
             "WHERE `station_code` = #{stationCode} " +
             "AND `data_year_month` = #{yearMonth}")
-    int update(@Param("dayNumber") String dayNumber, @Param("value") String value, @Param("stationCode") Integer stationCode, @Param("yearMonth") String yearMonth, @Param("total") String total);
+    int update(@Param("dayNumber") String dayNumber, @Param("value") String value, @Param("stationCode") Integer stationCode, @Param("yearMonth") String yearMonth);
+
+    @Update("UPDATE `report_station_rain_constrast` " +
+            "SET total =#{total}" +
+            "WHERE `station_code` = #{stationCode} " +
+            "AND `data_year_month` = #{yearMonth}")
+    int updateTotal( @Param("stationCode") Integer stationCode, @Param("yearMonth") String yearMonth, @Param("total") String total);
+
 
     @Update("UPDATE `report_station_rain_constrast` SET  `station_code` = #{entity.stationCode}," +
             " `station_name` = #{entity.stationName},  " +
@@ -87,6 +94,6 @@ public interface StationRainConstrastMapper extends Mapper<ReportStationRainCons
             " SUBSTRING_INDEX( s.total, ',', 1 ) AS auto_total,substring_index( substring_index( s.total, ',', 2 ), ',',- 1 ) AS base_total,SUBSTRING_INDEX( s.total, ',',- 1 ) AS diff_total " +
             "from report_station_rain_constrast s " +
             "<if test=\"dataYearMonth!=null\"> where data_year_month = #{dataYearMonth} </if>" +
-            "<if test=\"stationName!=null\"> and station_name = #{stationName}</if></script>")
-    ReportStationRainConstrastVo getStation(@Param("stationName") String stationName,@Param("dataYearMonth") String dataYearMonth);
+            "<if test=\"stationCode!=null\"> and station_code = #{stationCode}</if></script>")
+    ReportStationRainConstrastVo getStationRainConstrast(@Param("stationCode") Integer stationCode,@Param("dataYearMonth") String dataYearMonth);
 }
