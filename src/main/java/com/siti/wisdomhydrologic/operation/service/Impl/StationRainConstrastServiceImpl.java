@@ -294,32 +294,13 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                 double difftotal = 0;
                 Method methodauto;
                 Method methodbase;
-
-                try {
-                    //反射到entity对象，对当前天的数据进行更改
-                    marray = entity.getClass().getMethod("setDay" + nowaday, String.class);
-                    //生成数据时，差值与自动生成值相同
-                    Double autoDate = dayVo.get(0).getSensorDataValue();
-                    Double diffDate = dayVo.get(0).getSensorDataValue();
-                    marray.invoke(entity, autoDate + ",0," + diffDate);
-                } catch (Exception e) {
-                    logger.error("赋值每日降雨量数据异常");
-                }
-
-                //查询目前数据的total
-                //String total = stationRainConstrastMapper.getTotal(entity.getStationCode(), entity.getDataYearMonth());
                 String daynumber = "day" + nowaday;
+                methodbase = RainConstrast.getClass().getMethod("getDay" + nowaday+ "Base");
+                String thisDayAuto = df.format(dayVo.get(0).getSensorDataValue());
+                String thisDayBase = df.format(Double.parseDouble(methodbase.invoke(RainConstrast).toString()));
+                String thisDayDiff = df.format(dayVo.get(0).getSensorDataValue()-Double.parseDouble(methodbase.invoke(RainConstrast).toString()));
+                stationRainConstrastMapper.update(daynumber,  thisDayAuto+ ","+thisDayBase+"," +thisDayDiff, entity.getStationCode(), entity.getDataYearMonth());
 
-                stationRainConstrastMapper.update(daynumber, dayVo.get(0).getSensorDataValue() + ",0," + dayVo.get(0).getSensorDataValue(), entity.getStationCode(), entity.getDataYearMonth());
-                //update时赋值 total的值为原数据+dayVo数据
-                for (int i = 1; i <= 31; i++) {
-                    try {
-                        Method method = entity.getClass().getMethod("getDay" + i);
-                        method.invoke(entity);
-                    } catch (Exception e) {
-                        logger.error("月初表7数据自动添加出错,错误信息{}", e);
-                    }
-                }
                 for (int i = 1; i <= 31; i++) {
                     try {
                         if (RainConstrast != null) {
@@ -335,10 +316,6 @@ public class StationRainConstrastServiceImpl implements StationRainConstrastServ
                                 df.format(basetotal);
                             }
                             difftotal = autototal - basetotal;
-                            Double thisDayAuto = dayVo.get(0).getSensorDataValue();
-                            Double thisDayBase = Double.parseDouble(methodbase.invoke(RainConstrast).toString());
-                            Double thisDayDiff = (dayVo.get(0).getSensorDataValue()-Double.parseDouble(methodbase.invoke(RainConstrast).toString()));
-                            stationRainConstrastMapper.update(daynumber,  thisDayAuto+ ","+thisDayBase+"," +thisDayDiff, entity.getStationCode(), entity.getDataYearMonth());
                         }
                     } catch (Exception e) {
                         logger.error("异常信息", e);
