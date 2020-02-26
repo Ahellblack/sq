@@ -173,11 +173,14 @@ public interface ReportStationBrokenMapper extends Mapper<com.siti.wisdomhydrolo
             "WHERE report_id = #{reportId}")
     void updateTime(@Param("reportId") Integer reportId, @Param("date") String date);
 
-    @Select("select a.phone_num " +
+    @Select("<script>" +
+            "select a.phone_num " +
             "from sys_user as a " +
             "LEFT JOIN sys_user_org as b on a.id=b.uid " +
             "LEFT JOIN config_region as c on c.manage_org_id=b.org_id " +
-            "where c.region_id=#{RegionId} and b.is_leader=1 ")
+            "<if test =\" RegionId!=null \">where c.region_id=#{RegionId} </if> " +
+            "and b.is_leader=1 " +
+            "</script>")
     List<String> getNumberByRegionId(@Param("RegionId") Integer RegionId);
 
     @Select("select * from report_station_broken where report_id = #{reportId}")

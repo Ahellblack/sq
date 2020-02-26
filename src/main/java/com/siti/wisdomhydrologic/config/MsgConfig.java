@@ -16,5 +16,6 @@ public class MsgConfig {
     public static final String SERVERPORT = "8883";
     //模板号
     public static final String TEMPLATEID = "492507";//240720 // 100070 //462488
+    public static final String TEMPLATEID2 = "564567";//240720 // 100070 //462488
 
 }

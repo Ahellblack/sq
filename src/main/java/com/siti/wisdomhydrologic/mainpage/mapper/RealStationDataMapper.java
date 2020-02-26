@@ -50,6 +50,9 @@ public interface RealStationDataMapper {
     @Select("select Max(time) as time from `real` ")
     String getStationLatestData();
 
+    @Select("SELECT MIN(timestampdiff(MINUTE, time,CURRENT_TIME))  FROM `real`  ")
+    Integer getTimestampDiffWithCurrent();
+
     @Select("select * from real_station_data ")
     RealStationData getAllData();
 
