@@ -25,7 +25,7 @@ public class PushMsg {
     }
 
 
-    public static Map<String, Object> pushBreakMsg(String phoneNumber) {
+    public static Map<String, Object> pushBreakMsg(String phoneNumber,String msgInfo) {
         // 初始化SDK
         CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
         // 初始化配置
@@ -33,7 +33,7 @@ public class PushMsg {
         restAPI.setAccount(MsgConfig.ACCOUNT_SID, MsgConfig.AUTH_TOKEN);
         restAPI.setAppId(MsgConfig.APPID);
         // 发送短信
-        return restAPI.sendTemplateSMS(phoneNumber, MsgConfig.TEMPLATEID2, new String[]{"水文数据疑似全部中断"});
+        return restAPI.sendTemplateSMS(phoneNumber, MsgConfig.TEMPLATEID2, new String[]{msgInfo});
     }
 
 

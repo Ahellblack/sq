@@ -45,7 +45,7 @@ public class DataBreakCheckTask {
             if (numberStr == "") {
                 System.out.println("配置电话信息错误");
             }
-            PushMsg.pushBreakMsg(numberStr);
+            PushMsg.pushBreakMsg(numberStr,"水文数据疑似全部中断");
         }
     }
 
